@@ -6,14 +6,21 @@ import {
   isIterable,
   isNull,
   isNumber,
+  isInteger,
+  isFloat,
   isObject,
-  isPrimitive,
+  isStrictObject,
+  isPrimitive, isRegex,
   isString,
   isSymbol,
-  isUndefined
+  isUndefined,
+  isClass
 } from '../js/is'
 
 const assert = require('assert')
+
+class FakeClass {
+}
 
 export class TestIs extends TestCase {
   testIsUndefined() {
@@ -32,6 +39,9 @@ export class TestIs extends TestCase {
     assert(isUndefined(Symbol('desc')) === false)
     assert(isUndefined(() => {
     }) === false)
+    assert(isUndefined(FakeClass) === false)
+    assert(isUndefined(new RegExp('abc')) === false)
+    assert(isUndefined(new RegExp(/abc/)) === false)
   }
 
   testIsNull() {
@@ -50,6 +60,9 @@ export class TestIs extends TestCase {
     assert(isNull(Symbol('desc')) === false)
     assert(isNull(() => {
     }) === false)
+    assert(isNull(FakeClass) === false)
+    assert(isNull(new RegExp('abc')) === false)
+    assert(isNull(new RegExp(/abc/)) === false)
   }
 
   testIsString() {
@@ -68,6 +81,9 @@ export class TestIs extends TestCase {
     assert(isString(Symbol('desc')) === false)
     assert(isString(() => {
     }) === false)
+    assert(isString(FakeClass) === false)
+    assert(isString(new RegExp('abc')) === false)
+    assert(isString(new RegExp(/abc/)) === false)
   }
 
   testIsBoolean() {
@@ -86,6 +102,9 @@ export class TestIs extends TestCase {
     assert(isBoolean(Symbol('desc')) === false)
     assert(isBoolean(() => {
     }) === false)
+    assert(isBoolean(FakeClass) === false)
+    assert(isBoolean(new RegExp('abc')) === false)
+    assert(isBoolean(new RegExp(/abc/)) === false)
   }
 
   testIsNumber() {
@@ -106,6 +125,57 @@ export class TestIs extends TestCase {
     assert(isNumber(Symbol('desc')) === false)
     assert(isNumber(() => {
     }) === false)
+    assert(isNumber(FakeClass) === false)
+    assert(isNumber(new RegExp('abc')) === false)
+    assert(isNumber(new RegExp(/abc/)) === false)
+  }
+
+  testIsInteger() {
+    assert(isInteger(undefined) === false)
+    assert(isInteger(0) === true)
+    assert(isInteger(1) === true)
+    assert(isInteger(1.0) === true, 'not float')
+    assert(isInteger(-1) === true)
+    assert(isInteger(-0.5) === false, 'not float')
+    assert(isInteger([]) === false)
+    assert(isInteger(null) === false)
+    assert(isInteger('key') === false)
+    assert(isInteger('') === false)
+    assert(isInteger(true) === false)
+    assert(isInteger(false) === false)
+    assert(isInteger(NaN) === false)
+    assert(isInteger({}) === false)
+    assert(isInteger({'key': 1}) === false)
+    assert(isInteger(Symbol('desc')) === false)
+    assert(isInteger(() => {
+    }) === false)
+    assert(isInteger(FakeClass) === false)
+    assert(isInteger(new RegExp('abc')) === false)
+    assert(isInteger(new RegExp(/abc/)) === false)
+  }
+
+  testIsFloat() {
+    assert(isFloat(undefined) === false)
+    assert(isFloat(0) === false)
+    assert(isFloat(1) === false)
+    assert(isFloat(1.0) === false, 'is float ? ')
+    assert(isFloat(-1) === false)
+    assert(isFloat(-0.5) === true, 'is float')
+    assert(isFloat([]) === false)
+    assert(isFloat(null) === false)
+    assert(isFloat('key') === false)
+    assert(isFloat('') === false)
+    assert(isFloat(true) === false)
+    assert(isFloat(false) === false)
+    assert(isFloat(NaN) === false)
+    assert(isFloat({}) === false)
+    assert(isFloat({'key': 1}) === false)
+    assert(isFloat(Symbol('desc')) === false)
+    assert(isFloat(() => {
+    }) === false)
+    assert(isFloat(FakeClass) === false)
+    assert(isFloat(new RegExp('abc')) === false)
+    assert(isFloat(new RegExp(/abc/)) === false)
   }
 
   testIsObject() {
@@ -124,6 +194,31 @@ export class TestIs extends TestCase {
     assert(isObject(Symbol('desc')) === false)
     assert(isObject(() => {
     }) === false)
+    assert(isObject(FakeClass) === false)
+    assert(isObject(new RegExp('abc')) === false)
+    assert(isObject(new RegExp(/abc/)) === false)
+  }
+
+  testIsStrictObject() {
+    assert(isStrictObject(undefined) === false)
+    assert(isStrictObject(0) === false)
+    assert(isStrictObject(1) === false)
+    assert(isStrictObject([]) === false)
+    assert(isStrictObject(null) === false)
+    assert(isStrictObject('key') === false)
+    assert(isStrictObject('') === false)
+    assert(isStrictObject(true) === false)
+    assert(isStrictObject(false) === false)
+    assert(isStrictObject(NaN) === false)
+    assert(isStrictObject({}) === true)
+    assert(isStrictObject({'key': 1}) === true)
+    assert(isStrictObject(Symbol('desc')) === false)
+    assert(isStrictObject(() => {
+    }) === false)
+    assert(isStrictObject(FakeClass) === false)
+    assert(isStrictObject(new FakeClass()) === false)
+    assert(isStrictObject(new RegExp('abc')) === false)
+    assert(isStrictObject(new RegExp(/abc/)) === false)
   }
 
   testIsFunction() {
@@ -142,26 +237,30 @@ export class TestIs extends TestCase {
     assert(isFunction(Symbol('desc')) === false)
     assert(isFunction(() => {
     }) === true)
+    assert(isFunction(FakeClass) === false)
+    assert(isFunction(new RegExp('abc')) === false)
+    assert(isFunction(new RegExp(/abc/)) === false)
   }
 
   testIsTypePrimitive() {
-    assert(isPrimitive(undefined) === true)
+    assert(isPrimitive(undefined) === false)
     assert(isPrimitive(0) === true)
     assert(isPrimitive(1) === true)
     assert(isPrimitive([]) === false)
-    assert(isPrimitive(null) === true)
+    assert(isPrimitive(null) === false)
     assert(isPrimitive('key') === true)
     assert(isPrimitive('') === true)
     assert(isPrimitive(true) === true)
     assert(isPrimitive(false) === true)
-    // TODO NaN is a type primitive ?
-    // assert(isPrimitive(NaN) === false)
-    // TODO object is a type Primitive ? Check the first prototype ?
-    // assert(isPrimitive({}) === true)
-    // assert(isPrimitive({'key': 1}) === true)
+    assert(isPrimitive(NaN) === false)
+    assert(isPrimitive({}) === false)
+    assert(isPrimitive({'key': 1}) === false)
     assert(isPrimitive(Symbol('desc')) === true)
     assert(isPrimitive(() => {
     }) === false)
+    assert(isPrimitive(FakeClass) === false)
+    assert(isPrimitive(new RegExp('abc')) === false)
+    assert(isPrimitive(new RegExp(/abc/)) === false)
   }
 
   testIsIterable() {
@@ -180,6 +279,9 @@ export class TestIs extends TestCase {
     assert(isIterable(Symbol('desc')) === false)
     assert(isIterable(() => {
     }) === false)
+    assert(isIterable(FakeClass) === false)
+    assert(isIterable(new RegExp('abc')) === false)
+    assert(isIterable(new RegExp(/abc/)) === false)
   }
 
   testIsSymbol() {
@@ -198,6 +300,9 @@ export class TestIs extends TestCase {
     assert(isSymbol(Symbol('desc')) === true)
     assert(isSymbol(() => {
     }) === false)
+    assert(isSymbol(FakeClass) === false)
+    assert(isSymbol(new RegExp('abc')) === false)
+    assert(isSymbol(new RegExp(/abc/)) === false)
   }
 
   testIsArray() {
@@ -216,6 +321,50 @@ export class TestIs extends TestCase {
     assert(isArray(Symbol('desc')) === false)
     assert(isArray(() => {
     }) === false)
+    assert(isArray(FakeClass) === false)
+    assert(isArray(new RegExp('abc')) === false)
+    assert(isArray(new RegExp(/abc/)) === false)
+  }
+
+  testIsClass() {
+    assert(isClass(undefined) === false)
+    assert(isClass(0) === false)
+    assert(isClass(1) === false)
+    assert(isClass([]) === false)
+    assert(isClass(null) === false)
+    assert(isClass('key') === false)
+    assert(isClass('') === false)
+    assert(isClass(true) === false)
+    assert(isClass(false) === false)
+    assert(isClass(NaN) === false)
+    assert(isClass({}) === false)
+    assert(isClass({'key': 1}) === false)
+    assert(isClass(Symbol('desc')) === false)
+    assert(isClass(() => {
+    }) === false)
+    assert(isClass(FakeClass) === true)
+    assert(isClass(new RegExp('abc')) === false)
+    assert(isClass(new RegExp(/abc/)) === false)
+
+  }
+
+  testIsRegex() {
+    assert(isRegex(undefined) === false)
+    assert(isRegex([]) === false)
+    assert(isRegex(/abc/) === true)
+    assert(isRegex(new RegExp('abc')) === true)
+    assert(isRegex(new RegExp(/abc/)) === true)
+    assert(isRegex('') === false)
+    assert(isRegex(null) === false)
+    assert(isRegex({}) === false)
+    assert(isRegex(1) === false)
+    assert(isRegex(NaN) === false)
+    assert(isRegex(NaN) === false)
+    assert(isRegex(Symbol('desc')) === false)
+    assert(isRegex(() => {
+    }) === false)
+    assert(isRegex(FakeClass) === false)
+
   }
 }
 
