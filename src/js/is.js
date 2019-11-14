@@ -140,6 +140,16 @@ export const isSymbol = a => typeof a === 'symbol'
  * @export
  */
 export const isArray = a => Array.isArray(a) || a instanceof Array
+
+/**
+ *
+ * @param {*} a
+ * @return {boolean}
+ * @function
+ * @export
+ */
+export const isStrictArray = a => isArray(a) && a.constructor.name === 'Array'
+
 /**
  *
  * @param {*} a
