@@ -1,6 +1,6 @@
 {
   "name": "@flexio-oss/assert",
-  "version": "0.2.0-dev",
+  "version": "0.2.0",
   "description": "Basic assertion",
   "main": "index.js",
   "module": "index.js",
