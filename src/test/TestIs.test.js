@@ -19,9 +19,12 @@ import {
   isInt8Array,
   isArrayBuffer
 } from '../js/is'
-
-
 const assert = require('assert')
+class Blob{
+
+}
+global.Blob = Blob
+
 
 
 class FakeClass {
