@@ -392,7 +392,7 @@ export class TestIs extends TestCase {
     assert(isBlob(FakeClass) === false)
     assert(isBlob(new RegExp('abc')) === false)
     assert(isBlob(new RegExp(/abc/)) === false)
-//    assert(isBlob( new Blob(['test text'], {type: 'text/plain'})) === true)
+    assert(isBlob( new Blob(['test text'], {type: 'text/plain'})) === true)
 
   }
 
