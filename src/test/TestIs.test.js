@@ -14,13 +14,19 @@ import {
   isString,
   isSymbol,
   isUndefined,
-  isClass
+  isClass,
+  isBlob,
+  isInt8Array,
+  isArrayBuffer
 } from '../js/is'
+
 
 const assert = require('assert')
 
+
 class FakeClass {
 }
+
 
 export class TestIs extends TestCase {
   testIsUndefined() {
@@ -366,6 +372,76 @@ export class TestIs extends TestCase {
     assert(isRegex(FakeClass) === false)
 
   }
+
+  testIsBlob() {
+    assert(isBlob(undefined) === false)
+    assert(isBlob(0) === false)
+    assert(isBlob(1) === false)
+    assert(isBlob([]) === false)
+    assert(isBlob(null) === false)
+    assert(isBlob('key') === false)
+    assert(isBlob('') === false)
+    assert(isBlob(true) === false)
+    assert(isBlob(false) === false)
+    assert(isBlob(NaN) === false)
+    assert(isBlob({}) === false)
+    assert(isBlob({'key': 1}) === false)
+    assert(isBlob(Symbol('desc')) === false)
+    assert(isBlob(() => {
+    }) === false)
+    assert(isBlob(FakeClass) === false)
+    assert(isBlob(new RegExp('abc')) === false)
+    assert(isBlob(new RegExp(/abc/)) === false)
+//    assert(isBlob( new Blob(['test text'], {type: 'text/plain'})) === true)
+
+  }
+
+  testIsInt8Array() {
+    assert(isInt8Array(undefined) === false)
+    assert(isInt8Array(0) === false)
+    assert(isInt8Array(1) === false)
+    assert(isInt8Array([]) === false)
+    assert(isInt8Array(null) === false)
+    assert(isInt8Array('key') === false)
+    assert(isInt8Array('') === false)
+    assert(isInt8Array(true) === false)
+    assert(isInt8Array(false) === false)
+    assert(isInt8Array(NaN) === false)
+    assert(isInt8Array({}) === false)
+    assert(isInt8Array({'key': 1}) === false)
+    assert(isInt8Array(Symbol('desc')) === false)
+    assert(isInt8Array(() => {
+    }) === false)
+    assert(isInt8Array(FakeClass) === false)
+    assert(isInt8Array(new RegExp('abc')) === false)
+    assert(isInt8Array(new RegExp(/abc/)) === false)
+    assert(isInt8Array(new Int8Array()) === true)
+
+  }
+
+  testIsArrayBuffer() {
+    assert(isArrayBuffer(undefined) === false)
+    assert(isArrayBuffer(0) === false)
+    assert(isArrayBuffer(1) === false)
+    assert(isArrayBuffer([]) === false)
+    assert(isArrayBuffer(null) === false)
+    assert(isArrayBuffer('key') === false)
+    assert(isArrayBuffer('') === false)
+    assert(isArrayBuffer(true) === false)
+    assert(isArrayBuffer(false) === false)
+    assert(isArrayBuffer(NaN) === false)
+    assert(isArrayBuffer({}) === false)
+    assert(isArrayBuffer({'key': 1}) === false)
+    assert(isArrayBuffer(Symbol('desc')) === false)
+    assert(isArrayBuffer(() => {
+    }) === false)
+    assert(isArrayBuffer(FakeClass) === false)
+    assert(isArrayBuffer(new RegExp('abc')) === false)
+    assert(isArrayBuffer(new RegExp(/abc/)) === false)
+    assert(isArrayBuffer(new ArrayBuffer()) === true)
+
+  }
 }
+
 
 runTest(TestIs)
