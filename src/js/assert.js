@@ -18,10 +18,10 @@ class AssertionError extends Error {
  */
 export const assert = (assertion, message, ...messageArgs) => {
   if (message === undefined) {
-    throw new Error('`assert` function require an error message argument')
+    throw new Error('`assert` function require an error messages argument')
   }
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
-    var ArgIndex = 0
+    let ArgIndex = 0
     throw new AssertionError(
       message.replace(/%s/g, () =>
         messageArgs[ArgIndex++]
@@ -38,10 +38,10 @@ export const assert = (assertion, message, ...messageArgs) => {
  */
 export const assertType = (assertion, message, ...messageArgs) => {
   if (message === undefined) {
-    throw new Error('`assert` function require an error message argument')
+    throw new Error('`assert` function require an error messages argument')
   }
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
-    var ArgIndex = 0
+    let ArgIndex = 0
     throw new TypeError(
       message.replace(/%s/g, () =>
         messageArgs[ArgIndex++]

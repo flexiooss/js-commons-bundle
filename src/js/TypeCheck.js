@@ -1,5 +1,22 @@
 import {assertType} from './assert'
-import {isBoolean, isInteger, isNull, isNumber, isRegex, isStrictObject, isString, isClass, isStrictArray,isSymbol,isArray,isNode,isFunction, isObject} from './is'
+import {
+  isBoolean,
+  isInteger,
+  isNull,
+  isNumber,
+  isRegex,
+  isStrictObject,
+  isString,
+  isClass,
+  isStrictArray,
+  isSymbol,
+  isArray,
+  isNode,
+  isFunction,
+  isObject,
+  isBinary
+} from './is'
+
 
 export class TypeCheck {
   /**
@@ -7,19 +24,19 @@ export class TypeCheck {
    * @param {null} inst
    * @throws {TypeError}
    */
-  static assertIsNull(inst){
+  static assertIsNull(inst) {
     assertType(
       isNull(inst),
       'input should be Null'
     )
   }
 
-   /**
+  /**
    *
    * @param {string} inst
    * @throws {TypeError}
    */
-  static assertIsString(inst){
+  static assertIsString(inst) {
     assertType(
       isString(inst),
       'input should be String'
@@ -31,7 +48,7 @@ export class TypeCheck {
    * @param {boolean} inst
    * @throws {TypeError}
    */
-  static assertIsBoolean(inst){
+  static assertIsBoolean(inst) {
     assertType(
       isBoolean(inst),
       'input should be Boolean'
@@ -43,7 +60,7 @@ export class TypeCheck {
    * @param {Number} inst
    * @throws {TypeError}
    */
-  static assertIsNumber(inst){
+  static assertIsNumber(inst) {
     assertType(
       isNumber(inst),
       'input should be Number'
@@ -55,7 +72,7 @@ export class TypeCheck {
    * @param {Number} inst
    * @throws {TypeError}
    */
-  static assertIsInteger(inst){
+  static assertIsInteger(inst) {
     assertType(
       isInteger(inst),
       'input should be Integer'
@@ -67,7 +84,7 @@ export class TypeCheck {
    * @param {Object} inst
    * @throws {TypeError}
    */
-  static assertIsObject(inst){
+  static assertIsObject(inst) {
     assertType(
       isObject(inst),
       'input should be Object'
@@ -79,7 +96,7 @@ export class TypeCheck {
    * @param {Object} inst
    * @throws {TypeError}
    */
-  static assertIsStrictObject(inst){
+  static assertIsStrictObject(inst) {
     assertType(
       isStrictObject(inst),
       'input should be Object'
@@ -91,7 +108,7 @@ export class TypeCheck {
    * @param {Function} inst
    * @throws {TypeError}
    */
-  static assertIsFunction(inst){
+  static assertIsFunction(inst) {
     assertType(
       isFunction(inst),
       'input should be Function'
@@ -103,7 +120,7 @@ export class TypeCheck {
    * @param {Node} inst
    * @throws {TypeError}
    */
-  static assertIsNode(inst){
+  static assertIsNode(inst) {
     assertType(
       isNode(inst),
       'input should be Node'
@@ -115,7 +132,7 @@ export class TypeCheck {
    * @param {Symbol} inst
    * @throws {TypeError}
    */
-  static assertIsSymbol(inst){
+  static assertIsSymbol(inst) {
     assertType(
       isSymbol(inst),
       'input should be Symbol'
@@ -127,7 +144,7 @@ export class TypeCheck {
    * @param {Array} inst
    * @throws {TypeError}
    */
-  static assertIsArray(inst){
+  static assertIsArray(inst) {
     assertType(
       isArray(inst),
       'input should be Array'
@@ -139,7 +156,7 @@ export class TypeCheck {
    * @param {Array} inst
    * @throws {TypeError}
    */
-  static assertIsStrictArray(inst){
+  static assertIsStrictArray(inst) {
     assertType(
       isStrictArray(inst),
       'input should be Array(strict)'
@@ -151,7 +168,7 @@ export class TypeCheck {
    * @param {Class} inst
    * @throws {TypeError}
    */
-  static assertIsClass(inst){
+  static assertIsClass(inst) {
     assertType(
       isClass(inst),
       'input should be Class'
@@ -163,10 +180,22 @@ export class TypeCheck {
    * @param {RegExp} inst
    * @throws {TypeError}
    */
-  static assertIsRegExp(inst){
+  static assertIsRegExp(inst) {
     assertType(
       isRegex(inst),
       'input should be RegExp'
+    )
+  }
+
+  /**
+   *
+   * @param {Blob} inst
+   * @throws {TypeError}
+   */
+  static assertIsBinary(inst) {
+    assertType(
+      isBinary(inst),
+      'input should be Binary'
     )
   }
 }

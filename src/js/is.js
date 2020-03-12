@@ -166,3 +166,39 @@ export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) &
  * @export
  */
 export const isClass = a => typeof a === 'function' && /^class\s/.test(Function.prototype.toString.call(a))
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isBlob = a => typeof Blob !== 'undefined' && !isNull(a) && a instanceof Blob
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isInt8Array = a => typeof Int8Array !== 'undefined' && !isNull(a) && a instanceof Int8Array
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isArrayBuffer = a => typeof ArrayBuffer !== 'undefined' && !isNull(a) && a instanceof ArrayBuffer
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
