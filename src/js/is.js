@@ -201,4 +201,4 @@ export const isArrayBuffer = a => typeof ArrayBuffer !== 'undefined' && !isNull(
  * @return {boolean}
  * @export
  */
-export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer
+export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
