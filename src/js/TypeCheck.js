@@ -189,7 +189,7 @@ export class TypeCheck {
 
   /**
    *
-   * @param {RegExp} inst
+   * @param {Blob} inst
    * @throws {TypeError}
    */
   static assertIsBinary(inst) {
