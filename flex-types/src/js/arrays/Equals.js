@@ -1,4 +1,4 @@
-import {isNull} from '@flexio-oss/assert'
+import {isNull} from '../__import__assert'
 
 
 /**

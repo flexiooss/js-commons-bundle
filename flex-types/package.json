@@ -8,7 +8,7 @@
   "hotballoon-shed": {
     "module": {
       "parent": {
-        "name": "js-common-bundle"
+        "name": "@flexio-oss/js-commons-bundle"
       },
       "devDependencies": [
         "code-altimeter-js"
@@ -26,5 +26,8 @@
         "extension": ".spec"
       }
     }
+  },
+  "peerDependencies": {
+    "code-altimeter-js": "1.0.0"
   }
 }

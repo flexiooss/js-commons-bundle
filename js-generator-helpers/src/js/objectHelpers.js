@@ -3,7 +3,7 @@
  * @param {Object} object
  * @return {Object}
  */
-import {isObject} from '@flexio-oss/assert'
+import {isObject} from './__import__assert'
 
 export const deepFreeze = (object) => {
   if (isObject(object)) {

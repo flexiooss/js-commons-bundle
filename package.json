@@ -14,5 +14,8 @@
       "global-import-registry",
       "js-generator-helpers"
     ]
+  },
+  "peerDependencies": {
+    "code-altimeter-js": "1.0.0"
   }
 }

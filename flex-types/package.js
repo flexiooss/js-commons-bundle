@@ -1,5 +1,5 @@
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
-import {deepKeyAssigner} from '@flexio-oss/js-generator-helpers'
+import {globalFlexioImport} from './src/js/__import__global-import-registry'
+import {deepKeyAssigner} from './src/js/__import__js-generator-helpers'
 
 import {FlexEnum} from './src/js/FlexEnum'
 import {FlexDateTime, FlexZonedDateTime, FlexDate, FlexTime} from './src/js/FlexDate'
