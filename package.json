@@ -14,7 +14,11 @@
       "global-import-registry",
       "js-generator-helpers",
       "event-handler",
-      "extended-flex-types"
+      "extended-flex-types",
+      "js-type-helpers",
+      "js-helpers",
+      "js-logger",
+      "js-validator-helper"
     ]
   },
   "peerDependencies": {
