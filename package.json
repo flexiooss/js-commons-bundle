@@ -12,7 +12,9 @@
       "assert",
       "flex-types",
       "global-import-registry",
-      "js-generator-helpers"
+      "js-generator-helpers",
+      "event-handler",
+      "extended-flex-types"
     ]
   },
   "peerDependencies": {
