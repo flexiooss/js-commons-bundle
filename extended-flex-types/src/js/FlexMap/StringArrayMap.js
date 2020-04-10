@@ -1,6 +1,6 @@
-import {FlexMap} from './__import__flex-types'
-import {assertType, isObject, isString} from './__import__assert'
-import {StringArray} from './__import__flex-types'
+import {FlexMap} from '../__import__flex-types'
+import {assertType, isObject, isString} from '../__import__assert'
+import {StringArray} from '../__import__flex-types'
 
 /**
  * @extends {FlexMap<?StringArray>}

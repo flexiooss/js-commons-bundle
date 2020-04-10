@@ -1,7 +1,7 @@
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
-import {deepKeyAssigner} from '@flexio-oss/js-generator-helpers'
-//import {StringArray, StringArrayBuilder} from './src/js/FlexArray/StringArray'
-//import {NumberArray, NumberArrayBuilder} from './src/js/FlexArray/NumberArray'
+import {globalFlexioImport} from './src/js/__import__global-import-registry'
+import {deepKeyAssigner} from './src/js/__import__js-generator-helpers'
+
+
 import {SymbolStringArray, SymbolStringArrayBuilder} from './src/js/FlexArray/SymbolStringArray'
 import {URLExtended, URLExtendedBuilder} from './src/js/URLExtended'
 import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/URLSearchParamsExtended'

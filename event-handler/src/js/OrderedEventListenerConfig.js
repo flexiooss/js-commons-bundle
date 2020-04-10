@@ -1,5 +1,5 @@
 import {isNumber, assertType} from './__import__assert'
-import {deepFreezeSeal} from './__import__js-type-helpers'
+import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {EventListenerConfig} from './EventListenerConfig'
 
 /**

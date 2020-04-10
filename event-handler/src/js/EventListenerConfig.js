@@ -1,5 +1,5 @@
 import {isFunction,assert} from './__import__assert'
-import {deepFreezeSeal} from './__import__js-type-helpers'
+import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {SymbolStringArray} from './__import__extended-flex-types'
 
 export class EventListenerConfig {

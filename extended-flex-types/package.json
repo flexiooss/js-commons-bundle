@@ -25,5 +25,8 @@
         "extension": ".spec"
       }
     }
+  },
+  "peerDependencies": {
+    "code-altimeter-js": "1.0.0"
   }
 }

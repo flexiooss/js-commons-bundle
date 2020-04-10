@@ -20,5 +20,8 @@
       "tester": "code-altimeter-js",
       "path": "src/test"
     }
+  },
+  "peerDependencies": {
+    "code-altimeter-js": "1.0.0"
   }
 }

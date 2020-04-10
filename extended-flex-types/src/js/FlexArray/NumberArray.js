@@ -1,5 +1,5 @@
-import {FlexArray} from './__import__flex-types'
-import {isNull, isNumber, assertType} from './__import__assert'
+import {FlexArray} from '../__import__flex-types'
+import {isNull, isNumber, assertType} from '../__import__assert'
 
 /**
  * @extends {FlexArray<?Number>}
