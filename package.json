@@ -8,6 +8,13 @@
     "code-altimeter-js": "https://github.com/flexiooss/code-altimeter-js.git"
   },
   "hotballoon-shed": {
+    "module": {
+      "parent": {
+        "name": "@flexio-corp/js-ingredient-parent",
+        "version": "1.0.0-dev",
+        "external": true
+      }
+    },
     "modules": [
       "assert",
       "flex-types",
