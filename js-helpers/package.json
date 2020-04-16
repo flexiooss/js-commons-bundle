@@ -1,5 +1,5 @@
 {
-  "name": "@flexio-oss/js-helpers",
+  "name": "js-helpers",
   "main": "index.js",
   "module": "index.js",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
@@ -9,6 +9,9 @@
       "parent": {
         "name": "@flexio-oss/js-commons-bundle"
       },
+      "dependencies": [
+        "assert"
+      ],
       "devDependencies": [
         "code-altimeter-js"
       ]
@@ -22,6 +25,7 @@
     }
   },
   "peerDependencies": {
+    "@flexio-oss/js-commons-bundle": "1.0.0-dev",
     "code-altimeter-js": "1.0.0"
   }
 }

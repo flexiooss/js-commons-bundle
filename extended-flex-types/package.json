@@ -9,6 +9,13 @@
       "parent": {
         "name": "@flexio-oss/js-commons-bundle"
       },
+      "dependencies": [
+        "assert",
+        "flex-types",
+        "global-import-registry",
+        "js-generator-helpers",
+        "js-helpers"
+      ],
       "devDependencies": [
         "code-altimeter-js"
       ]
@@ -27,6 +34,7 @@
     }
   },
   "peerDependencies": {
+    "@flexio-oss/js-commons-bundle": "1.0.0-dev",
     "code-altimeter-js": "1.0.0"
   }
 }
