@@ -1,5 +1,4 @@
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
-import {assertType, isNull, isString} from '@flexio-oss/assert'
+import {assertType, isNull, isString} from '../__import__assert'
 import {FlexArray} from '../FlexArray'
 import {TypeCheck} from '../TypeCheck'
 import {equalsPrimitive} from './Equals'

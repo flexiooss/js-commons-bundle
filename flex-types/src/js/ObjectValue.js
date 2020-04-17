@@ -1,9 +1,9 @@
 import {FlexMap} from './FlexMap'
 
-import {deepFreezeSeal} from '@flexio-oss/js-generator-helpers'
-import {assertType, isObject, isNull, isString, isBoolean, isNumber, isArray} from '@flexio-oss/assert'
+import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {assertType, isObject, isNull, isString, isBoolean, isNumber, isArray} from './__import__assert'
 import {FlexArray} from './FlexArray'
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
+import {globalFlexioImport} from './__import__global-import-registry'
 
 /**
  * @typedef {(null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue)} ObjectValueValue

@@ -1,4 +1,4 @@
-import {assertType, isArray, TypeCheck} from '@flexio-oss/assert'
+import {assertType, isArray, TypeCheck} from './__import__assert'
 import {IndexError} from './IndexError'
 
 

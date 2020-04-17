@@ -7,8 +7,11 @@
   "hotballoon-shed": {
     "module": {
       "parent": {
-        "name": "js-common-bundle"
+        "name": "@flexio-oss/js-commons-bundle"
       },
+      "dependencies": [
+        "assert"
+      ],
       "devDependencies": [
         "code-altimeter-js"
       ]
@@ -20,5 +23,9 @@
       "tester": "code-altimeter-js",
       "path": "src/test"
     }
+  },
+  "peerDependencies": {
+    "@flexio-oss/js-commons-bundle": "1.0.0-dev",
+    "code-altimeter-js": "1.0.0"
   }
 }

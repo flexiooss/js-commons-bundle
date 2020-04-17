@@ -1,5 +1,5 @@
-import {assertType} from '@flexio-oss/assert'
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
+import {assertType} from './__import__assert'
+import {globalFlexioImport} from './__import__global-import-registry'
 import {isObjectValueValue} from './ObjectValue'
 
 export class TypeCheck {

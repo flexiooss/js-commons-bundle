@@ -1,7 +1,7 @@
-import {isFunction, assertType, isUndefined, isNumber, TypeCheck, isNull} from '@flexio-oss/assert'
-import {globalFlexioImport} from '@flexio-oss/global-import-registry'
+import {isFunction, assertType, isUndefined, isNumber, TypeCheck, isNull} from './__import__assert'
+import {globalFlexioImport} from './__import__global-import-registry'
 import {IndexError} from './IndexError'
-import {deepFreezeSeal} from '@flexio-oss/js-generator-helpers'
+import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 
 /**

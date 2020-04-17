@@ -1,5 +1,5 @@
-import { assertType, isObject, assert, isNumber, isNull, isString } from '@flexio-oss/assert'
-import { deepFreezeSeal } from '@flexio-oss/js-generator-helpers'
+import { assertType, isObject, assert, isNumber, isNull, isString } from './__import__assert'
+import { deepFreezeSeal } from './__import__js-generator-helpers'
 
 class Geoloc {
   /**
