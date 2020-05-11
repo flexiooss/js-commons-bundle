@@ -1,94 +1,106 @@
 import {TestCase} from 'code-altimeter-js'
 import {
-  deepFreeze,
   deepKeyAssigner,
   deepKeyResolver,
-  deepSeal
+  deepFreezeSeal
 } from '../js/objectHelpers'
+
 
 const assert = require('assert')
 
+
 export class TestObjectHelpers extends TestCase {
+  testFreezeAndSealPrimitiveAndCo() {
+    Object.freeze('a')
+    Object.seal('a')
+    Object.freeze(1)
+    Object.seal(1)
+    Object.freeze(true)
+    Object.seal(true)
+    Object.freeze(Symbol('s'))
+    Object.seal(Symbol('s'))
+    Object.freeze(new ArrayBuffer(10))
+    Object.seal(new ArrayBuffer(10))
+    Object.freeze(new Int8Array([]))
+    Object.seal(new Int8Array([]))
+    Object.freeze(new RegExp(''))
+    Object.seal(new RegExp(''))
+    Object.freeze(null)
+    Object.seal(null)
 
-  testDeepFreeze() {
-    let o = {
-      'a': {
-        'a1': 1,
-        'a2': null
-      },
-      'b': 'plok'
-    }
-
-    // Test modification IMPOSSIBLE
-    const res = deepFreeze(o)
-    try {
-      res['a']['a1'] = 5
-    } catch (e) {
-    }
-    assert(res['a']['a1'] === 1)
-
-    // Test deep modification IMPOSSIBLE
-    try {
-      res['b'] = 'ship'
-    } catch (e) {
-    }
-    assert(res['b'] === 'plok')
-
-    // Test add property IMPOSSIBLE
-    try {
-      res['c'] = 5
-    } catch (e) {
-    }
-    assert(Object.entries(res).length === 2)
-  }
-
-  testDeepSeal() {
-    let o = {
-      'a': {
-        'a1': 1
-      },
-      'b': 'plok'
-    }
-
-    // Test modification POSSIBLE
-    const res = deepSeal(o)
-    try {
-      res['a']['a1'] = 5
-    } catch (e) {
-    }
-    assert(res['a']['a1'] === 5)
-
-    // Test deep modification POSSIBLE
-    try {
-      res['b'] = 'ship'
-    } catch (e) {
-    }
-    assert(res['b'] === 'ship')
-
-    // Test add property IMPOSSIBLE
-    try {
-      res['c'] = 5
-    } catch (e) {
-    }
-    assert(Object.entries(res).length === 2)
+    const a = {a: 1}
+    Object.freeze(a)
+    Object.seal(a)
+    Object.freeze(a)
+    Object.seal(a)
   }
 
   testDeepFreezeSeal() {
+    const list1 = []
+    const c = new Map()
+    c.set('list', list1)
+    const list2 = []
+    const d = new Set()
+    d.add(list2)
+
     let o = {
       'a': {
-        'a1': 1
+        'a1': 1,
+        'a2': null,
+        'a3': [1, 2, 3, {
+          'a1-1': 2
+        }]
       },
-      'b': 'plok'
+      'b': 'plok',
+      'c': c,
+      'd': d
     }
-
+    const length = Object.entries(o).length
     // Test modification IMPOSSIBLE
-    const res = deepFreeze(o)
+    const res = deepFreezeSeal(o)
     try {
       res['a']['a1'] = 5
     } catch (e) {
     }
-    assert(res['a']['a1'] === 1)
 
+    assert.throws(() => {
+      res['a']['a1'] = 5
+    })
+    assert(res['a']['a1'] === 1, 'Test modification IMPOSSIBLE de propriété')
+
+    assert.throws(() => {
+      res['a']['a3'].push('paf')
+    })
+
+    assert.throws(() => {
+      res['a']['a3'][3]['a1-1'] = 'boum'
+    })
+
+    assert.deepEqual(res['a']['a3'], [1, 2, 3, {
+      'a1-1': 2
+    }], 'Test modification IMPOSSIBLE de list')
+
+    assert.throws(() => {
+      res['c'].set('toto', 'baboum')
+    })
+    assert.throws(() => {
+      res['d'].add('baboum')
+    })
+    assert.throws(() => {
+      res['c'].clear()
+    })
+    assert.throws(() => {
+      res['d'].clear()
+    })
+    assert.throws(() => {
+      res['c'].get('list').push('boum?')
+    })
+    assert.throws(() => {
+      list1.push('boum?')
+    })
+    assert.throws(() => {
+      list2.push('boum?')
+    })
     // Test deep modification IMPOSSIBLE
     try {
       res['b'] = 'ship'
@@ -98,10 +110,10 @@ export class TestObjectHelpers extends TestCase {
 
     // Test add property IMPOSSIBLE
     try {
-      res['c'] = 5
+      res['z'] = 5
     } catch (e) {
     }
-    assert(Object.entries(res).length === 2)
+    assert(Object.entries(res).length === length)
   }
 
   testDeepKeyResolver() {
@@ -149,5 +161,6 @@ export class TestObjectHelpers extends TestCase {
   }
 
 }
+
 
 runTest(TestObjectHelpers)
