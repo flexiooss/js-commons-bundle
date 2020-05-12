@@ -1,23 +1,23 @@
 import {globalFlexioImport} from './__import__global-import-registry'
 
 export class TypeCheck {
-  /**
-   *
-   * @param {Object} instance
-   * @return {boolean}
-   */
-  static isStringArray(instance) {
-    return instance instanceof globalFlexioImport.io.flexio.extended_flex_types.StringArray
-  }
-
-  /**
-   *
-   * @param {Object} instance
-   * @return {boolean}
-   */
-  static isNumberArray(instance) {
-    return instance instanceof globalFlexioImport.io.flexio.extended_flex_types.NumberArray
-  }
+//  /**
+//   *
+//   * @param {Object} instance
+//   * @return {boolean}
+//   */
+//  static isStringArray(instance) {
+//    return instance instanceof globalFlexioImport.io.flexio.extended_flex_types.StringArray
+//  }
+//
+//  /**
+//   *
+//   * @param {Object} instance
+//   * @return {boolean}
+//   */
+//  static isNumberArray(instance) {
+//    return instance instanceof globalFlexioImport.io.flexio.extended_flex_types.NumberArray
+//  }
 
   /**
    *
