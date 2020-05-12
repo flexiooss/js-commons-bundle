@@ -1,6 +1,7 @@
 import {FlexMap} from '../__import__flex-types'
 import {assertType, isObject, isString} from '../__import__assert'
 import {TypeCheck} from '../__import__flex-types'
+import {globalFlexioImport} from '../__import__global-import-registry'
 
 
 /**
@@ -79,7 +80,7 @@ export class StringArrayMapBuilder {
     const builder = new StringArrayMapBuilder()
     const entries = Object.entries(jsonObject)
     for (const value of entries) {
-      value[1] = new StringArray(...value[1])
+      value[1] = new globalFlexioImport.io.flexio.flex_types.arrays.StringArray(...value[1])
     }
     builder.entries(entries)
     return builder
