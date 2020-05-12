@@ -1,13 +1,14 @@
 import {FlexMap} from '../__import__flex-types'
 import {assertType, isObject, isString} from '../__import__assert'
-import {StringArray} from '../__import__flex-types'
+import {TypeCheck} from '../__import__flex-types'
+
 
 /**
  * @extends {FlexMap<?StringArray>}
  */
 export class StringArrayMap extends FlexMap {
   _validate(v) {
-    assertType(v instanceof StringArray, 'StringArrayMap: input should be a StringArray')
+    TypeCheck.assertIsStringArray(v)
   }
 
   /**
@@ -46,6 +47,7 @@ export class StringArrayMap extends FlexMap {
     return StringArrayMapBuilder.fromJson(json)
   }
 }
+
 
 export class StringArrayMapBuilder {
   constructor() {
