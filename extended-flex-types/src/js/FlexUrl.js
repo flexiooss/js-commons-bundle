@@ -100,7 +100,7 @@ class FlexUrlBuilder {
    */
   value(value) {
     if (!isNull(value)) {
-      assertType(isString(value), 'value should be a string')
+      assertType(isString(value), '__chunckValue should be a string')
       new URL(value)
     }
     this._value = value

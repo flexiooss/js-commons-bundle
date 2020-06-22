@@ -14,7 +14,8 @@ import {
   isNode,
   isFunction,
   isObject,
-  isBinary
+  isBinary,
+  isDate
 } from './is'
 
 
@@ -211,6 +212,19 @@ export class TypeCheck {
     assertType(
       isBinary(inst),
       'input should be Binary'
+    )
+    return inst
+  }
+
+  /**
+   * @param {Date} inst
+   * @throws {TypeError}
+   * @return {Date}
+   */
+  static assertIsDate(inst) {
+    assertType(
+      isDate(inst),
+      'input should be Date'
     )
     return inst
   }

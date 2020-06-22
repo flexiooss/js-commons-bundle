@@ -18,7 +18,8 @@
       "js-type-helpers",
       "js-helpers",
       "js-logger",
-      "js-validator-helper"
+      "js-validator-helper",
+      "cookie-storage"
     ]
   },
   "peerDependencies": {
