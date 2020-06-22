@@ -2,6 +2,9 @@ import {isNull, assertType} from './__import__assert'
 import {DocumentCookieHandler} from './cookie/DocumentCookieHandler'
 import {CookieStorageConfig} from './CookieStorageConfig'
 
+/**
+ * @implements {Storage}
+ */
 export class CookieStorage {
   /**
    * @param {CookieStorageConfig} config
@@ -18,6 +21,13 @@ export class CookieStorage {
      * @private
      */
     this.__documentCookieHandler = new DocumentCookieHandler(this.__config)
+  }
+
+  /**
+   * @return {number}
+   */
+  get length() {
+    throw new Error('not implemented yet')
   }
 
   /**
