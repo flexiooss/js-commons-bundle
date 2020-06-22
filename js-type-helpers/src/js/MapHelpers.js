@@ -1,7 +1,7 @@
 /**
  *
  * @param {Map} map
- * @param {function(a: {key: *, __chunckValue: *},b: {key: *, __chunckValue: *} ){return : boolean }} callback
+ * @param {function(a: {key: *, value: *},b: {key: *, value: *} ){return : boolean }} callback
  * @return {Map}
  */
 export const sortMap = (map, callback) => {

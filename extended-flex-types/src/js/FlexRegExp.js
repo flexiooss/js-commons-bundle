@@ -144,7 +144,7 @@ class FlexRegExpBuilder {
    */
   value(value) {
     if (!isNull(value)) {
-      assertType(isRegex(value), '__chunckValue should be a isRegex')
+      assertType(isRegex(value), 'value should be a isRegex')
     }
     this._value = value
     return this

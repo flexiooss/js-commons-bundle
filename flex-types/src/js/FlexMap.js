@@ -24,7 +24,7 @@ export class FlexMap extends Map {
 
   /**
    *
-   * @param {function(__chunckValue: TYPE, key: *, map: this)} callbackfn
+   * @param {function(value: TYPE, key: *, map: this)} callbackfn
    * @param {*?} thisArg
    */
   forEach(callbackfn, thisArg) {

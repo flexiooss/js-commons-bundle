@@ -151,7 +151,7 @@ export class FlexArray extends Array {
 
   /**
    *
-   * @param {function(__chunckValue: TYPE, index: number, array: this)} callback
+   * @param {function(value: TYPE, index: number, array: this)} callback
    */
   forEach(callback) {
     return super.forEach(callback)
@@ -256,7 +256,7 @@ export class FlexArray extends Array {
   /**
    * @template TYPE, TYPE_OUT
    * @param {Array<TYPE_OUT>} init
-   * @param {function(__chunckValue: TYPE, index: number, all: this):*} clb
+   * @param {function(value: TYPE, index: number, all: this):*} clb
    * @return {Array<TYPE_OUT>}
    */
   mapTo(init, clb) {
@@ -268,7 +268,7 @@ export class FlexArray extends Array {
 
   /**
    *
-   * @param {function(__chunckValue: TYPE, index: number, all: this):*} clb
+   * @param {function(value: TYPE, index: number, all: this):*} clb
    * @return {Array}
    */
   mapToArray(clb) {

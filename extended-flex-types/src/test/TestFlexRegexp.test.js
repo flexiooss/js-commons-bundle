@@ -16,7 +16,7 @@ export class TestFlexRegexp extends TestCase {
         .build()
     })
 
-    assert.strictEqual(JSON.stringify(a), '{"__chunckValue":"/^abc/"}')
+    assert.strictEqual(JSON.stringify(a), '{"value":"/^abc/"}')
 
     assert.deepEqual(JSON.parse(JSON.stringify(a)), {"value":"/^abc/"})
   }
@@ -36,7 +36,7 @@ export class TestFlexRegexp extends TestCase {
       .value(new RegExp('^abc', 'g'))
       .build()
 
-    assert.strictEqual(JSON.stringify(a), '{"__chunckValue":"/^abc/g"}')
+    assert.strictEqual(JSON.stringify(a), '{"value":"/^abc/g"}')
 
     assert.deepEqual(JSON.parse(JSON.stringify(a)), {"value":"/^abc/g"})
   }

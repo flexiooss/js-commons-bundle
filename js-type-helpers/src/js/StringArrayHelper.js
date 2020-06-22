@@ -28,7 +28,7 @@ export class StringArrayHelper {
   toggle(value) {
     assertType(
       isNull(value) || isString(value),
-      'StringArrayHelper:toggle: `__chunckValue` should be string or null'
+      'StringArrayHelper:toggle: `value` should be string or null'
     )
 
     if (isNull(this.__values)) {

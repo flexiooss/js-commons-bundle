@@ -84,7 +84,7 @@ export class FlexEnum {
   }
 
   /**
-   * Given the name of an enum constant, return its __chunckValue.
+   * Given the name of an enum constant, return its value.
    * @return {this}
    */
   static enumValueOf(name) {

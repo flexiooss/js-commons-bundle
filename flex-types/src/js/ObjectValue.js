@@ -481,7 +481,7 @@ export class ObjectValue {
 
   /**
    *
-   * @return {{key:string, __chunckValue:ObjectValueValue}[]}
+   * @return {{key:string, value:ObjectValueValue}[]}
    */
   toArray() {
     const ret = []
@@ -632,7 +632,7 @@ export class ObjectValueBuilder {
   stringValue(key, value) {
     assertType(
       isString(key) && (isNull(value) || isString(value)),
-      this.constructor.name + ': `key` should be string, `__chunckValue` should be null or string'
+      this.constructor.name + ': `key` should be string, `value` should be null or string'
     )
     this[__map].set(key, value)
     return this
@@ -647,7 +647,7 @@ export class ObjectValueBuilder {
   numberValue(key, value) {
     assertType(
       isString(key) && (isNull(value) || isNumber(value)),
-      this.constructor.name + ': `key` should be string, `__chunckValue` should be null or number'
+      this.constructor.name + ': `key` should be string, `value` should be null or number'
     )
     this[__map].set(key, value)
     return this
@@ -662,7 +662,7 @@ export class ObjectValueBuilder {
   booleanValue(key, value) {
     assertType(
       isString(key) && (isNull(value) || isBoolean(value)),
-      this.constructor.name + ': `key` should be string, `__chunckValue` should be null or boolean'
+      this.constructor.name + ': `key` should be string, `value` should be null or boolean'
     )
     this[__map].set(key, value)
     return this
@@ -677,7 +677,7 @@ export class ObjectValueBuilder {
   arrayValue(key, value) {
     assertType(
       isString(key) && (isNull(value) || isArray(value)),
-      this.constructor.name + ': `key` should be string, `__chunckValue` should be null or Array(strict)'
+      this.constructor.name + ': `key` should be string, `value` should be null or Array(strict)'
     )
 
     if (value instanceof ObjectValueValueArray) {
@@ -697,7 +697,7 @@ export class ObjectValueBuilder {
   objectValueValue(key, value) {
     assertType(
       isString(key) && (isNull(value) || value instanceof ObjectValue),
-      this.constructor.name + ': `key` should be string, `__chunckValue` should be null or ObjectValue'
+      this.constructor.name + ': `key` should be string, `value` should be null or ObjectValue'
     )
     this[__map].set(key, value)
     return this

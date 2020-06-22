@@ -76,7 +76,7 @@ export const deepKeyResolver = (object, keys, separator = '.') => {
     if (ret[key] !== undefined && key in ret) {
       ret = ret[key]
     } else {
-      throw new Error('No __chunckValue for this path !')
+      throw new Error('No value for this path !')
     }
   } while (arrayKeys.length)
   return ret
