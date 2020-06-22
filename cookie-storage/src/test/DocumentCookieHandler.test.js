@@ -102,7 +102,7 @@ export class DocumentCookieHandlerTest extends TestCase {
         '__',
         '--',
         50,
-        new CookieConfig(new Date('December 17, 1995 03:24:00'))
+        new CookieConfig(new Date(Date.UTC(96, 1, 2, 3, 4, 5)))
       )
     )
     this.cookieHandler
@@ -111,10 +111,10 @@ export class DocumentCookieHandlerTest extends TestCase {
     assert.equal(document.cookie, 'toto__SIZE__=1; toto__0=YmxhYmxh',
       'testSimpleWrite: cookie content should be write')
 
-    assert.equal(document.fullCookie('toto' + '__0'), 'toto__0=YmxhYmxh;path=/;expires=Sun, 17 Dec 1995 02:24:00 GMT;secure;samesite=strict',
+    assert.equal(document.fullCookie('toto' + '__0'), 'toto__0=YmxhYmxh;path=/;expires=Fri, 02 Feb 1996 03:04:05 GMT;secure;samesite=strict',
       'testSimpleWrite: full cookie should be write')
 
-    assert.equal(document.fullCookie('toto' + '__SIZE__'), 'toto__SIZE__=1;path=/;expires=Sun, 17 Dec 1995 02:24:00 GMT;secure;samesite=strict',
+    assert.equal(document.fullCookie('toto' + '__SIZE__'), 'toto__SIZE__=1;path=/;expires=Fri, 02 Feb 1996 03:04:05 GMT;secure;samesite=strict',
       'testSimpleWrite: cookie Size should be write')
   }
 
