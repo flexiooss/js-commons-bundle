@@ -12,6 +12,13 @@ export class NotOverrideException extends Error {
   static FROM_INTERFACE(name) {
     return new NotOverrideException(`Method not override at ${name} interface`)
   }
+  /**
+   * @param {string} name
+   * @return {IndexError}
+   */
+  static FROM_ABSTRACT(name) {
+    return new NotOverrideException(`Method not override at ${name} abstract`)
+  }
 
 
   toString() {
