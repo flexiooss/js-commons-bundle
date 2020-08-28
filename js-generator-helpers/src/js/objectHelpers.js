@@ -3,81 +3,62 @@
  * @param {Object} object
  * @return {Object}
  */
-import {isObject} from './__import__assert'
+import {isObject, isArray} from './__import__assert'
 
-export const deepFreeze = (object) => {
-  if (isObject(object)) {
-    let propNames = Object.getOwnPropertyNames(object)
-    propNames.forEach((name) => {
-      let prop = object[name]
-      if (isObject(prop) && !Object.isFrozen(prop)) {
-        deepFreeze(prop)
-      }
-    })
-  }
-  return Object.freeze(object)
-}
 
 /**
  *
- * @param {Object} object
- * @returns {Object}
- */
-export const deepSeal = (object) => {
-  if (isObject(object)) {
-    let propNames = Object.getOwnPropertyNames(object)
-    propNames.forEach((name) => {
-      let prop = object[name]
-      if (isObject(prop) && !Object.isSealed(prop)) {
-        deepSeal(prop)
-      }
-    })
-  }
-  return Object.seal(object)
-}
-
-/**
- *
- * @param {Object} object
+ * @param {*} from
  * @readonly
  * @return {Object}
  * @function
  * @export
  */
-export const deepFreezeSeal = (object) => {
-  if (isObject(object)) {
+export const deepFreezeSeal = (from) => {
 
-    if ((object instanceof Map || object instanceof Set) && !Object.isSealed(object) && !Object.isFrozen(object)) {
-      object.forEach((v) => {
+    if ((from instanceof Map || from instanceof Set) && !Object.isSealed(from) && !Object.isFrozen(from)) {
+
+
+      from.forEach((v) => {
         deepFreezeSeal(v)
       })
 
-      object.set = function(key) {
+      from.set = function(key) {
         throw new Error('Can\'t add property ' + key + ', map/set is not extensible')
       }
 
-      object.add = function(key) {
+      from.add = function(key) {
         throw new Error('Can\'t add property ' + key + ', map/set is not extensible')
       }
 
-      object.delete = function(key) {
+      from.delete = function(key) {
         throw new Error('Can\'t delete property ' + key + ', map/set is frozen')
       }
 
-      object.clear = function() {
+      from.clear = function() {
         throw new Error('Can\'t clear map, map/set is frozen')
       }
     } else {
-      let propNames = Object.getOwnPropertyNames(object)
-      propNames.forEach((name) => {
-        let prop = object[name]
-        if (isObject(prop) && !Object.isSealed(prop) && !Object.isFrozen(prop) && Object.getOwnPropertyDescriptor(object, name).writable) {
-          deepFreezeSeal(prop)
+
+      if (isObject(from)) {
+        for (const name of Object.getOwnPropertyNames(from)) {
+          let prop = from[name]
+          if ((isObject(prop) || isArray(prop)) && !Object.isSealed(prop) && !Object.isFrozen(prop) && Object.getOwnPropertyDescriptor(from, name).writable) {
+            deepFreezeSeal(prop)
+          }
         }
-      })
+
+      } else if (isArray(from)) {
+        for (const i of from) {
+          if ((isObject(i) || isArray(i)) && !Object.isSealed(i) && !Object.isFrozen(i) ) {
+            deepFreezeSeal(i)
+          }
+        }
+      }
+
     }
-  }
-  return Object.freeze(Object.seal(object))
+
+  return Object.freeze(Object.seal(from))
 }
 
 /**

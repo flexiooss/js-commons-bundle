@@ -1,4 +1,4 @@
-import {isBoolean, assert} from './__import__assert'
+import {isBoolean, assert, isNull} from './__import__assert'
 import {UID, Sequence} from './__import__js-helpers'
 import {EventListenerConfig} from './EventListenerConfig'
 import {StringArray} from './__import__flex-types'
@@ -249,7 +249,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @return {boolean}
    */
   isDispatching() {
@@ -257,17 +256,18 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @return {this}
    */
   clear() {
     this._listeners.clear()
+    if (!isNull(this.__currentExecution)) {
+      this.__currentExecution.remove()
+    }
     this._executionQueue.clear()
     return this
   }
 
   /**
-   *
    * @return {?DispatchExecution}
    */
   currentExecution() {
@@ -317,6 +317,11 @@ class DispatchExecution {
      * @private
      */
     this.__pending = this.__initPending()
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.__removed = false
 
   }
 
@@ -380,6 +385,9 @@ class DispatchExecution {
    * @return {boolean}
    */
   startExecution(listenerToken) {
+    if (this.isRemoved()) {
+      return false
+    }
     if (this.isPending(listenerToken)) {
       this.__executing = listenerToken
       return true
@@ -411,6 +419,18 @@ class DispatchExecution {
     return !this.isExecuting(listenerToken) && !this.isPending(listenerToken)
   }
 
+
+  /**
+   * @return {boolean}
+   */
+  isRemoved(){
+    return this.__removed === true
+  }
+
+  remove() {
+    this.__removed = true
+    this.__pending.clear()
+  }
 }
 
 
