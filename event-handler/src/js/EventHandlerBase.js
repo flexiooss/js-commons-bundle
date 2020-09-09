@@ -16,23 +16,22 @@ const _sequenceId_ = Symbol('_sequenceId_')
  */
 
 export class EventHandlerBase {
-
+  /**
+   * @param {Number} [maxExecution=100]
+   */
   constructor(maxExecution = 100) {
     /**
-     *
      * @type {number}
      * @protected
      */
     this._maxExecution = maxExecution
     /**
-     *
      * @params {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
      * @protected
      */
     this._listeners = new Map()
 
     /**
-     *
      * @type {Map<string, Map<string,DispatchExecution>>}
      * @private
      */
@@ -68,7 +67,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {(String|Symbol)} event
    * @param {Object} payload
    */
@@ -95,7 +93,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @protected
    * @param {DispatchExecution} dispatchExecution
    * @param {String} listenerToken
@@ -112,7 +109,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @return {string}
    */
   nextID() {
@@ -120,7 +116,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {EventListenerConfig} eventListenerConfig
    * @returns {(String|StringArray)} externalChooserPublic
    */
@@ -143,7 +138,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {(string|Symbol)} event
    * @protected
    */
@@ -154,23 +148,25 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {(String|Symbol)} event of Listener
-   * @param {String} token
+   * @param {String} [token=null]
    * @throws AssertionError
    */
-  removeEventListener(event, token) {
+  removeEventListener(event, token = null) {
     if (this._listeners.has(event)) {
-      assert(this._listeners.get(event).has(token),
-        'EventHandlerBase:removeEventListener: ̀`id` argument not in _listeners : `%s`',
-        event
-      )
-      this._listeners.get(event).delete(token)
+      if (isNull(token)) {
+        this._listeners.delete(event)
+      } else {
+        assert(this._listeners.get(event).has(token),
+          'EventHandlerBase:removeEventListener: ̀`id` argument not in _listeners : `%s`',
+          event
+        )
+        this._listeners.get(event).delete(token)
+      }
     }
   }
 
   /**
-   *
    * @param {(String|Symbol)} event of Listener
    * @param {String} token
    * @returns {boolean}
@@ -180,7 +176,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {(String|Symbol)} event of Listener
    * @param {Object} payload
    * @return {DispatchExecution}
@@ -210,7 +205,7 @@ export class EventHandlerBase {
   /**
    *
    * @param {(string|Symbol)} event
-   * @return {EventHandlerBase.EventHandlerBase}
+   * @return {EventHandlerBase}
    * @protected
    */
   _ensureHaveExecutionEventMap(event) {
@@ -223,7 +218,7 @@ export class EventHandlerBase {
   /**
    *
    * @param {(string|Symbol)} event
-   * @return {EventHandlerBase.EventHandlerBase}
+   * @return {EventHandlerBase}
    * @protected
    */
   _ensureMaxExecution(event) {
@@ -279,7 +274,6 @@ export class EventHandlerBase {
 class DispatchExecution {
 
   /**
-   *
    * @param {string} event
    * @param {string} id
    * @param {*} payload
@@ -288,25 +282,21 @@ class DispatchExecution {
   constructor(event, id, payload, listeners) {
 
     /**
-     *
      * @type {string}
      * @private
      */
     this.__event = event
     /**
-     *
      * @type {string}
      * @private
      */
     this.__id = id
     /**
-     *
      * @type {*}
      * @private
      */
     this.__payload = payload
     /**
-     *
      * @type  {Map<string,EventListenerConfig>}
      * @private
      */
@@ -326,7 +316,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @return  {Map<string,EventListenerConfig>}
    */
   listeners() {
@@ -334,7 +323,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @return {string}
    */
   event() {
@@ -342,7 +330,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @return {string}
    */
   id() {
@@ -350,7 +337,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @return {*}
    */
   payload() {
@@ -358,7 +344,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @return {Set<string>}
    * @private
    */
@@ -371,7 +356,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @param {string} listenerToken
    * @return {boolean}
    */
@@ -380,7 +364,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @param {string} listenerToken
    * @return {boolean}
    */
@@ -395,6 +378,10 @@ class DispatchExecution {
     return false
   }
 
+  /**
+   * @param {string} listenerToken
+   * @return {DispatchExecution}
+   */
   finishExecution(listenerToken) {
     this.__executing = null
     this.__pending.delete(listenerToken)
@@ -402,7 +389,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @param {string} listenerToken
    * @return {boolean}
    */
@@ -411,7 +397,6 @@ class DispatchExecution {
   }
 
   /**
-   *
    * @param {string} listenerToken
    * @return {boolean|boolean}
    */
@@ -423,7 +408,7 @@ class DispatchExecution {
   /**
    * @return {boolean}
    */
-  isRemoved(){
+  isRemoved() {
     return this.__removed === true
   }
 
