@@ -49,3 +49,17 @@ export const assertType = (assertion, message, ...messageArgs) => {
     )
   }
 }
+
+
+/**
+ * @param {*} instance
+ * @param {Class} constructor
+ * @return {*}
+ * @throws TypeError
+ */
+export const assertInstanceOf = (instance, constructor) => {
+  assertType(
+    instance instanceof constructor, 'should be ' + constructor.constructor.name
+  )
+  return instance
+}
