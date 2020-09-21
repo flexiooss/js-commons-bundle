@@ -4,7 +4,6 @@ import {isObjectValueValue} from './ObjectValue'
 
 export class TypeCheck {
   /**
-   *
    * @param {ObjectValue} inst
    * @throws {TypeError}
    * @return {ObjectValue}
@@ -18,7 +17,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {ObjectValue} inst
    * @return {boolean}
    */
@@ -27,7 +25,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexArray} inst
    * @throws {TypeError}
    * @return {FlexArray}
@@ -41,7 +38,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexArray} inst
    * @return {boolean}
    */
@@ -50,7 +46,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexDate} inst
    * @throws {TypeError}
    * @return {FlexDate}
@@ -64,7 +59,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexDate} inst
    * @return {boolean}
    */
@@ -73,7 +67,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexDateTime} inst
    * @throws {TypeError}
    * @return {FlexDateTime}
@@ -87,7 +80,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexDateTime} inst
    * @return {boolean}
    */
@@ -96,7 +88,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexTime} inst
    * @throws {TypeError}
    * @return {FlexTime}
@@ -110,7 +101,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexTime} inst
    * @return {boolean}
    */
@@ -119,7 +109,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexZonedDateTime} inst
    * @throws {TypeError}
    * @return {FlexZonedDateTime}
@@ -133,7 +122,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexZonedDateTime} inst
    * @return {boolean}
    */
@@ -142,7 +130,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexEnum} inst
    * @throws {TypeError}
    * @return {FlexEnum}
@@ -156,7 +143,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexEnum} inst
    * @return {boolean}
    */
@@ -165,7 +151,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexMap} inst
    * @throws {TypeError}
    * @return {FlexMap}
@@ -179,7 +164,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FlexMap} inst
    * @return {boolean}
    */
@@ -188,7 +172,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {StringArray} inst
    * @throws {TypeError}
    * @return {StringArray}
@@ -202,7 +185,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {StringArray} inst
    * @return {boolean}
    */
@@ -211,7 +193,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {BooleanArray} inst
    * @throws {TypeError}
    * @return {BooleanArray}
@@ -225,7 +206,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {BooleanArray} inst
    * @return {boolean}
    */
@@ -234,7 +214,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DateArray} inst
    * @throws {TypeError}
    * @return {DateArray}
@@ -248,7 +227,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DateArray} inst
    * @return {boolean}
    */
@@ -257,7 +235,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DateTimeArray} inst
    * @throws {TypeError}
    * @return {DateTimeArray}
@@ -271,7 +248,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DateTimeArray} inst
    * @return {boolean}
    */
@@ -280,7 +256,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DoubleArray} inst
    * @throws {TypeError}
    * @return {DoubleArray}
@@ -294,7 +269,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {DoubleArray} inst
    * @return {boolean}
    */
@@ -303,7 +277,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {TzDateTimeArray} inst
    * @throws {TypeError}
    * @return {TzDateTimeArray}
@@ -317,7 +290,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {TzDateTimeArray} inst
    * @return {boolean}
    */
@@ -326,7 +298,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {TimeArray} inst
    * @throws {TypeError}
    * @return {TimeArray}
@@ -340,7 +311,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {TimeArray} inst
    * @return {boolean}
    */
@@ -349,7 +319,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {IntegerArray} inst
    * @throws {TypeError}
    * @return {IntegerArray}
@@ -363,7 +332,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {IntegerArray} inst
    * @return {boolean}
    */
@@ -372,7 +340,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {ObjectArray} inst
    * @throws {TypeError}
    * @return {ObjectArray}
@@ -386,7 +353,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {ObjectArray} inst
    * @return {boolean}
    */
@@ -395,7 +361,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {FloatArray} inst
    * @throws {TypeError}
    * @return {FloatArray}
@@ -418,7 +383,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {LongArray} inst
    * @throws {TypeError}
    * @return {LongArray}
@@ -432,7 +396,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {LongArray} inst
    * @return {boolean}
    */
@@ -441,7 +404,6 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param {IndexError} inst
    * @return {boolean}
    */
@@ -450,12 +412,21 @@ export class TypeCheck {
   }
 
   /**
-   *
    * @param inst
    * @return {boolean}
    */
   static isObjectValueValue(inst) {
     return isObjectValueValue(inst)
+  }
+
+  /**
+   * @param {ObjectValueValue} inst
+   * @throws {TypeError}
+   * @return {ObjectValueValue}
+   */
+  static assertIsObjectValueValue(inst) {
+    assertType(TypeCheck.isObjectValueValue(inst), 'should be `ObjectValueValue`')
+    return inst
   }
 
 }
