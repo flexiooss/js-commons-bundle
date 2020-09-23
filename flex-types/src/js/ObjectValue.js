@@ -1,7 +1,16 @@
 import {FlexMap} from './FlexMap'
 
 import {deepFreezeSeal} from './__import__js-generator-helpers'
-import {assertType, isObject, isNull, isString, isBoolean, isNumber, isArray} from './__import__assert'
+import {
+  assertType,
+  isObject,
+  isNull,
+  isString,
+  isBoolean,
+  isNumber,
+  isArray,
+  assertInstanceOf
+} from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
 
@@ -10,7 +19,6 @@ import {globalFlexioImport} from './__import__global-import-registry'
  */
 
 /**
- *
  * @param {Array} a
  * @param {Array} [ret=[]]
  * @return {Array}
@@ -33,7 +41,6 @@ const arrayToObject = (a, ret = []) => {
   return ret
 }
 /**
- *
  * @param {*} value
  * @return {ObjectValueValue}
  */
@@ -59,14 +66,12 @@ const valueFromItem = (value) => {
 }
 
 /**
- *
  * @param {*} a
  * @return {boolean}
  */
 export const isObjectValueValue = a => isNull(a) || isString(a) || isBoolean(a) || isNumber(a) || a instanceof ObjectValue || a instanceof ObjectValueValueArray
 
 /**
- *
  * @param {?ObjectValue} to
  * @param {?ObjectValue} compare
  * @return {boolean}
@@ -96,7 +101,6 @@ const objectValueValueEquals = (to, compare) => {
 }
 
 /**
- *
  * @param {ObjectValueValue} to
  * @param {ObjectValueValue} compare
  * @return {boolean}
@@ -121,7 +125,6 @@ const objectValueValuePropertyEquals = (to, compare) => {
 }
 
 /**
- *
  * @param {?Array} to
  * @param {?Array} compare
  * @return {boolean}
@@ -146,7 +149,6 @@ const objectValueValueArrayEquals = (to, compare) => {
 }
 
 /**
- *
  * @param {*} v
  * @throws {TypeError}
  */
@@ -159,61 +161,50 @@ const validateObjectValueValue = v => {
 
 }
 
-const __map = Symbol('__map')
-
 export class ObjectValue {
   /**
-   *
+   * @type {ObjectValueFlexMap}
+   */
+  #map
+  /**
    * @param {ObjectValueFlexMap} data
    * @private
    */
   constructor(data) {
-
-    assertType(
-      data instanceof ObjectValueFlexMap,
-      this.constructor.name + ': `data` should be ObjectValueFlexMap'
-    )
     /**
-     *
      * @type {ObjectValueFlexMap}
      */
-    this[__map] = data
-    this.__freeze()
+    this.#map = assertInstanceOf(data,ObjectValueFlexMap)
+    this.#freeze()
   }
 
-  /**
-   *
-   * @private
-   */
-  __freeze() {
-    this[__map].forEach((v) => {
+  #freeze() {
+    this.#map.forEach((v) => {
       deepFreezeSeal(v)
     })
     deepFreezeSeal(this)
-    this[__map].set = function(key) {
+    this.#map.set = function(key) {
       throw new Error('Can\'t add property ' + key + ', map is not extensible')
     }
 
-    this[__map].delete = function(key) {
+    this.#map.delete = function(key) {
       throw new Error('Can\'t delete property ' + key + ', map is frozen')
     }
 
-    this[__map].clear = function() {
+    this.#map.clear = function() {
       throw new Error('Can\'t clear map, map is frozen')
     }
   }
 
   /**
-   *
    * @param {string} key
    * @return {boolean}
    */
   has(key) {
-    return this[__map].has(key)
+    return this.#map.has(key)
   }
 
   /**
-   *
    * @param {string} key
    * @return {ObjectValueValue}
    * @throws {IndexError}
@@ -222,11 +213,10 @@ export class ObjectValue {
     if (!this.has(key)) {
       throw globalFlexioImport.io.flexio.flex_types.IndexError.BAD_MAP_KEY(key)
     }
-    return this[__map].get(key)
+    return this.#map.get(key)
   }
 
   /**
-   *
    * @param {string} key
    * @param {ObjectValueValue} [defaultValue=null]
    * @return {ObjectValueValue}
@@ -236,7 +226,7 @@ export class ObjectValue {
       validateObjectValueValue(defaultValue)
       return defaultValue
     }
-    return this[__map].get(key)
+    return this.#map.get(key)
   }
 
   /**
@@ -255,14 +245,13 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?string} [defaultValue=null]
    * @return {?string}
    * @throws {TypeError}
    */
   stringValueOr(key, defaultValue = null) {
-    const val = this[__map].get(key)
+    const val = this.#map.get(key)
 
     if (!this.has(key) || !(isString(val) || isNull(val))) {
       assertType(
@@ -276,7 +265,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @return {?number}
    * @throws {IndexError, TypeError}
@@ -291,14 +279,13 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?number} [defaultValue=null]
    * @return {?number}
    * @throws {TypeError}
    */
   numberValueOr(key, defaultValue = null) {
-    const val = this[__map].get(key)
+    const val = this.#map.get(key)
     if (!this.has(key) || !(isNumber(val) || isNull(val))) {
       assertType(
         isNumber(defaultValue) || isNull(defaultValue),
@@ -311,7 +298,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @return {?boolean}
    * @throws {IndexError, TypeError}
@@ -333,7 +319,7 @@ export class ObjectValue {
    * @throws {TypeError}
    */
   booleanValueOr(key, defaultValue = null) {
-    const val = this[__map].get(key)
+    const val = this.#map.get(key)
     if (!this.has(key) || !(isBoolean(val) || isNull(val))) {
       assertType(
         isBoolean(defaultValue) || isNull(defaultValue),
@@ -367,7 +353,7 @@ export class ObjectValue {
    * @throws {TypeError}
    */
   arrayValueOr(key, defaultValue = null) {
-    const val = this[__map].get(key)
+    const val = this.#map.get(key)
     if (!this.has(key) || !(isArray(val) || isNull(val))) {
       assertType(
         isArray(defaultValue) || isNull(defaultValue),
@@ -407,7 +393,7 @@ export class ObjectValue {
    * @throws {TypeError}
    */
   objectValueValueOr(key, defaultValue = null) {
-    const val = this[__map].get(key)
+    const val = this.#map.get(key)
     if (!this.has(key) || !(val instanceof ObjectValue || isNull(val))) {
       assertType(
         defaultValue instanceof ObjectValue || isNull(defaultValue),
@@ -424,7 +410,7 @@ export class ObjectValue {
    * @return {number}
    */
   size() {
-    return this[__map].size
+    return this.#map.size
   }
 
   /**
@@ -432,14 +418,14 @@ export class ObjectValue {
    * @return {ObjectValueValueArray}
    */
   properties() {
-    return new ObjectValueValueArray(...this[__map].values())
+    return new ObjectValueValueArray(...this.#map.values())
   }
 
   /**
    * @return {StringArray}
    */
   propertyNames() {
-    return new globalFlexioImport.io.flexio.flex_types.arrays.StringArray(...this[__map].keys())
+    return new globalFlexioImport.io.flexio.flex_types.arrays.StringArray(...this.#map.keys())
   }
 
   /**
@@ -465,7 +451,7 @@ export class ObjectValue {
    */
   toObject() {
     const ret = {}
-    this[__map].forEach((v, k) => {
+    this.#map.forEach((v, k) => {
       let out = v
 
       if (v instanceof ObjectValue || v instanceof globalFlexioImport.io.flexio.flex_types.FlexArray) {
@@ -485,7 +471,7 @@ export class ObjectValue {
    */
   toArray() {
     const ret = []
-    this[__map].forEach((v, k) => {
+    this.#map.forEach((v, k) => {
       ret.push({
         key: k,
         value: v
@@ -599,17 +585,12 @@ export class ObjectValue {
 }
 
 export class ObjectValueBuilder {
-  constructor() {
-    /**
-     *
-     * @type {ObjectValueFlexMap}
-     * @private
-     */
-    this[__map] = new ObjectValueFlexMap()
-  }
+  /**
+   * @type {ObjectValueFlexMap}
+   */
+  #map = new ObjectValueFlexMap()
 
   /**
-   *
    * @param {ObjectValueFlexMap} map
    * @return {ObjectValueBuilder}
    */
@@ -619,12 +600,11 @@ export class ObjectValueBuilder {
       this.constructor.name + ': `map` should be ObjectValueFlexMap'
     )
 
-    this[__map] = map
+    this.#map = map
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {?string} value
    * @return {ObjectValueBuilder}
@@ -634,12 +614,11 @@ export class ObjectValueBuilder {
       isString(key) && (isNull(value) || isString(value)),
       this.constructor.name + ': `key` should be string, `value` should be null or string'
     )
-    this[__map].set(key, value)
+    this.#map.set(key, value)
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {?number} value
    * @return {ObjectValueBuilder}
@@ -649,12 +628,11 @@ export class ObjectValueBuilder {
       isString(key) && (isNull(value) || isNumber(value)),
       this.constructor.name + ': `key` should be string, `value` should be null or number'
     )
-    this[__map].set(key, value)
+    this.#map.set(key, value)
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {?boolean} value
    * @return {ObjectValueBuilder}
@@ -664,12 +642,11 @@ export class ObjectValueBuilder {
       isString(key) && (isNull(value) || isBoolean(value)),
       this.constructor.name + ': `key` should be string, `value` should be null or boolean'
     )
-    this[__map].set(key, value)
+    this.#map.set(key, value)
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {?(Array|ObjectValueValueArray)} value
    * @return {ObjectValueBuilder}
@@ -681,15 +658,14 @@ export class ObjectValueBuilder {
     )
 
     if (value instanceof ObjectValueValueArray) {
-      this[__map].set(key, value)
+      this.#map.set(key, value)
     } else {
-      this[__map].set(key, new ObjectValueValueArray(...value))
+      this.#map.set(key, isNull(value) ? null : new ObjectValueValueArray(...value))
     }
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {?ObjectValue} value
    * @return {ObjectValueBuilder}
@@ -699,12 +675,11 @@ export class ObjectValueBuilder {
       isString(key) && (isNull(value) || value instanceof ObjectValue),
       this.constructor.name + ': `key` should be string, `value` should be null or ObjectValue'
     )
-    this[__map].set(key, value)
+    this.#map.set(key, value)
     return this
   }
 
   /**
-   *
    * @param {string} key
    * @param {ObjectValueValue} value
    * @return {ObjectValueBuilder}
@@ -718,7 +693,7 @@ export class ObjectValueBuilder {
       this.arrayValue(key, value)
     } else {
 
-      this[__map].set(key, value)
+      this.#map.set(key, value)
     }
     return this
   }
@@ -727,7 +702,7 @@ export class ObjectValueBuilder {
    * @returns {ObjectValue}
    */
   build() {
-    return new ObjectValue(this[__map])
+    return new ObjectValue(this.#map)
   }
 
   /**
@@ -775,7 +750,6 @@ export class ObjectValueBuilder {
  */
 class ObjectValueFlexMap extends FlexMap {
   /**
-   *
    * @param {*} v
    * @protected
    * @throws Error
@@ -805,7 +779,6 @@ export class ObjectValueValueArray extends FlexArray {
   }
 
   /**
-   *
    * @param {*} v
    * @protected
    * @throws Error
@@ -815,7 +788,6 @@ export class ObjectValueValueArray extends FlexArray {
   }
 
   /**
-   *
    * @return {Array<ObjectValueValue>}
    */
   toObject() {
