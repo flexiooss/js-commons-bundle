@@ -43,6 +43,9 @@ export class NumberValidatorTest extends TestCase {
     assert.ok(this.validator.validateInRange(null, 2, 4))
     assert.ok(this.validator.validateInRange({}, 0, 4) === false)
     assert.ok(this.validator.validateInRange(5, 'a', 'b') === false)
+    assert.ok(this.validator.validateInRange(2, 0, null))
+    assert.ok(this.validator.validateInRange(2, null, 10))
+    assert.ok(this.validator.validateInRange(null, null, null))
 
   }
 
