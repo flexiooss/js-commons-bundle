@@ -132,6 +132,12 @@ export class FlexEnum {
   toJSON() {
     return this.toString()
   }
+  /**
+   * @returns {string}
+   */
+  toObject() {
+    return this.toString()
+  }
 }
 
 
