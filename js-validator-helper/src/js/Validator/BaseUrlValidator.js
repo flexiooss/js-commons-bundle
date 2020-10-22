@@ -17,7 +17,6 @@ export class BaseUrlValidator extends Validator {
       return true
     }
     try {
-      console.log(value)
       new URL(value)
       return true
     } catch (e) {
