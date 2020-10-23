@@ -15,6 +15,7 @@ export class IntegerValidator extends Validator {
   validateType(value) {
     return isInteger(value)
   }
+
   /**
    *
    * @param {Number} value
@@ -36,15 +37,24 @@ export class IntegerValidator extends Validator {
   /**
    *
    * @param {Number} value
-   * @param {string} rangeStart
-   * @param {string} rangeEnd
+   * @param {string|null} rangeStart
+   * @param {string|null} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
-    return this.validateType(value) && value >= parseInt(rangeStart, 10) && value <= parseInt(rangeEnd,10)
+
+    if (isNull(rangeStart) && isNull(rangeEnd)) {
+      return isNull(value)
+    }
+    if (isNull(rangeStart)) {
+      return this.validateType(value) && value <= parseInt(rangeEnd, 10)
+    }
+    if (isNull(rangeEnd)) {
+      return this.validateType(value) && value >= parseInt(rangeStart, 10)
+    }
   }
 
   /**
@@ -54,10 +64,10 @@ export class IntegerValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
-    return TypeCheck.isStringArray(enumeratedValues) && this.validateType(value) && enumeratedValues.mapTo(new globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray(), v => parseInt(v,10)).includes(value)
+    return TypeCheck.isStringArray(enumeratedValues) && this.validateType(value) && enumeratedValues.mapTo(new globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray(), v => parseInt(v, 10)).includes(value)
   }
 
   /**

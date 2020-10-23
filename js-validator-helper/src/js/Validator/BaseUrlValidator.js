@@ -13,8 +13,10 @@ export class BaseUrlValidator extends Validator {
    * @return {boolean}
    */
   validateType(value) {
+    if(isNull(value)){
+      return true
+    }
     try {
-      console.log(value)
       new URL(value)
       return true
     } catch (e) {

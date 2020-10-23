@@ -36,15 +36,26 @@ export class NumberValidator extends Validator {
   /**
    *
    * @param {Number} value
-   * @param {string} rangeStart
-   * @param {string} rangeEnd
+   * @param {string|null} rangeStart
+   * @param {string|null} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
-    return this.validateType(value) && value >= parseFloat(rangeStart) && value <= parseFloat(rangeEnd)
+
+    if (isNull(rangeStart) && isNull(rangeEnd)) {
+      return isNull(value)
+    }
+    if (isNull(rangeStart)) {
+      return this.validateType(value) && value <= parseInt(rangeEnd, 10)
+    }
+    if (isNull(rangeEnd)) {
+      return this.validateType(value) && value >= parseInt(rangeStart, 10)
+    }
+    return this.validateType(value) && value >= parseInt(rangeStart, 10) && value <= parseInt(rangeEnd, 10)
+
   }
 
   /**

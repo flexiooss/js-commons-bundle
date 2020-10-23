@@ -46,7 +46,7 @@ export const isNumber = a => typeof a === 'number' && !Number.isNaN(a)
  * @function
  * @export
  */
-export const isInteger = a => isNumber(a) && Number.isInteger(a) && a === +a && a === (a | 0)
+export const isInteger = a => isNumber(a) && Number.isInteger(a) && a === +a
 
 /**
  *
@@ -55,7 +55,7 @@ export const isInteger = a => isNumber(a) && Number.isInteger(a) && a === +a && 
  * @function
  * @export
  */
-export const isFloat = a => isNumber(a) && !Number.isInteger(a) && a === +a && a !== (a | 0)
+export const isFloat = a => isNumber(a) && !Number.isInteger(a) && a === +a
 /**
  *
  * @param {*} a

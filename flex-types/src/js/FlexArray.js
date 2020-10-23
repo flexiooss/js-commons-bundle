@@ -181,7 +181,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {number} start
    * @param {number} deleteCount
    * @param {...TYPE} args
@@ -200,10 +199,7 @@ export class FlexArray extends Array {
    * @return {FlexArray<TYPE>}
    */
   filter(callback, thisArg) {
-    assertType(
-      isFunction(callback),
-      'FlexArray:filter: `callback` should be a Function'
-    )
+    TypeCheck.assertIsFunction(callback)
 
     let len = this.length >>> 0
     const res = new this.constructor()
@@ -234,7 +230,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {function(final: *,current: TYPE, index: number, all: this):*} callback
    * @param initialValue
    * @return {*[]}
@@ -244,7 +239,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {function(final: *,current: TYPE, index: number, all: this):*} callback
    * @param initialValue
    * @return {*[]}
@@ -267,7 +261,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {function(value: TYPE, index: number, all: this):*} clb
    * @return {Array}
    */
@@ -276,7 +269,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @return {Array.<TYPE>}
    */
   toArray() {
@@ -284,7 +276,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @return {Array.<TYPE>}
    */
   toObject() {
@@ -292,7 +283,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @return {Array.<TYPE>}
    */
   toJSON() {
@@ -300,7 +290,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {number} index
    * @param {TYPE} value
    * @return {Array<TYPE>}
@@ -314,7 +303,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {...TYPE} v
    * @return {Array<TYPE>}
    */
@@ -325,7 +313,6 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
    * @param {TYPE} to
    * @return  {boolean}
    */
@@ -338,25 +325,28 @@ export class FlexArray extends Array {
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static builder() {
-    return new FlexArrayBuilder().setConstructor(this.constructor)
+    return new FlexArrayBuilder(this.constructor)
   }
 
   /**
-   *
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static from(instance) {
-    const builder = new FlexArrayBuilder().setConstructor(this.constructor)
-    builder.values(instance)
-    return builder
+    return FlexArrayBuilder.from(this.constructor, this)
   }
 
+  /**
+   * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
+   */
   static fromObject(jsonObject) {
-    throw new Error('should be override')
+    return FlexArrayBuilder.fromObject(this.constructor, jsonObject)
   }
 
+  /**
+   * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
+   */
   static fromJson(json) {
-    throw new Error('should be override')
+    return FlexArrayBuilder.fromJson(this.constructor, json)
   }
 }
 
@@ -365,72 +355,66 @@ export class FlexArray extends Array {
  * @template TYPE, ARRAY_TYPE
  */
 class FlexArrayBuilder {
-  constructor() {
-    /**
-     *
-     * @type {?Class.<ARRAY_TYPE>}
-     * @private
-     */
-    this.__constructor = null
-    /**
-     *
-     * @type {TYPE[]}
-     * @private
-     */
-    this.__values = []
-  }
-
   /**
-   *
-   * @param {Class.<ARRAY_TYPE>} constructor
-   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
+   * @type {?Class.<ARRAY_TYPE>}
    */
-  setConstructor(constructor) {
-    TypeCheck.assertIsClass(constructor)
-    this.__constructor = constructor
-    return this
+  #arrayConstructor = null
+  /**
+   * @type {TYPE[]}
+   */
+  #values = []
+
+  constructor(constructor) {
+
+    this.#arrayConstructor = TypeCheck.assertIsClass(constructor)
   }
 
   /**
-   *
    * @type {TYPE[]}
    * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    */
   values(values) {
     TypeCheck.assertIsArray(values)
-    this.__values = values
+    this.#values = values
     return this
   }
 
   /**
-   * @param {Object} jsonObject
+   * @param {Array} jsonObject
    * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
+   * @param {?Class.<ARRAY_TYPE>} constructor
    */
-  static fromObject(jsonObject) {
-    throw new Error('should be override')
+  static fromObject(constructor, jsonObject) {
+    const builder = new FlexArrayBuilder(constructor)
+    builder.values(TypeCheck.assertIsArray(jsonObject))
+    return builder
   }
 
   /**
    * @param {string} json
    * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
+   * @param {?Class.<ARRAY_TYPE>} constructor
    */
-  static fromJson(json) {
-    throw new Error('should be override')
+  static fromJson(constructor, json) {
+    return FlexArrayBuilder.fromObject(constructor, JSON.parse(json))
   }
 
   /**
    * @param {ARRAY_TYPE} instance
    * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
+   * @param {?Class.<ARRAY_TYPE>} constructor
    */
-  static from(instance) {
-    throw new Error('should be override')
+  static from(constructor, instance) {
+    const builder = new FlexArrayBuilder(constructor)
+    builder.values(instance)
+    return builder
   }
 
   /**
    * @return ARRAY_TYPE
    */
   build() {
-    return new this.__constructor(...this.__values)
+    return new this.#arrayConstructor(...this.#values)
   }
 
 }

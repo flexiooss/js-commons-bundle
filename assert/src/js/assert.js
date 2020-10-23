@@ -1,3 +1,5 @@
+import {isNull} from './is'
+
 class AssertionError extends Error {
   constructor(...params) {
     super(...params)
@@ -48,4 +50,19 @@ export const assertType = (assertion, message, ...messageArgs) => {
       )
     )
   }
+}
+
+
+/**
+ * @param {*} instance
+ * @param {Class} constructor
+ * @return {any}
+ * @throws TypeError
+ * @param {?string} [stringName=null]
+ */
+export const assertInstanceOf = (instance, constructor, stringName = null) => {
+  assertType(
+    instance instanceof constructor, 'should be ' + isNull(stringName)? constructor.constructor.name : stringName
+  )
+  return instance
 }
