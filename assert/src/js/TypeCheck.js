@@ -32,6 +32,18 @@ export class TypeCheck {
     )
     return inst
   }
+  /**
+   * @param {any} inst
+   * @throws {TypeError}
+   * @return {any}
+   */
+  static assertIsNotNull(inst) {
+    assertType(
+      !isNull(inst),
+      'input should be Null'
+    )
+    return inst
+  }
 
   /**
    * @param {string} inst
