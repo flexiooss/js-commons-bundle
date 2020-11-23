@@ -36,7 +36,20 @@ export class DateExtended extends Date {
       'DateExtended:fromFlexTime: `flexTime` argument should be an instance of FlexTime'
     )
     let time = flexTime.toJSON().split(/[:.]/g)
-    return new DateExtended(null, null, null, ...time)
+    const date = new DateExtended()
+    date.setHours(...time)
+    return date
+  }
+
+  /**
+   *
+   * @param {FlexTime} flexTime
+   * @return {DateExtended}
+   */
+  static fromUTCFlexTime(flexTime) {
+    const tmp = DateExtended.fromFlexTime(flexTime)
+    tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
+    return tmp
   }
 
   /**
@@ -65,6 +78,17 @@ export class DateExtended extends Date {
   }
 
   /**
+   *
+   * @param {FlexDate} flexDate
+   * @return {DateExtended}
+   */
+  static fromUTCFlexDate(flexDate) {
+    const tmp = DateExtended.fromFlexDate(flexDate)
+    tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
+    return tmp
+  }
+
+  /**
    * @param {FlexDateTime} flexDateTime
    * @return {DateExtended}
    */
@@ -82,11 +106,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexDateTime(flexDateTime) {
-    assertType(
-      flexDateTime instanceof FlexDateTime,
-      'DateExtended:fromFlexDateTime: `flexDateTime` argument should be an instance of FlexDateTime'
-    )
-    let tmp = new DateExtended(flexDateTime.toJSON())
+    const tmp = DateExtended.fromFlexDateTime(flexDateTime)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
   }

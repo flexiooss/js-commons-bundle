@@ -1,5 +1,4 @@
 import {assertType, isNull, isString} from './__import__assert'
-import {URLExtendedBuilder} from './URLExtended'
 
 export class URLSearchParamsExtended extends URLSearchParams {
   /**

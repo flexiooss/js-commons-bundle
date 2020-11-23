@@ -2,21 +2,32 @@ import {assertType, isNull, isString} from './__import__assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 class FlexUrl {
+  /**
+   * @type {String}
+   */
+  #value
 
   /**
    * @param {string} value
    * @private
    */
   constructor(value) {
-    this._value = value
+    this.#value = value
     deepFreezeSeal(this)
   }
 
   /**
-   * @returns {string}
+   * @return {string}
    */
   value() {
-    return this._value
+    return this.#value
+  }
+
+  /**
+   * @return {URL}
+   */
+  toURL() {
+    return new URL(this.#value)
   }
 
   /**
@@ -30,8 +41,8 @@ class FlexUrl {
 
   toObject() {
     let jsonObject = {}
-    if (this._value !== null) {
-      jsonObject['value'] = this._value
+    if (this.#value !== null) {
+      jsonObject['value'] = this.#value
     }
     return jsonObject
   }
