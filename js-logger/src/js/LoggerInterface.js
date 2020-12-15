@@ -33,9 +33,9 @@ export class LoggerInterface {
   /**
    *
    * @param {LogInterface} log
-   * @param {Object} options
+   * @param {Object} [options={}]
    */
-  log(log, options) {
+  log(log, options={}) {
     throw new Error('Not implemented yet')
   }
 

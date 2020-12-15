@@ -32,6 +32,7 @@ export class TypeCheck {
     )
     return inst
   }
+
   /**
    * @param {any} inst
    * @throws {TypeError}
@@ -59,6 +60,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?string} inst
+   * @throws {TypeError}
+   * @return {?string}
+   */
+  static assertIsStringOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsString(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {boolean} inst
    * @throws {TypeError}
    * @return {boolean}
@@ -72,16 +85,39 @@ export class TypeCheck {
   }
 
   /**
-   *
+   * @param {?boolean} inst
+   * @throws {TypeError}
+   * @return {?boolean}
+   */
+  static assertIsBooleanOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsBoolean(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Number} inst
    * @throws {TypeError}
-   *
+   * @return {Number}
    */
   static assertIsNumber(inst) {
     assertType(
       isNumber(inst),
       'input should be Number'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Number} inst
+   * @throws {TypeError}
+   * @return {Number}
+   */
+  static assertIsNumberOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsNumber(inst)
+    }
     return inst
   }
 
@@ -99,6 +135,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Number} inst
+   * @throws {TypeError}
+   * @return {?Number}
+   */
+  static assertIsIntegerOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsInteger(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Object} inst
    * @throws {TypeError}
    * @return {Object}
@@ -108,6 +156,18 @@ export class TypeCheck {
       isObject(inst),
       'input should be Object'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Object} inst
+   * @throws {TypeError}
+   * @return {?Object}
+   */
+  static assertIsObjectOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsObject(inst)
+    }
     return inst
   }
 
@@ -125,6 +185,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Object} inst
+   * @throws {TypeError}
+   * @return {?Object}
+   */
+  static assertIsStrictObjectOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsStrictObject(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Function} inst
    * @throws {TypeError}
    * @return {Function}
@@ -134,6 +206,18 @@ export class TypeCheck {
       isFunction(inst),
       'input should be Function'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Function} inst
+   * @throws {TypeError}
+   * @return {?Function}
+   */
+  static assertIsFunctionOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsFunction(inst)
+    }
     return inst
   }
 
@@ -151,6 +235,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Node} inst
+   * @throws {TypeError}
+   * @return {?Node}
+   */
+  static assertIsNodeOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsNode(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Symbol} inst
    * @throws {TypeError}
    * @return {Symbol}
@@ -160,6 +256,18 @@ export class TypeCheck {
       isSymbol(inst),
       'input should be Symbol'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Symbol} inst
+   * @throws {TypeError}
+   * @return {?Symbol}
+   */
+  static assertIsSymbolOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsSymbol(inst)
+    }
     return inst
   }
 
@@ -177,6 +285,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Array} inst
+   * @throws {TypeError}
+   * @return {?Array}
+   */
+  static assertIsArrayOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsArray(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Array} inst
    * @throws {TypeError}
    * @return {Array}
@@ -186,6 +306,18 @@ export class TypeCheck {
       isStrictArray(inst),
       'input should be Array(strict)'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Array} inst
+   * @throws {TypeError}
+   * @return {?Array}
+   */
+  static assertIsStrictArrayOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsStrictArray(inst)
+    }
     return inst
   }
 
@@ -203,6 +335,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Class} inst
+   * @throws {TypeError}
+   * @return {?Class}
+   */
+  static assertIsClassOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsClass(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {RegExp} inst
    * @throws {TypeError}
    * @return {RegExp}
@@ -212,6 +356,18 @@ export class TypeCheck {
       isRegex(inst),
       'input should be RegExp'
     )
+    return inst
+  }
+
+  /**
+   * @param {?RegExp} inst
+   * @throws {TypeError}
+   * @return {?RegExp}
+   */
+  static assertIsRegExpOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsRegExp(inst)
+    }
     return inst
   }
 
@@ -229,6 +385,18 @@ export class TypeCheck {
   }
 
   /**
+   * @param {?Blob} inst
+   * @throws {TypeError}
+   * @return {?Blob}
+   */
+  static assertIsBinaryOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsBinary(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Date} inst
    * @throws {TypeError}
    * @return {Date}
@@ -238,6 +406,18 @@ export class TypeCheck {
       isDate(inst),
       'input should be Date'
     )
+    return inst
+  }
+
+  /**
+   * @param {?Date} inst
+   * @throws {TypeError}
+   * @return {?Date}
+   */
+  static assertIsDateOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsDate(inst)
+    }
     return inst
   }
 }
