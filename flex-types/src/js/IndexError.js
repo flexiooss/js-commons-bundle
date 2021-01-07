@@ -2,18 +2,6 @@ export class IndexError extends Error {
   constructor(message = '', ...params) {
     super(...params)
     this.message = message
-    this.name = this.constructor.name
-    this.key = null
-  }
-
-  /**
-   *
-   * @param {string} key
-   * @return {IndexError}
-   */
-  setKey(key) {
-    this.key = key
-    return this
   }
 
   /**
@@ -21,8 +9,12 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY(key) {
-    return new IndexError('Array have not this index')
-      .setKey(key)
+    return new IndexError(
+      IndexError.toString(
+        'Array have not this index',
+        key
+      )
+    )
   }
 
   /**
@@ -30,8 +22,12 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY_GT_LENGTH(key) {
-    return new IndexError('Array have not this index, array length less than key')
-      .setKey(key)
+    return new IndexError(
+      IndexError.toString(
+        'Array have not this index, array length less than key',
+        key
+      )
+    )
   }
 
   /**
@@ -39,8 +35,12 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_MAP_KEY(key) {
-    return new IndexError('Map have not this index')
-      .setKey(key)
+    return new IndexError(
+      IndexError.toString(
+        'Map have not this index',
+        key
+      )
+    )
   }
 
   /**
@@ -48,12 +48,16 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_ENUM_NAME(name) {
-    return new IndexError('Enum have not this index')
-      .setKey(name)
+    return new IndexError(
+      IndexError.toString(
+        'Enum have not this index',
+        name
+      )
+    )
   }
 
-  toString() {
-    return ` ${this.name} --- ${this.message} : ${this.key} `
+  static toString(message, key) {
+    return `${message} : ${key} `
   }
 }
 
