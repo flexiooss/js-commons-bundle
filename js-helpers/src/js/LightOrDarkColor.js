@@ -13,12 +13,18 @@ export class LightOrDarkColor {
    * @type {?number}
    */
   #hsp = null
+  /**
+   * @type {number}
+   */
+  #hspInflection = 127.5
 
   /**
-   * @param ?string} color
+   * @param {?string} color
+   * @param {number} [hspInflection=170]
    */
-  constructor(color) {
+  constructor(color, hspInflection = 170) {
     this.#textColor = TypeCheck.assertIsStringOrNull(color)
+    this.#hspInflection = TypeCheck.assertIsNumber(hspInflection)
     if (!isNull(this.#textColor)) {
       this.#process()
     }
@@ -28,14 +34,14 @@ export class LightOrDarkColor {
    * @return {boolean}
    */
   isLight() {
-    return !isNull(this.#hsp) ? this.#hsp > 127.5 : false
+    return !isNull(this.#hsp) ? this.#hsp > this.#hspInflection : false
   }
 
   /**
    * @return {boolean}
    */
   isDark() {
-    return !isNull(this.#hsp) ? this.#hsp < 127.5 : false
+    return !isNull(this.#hsp) ? this.#hsp < this.#hspInflection : false
   }
 
   /**
