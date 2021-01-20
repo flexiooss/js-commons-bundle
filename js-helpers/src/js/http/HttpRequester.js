@@ -1,3 +1,5 @@
+import {assertType} from '../../../../assert'
+
 /**
  * @interface
  */
@@ -11,13 +13,13 @@ export class HttpRequester {
   }
 
   /**
-   * @param inst
+   * @param {HttpRequester} inst
    * @throws {TypeError}
+   * @return {HttpRequester}
    */
   static assertIsHttpRequester(inst) {
-    if (!HttpRequester.isHttpRequester(inst)) {
-      throw new TypeError('`inst` should be `HttpRequester`')
-    }
+    assertType(HttpRequester.isHttpRequester(inst), '`inst` should be `HttpRequester`')
+    return inst
   }
 
   /**
