@@ -39,11 +39,11 @@ export class TestDuration extends TestCase {
   }
 
   testDurationDateDiff() {
-    let d = DurationHelper.durationFromDateDiff(
-      new Date('2021-01-01T00:00:00'),
-      new Date('2021-01-02T00:10:00')
-    )
-    this._logDuration(d)
+//    let d = DurationHelper.durationFromDateDiff(
+//      new Date('2021-01-01T00:00:00'),
+//      new Date('2021-01-02T00:10:00')
+//    )
+//    this._logDuration(d)
 
     this._assertExplodedDuration(
       DurationHelper.durationFromDateDiff(
