@@ -10,6 +10,11 @@ import {deepFreezeSeal} from './__import__js-generator-helpers'
  */
 export class FlexArray extends Array {
   /**
+   * @type {boolean}
+   */
+  #frozen = false
+
+  /**
    *
    * @param {...<TYPE>} args
    */
@@ -36,6 +41,7 @@ export class FlexArray extends Array {
    */
   freeze() {
     deepFreezeSeal(this)
+    this.#frozen = true
     return this
   }
 
@@ -309,6 +315,30 @@ export class FlexArray extends Array {
   withPush(...v) {
     const ret = new this.constructor(...this)
     ret.push(...v)
+    return ret
+  }
+
+  /**
+   * @return {Array<TYPE>}
+   */
+  withPop() {
+    const ret = new this.constructor(...this)
+    ret.pop()
+    if (this.#frozen) {
+      ret.freeze()
+    }
+    return ret
+  }
+
+  /**
+   * @return {Array<TYPE>}
+   */
+  withShift() {
+    const ret = new this.constructor(...this)
+    ret.shift()
+    if (this.#frozen) {
+      ret.freeze()
+    }
     return ret
   }
 
