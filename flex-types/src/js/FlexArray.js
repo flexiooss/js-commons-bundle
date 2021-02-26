@@ -355,28 +355,28 @@ export class FlexArray extends Array {
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static builder() {
-    return new FlexArrayBuilder(this.constructor)
+    return new FlexArrayBuilder(this)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static from(instance) {
-    return FlexArrayBuilder.from(this.constructor, this)
+    return FlexArrayBuilder.from(this, this)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromObject(jsonObject) {
-    return FlexArrayBuilder.fromObject(this.constructor, jsonObject)
+    return FlexArrayBuilder.fromObject(this, jsonObject)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromJson(json) {
-    return FlexArrayBuilder.fromJson(this.constructor, json)
+    return FlexArrayBuilder.fromJson(this, json)
   }
 }
 
