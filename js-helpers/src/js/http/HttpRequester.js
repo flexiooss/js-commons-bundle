@@ -22,11 +22,15 @@ export class HttpRequester {
     return inst
   }
 
+  abort() {
+    throw new Error('should be override')
+  }
+
   /**
    * @param {ExecutorRequesterInterface~executionClb} callback
    * @return {ResponseDelegate}
    */
-  get(callback,) {
+  get(callback) {
     throw new Error('should be override')
   }
 
