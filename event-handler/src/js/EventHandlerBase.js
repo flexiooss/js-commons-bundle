@@ -151,19 +151,21 @@ export class EventHandlerBase {
    * @param {(String|Symbol)} event of Listener
    * @param {String} [token=null]
    * @throws AssertionError
+   * @return {boolean}
    */
   removeEventListener(event, token = null) {
     if (this._listeners.has(event)) {
       if (isNull(token)) {
         this._listeners.delete(event)
+        return true
       } else {
-        assert(this._listeners.get(event).has(token),
-          'EventHandlerBase:removeEventListener: ̀`id` argument not in _listeners : `%s`',
-          event
-        )
-        this._listeners.get(event).delete(token)
+        if (this._listeners.has(event)) {
+          this._listeners.get(event).delete(token)
+          return true
+        }
       }
     }
+    return false
   }
 
   /**
