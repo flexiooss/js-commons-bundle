@@ -99,6 +99,14 @@ export class HttpRequester {
   }
 
   /**
+   * @return {XmlHttpRequester}
+   * @param {URLSearchParams} urlSearchParams
+   */
+  parametersFromURLSearchParams(urlSearchParams) {
+    throw new Error('should be override')
+  }
+
+  /**
    * @param {string} name
    * @param {string} value
    * @return {HttpRequester}
