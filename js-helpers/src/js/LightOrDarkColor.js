@@ -48,7 +48,6 @@ export class LightOrDarkColor {
    * @return {boolean}
    */
   isWhite() {
-    console.log(this.#hsp)
     return !isNull(this.#hsp) ? this.#hsp > 240 : false
   }
 
