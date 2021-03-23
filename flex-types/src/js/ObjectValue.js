@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf
+  assertInstanceOf, TypeCheck
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
@@ -355,10 +355,11 @@ export class ObjectValue {
   arrayValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isArray(val) || isNull(val))) {
-      assertType(
-        isArray(defaultValue) || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be array or null'
-      )
+      if(isNull(defaultValue)){
+        return null
+      }
+
+      TypeCheck.assertIsArray(defaultValue)
 
       if (!(defaultValue instanceof ObjectValueValueArray)) {
         return new ObjectValueValueArray(...defaultValue)
