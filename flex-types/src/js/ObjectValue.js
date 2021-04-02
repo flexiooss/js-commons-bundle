@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf
+  assertInstanceOf, TypeCheck
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
@@ -166,6 +166,7 @@ export class ObjectValue {
    * @type {ObjectValueFlexMap}
    */
   #map
+
   /**
    * @param {ObjectValueFlexMap} data
    * @private
@@ -174,7 +175,7 @@ export class ObjectValue {
     /**
      * @type {ObjectValueFlexMap}
      */
-    this.#map = assertInstanceOf(data,ObjectValueFlexMap)
+    this.#map = assertInstanceOf(data, ObjectValueFlexMap)
     this.#freeze()
   }
 
@@ -183,15 +184,15 @@ export class ObjectValue {
       deepFreezeSeal(v)
     })
     deepFreezeSeal(this)
-    this.#map.set = function(key) {
+    this.#map.set = function (key) {
       throw new Error('Can\'t add property ' + key + ', map is not extensible')
     }
 
-    this.#map.delete = function(key) {
+    this.#map.delete = function (key) {
       throw new Error('Can\'t delete property ' + key + ', map is frozen')
     }
 
-    this.#map.clear = function() {
+    this.#map.clear = function () {
       throw new Error('Can\'t clear map, map is frozen')
     }
   }
@@ -355,10 +356,11 @@ export class ObjectValue {
   arrayValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isArray(val) || isNull(val))) {
-      assertType(
-        isArray(defaultValue) || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be array or null'
-      )
+      if (isNull(defaultValue)) {
+        return null
+      }
+
+      TypeCheck.assertIsArray(defaultValue)
 
       if (!(defaultValue instanceof ObjectValueValueArray)) {
         return new ObjectValueValueArray(...defaultValue)
@@ -553,6 +555,16 @@ export class ObjectValue {
   }
 
   /**
+   * @param {ObjectValue} instance
+   * @returns {ObjectValue}
+   */
+  mergeWith(instance) {
+    const builder = ObjectValueBuilder.from(this)
+    builder.merge(instance)
+    return builder.build()
+  }
+
+  /**
    * @returns {ObjectValueBuilder}
    */
   static builder() {
@@ -742,6 +754,18 @@ export class ObjectValueBuilder {
       builder.value(item.key, item.value)
     }
     return builder
+  }
+
+  /**
+   * @param {ObjectValue} instance
+   * @returns {ObjectValueBuilder}
+   */
+  merge(instance) {
+    assertType(instance instanceof ObjectValue, 'input should be an instance of ObjectValue')
+    for (const item of instance.toArray()) {
+      this.value(item.key, item.value)
+    }
+    return this
   }
 }
 

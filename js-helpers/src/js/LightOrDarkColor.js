@@ -45,6 +45,13 @@ export class LightOrDarkColor {
   }
 
   /**
+   * @return {boolean}
+   */
+  isWhite() {
+    return !isNull(this.#hsp) ? this.#hsp > 240 : false
+  }
+
+  /**
    * @return {LightOrDarkColor}
    */
   #process() {
@@ -55,7 +62,6 @@ export class LightOrDarkColor {
     }
 
     this.#hsp = this.#color.toHSP()
-
     return this
   }
 
@@ -129,9 +135,8 @@ export class Color {
   static fromHEXColor(color) {
     let processedColor = +('0x' + color.slice(1).replace(
         color.length < 5 && /./g, '$&$&'
-      )
+      ).slice(0, 6)
     )
-
     return new Color(processedColor >> 16, processedColor >> 8 & 255, processedColor & 255)
   }
 
@@ -149,9 +154,9 @@ export class Color {
    */
   toHSP() {
     return Math.sqrt(
-      0.299 * (this.red() * this.red()) +
-      0.587 * (this.green() * this.green()) +
-      0.114 * (this.blue() * this.blue())
+      0.299 * Math.pow(this.red(), 2) +
+      0.587 * Math.pow(this.green(), 2) +
+      0.114 * Math.pow(this.blue(), 2)
     )
   }
 }

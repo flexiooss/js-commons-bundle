@@ -36,8 +36,12 @@ export class DateExtended extends Date {
       'DateExtended:fromFlexTime: `flexTime` argument should be an instance of FlexTime'
     )
     let time = flexTime.toJSON().split(/[:.]/g)
+    const hours = time[0] ? parseInt(time[0]) : 0
+    const minutes = time[1] ? parseInt(time[1]) : 0
+    const seconds = time[2] ? parseInt(time[2]) : 0
+    const millis = time[3] ? parseInt(time[3]) : 0
     const date = new DateExtended()
-    date.setHours(...time)
+    date.setHours(hours, minutes, seconds, millis)
     return date
   }
 

@@ -10,6 +10,11 @@ import {deepFreezeSeal} from './__import__js-generator-helpers'
  */
 export class FlexArray extends Array {
   /**
+   * @type {boolean}
+   */
+  #frozen = false
+
+  /**
    *
    * @param {...<TYPE>} args
    */
@@ -36,6 +41,7 @@ export class FlexArray extends Array {
    */
   freeze() {
     deepFreezeSeal(this)
+    this.#frozen = true
     return this
   }
 
@@ -313,6 +319,30 @@ export class FlexArray extends Array {
   }
 
   /**
+   * @return {Array<TYPE>}
+   */
+  withPop() {
+    const ret = new this.constructor(...this)
+    ret.pop()
+    if (this.#frozen) {
+      ret.freeze()
+    }
+    return ret
+  }
+
+  /**
+   * @return {Array<TYPE>}
+   */
+  withShift() {
+    const ret = new this.constructor(...this)
+    ret.shift()
+    if (this.#frozen) {
+      ret.freeze()
+    }
+    return ret
+  }
+
+  /**
    * @param {TYPE} to
    * @return  {boolean}
    */
@@ -325,28 +355,28 @@ export class FlexArray extends Array {
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static builder() {
-    return new FlexArrayBuilder(this.constructor)
+    return new FlexArrayBuilder(this)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static from(instance) {
-    return FlexArrayBuilder.from(this.constructor, this)
+    return FlexArrayBuilder.from(this, this)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromObject(jsonObject) {
-    return FlexArrayBuilder.fromObject(this.constructor, jsonObject)
+    return FlexArrayBuilder.fromObject(this, jsonObject)
   }
 
   /**
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromJson(json) {
-    return FlexArrayBuilder.fromJson(this.constructor, json)
+    return FlexArrayBuilder.fromJson(this, json)
   }
 }
 

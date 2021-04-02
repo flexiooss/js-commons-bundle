@@ -22,11 +22,15 @@ export class HttpRequester {
     return inst
   }
 
+  abort() {
+    throw new Error('should be override')
+  }
+
   /**
    * @param {ExecutorRequesterInterface~executionClb} callback
    * @return {ResponseDelegate}
    */
-  get(callback,) {
+  get(callback) {
     throw new Error('should be override')
   }
 
@@ -91,6 +95,14 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   arrayParameter(name, values) {
+    throw new Error('should be override')
+  }
+
+  /**
+   * @return {XmlHttpRequester}
+   * @param {URLSearchParams} urlSearchParams
+   */
+  parametersFromURLSearchParams(urlSearchParams) {
     throw new Error('should be override')
   }
 

@@ -367,6 +367,37 @@ export class TestObjectValue extends TestCase {
     })
   }
 
+
+  testMerge(){
+    const a = ObjectValue
+      .builder()
+      .stringValue('string', 'toto')
+      .booleanValue('bool', true)
+      .numberValue('number', 12)
+      .arrayValue('array', ['tutu', true, 12])
+      .build()
+
+    const b = ObjectValue
+      .builder()
+      .stringValue('string', 'tutu')
+      .stringValue('other-string', 'tutu')
+      .arrayValue('array', ['titi', false, 14,15])
+      .build()
+
+    const c = a.mergeWith(b)
+    assert.ok(c.stringValue('string'),'tutu', 'assert `string` overrided' )
+
+    assert.deepStrictEqual(
+      c.toObject(),
+      {
+        string: 'tutu',
+        bool: true,
+        number: 12,
+        array: [ 'titi', false, 14, 15 ],
+        'other-string': 'tutu'
+      }, 'should be merged'
+    )
+  }
 }
 
 

@@ -1,4 +1,4 @@
-import {isString, isNull,isNumber, assertType} from './__import__assert'
+import {isString, isNull, isNumber, assertType} from './__import__assert'
 import {COLORS} from './colors'
 import {LogBuilder} from './LogBuilder'
 import {Level} from './Level'
@@ -9,7 +9,7 @@ const FONT_SIZE = 12
 /**
  * @implements {LoggerInterface}
  */
-export class ConsoleLogger extends LoggerInterface{
+export class ConsoleLogger extends LoggerInterface {
   constructor() {
     super()
     this._level = Level.INFO
@@ -56,9 +56,12 @@ export class ConsoleLogger extends LoggerInterface{
    * @param {LogInterface} log
    * @param {Object} [options={}]
    */
-  log(log, options={}) {
+  log(log, options = {}) {
     if (this._isLoggable(log)) {
 
+      /**
+       * @type {ConsoleLogOptions}
+       */
       const consoleOptions = ConsoleOptionsBuilder
         .fromObject(options)
         .build()
@@ -71,7 +74,7 @@ export class ConsoleLogger extends LoggerInterface{
             console.groupCollapsed('%c ' + v, this._styleLine(log, consoleOptions, true))
             collapsed = true
           } else if (isString(v)) {
-            console.log('%c ' + v, this._styleLine(log, consoleOptions))
+            this.#write(v, log, this._styleLine(log, consoleOptions))
           } else {
             console.dir(v, this._styleLine(log, consoleOptions))
           }
@@ -84,12 +87,29 @@ export class ConsoleLogger extends LoggerInterface{
       } else {
         log.logs().forEach((v) => {
           if (isString(v)) {
-            console.log('%c ' + v, this._styleLine(log, consoleOptions, true))
+            this.#write(v, log, this._styleLine(log, consoleOptions, true))
           } else {
             console.dir(v, this._styleLine(log, consoleOptions))
           }
         })
       }
+    }
+  }
+
+  /**
+   * @param {string} msg
+   * @param {LogInterface} log
+   * @param {string}  style
+   */
+  #write(msg, log, style) {
+    if (log.level() === Level.ERROR) {
+      console.error('%c ' + msg, style)
+    } else if (log.level() === Level.WARN) {
+      console.warn('%c ' + msg, style)
+    } else if (log.level() === Level.INFO) {
+      console.info('%c ' + msg, style)
+    } else {
+      console.debug('%c ' + msg, style)
     }
   }
 
