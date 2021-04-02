@@ -1,6 +1,6 @@
 import {assertType, isFunction, isNull, isNumber} from './__import__assert'
 
-export class Throttle {
+export class ThrottleOnce {
   /**
    * @type {number}
    */
@@ -17,15 +17,17 @@ export class Throttle {
    * @type {?number}
    */
   #timer = null
-
+  
   /**
-   * @param {number} delay ms
+   *
+   * @param {number} [delay=200] ms
    */
-  constructor(delay) {
+  constructor(delay = 200) {
     assertType(
       isNumber(delay),
       'Throttle: `delay` should be a number'
     )
+    this.#delay = delay
     this.#now = null
     this.#last = null
     this.#timer = null
@@ -59,16 +61,6 @@ export class Throttle {
       clearTimeout(this.#timer)
 
       this.#last = this.#now
-
-      this.#timer = setTimeout(
-        () => {
-          this.#timer = null
-          this.#last = null
-          callback()
-        },
-        this.#delay
-      )
-
     }
   }
 
