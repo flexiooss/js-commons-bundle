@@ -26,26 +26,20 @@ export class Throttle {
       isNumber(delay),
       'Throttle: `delay` should be a number'
     )
-    this.#now = null
-    this.#last = null
-    this.#timer = null
+    this.#delay = delay
   }
 
   /**
-   *
    * @param {Function} callback
    */
   invoke(callback) {
-
     assertType(
       isFunction(callback),
       'Throttle:invoke: `callback` should be a Function'
     )
-
     this.#now = Date.now()
 
     if (isNull(this.#timer)) {
-
       this.#last = this.#now
 
       this.#timer = setTimeout(
@@ -55,11 +49,8 @@ export class Throttle {
     }
 
     if ((this.#last && this.#now < this.#last + this.#delay)) {
-
       clearTimeout(this.#timer)
-
       this.#last = this.#now
-
       this.#timer = setTimeout(
         () => {
           this.#timer = null
