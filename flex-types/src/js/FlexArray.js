@@ -1,4 +1,4 @@
-import {isFunction, assertType, isUndefined, isNumber, TypeCheck, isNull} from './__import__assert'
+import {  isUndefined, TypeCheck, isNull} from './__import__assert'
 import {globalFlexioImport} from './__import__global-import-registry'
 import {IndexError} from './IndexError'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
@@ -40,9 +40,19 @@ export class FlexArray extends Array {
    * @return {FlexArray<TYPE>}
    */
   freeze() {
+    if(this.isFrozen()){
+      return this
+    }
     deepFreezeSeal(this)
     this.#frozen = true
     return this
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isFrozen(){
+    return this.#frozen
   }
 
   /**
@@ -183,6 +193,9 @@ export class FlexArray extends Array {
     for (let i = start; i < end; ++i) {
       ret.push(this.get(i))
     }
+    if(this.#frozen){
+      ret.freeze()
+    }
     return ret
   }
 
@@ -195,7 +208,11 @@ export class FlexArray extends Array {
   splice(start, deleteCount, ...args) {
     const a = this.toArray()
     a.splice(start, deleteCount, ...args)
-    return new this.constructor(...a)
+    let ret = new this.constructor(...a)
+    if(this.#frozen){
+      ret.freeze()
+    }
+    return ret
   }
 
   /**
@@ -231,8 +248,11 @@ export class FlexArray extends Array {
       }
     }
 
-    return res
+    if(this.#frozen){
+      res.freeze()
+    }
 
+    return res
   }
 
   /**
@@ -304,7 +324,9 @@ export class FlexArray extends Array {
 
     const ret = new this.constructor(...this)
     ret.set(index, value)
-
+    if(this.#frozen){
+      ret.freeze()
+    }
     return ret
   }
 
@@ -315,6 +337,9 @@ export class FlexArray extends Array {
   withPush(...v) {
     const ret = new this.constructor(...this)
     ret.push(...v)
+    if(this.#frozen){
+      ret.freeze()
+    }
     return ret
   }
 
