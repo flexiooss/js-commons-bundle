@@ -343,6 +343,22 @@ export class FlexArray extends Array {
   }
 
   /**
+   *
+   * @param {number} offset
+   * @param {TYPE} value
+   * @return {FlexArray.<TYPE>}
+   */
+  withSet(offset, value) {
+    if (offset > this.length) {
+      throw  IndexError.BAD_ARRAY_KEY_GT_LENGTH(offset)
+    }
+    const ret = new this.constructor(...this)
+    ret._validate(value)
+    ret[offset] = value
+    return ret
+  }
+
+  /**
    * @param {TYPE} to
    * @return  {boolean}
    */
