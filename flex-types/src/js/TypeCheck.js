@@ -9,10 +9,7 @@ export class TypeCheck {
    * @return {ObjectValue}
    */
   static assertIsObjectValue(inst) {
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.ObjectValue,
-      'TypeCheck: `inst` should be ObjectValue'
-    )
+    assertType(TypeCheck.isObjectValue(inst), 'should be ObjectValue')
     return inst
   }
 
@@ -22,14 +19,7 @@ export class TypeCheck {
    * @return {ObjectValue}
    */
   static assertIsObjectValueOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.ObjectValue,
-      'TypeCheck: `inst` should be ObjectValue'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsObjectValue(inst)
   }
 
   /**
@@ -47,25 +37,19 @@ export class TypeCheck {
    */
   static assertIsFlexArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexArray,
-      'TypeCheck: `inst` should be FlexArray'
+      TypeCheck.isFlexArray(inst),
+      'should be FlexArray'
     )
     return inst
   }
+
   /**
    * @param {?FlexArray} inst
    * @throws {TypeError}
    * @return {FlexArray}
    */
   static assertIsFlexArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexArray,
-      'TypeCheck: `inst` should be FlexArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexArray(inst)
   }
 
   /**
@@ -83,25 +67,19 @@ export class TypeCheck {
    */
   static assertIsFlexDate(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexDate,
-      'TypeCheck: `inst` should be FlexDate'
+      TypeCheck.isFlexDate(inst),
+      'should be FlexDate'
     )
     return inst
   }
+
   /**
    * @param {?FlexDate} inst
    * @throws {TypeError}
    * @return {FlexDate}
    */
   static assertIsFlexDateOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexDate,
-      'TypeCheck: `inst` should be FlexDate'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexDate(inst)
   }
 
   /**
@@ -119,25 +97,19 @@ export class TypeCheck {
    */
   static assertIsFlexDateTime(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexDateTime,
-      'TypeCheck: `inst` should be FlexDateTime'
+      TypeCheck.isFlexDateTime(inst),
+      'should be FlexDateTime'
     )
     return inst
   }
+
   /**
    * @param {?FlexDateTime} inst
    * @throws {TypeError}
    * @return {FlexDateTime}
    */
   static assertIsFlexDateTimeOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexDateTime,
-      'TypeCheck: `inst` should be FlexDateTime'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexDateTime(inst)
   }
 
   /**
@@ -155,25 +127,19 @@ export class TypeCheck {
    */
   static assertIsFlexTime(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexTime,
-      'TypeCheck: `inst` should be FlexTime'
+      TypeCheck.isFlexTime(inst),
+      'should be FlexTime'
     )
     return inst
   }
+
   /**
    * @param {?FlexTime} inst
    * @throws {TypeError}
    * @return {FlexTime}
    */
   static assertIsFlexTimeOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexTime,
-      'TypeCheck: `inst` should be FlexTime'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexTime(inst)
   }
 
   /**
@@ -191,25 +157,19 @@ export class TypeCheck {
    */
   static assertIsFlexZonedDateTime(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime,
-      'TypeCheck: `inst` should be FlexZonedDateTime'
+      TypeCheck.isFlexZonedDateTime(inst),
+      'should be FlexZonedDateTime'
     )
     return inst
   }
+
   /**
    * @param {FlexZonedDateTime} inst
    * @throws {TypeError}
    * @return {FlexZonedDateTime}
    */
   static assertIsFlexZonedDateTimeOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime,
-      'TypeCheck: `inst` should be FlexZonedDateTime'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexZonedDateTime(inst)
   }
 
   /**
@@ -227,25 +187,19 @@ export class TypeCheck {
    */
   static assertIsFlexEnum(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexEnum,
-      'TypeCheck: `inst` should be FlexEnum'
+      TypeCheck.isFlexEnum(inst),
+      'should be FlexEnum'
     )
     return inst
   }
+
   /**
    * @param {?FlexEnum} inst
    * @throws {TypeError}
    * @return {FlexEnum}
    */
   static assertIsFlexEnumOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexEnum,
-      'TypeCheck: `inst` should be FlexEnum'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexEnum(inst)
   }
 
   /**
@@ -263,25 +217,19 @@ export class TypeCheck {
    */
   static assertIsFlexMap(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexMap,
-      'TypeCheck: `inst` should be FlexMap'
+      TypeCheck.isFlexMap(inst),
+      'should be FlexMap'
     )
     return inst
   }
+
   /**
    * @param {?FlexMap} inst
    * @throws {TypeError}
    * @return {FlexMap}
    */
   static assertIsFlexMapOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.FlexMap,
-      'TypeCheck: `inst` should be FlexMap'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFlexMap(inst)
   }
 
   /**
@@ -299,25 +247,19 @@ export class TypeCheck {
    */
   static assertIsStringArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.StringArray,
-      'TypeCheck: `inst` should be StringArray'
+      TypeCheck.isStringArray(inst),
+      'should be StringArray'
     )
     return inst
   }
+
   /**
    * @param {?StringArray} inst
    * @throws {TypeError}
    * @return {StringArray}
    */
   static assertIsStringArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.StringArray,
-      'TypeCheck: `inst` should be StringArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsStringArray(inst)
   }
 
   /**
@@ -335,25 +277,19 @@ export class TypeCheck {
    */
   static assertIsBooleanArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.BooleanArray,
-      'TypeCheck: `inst` should be BooleanArray'
+      TypeCheck.isBooleanArray(inst),
+      'should be BooleanArray'
     )
     return inst
   }
+
   /**
    * @param {?BooleanArray} inst
    * @throws {TypeError}
    * @return {BooleanArray}
    */
   static assertIsBooleanArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.BooleanArray,
-      'TypeCheck: `inst` should be BooleanArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsBooleanArray(inst)
   }
 
   /**
@@ -371,25 +307,19 @@ export class TypeCheck {
    */
   static assertIsDateArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DateArray,
-      'TypeCheck: `inst` should be DateArray'
+      TypeCheck.isDateArray(inst),
+      'should be DateArray'
     )
     return inst
   }
+
   /**
    * @param {?DateArray} inst
    * @throws {TypeError}
    * @return {DateArray}
    */
   static assertIsDateArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DateArray,
-      'TypeCheck: `inst` should be DateArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsDateArray(inst)
   }
 
   /**
@@ -407,8 +337,8 @@ export class TypeCheck {
    */
   static assertIsDateTimeArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DateTimeArray,
-      'TypeCheck: `inst` should be DateArray'
+      TypeCheck.isDateTimeArray(inst),
+      'should be DateArray'
     )
     return inst
   }
@@ -419,14 +349,7 @@ export class TypeCheck {
    * @return {DateTimeArray}
    */
   static assertIsDateTimeArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DateTimeArray,
-      'TypeCheck: `inst` should be DateArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsDateTimeArray(inst)
   }
 
   /**
@@ -444,8 +367,8 @@ export class TypeCheck {
    */
   static assertIsDoubleArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DoubleArray,
-      'TypeCheck: `inst` should be DoubleArray'
+      TypeCheck.isDoubleArray(inst),
+      'should be DoubleArray'
     )
     return inst
   }
@@ -456,14 +379,7 @@ export class TypeCheck {
    * @return {DoubleArray}
    */
   static assertIsDoubleArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.DoubleArray,
-      'TypeCheck: `inst` should be DoubleArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsDoubleArray(inst)
   }
 
   /**
@@ -481,25 +397,19 @@ export class TypeCheck {
    */
   static assertIsTzDateTimeArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.TzDateTimeArray,
-      'TypeCheck: `inst` should be TzDateTimeArray'
+      TypeCheck.isTzDateTimeArray(inst),
+      'should be TzDateTimeArray'
     )
     return inst
   }
+
   /**
    * @param {?TzDateTimeArray} inst
    * @throws {TypeError}
    * @return {TzDateTimeArray}
    */
   static assertIsTzDateTimeArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.TzDateTimeArray,
-      'TypeCheck: `inst` should be TzDateTimeArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsTzDateTimeArray(inst)
   }
 
   /**
@@ -517,25 +427,19 @@ export class TypeCheck {
    */
   static assertIsTimeArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.TimeArray,
-      'TypeCheck: `inst` should be TimeArray'
+      TypeCheck.isTimeArray(inst),
+      'should be TimeArray'
     )
     return inst
   }
+
   /**
    * @param {?TimeArray} inst
    * @throws {TypeError}
    * @return {TimeArray}
    */
   static assertIsTimeArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.TimeArray,
-      'TypeCheck: `inst` should be TimeArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsTimeArray(inst)
   }
 
   /**
@@ -553,25 +457,19 @@ export class TypeCheck {
    */
   static assertIsIntegerArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray,
-      'TypeCheck: `inst` should be IntegerArray'
+      TypeCheck.isIntegerArray(inst),
+      'should be IntegerArray'
     )
     return inst
   }
+
   /**
    * @param {IntegerArray} inst
    * @throws {TypeError}
    * @return {IntegerArray}
    */
   static assertIsIntegerArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray,
-      'TypeCheck: `inst` should be IntegerArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsIntegerArray(inst)
   }
 
   /**
@@ -589,25 +487,19 @@ export class TypeCheck {
    */
   static assertIsObjectArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.ObjectArray,
-      'TypeCheck: `inst` should be ObjectArray'
+      TypeCheck.isObjectArray(inst),
+      'should be ObjectArray'
     )
     return inst
   }
+
   /**
    * @param {?ObjectArray} inst
    * @throws {TypeError}
    * @return {ObjectArray}
    */
   static assertIsObjectArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.ObjectArray,
-      'TypeCheck: `inst` should be ObjectArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsObjectArray(inst)
   }
 
   /**
@@ -625,8 +517,8 @@ export class TypeCheck {
    */
   static assertIsFloatArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.FloatArray,
-      'TypeCheck: `inst` should be FloatArray'
+      TypeCheck.isFloatArray(inst),
+      'should be FloatArray'
     )
     return inst
   }
@@ -637,14 +529,7 @@ export class TypeCheck {
    * @return {FloatArray}
    */
   static assertIsFloatArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.FloatArray,
-      'TypeCheck: `inst` should be FloatArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsFloatArray(inst)
   }
 
   /**
@@ -663,25 +548,19 @@ export class TypeCheck {
    */
   static assertIsLongArray(inst) {
     assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.LongArray,
-      'TypeCheck: `inst` should be LongArray'
+      TypeCheck.isLongArray(inst),
+      'should be LongArray'
     )
     return inst
   }
+
   /**
    * @param {?LongArray} inst
    * @throws {TypeError}
    * @return {LongArray}
    */
   static assertIsLongArrayOrNull(inst) {
-    if (isNull(inst)) {
-      return inst
-    }
-    assertType(
-      inst instanceof globalFlexioImport.io.flexio.flex_types.arrays.LongArray,
-      'TypeCheck: `inst` should be LongArray'
-    )
-    return inst
+    return (isNull(inst)) ? inst : TypeCheck.assertIsLongArray(inst)
   }
 
   /**
