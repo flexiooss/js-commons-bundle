@@ -1,4 +1,4 @@
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {sortMap} from '../js/MapHelpers';
 
 const assert = require('assert')

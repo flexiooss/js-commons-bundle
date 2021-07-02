@@ -1,6 +1,6 @@
 /* global runTest */
 import {StringArray, StringArrayBuilder} from '../js/FlexArray/StringArray'
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 
 const assert = require('assert')
 

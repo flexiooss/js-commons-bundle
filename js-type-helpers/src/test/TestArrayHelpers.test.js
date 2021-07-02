@@ -1,4 +1,4 @@
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {cloneArray, shuffle} from '../js/arrayHelpers'
 
 const assert = require('assert')

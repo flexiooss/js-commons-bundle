@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {URLExtendedBuilder, URLExtended} from '../js/URLExtended'
 
 const assert = require('assert')

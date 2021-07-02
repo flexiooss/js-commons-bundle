@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {FlexMap} from '../js/FlexMap'
 import {deepFreezeSeal} from '../js/__import__js-generator-helpers'
 
