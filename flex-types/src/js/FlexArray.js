@@ -15,7 +15,6 @@ export class FlexArray extends Array {
   #frozen = false
 
   /**
-   *
    * @param {...<TYPE>} args
    */
   constructor(...args) {
