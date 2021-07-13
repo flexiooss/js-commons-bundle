@@ -16,17 +16,21 @@ export class TestRequestDispatcherTest extends TestCase {
     this.#cache = new CacheRequestDispatcher()
   }
 
-  async #request(request_id) {
-    return this.#cache.get(request_id, () => {
-      this.#cptRequest++
-    })
+  async #request(request_id, value = null) {
+    return this.#cache.get(
+      request_id,
+      new Promise((resolve) => {
+        this.#cptRequest++
+        resolve(value)
+      })
+    )
   }
 
   async asyncTestSyncRequest() {
     return new Promise((resolve) => {
       this.#request('request_id')
         .then(_ => {
-          assert.strictEqual(this.#cptRequest, 5)
+          assert.strictEqual(this.#cptRequest, 1)
           this.#request('request_id')
             .then(_ => {
               assert.strictEqual(this.#cptRequest, 1)
