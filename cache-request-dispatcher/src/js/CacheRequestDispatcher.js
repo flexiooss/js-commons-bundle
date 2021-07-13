@@ -30,7 +30,7 @@ export class CacheRequestDispatcher {
 
   /**
    * @param {string} requestID
-   * @param {Promise<*>} requestClb
+   * @param {function:Promise<*>} requestClb
    */
   get(requestID, requestClb) {
     return new Promise(resolver => {
@@ -45,7 +45,7 @@ export class CacheRequestDispatcher {
       })
       if (!this.#requests.has(requestID)) {
         this.#requests.set(requestID, true)
-        requestClb.then((response => {
+        requestClb.call(null).then((response => {
           this.postResponse(requestID, response)
         }))
       }
