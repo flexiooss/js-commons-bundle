@@ -22,57 +22,64 @@ export class TestRequestDispatcherTest extends TestCase {
     })
   }
 
-  testSyncRequest() {
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 1)
-        this.#request('request_id')
-          .then(_ => {
-            assert.strictEqual(this.__cptRequeteSchema, 1)
-            this.#request('request_id')
-              .then(_ => {
-                assert.strictEqual(this.__cptRequeteSchema, 1)
-              })
-          })
-      })
+  async asyncTestSyncRequest() {
+    return new Promise((resolve) => {
+      this.#request('request_id')
+        .then(_ => {
+          assert.strictEqual(this.#cptRequest, 5)
+          this.#request('request_id')
+            .then(_ => {
+              assert.strictEqual(this.#cptRequest, 1)
+              this.#request('request_id')
+                .then(_ => {
+                  assert.strictEqual(this.#cptRequest, 1)
+                  resolve()
+                })
+            })
+        })
+    })
   }
 
-  testAsyncRequest() {
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 1)
+  async asyncTestAsyncRequest() {
+    return new Promise((resolve) => {
+      const promise1 = this.#request('request_id')
+      const promise2 = this.#request('request_id')
+      const promise3 = this.#request('request_id')
+
+      Promise.all([promise1, promise2, promise3]).then((values) => {
+        assert.strictEqual(this.#cptRequest, 1)
+        resolve()
       })
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 1)
-      })
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 1)
-      })
+    })
   }
 
-  testMultipleAsyncRequest() {
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 1)
+  async asyncTestMultipleAsyncRequest() {
+    return new Promise((resolve) => {
+      const promise1 = this.#request('request_id')
+      const promise2 = this.#request('request_id_2')
+      const promise3 = this.#request('request_id')
+      const promise4 = this.#request('request_id_2')
+      const promise5 = this.#request('request_id_3')
+      promise1.then(_ => {
+        assert.strictEqual(this.#cptRequest, 1)
       })
-    this.#request('request_id_2')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 2)
+      promise2.then(_ => {
+        assert.strictEqual(this.#cptRequest, 2)
       })
-    this.#request('request_id')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 2)
+      promise3.then(_ => {
+        assert.strictEqual(this.#cptRequest, 2)
       })
-    this.#request('request_id_2')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 2)
+      promise4.then(_ => {
+        assert.strictEqual(this.#cptRequest, 2)
       })
-    this.#request('request_id_3')
-      .then(_ => {
-        assert.strictEqual(this.__cptRequeteSchema, 3)
+      promise5.then(_ => {
+        assert.strictEqual(this.#cptRequest, 3)
       })
+
+      Promise.all([promise1, promise2, promise3, promise4, promise5]).then(() => {
+        resolve()
+      })
+    })
   }
 }
 
