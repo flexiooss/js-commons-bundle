@@ -10,16 +10,17 @@
   "hotballoon-shed": {
     "modules": [
       "assert",
+      "cache-request-dispatcher",
+      "cookie-storage",
+      "event-handler",
+      "extended-flex-types",
       "flex-types",
       "global-import-registry",
       "js-generator-helpers",
-      "event-handler",
-      "extended-flex-types",
-      "js-type-helpers",
       "js-helpers",
       "js-logger",
-      "js-validator-helper",
-      "cookie-storage"
+      "js-type-helpers",
+      "js-validator-helper"
     ]
   },
   "peerDependencies": {

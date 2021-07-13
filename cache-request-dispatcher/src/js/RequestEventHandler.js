@@ -1,5 +1,5 @@
-import {assertType, isFunction, isString, isSymbol} from '../../../../assert'
-import {OrderedEventListenerConfigBuilder} from '../../../../event-handler'
+import {assertType, isFunction, isString, isSymbol} from '../../../assert'
+import {OrderedEventListenerConfigBuilder} from '../../../event-handler'
 
 export class RequestEventHandler {
   /**

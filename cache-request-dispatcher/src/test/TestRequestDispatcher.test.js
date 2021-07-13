@@ -1,5 +1,5 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {CacheRequestDispatcher} from '../js/cache-request-dispatcher/CacheRequestDispatcher'
+import {CacheRequestDispatcher} from '../js/CacheRequestDispatcher'
 
 const assert = require('assert')
 

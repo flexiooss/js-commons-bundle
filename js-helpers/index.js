@@ -1,7 +1,6 @@
 export * from './src/js/Sequence'
 export * from './src/js/uid'
 export {HttpRequester} from './src/js/http/HttpRequester'
-export {CacheRequestDispatcher} from './src/js/cache-request-dispatcher/CacheRequestDispatcher'
 export {ResponseDelegate} from './src/js/http/ResponseDelegate'
 export {RandomString} from './src/js/RandomString'
 export {Checksum} from './src/js/Checksum'
