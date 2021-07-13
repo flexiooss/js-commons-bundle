@@ -55,7 +55,6 @@ export class CacheRequestDispatcher {
   #postResponse(id, response) {
     this.#responses.set(id, response)
     this.#dispatchRequested(id)
-    return this.#responses.get(id).clone()
   }
 
   #dispatchRequested(id) {
