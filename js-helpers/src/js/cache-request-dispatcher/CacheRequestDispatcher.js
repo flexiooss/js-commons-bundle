@@ -8,7 +8,7 @@ export class CacheRequestDispatcher {
   #orderedEventHandler
   /**
    *
-   * @type {Map<String, Response>}
+   * @type {Map<String, *>}
    */
   #responses = new Map()
   /**
@@ -30,27 +30,29 @@ export class CacheRequestDispatcher {
 
   /**
    * @param {string} requestID
-   * @param {function(Response)} requestClb
+   * @param {Promise<*>} requestClb
    */
   get(requestID, requestClb) {
     return new Promise(resolver => {
       if (this.#responses.has(requestID)) {
-        const response = this.#responses.get(requestID).clone()
+        const response = this.#responses.get(requestID)
         resolver(response)
         return
       }
       const listener = this.on().requested(requestID, () => {
-        resolver(this.#responses.get(requestID).clone())
+        resolver(this.#responses.get(requestID))
         this.#orderedEventHandler.removeEventListener(listener)
       })
       if (!this.#requests.has(requestID)) {
         this.#requests.set(requestID, true)
-        requestClb.call(null)
+        requestClb.then((response => {
+          this.#postResponse(requestID, response)
+        }))
       }
     })
   }
 
-  postResponse(id, response) {
+  #postResponse(id, response) {
     this.#responses.set(id, response)
     this.#dispatchRequested(id)
     return this.#responses.get(id).clone()
