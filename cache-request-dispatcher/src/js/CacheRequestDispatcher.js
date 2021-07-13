@@ -46,15 +46,16 @@ export class CacheRequestDispatcher {
       if (!this.#requests.has(requestID)) {
         this.#requests.set(requestID, true)
         requestClb.then((response => {
-          this.#postResponse(requestID, response)
+          this.postResponse(requestID, response)
         }))
       }
     })
   }
 
-  #postResponse(id, response) {
+  postResponse(id, response) {
     this.#responses.set(id, response)
     this.#dispatchRequested(id)
+    return this.#responses.get(id)
   }
 
   #dispatchRequested(id) {
