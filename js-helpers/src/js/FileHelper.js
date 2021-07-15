@@ -7,16 +7,14 @@ export class FileHelper {
   static isValidFile(file, accept) {
     let mimeType = file.type
     let fileName = file.name
-    let baseMimeType = mimeType.replace(/\/.*$/, "")
+    let baseMimeType = mimeType.replace(/\/.*$/, '')
 
     for (let validType of accept) {
       validType = validType.trim()
-      if (validType.charAt(0) === ".") {
-        if (fileName.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
-          return true
-        }
+      if (fileName.toLowerCase().indexOf(validType.toLowerCase(), file.name.length - validType.length) !== -1) {
+        return true
       } else if (/\/\*$/.test(validType)) {
-        if (baseMimeType === validType.replace(/\/.*$/, "") || validType === '*/*') {
+        if (baseMimeType === validType.replace(/\/.*$/, '') || validType === '*/*') {
           return true
         }
       } else {
@@ -35,17 +33,22 @@ export class FileHelper {
   static sizeToString(size) {
     let sizeNumber = Math.abs(parseInt(size, 10))
     if (!sizeNumber) {
-      return '0 octect'
+      return '0 ko'
     }
-    const computerUnits = ['octets', 'ko', 'Mo', 'Go', 'To']
-    for (let unit in computerUnits) {
-      if (sizeNumber < 1024) {
+    sizeNumber = sizeNumber / 1024
+    const computerUnits = ['ko', 'Mo', 'Go', 'To']
+    for (let unit of computerUnits) {
+      if (sizeNumber > 1024) {
         sizeNumber = sizeNumber / 1024
       } else {
-        return `${sizeNumber} ${unit}`
+        return this.#formatSize(sizeNumber, unit)
       }
     }
 
-    return `${sizeNumber} ${computerUnits[computerUnits.length - 1]}`
+    return this.#formatSize(sizeNumber, 'To')
+  }
+
+  static #formatSize(sizeNumber, unit) {
+    return `${sizeNumber.toFixed(1).toString()} ${unit}`
   }
 }
