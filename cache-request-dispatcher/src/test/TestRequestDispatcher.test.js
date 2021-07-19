@@ -19,24 +19,30 @@ export class TestRequestDispatcherTest extends TestCase {
   async #request(request_id, value = null) {
     return this.#cache.get(
       request_id,
-      new Promise((resolve) => {
+      async () => {
         this.#cptRequest++
-        resolve(value)
-      })
+        return value
+      }
     )
   }
 
   async asyncTestSyncRequest() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.#request('request_id')
         .then(_ => {
-          assert.strictEqual(this.#cptRequest, 1)
+          if (this.#cptRequest !== 1) {
+            reject()
+          }
           this.#request('request_id')
             .then(_ => {
-              assert.strictEqual(this.#cptRequest, 1)
+              if (this.#cptRequest !== 1) {
+                reject()
+              }
               this.#request('request_id')
                 .then(_ => {
-                  assert.strictEqual(this.#cptRequest, 1)
+                  if (this.#cptRequest !== 1) {
+                    reject()
+                  }
                   resolve()
                 })
             })
@@ -45,44 +51,44 @@ export class TestRequestDispatcherTest extends TestCase {
   }
 
   async asyncTestAsyncRequest() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const promise1 = this.#request('request_id')
       const promise2 = this.#request('request_id')
       const promise3 = this.#request('request_id')
 
       Promise.all([promise1, promise2, promise3]).then((values) => {
-        assert.strictEqual(this.#cptRequest, 1)
+        if (this.#cptRequest !== 1) {
+          reject()
+        }
         resolve()
       })
     })
   }
 
   async asyncTestMultipleAsyncRequest() {
-    return new Promise((resolve) => {
-      const promise1 = this.#request('request_id')
-      const promise2 = this.#request('request_id_2')
-      const promise3 = this.#request('request_id')
-      const promise4 = this.#request('request_id_2')
-      const promise5 = this.#request('request_id_3')
-      promise1.then(_ => {
-        assert.strictEqual(this.#cptRequest, 1)
-      })
-      promise2.then(_ => {
-        assert.strictEqual(this.#cptRequest, 2)
-      })
-      promise3.then(_ => {
-        assert.strictEqual(this.#cptRequest, 2)
-      })
-      promise4.then(_ => {
-        assert.strictEqual(this.#cptRequest, 2)
-      })
-      promise5.then(_ => {
-        assert.strictEqual(this.#cptRequest, 3)
-      })
+    return new Promise(async (resolve, reject) => {
+      const promise1 = await this.#request('request_id')
+      if (this.#cptRequest !== 1) {
+        reject()
+      }
+      const promise2 = await this.#request('request_id_2')
+      if (this.#cptRequest !== 2) {
+        reject()
+      }
+      const promise3 = await this.#request('request_id')
+      if (this.#cptRequest !== 2) {
+        reject()
+      }
+      const promise4 = await this.#request('request_id_2')
+      if (this.#cptRequest !== 2) {
+        reject()
+      }
+      const promise5 = await this.#request('request_id_3')
+      if (this.#cptRequest !== 3) {
+        reject()
+      }
 
-      Promise.all([promise1, promise2, promise3, promise4, promise5]).then(() => {
-        resolve()
-      })
+      resolve()
     })
   }
 }
