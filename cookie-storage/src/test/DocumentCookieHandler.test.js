@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {DocumentCookieHandler} from '../js/cookie/DocumentCookieHandler'
 import {CookieStorageConfig} from '../js/CookieStorageConfig'
 import {CookieConfig} from '../js/cookie/CookieConfig'

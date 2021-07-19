@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {StringArray} from '../js/__import__flex-types'
 import {StringArrayMapBuilder, StringArrayMap} from '../js/FlexMap/StringArrayMap'
 

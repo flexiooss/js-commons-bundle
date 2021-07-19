@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {GeolocValidator, LATITUDE_PROPERTY, LONGITUDE_PROPERTY} from '../js/Validator/GeolocValidator'
 import {ObjectValue} from '../js/__import__flex-types'
 

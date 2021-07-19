@@ -1,6 +1,6 @@
 /* global runTest */
 import {EventHandlerBase} from '../js/EventHandlerBase'
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder'
 
 

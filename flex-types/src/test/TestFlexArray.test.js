@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {FlexArray} from '../../src/js/FlexArray'
 import {assertType, isBoolean, isNull, isNumber} from '../js/__import__assert'
 

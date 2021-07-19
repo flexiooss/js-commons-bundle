@@ -1,4 +1,4 @@
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {camelCase, firstUppercase, matchAll2Array, padLeft} from '../js/stringHelpers'
 
 const assert = require('assert')

@@ -1,6 +1,6 @@
 /* global runTest */
 import {OrderedEventHandler} from '../js/OrderedEventHandler'
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {OrderedEventListenerConfigBuilder} from '../js/OrderedEventListenerConfigBuilder'
 
 

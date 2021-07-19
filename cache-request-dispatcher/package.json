@@ -1,9 +1,6 @@
 {
-  "name": "cookie-storage",
-  "description": "JS Storage interface implementation with cookie",
+  "name": "cache-request-dispatcher",
   "main": "index.js",
-  "author": "Thomas Chatelain (https://github.com/TomAchT)",
-  "license": "Apache-2.0",
   "hotballoon-shed": {
     "module": {
       "parent": {

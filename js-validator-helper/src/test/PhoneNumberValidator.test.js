@@ -1,5 +1,5 @@
 /* global runTest */
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import '../js/__import__flex-types'
 import {PhoneNumberValidator} from '../js/Validator/PhoneNumberValidator'
 

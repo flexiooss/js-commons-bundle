@@ -1,6 +1,6 @@
 /* global runTest */
 import '../../package'
-import {TestCase} from 'code-altimeter-js'
+import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {ObjectValue, ObjectValueBuilder} from  '../../src/js/ObjectValue'
 import {IndexError} from '../js/IndexError'
 
