@@ -102,6 +102,10 @@ export class TestDateExtendedTest extends TestCase {
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2020-12-31T23:50:33.000Z')
   }
 
+  testDateTimeJson() {
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'json', 'fr', 'Europe/Paris'), '\\Date("1615811047000")')
+  }
+
 
 
   testDateYear() {

@@ -41,12 +41,20 @@ export class DateTimeFormatter {
       case 'dd/MM/yyyy HH:mm:ss':
         return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       case 'yyyy-MM-ddTHH:mm:ssZ':
-        console.log(date.toLocaleString())
         return date.toISOString()
       case 'json':
+        return this.#getJsonDate(date)
       default:
         throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
     }
+  }
+
+  /**
+   * @param date
+   * @return {string}
+   */
+  static #getJsonDate(date) {
+    return `\\Date("${date.getTime()}")`
   }
 }
 
