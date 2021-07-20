@@ -98,8 +98,8 @@ export class TestDateExtendedTest extends TestCase {
   }
 
   testDateTimeISO() {
-    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2021-03-15T12:24:07.000Z')
-    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2020-12-31T23:50:33.000Z')
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2021-03-15T12:24:07Z')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2020-12-31T23:50:33Z')
   }
 
   testDateTimeJson() {

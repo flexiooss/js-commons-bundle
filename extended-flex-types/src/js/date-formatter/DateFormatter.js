@@ -1,4 +1,5 @@
 import {DateExtended} from '../DateExtended'
+import {isNull} from '../../../../assert'
 
 export class DateTimeFormatter {
   /**
@@ -41,7 +42,7 @@ export class DateTimeFormatter {
       case 'dd/MM/yyyy HH:mm:ss':
         return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       case 'yyyy-MM-ddTHH:mm:ssZ':
-        return `${dateFormatter.year()}-${dateFormatter.month()}-${dateFormatter.day()}T${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}Z`
+        return `${dateFormatter.year('UTC')}-${dateFormatter.month('UTC')}-${dateFormatter.day('UTC')}T${dateFormatter.hour('UTC')}:${dateFormatter.minute('UTC')}:${dateFormatter.second('UTC')}Z`
       case 'json':
         return this.#getJsonDate(date)
       default:
@@ -140,60 +141,70 @@ class DateFormatHelper {
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  year() {
-    return this.#format({year: 'numeric'})
+  year(timeZone = null) {
+    return this.#format({year: 'numeric'}, timeZone || this.#timeZone)
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  shortYear() {
-    return this.#format({year: '2-digit'})
+  shortYear(timeZone = null) {
+    return this.#format({year: '2-digit'}, timeZone || this.#timeZone)
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  month() {
-    return this.#format({month: 'numeric'}).padStart(2, '0')
+  month(timeZone = null) {
+    return this.#format({month: 'numeric'}, timeZone || this.#timeZone).padStart(2, '0')
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  day() {
-    return this.#format({day: 'numeric'}).padStart(2, '0')
+  day(timeZone = null) {
+    return this.#format({day: 'numeric'}, timeZone || this.#timeZone).padStart(2, '0')
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  hour() {
-    return parseInt(this.#format({hour: 'numeric'})).toString().padStart(2, '0')
+  hour(timeZone = null) {
+    return parseInt(this.#format({hour: 'numeric'}, timeZone || this.#timeZone)).toString().padStart(2, '0')
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  minute() {
-    return this.#format({minute: 'numeric'}).padStart(2, '0')
+  minute(timeZone = null) {
+    return this.#format({minute: 'numeric'}, timeZone || this.#timeZone).padStart(2, '0')
   }
 
   /**
+   * @param {?string} timeZone
    * @return {string}
    */
-  second() {
-    return this.#format({second: 'numeric'}).padStart(2, '0')
+  second(timeZone = null) {
+    return this.#format({second: 'numeric'}, timeZone || this.#timeZone).padStart(2, '0')
   }
 
   /**
    * @param {Object} options
+   * @param {string} timeZone
    * @return {string}
    */
-  #format(options) {
-    options.timeZone = this.#timeZone
+  #format(options, timeZone) {
+    if (!isNull(timeZone)) {
+      options.timeZone = timeZone
+    }
     return new Intl.DateTimeFormat(this.#locale, options).format(this.#date)
   }
 }
