@@ -135,3 +135,4 @@ export {StringMap}
 export {StringMapBuilder}
 export {BuilderInterface} from './src/js/BuilderInterface'
 export {TypeCheck} from './src/js/TypeCheck'
+export {DateFormatter, DateTimeFormatter, TimeFormatter} from './src/js/date-formatter/DateFormatter'
