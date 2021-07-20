@@ -41,7 +41,7 @@ export class DateTimeFormatter {
       case 'dd/MM/yyyy HH:mm:ss':
         return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       case 'yyyy-MM-ddTHH:mm:ssZ':
-        return date.toISOString()
+        return `${dateFormatter.year()}-${dateFormatter.month()}-${dateFormatter.day()}T${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}Z`
       case 'json':
         return this.#getJsonDate(date)
       default:
