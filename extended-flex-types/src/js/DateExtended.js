@@ -175,6 +175,14 @@ export class DateExtended extends Date {
     return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate()
   }
 
+  getWeekNumber() {
+    let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+    let dayNum = date.getUTCDay() || 7
+    date.setUTCDate(date.getUTCDate() + 4 - dayNum)
+    let yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1))
+    return Math.ceil((((date - yearStart) / 86400000) + 1)/7)
+  }
+
   /**
    *
    * @returns {FlexZonedDateTime}
