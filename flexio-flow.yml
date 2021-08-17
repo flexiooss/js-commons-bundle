@@ -1,6 +1,4 @@
 level: stable
-schemes:
-- package
-topics:
-- 50
-version: 1.23.0
+schemes: [package]
+topics: [50]
+version: 1.24.0
