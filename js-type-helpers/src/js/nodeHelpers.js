@@ -26,3 +26,13 @@ export const removeChildNodes = (node, start, end) => {
     end--
   }
 }
+
+/**
+ * @param {HTMLElement} el
+ * @return {boolean}
+ */
+export const checkOverflow=(el)=>
+{
+  return  el.clientWidth < el.scrollWidth
+    || el.clientHeight < el.scrollHeight
+}
