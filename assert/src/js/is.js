@@ -165,7 +165,10 @@ export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) &
  * @return {boolean}
  * @export
  */
-export const isClass = a => typeof a === 'function' && /^class\s/.test(Function.prototype.toString.call(a))
+export const isClass = a => {
+  console.log(a)
+  return typeof a === 'function' && /^class\s/.test(Function.prototype.toString.call(a))
+}
 
 /**
  *
