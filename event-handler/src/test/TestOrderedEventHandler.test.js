@@ -151,7 +151,7 @@ export class TestOrderedEventHandler extends TestCase {
     assert.throws(() => {
         this.handler.dispatch(EVENT_1, 'a')
       },
-      '/^Error: MAX EXECUTION/',
+      /Error: MAX EXECUTION 10 FOR : EVENT_1/,
       'should throw max exec'
     )
 

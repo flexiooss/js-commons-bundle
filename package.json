@@ -1,11 +1,11 @@
 {
   "name": "@flexio-oss/js-commons-bundle",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "repository": "git@github.com:flexiooss/js-commons-bundle.git",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@flexio-oss/code-altimeter-js": "1.3.0"
+    "@flexio-oss/code-altimeter-js": "1.4.0"
   },
   "hotballoon-shed": {
     "modules": [
@@ -24,7 +24,7 @@
     ]
   },
   "peerDependencies": {
-    "@flexio-oss/code-altimeter-js": "1.2.0",
-    "@flexio-oss/js-commons-bundle": "1.22.0-dev"
+    "@flexio-oss/code-altimeter-js": "1.4.0",
+    "@flexio-oss/js-commons-bundle": "1.28.0-dev"
   }
 }
