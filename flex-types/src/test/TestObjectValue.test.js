@@ -1,7 +1,7 @@
 /* global runTest */
 import '../../package'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {ObjectValue, ObjectValueBuilder} from  '../../src/js/ObjectValue'
+import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue'
 import {IndexError} from '../js/IndexError'
 
 const assert = require('assert')
@@ -98,6 +98,7 @@ export class TestObjectValue extends TestCase {
       .numberValue('number', 12)
       .arrayValue('array', ['tutu', false, 12, ob, ['tutu', true, 12]])
       .objectValueValue('object', ob)
+      .objectValueValue('object2', builder => builder.stringValue('string', 'toto').build())
       .build()
 
     assert.ok(ob2.equals(ObjectValue.from(ob2).build()), 'ObjectValue.from')
@@ -106,7 +107,7 @@ export class TestObjectValue extends TestCase {
 
     assert.ok(ob2.equals(ObjectValue.fromJson(JSON.stringify(ob2.toJSON())).build()), 'ObjectValue.fromJson')
 
-    assert.ok(JSON.stringify(ob2.toJSON()) === '{"string":"toto","bool":true,"number":12,"array":["tutu",false,12,{"string":"toto","bool":true,"number":12,"array":["tutu",true,12]},["tutu",true,12]],"object":{"string":"toto","bool":true,"number":12,"array":["tutu",true,12]}}', 'toJSON')
+    assert.ok(JSON.stringify(ob2.toJSON()) === '{"string":"toto","bool":true,"number":12,"array":["tutu",false,12,{"string":"toto","bool":true,"number":12,"array":["tutu",true,12]},["tutu",true,12]],"object":{"string":"toto","bool":true,"number":12,"array":["tutu",true,12]},"object2":{"string":"toto"}}', 'toJSON')
 
   }
 
@@ -262,6 +263,25 @@ export class TestObjectValue extends TestCase {
 
   }
 
+  testEqualsNullityAndUndefined() {
+    /**
+     * @type {ObjectValue}
+     */
+    const obj1 = ObjectValue.fromObject({
+      a: null,
+      b: 'toto'
+    }).build()
+    /**
+     * @type {ObjectValue}
+     */
+    const obj2 = ObjectValue.fromObject({
+      b: 'toto'
+    }).build()
+
+    assert.ok(obj1.equals(obj2), 'NULL and UNDEFINED should be equals')
+    assert.ok(!obj1.strictEquals(obj2), 'NULL and UNDEFINED should not be strict equals')
+  }
+
   testWith() {
     /**
      * @type {ObjectValue}
@@ -368,7 +388,7 @@ export class TestObjectValue extends TestCase {
   }
 
 
-  testMerge(){
+  testMerge() {
     const a = ObjectValue
       .builder()
       .stringValue('string', 'toto')
@@ -381,11 +401,11 @@ export class TestObjectValue extends TestCase {
       .builder()
       .stringValue('string', 'tutu')
       .stringValue('other-string', 'tutu')
-      .arrayValue('array', ['titi', false, 14,15])
+      .arrayValue('array', ['titi', false, 14, 15])
       .build()
 
     const c = a.mergeWith(b)
-    assert.ok(c.stringValue('string'),'tutu', 'assert `string` overrided' )
+    assert.ok(c.stringValue('string'), 'tutu', 'assert `string` overrided')
 
     assert.deepStrictEqual(
       c.toObject(),
@@ -393,7 +413,7 @@ export class TestObjectValue extends TestCase {
         string: 'tutu',
         bool: true,
         number: 12,
-        array: [ 'titi', false, 14, 15 ],
+        array: ['titi', false, 14, 15],
         'other-string': 'tutu'
       }, 'should be merged'
     )

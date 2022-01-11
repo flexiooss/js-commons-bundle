@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck
+  assertInstanceOf, TypeCheck, isFunction
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
@@ -86,10 +86,6 @@ const objectValueValueEquals = (to, compare) => {
 
   if (compare == to) {
     return true
-  }
-
-  if (compare.size() !== to.size()) {
-    return false
   }
 
   for (const key of compare.propertyNames()) {
@@ -431,7 +427,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {ObjectValue} to
    * @return {boolean}
    */
@@ -440,7 +435,15 @@ export class ObjectValue {
   }
 
   /**
-   *
+   * @param {ObjectValue} to
+   * @return {boolean}
+   */
+  strictEquals(to) {
+    if (!isNull(to)) return this.size() === to.size()
+    return objectValueValueEquals(this, to)
+  }
+
+  /**
    * @return {Object}
    */
   toJSON() {
@@ -448,7 +451,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @return {Object}
    */
   toObject() {
@@ -468,7 +470,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @return {{key:string, value:ObjectValueValue}[]}
    */
   toArray() {
@@ -483,7 +484,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?string} value
    * @return {ObjectValue}
@@ -531,9 +531,8 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
-   * @param {?ObjectValue} value
+   * @param {?ObjectValue | function(builder:ObjectValueBuilder):ObjectValue} value
    * @return {ObjectValue}
    */
   withObjectValueValue(key, value) {
@@ -679,10 +678,13 @@ export class ObjectValueBuilder {
 
   /**
    * @param {string} key
-   * @param {?ObjectValue} value
+   * @param {?ObjectValue | function(builder:ObjectValueBuilder):ObjectValue} value
    * @return {ObjectValueBuilder}
    */
   objectValueValue(key, value) {
+    if (isFunction(value)) {
+      value = value.call(null, new ObjectValueBuilder())
+    }
     assertType(
       isString(key) && (isNull(value) || value instanceof ObjectValue),
       this.constructor.name + ': `key` should be string, `value` should be null or ObjectValue'
