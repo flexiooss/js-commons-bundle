@@ -548,6 +548,16 @@ export class ObjectValue {
   }
 
   /**
+   * @param {string} key
+   * @param {function(builder:ObjectValueBuilder):ObjectValue} clb
+   * @return {ObjectValue}
+   */
+  withChangedObjectValueValue(key, clb) {
+    const value = TypeCheck.assertIsFunction(clb).call(null, ObjectValueBuilder.from(this.objectValueValueOr(key, new ObjectValueBuilder().build())))
+    return this.withObjectValueValue(key, value)
+  }
+
+  /**
    *
    * @param {string} key
    * @param {ObjectValueValue} value
