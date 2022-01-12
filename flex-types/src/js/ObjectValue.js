@@ -532,10 +532,13 @@ export class ObjectValue {
 
   /**
    * @param {string} key
-   * @param {?ObjectValue | function(builder:ObjectValueBuilder):ObjectValue} value
+   * @param {?ObjectValue | function(objectValue:ObjectValue):ObjectValue} value
    * @return {ObjectValue}
    */
   withObjectValueValue(key, value) {
+    if (isFunction(value)) {
+      value = value.call(null, this.objectValueValueOr(key, new ObjectValueBuilder().build()))
+    }
     const builder = ObjectValueBuilder.from(this)
     builder.objectValueValue(key, value)
     return builder.build()
@@ -561,6 +564,13 @@ export class ObjectValue {
     const builder = ObjectValueBuilder.from(this)
     builder.merge(instance)
     return builder.build()
+  }
+
+  /**
+   * @return {ObjectValueBuilder}
+   */
+  toBuilder() {
+    return ObjectValueBuilder.from(this)
   }
 
   /**
