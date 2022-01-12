@@ -521,10 +521,13 @@ export class ObjectValue {
   /**
    *
    * @param {string} key
-   * @param {?Array} value
+   * @param {?Array | function(list:ObjectValueValueArray):ObjectValueValueArray} value
    * @return {ObjectValue}
    */
   withArrayValue(key, value) {
+    if (isFunction(value)) {
+      value = value.call(null, this.arrayValueOr(key, new ObjectValueValueArray()))
+    }
     const builder = ObjectValueBuilder.from(this)
     builder.arrayValue(key, value)
     return builder.build()
@@ -669,10 +672,13 @@ export class ObjectValueBuilder {
 
   /**
    * @param {string} key
-   * @param {?(Array|ObjectValueValueArray)} value
+   * @param {?(Array|ObjectValueValueArray)|function(list:ObjectValueValueArray):ObjectValueValueArray} value
    * @return {ObjectValueBuilder}
    */
   arrayValue(key, value) {
+    if (isFunction(value)) {
+      value = value.call(null, new ObjectValueValueArray())
+    }
     assertType(
       isString(key) && (isNull(value) || isArray(value)),
       this.constructor.name + ': `key` should be string, `value` should be null or Array(strict)'
