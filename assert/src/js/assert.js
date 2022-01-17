@@ -62,7 +62,7 @@ export const assertType = (assertion, message, ...messageArgs) => {
  */
 export const assertInstanceOf = (instance, constructor, stringName = null) => {
   assertType(
-    instance instanceof constructor, 'should be ' + isNull(stringName)? constructor.constructor.name : stringName
+    instance instanceof constructor, 'should be ' + (isNull(stringName) ? constructor.constructor.name : stringName) + ' given:' + JSON.stringify(instance) + (!(isNull(instance) || isUndefined(instance)) && 'constructor' in instance ? '[' + instance.constructor + ']' : '')
   )
   return instance
 }
