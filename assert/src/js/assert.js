@@ -1,4 +1,4 @@
-import {isNull} from './is'
+import {isFunction, isNull, isUndefined} from './is'
 
 class AssertionError extends Error {
   constructor(...params) {
@@ -33,7 +33,7 @@ export const assert = (assertion, message, ...messageArgs) => {
 }
 /**
  * @param {(boolean|Function)} assertion
- * @param {string} message %s will be replaced by messageArgs
+ * @param {string|function():string} message %s will be replaced by messageArgs
  * @param {...string} messageArgs
  * @function
  * @throws TypeError
@@ -44,11 +44,15 @@ export const assertType = (assertion, message, ...messageArgs) => {
   }
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
     let ArgIndex = 0
-    throw new TypeError(
-      message.replace(/%s/g, () =>
-        messageArgs[ArgIndex++]
+
+    if (isFunction(message)) {
+      new TypeError(message.call(null))
+    } else {
+      throw new TypeError(message.replace(/%s/g, () =>
+          messageArgs[ArgIndex++]
+        )
       )
-    )
+    }
   }
 }
 
@@ -62,7 +66,37 @@ export const assertType = (assertion, message, ...messageArgs) => {
  */
 export const assertInstanceOf = (instance, constructor, stringName = null) => {
   assertType(
-    instance instanceof constructor, 'should be ' + (isNull(stringName) ? constructor.constructor.name : stringName) + ' given:' + JSON.stringify(instance) + (!(isNull(instance) || isUndefined(instance)) && 'constructor' in instance ? '[' + instance.constructor + ']' : '')
+    instance instanceof constructor,
+    () => `should be ${(isNull(stringName) ? constructor.name : stringName)} given: ${typeFormater(instance)}`
   )
   return instance
+}
+/**
+ * @param {*} v
+ * @return {string}
+ */
+const typeFormater = (v) => {
+  if (isUndefined(v)) {
+    return 'undefined'
+  }
+  if (isNull(v)) {
+    return 'null'
+  }
+  if ('constructor' in v) {
+    let value = ''
+    try {
+      value = JSON.stringify(v)
+    } catch (e) {
+      value = 'value not serializable'
+    }
+    let constructor = ''
+    try {
+      if ('constructor' in v) {
+        constructor = v.constructor
+      }
+    } catch (e) {
+      constructor = 'no constructor found'
+    }
+    return `[${constructor}]${value}`
+  }
 }
