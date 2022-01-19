@@ -46,7 +46,7 @@ export const assertType = (assertion, message, ...messageArgs) => {
     let ArgIndex = 0
 
     if (isFunction(message)) {
-      new TypeError(message.call(null))
+      throw new TypeError(message.call(null))
     } else {
       throw new TypeError(message.replace(/%s/g, () =>
           messageArgs[ArgIndex++]
@@ -92,7 +92,7 @@ const typeFormater = (v) => {
     let constructor = ''
     try {
       if ('constructor' in v) {
-        constructor = v.constructor
+        constructor = v.constructor.name
       }
     } catch (e) {
       constructor = 'no constructor found'
