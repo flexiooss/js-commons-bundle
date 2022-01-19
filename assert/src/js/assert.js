@@ -67,7 +67,7 @@ export const assertType = (assertion, message, ...messageArgs) => {
 export const assertInstanceOf = (instance, constructor, stringName = null) => {
   assertType(
     instance instanceof constructor,
-    () => `should be ${(isNull(stringName) ? constructor.name : stringName)} given: ${typeFormater(instance)}`
+    () => `should be ${(isNull(stringName) ? constructor.name : stringName)} given: ${formatType(instance)}`
   )
   return instance
 }
@@ -75,7 +75,7 @@ export const assertInstanceOf = (instance, constructor, stringName = null) => {
  * @param {*} v
  * @return {string}
  */
-const typeFormater = (v) => {
+export const formatType = (v) => {
   if (isUndefined(v)) {
     return 'undefined'
   }
