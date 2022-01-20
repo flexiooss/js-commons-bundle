@@ -89,7 +89,6 @@ export const formatType = (v) => {
     value = v
   } else {
 
-    if ('constructor' in v) {
       try {
         value = JSON.stringify(v)
       } catch (e) {
@@ -102,7 +101,6 @@ export const formatType = (v) => {
       } catch (e) {
         constructor = 'no constructor found'
       }
-    }
   }
   return `[${constructor}]${value}`
 }
