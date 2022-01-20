@@ -55,7 +55,7 @@ export class DateTimeFormatter {
    * @return {string}
    */
   static #getJsonDate(date) {
-    return `\\Date("${date.getTime()}")`
+    return `\\Date(${date.getTime()})`
   }
 }
 
@@ -85,7 +85,7 @@ export class DateFormatter {
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        throw Error(`DateFormatter: format ${format} not implemented yet`)
     }
   }
 }
@@ -111,23 +111,24 @@ export class TimeFormatter {
       case 'HH:mm:ss':
         return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        throw Error(`TimeFormatter: format ${format} not implemented yet`)
     }
   }
 }
+
 class DateFormatHelper {
-/**
-  * @type {Date}
- */
-#date
-/**
-* @type {string}
- */
-#locale
-/**
-* @type {string}
- */
-#timeZone
+  /**
+   * @type {Date}
+   */
+  #date
+  /**
+   * @type {string}
+   */
+  #locale
+  /**
+   * @type {string}
+   */
+  #timeZone
 
   /**
    * @param {Date} date
