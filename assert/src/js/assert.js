@@ -1,4 +1,4 @@
-import {isFunction, isNull, isUndefined} from './is'
+import {isFunction, isNull, isPrimitive, isUndefined} from './is'
 
 class AssertionError extends Error {
   constructor(...params) {
@@ -82,21 +82,27 @@ export const formatType = (v) => {
   if (isNull(v)) {
     return 'null'
   }
-  if ('constructor' in v) {
-    let value = ''
-    try {
-      value = JSON.stringify(v)
-    } catch (e) {
-      value = 'value not serializable'
-    }
-    let constructor = ''
-    try {
-      if ('constructor' in v) {
-        constructor = v.constructor.name
+  let constructor = ''
+  let value = ''
+  if (isPrimitive(v)) {
+    constructor = typeof v
+    value = v
+  } else {
+
+    if ('constructor' in v) {
+      try {
+        value = JSON.stringify(v)
+      } catch (e) {
+        value = 'value not serializable'
       }
-    } catch (e) {
-      constructor = 'no constructor found'
+      try {
+        if ('constructor' in v) {
+          constructor = v.constructor.name
+        }
+      } catch (e) {
+        constructor = 'no constructor found'
+      }
     }
-    return `[${constructor}]${value}`
   }
+  return `[${constructor}]${value}`
 }
