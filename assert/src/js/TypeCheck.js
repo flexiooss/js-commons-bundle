@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate
+  isDate, isArrowFn
 } from './is'
 
 
@@ -217,6 +217,31 @@ export class TypeCheck {
   static assertIsFunctionOrNull(inst) {
     if (!isNull(inst)) {
       return TypeCheck.assertIsFunction(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Function} inst
+   * @throws {TypeError}
+   * @return {Function}
+   */
+  static assertIsArrowFunction(inst) {
+    assertType(
+      isArrowFn(inst),
+      'input should be Arrow Function'
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Function} inst
+   * @throws {TypeError}
+   * @return {?Function}
+   */
+  static assertIsArrowFunctionOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsArrowFunction(inst)
     }
     return inst
   }
