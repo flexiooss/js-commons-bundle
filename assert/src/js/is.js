@@ -84,7 +84,7 @@ export const isFunction = a => typeof a === 'function' && !isClass(a)
  * @function
  * @export
  */
-export const isArrowFn = a => isFunction(a) && (/^([^{=]+|\(.*\)\s*)?=>/).test(a.toString().replace(/\s/, ''))
+export const isArrowFunction = a => isFunction(a) && (/^([^{=]+|\(.*\)\s*)?=>/).test(a.toString().replace(/\s/, ''))
 
 /**
  *

@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFn
+  isDate, isArrowFn, isArrowFunction
 } from './is'
 
 
@@ -228,7 +228,7 @@ export class TypeCheck {
    */
   static assertIsArrowFunction(inst) {
     assertType(
-      isArrowFn(inst),
+      isArrowFunction(inst),
       'input should be Arrow Function'
     )
     return inst
