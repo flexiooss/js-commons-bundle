@@ -65,19 +65,23 @@ export class Logger {
    * @return {Logger}
    */
   #commit(level, message, context) {
-    // try {
+    try {
       /**
        * @type {Log}
        */
       const log = new Log(this.#name, level, message, context)
       if (this.#transporters.transporters().length) {
         this.#transporters.commit(log)
-      } else {
-        HotLog.getHotLog().commit(log)
       }
-    // } catch (e) {
-    //   console.error(e)
-    // }
+      HotLog.getHotLog().commit(log)
+    } catch (e) {
+      if (!HotLog.getHotLog().isSilentMode()) {
+        throw e
+      } else {
+        console.error('LOGGING ERROR')
+        console.error(e)
+      }
+    }
 
     return this
   }

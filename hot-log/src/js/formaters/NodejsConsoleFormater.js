@@ -1,5 +1,8 @@
 import {hotLogFormater} from "./HotLogFormater";
 
+/**
+ * @implements {HotLogFormater}
+ */
 export class NodejsConsoleFormater extends hotLogFormater(class {
 }) {
   /**

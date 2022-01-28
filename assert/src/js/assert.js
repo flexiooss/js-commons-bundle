@@ -1,4 +1,4 @@
-import {isFunction, isNull, isPrimitive, isUndefined} from './is'
+import {isArray, isBoolean, isFunction, isNull, isPrimitive, isUndefined} from './is'
 
 class AssertionError extends Error {
   constructor(...params) {
@@ -71,6 +71,7 @@ export const assertInstanceOf = (instance, constructor, stringName = null) => {
   )
   return instance
 }
+
 /**
  * @param {*} v
  * @return {string}
@@ -82,25 +83,42 @@ export const formatType = (v) => {
   if (isNull(v)) {
     return 'null'
   }
+  /**
+   * @type {string}
+   */
   let constructor = ''
+  /**
+   * @type {string}
+   */
   let value = ''
+  /**
+   * @type {string}
+   */
+  let length = ''
+
   if (isPrimitive(v)) {
     constructor = typeof v
     value = v
+    if (isBoolean(v)) {
+      value = v ? 'true' : 'false'
+    }
   } else {
 
-      try {
-        value = JSON.stringify(v)
-      } catch (e) {
-        value = 'value not serializable'
+    try {
+      value = JSON.stringify(v)
+    } catch (e) {
+      value = 'value not serializable'
+    }
+    try {
+      if ('constructor' in v) {
+        constructor = v.constructor.name
       }
-      try {
-        if ('constructor' in v) {
-          constructor = v.constructor.name
-        }
-      } catch (e) {
-        constructor = 'no constructor found'
-      }
+    } catch (e) {
+      constructor = 'no constructor found'
+    }
+    if (isArray(v)) {
+      length = `(${v.length})`
+    }
   }
-  return `[${constructor}]${value}`
+  return `[${constructor}]${length}${value}`
 }

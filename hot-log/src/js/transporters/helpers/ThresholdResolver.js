@@ -1,42 +1,33 @@
-import {HotLogLevel} from "../../HotLogLevel";
-import {assertInstanceOf} from '../../../../../assert'
+import {HotLogLevel, HotLogLevelHelper} from "../../HotLogLevel";
+import {assertInstanceOf, isNull} from '../../../../../assert'
+import {FilterListHandler} from "../filters/FilterListHandler";
 
 export class ThresholdResolver {
   /**
    * @type {HotLogLevel}
    */
   #threshold
+  /**
+   * @type {?FilterListHandler}
+   */
+  #filterListHandler = null
 
   /**
    * @param {HotLogLevel} threshold
+   * @param {FilterListHandler} [filterListHandler=null]
    */
-  constructor(threshold) {
-    this.#threshold = assertInstanceOf(threshold, HotLogLevel, 'HotLogLevel');
+  constructor(threshold, filterListHandler = null) {
+    this.#threshold = HotLogLevelHelper.assertIsHotLogLevel(threshold);
+    if (!isNull(filterListHandler)) {
+      this.#filterListHandler = assertInstanceOf(filterListHandler, FilterListHandler, 'FilterListHandler');
+    }
   }
 
   /**
-   *
-   * @param {HotLogLevel} threshold
-   * @return {boolean}
+   * @param log
    */
-  gte(threshold) {
-    assertInstanceOf(threshold, HotLogLevel, 'HotLogLevel');
-    if (threshold.FATAL) {
-      return true
-    }
-    if (this.#threshold === HotLogLevel.ERROR) {
-      return threshold === HotLogLevel.FATAL
-    }
-    if (this.#threshold === HotLogLevel.WARN) {
-      return threshold === HotLogLevel.FATAL || threshold === HotLogLevel.ERROR
-    }
-    if (this.#threshold === HotLogLevel.INFO) {
-      return threshold !== HotLogLevel.DEBUG && threshold !== HotLogLevel.TRACE
-    }
-    if (this.#threshold === HotLogLevel.DEBUG) {
-      return threshold !== HotLogLevel.TRACE
-    }
-    return true
+  pass(log) {
+    return ((HotLogLevelHelper.lte(this.#threshold, log.level()) && (isNull(this.#filterListHandler) || !this.#filterListHandler.hasFilters()))
+      || (!isNull(this.#filterListHandler) && this.#filterListHandler.hasFilters() && this.#filterListHandler.match(log)))
   }
-
 }

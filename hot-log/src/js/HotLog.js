@@ -11,6 +11,10 @@ export class HotLog {
    * @type {TransporterHandler}
    */
   #transporters = new TransporterHandler()
+  /**
+   * @type {boolean}
+   */
+  #silent = true
 
   /**
    * @return {HotLog}
@@ -28,6 +32,21 @@ export class HotLog {
    */
   addTransporter(transporter) {
     this.#transporters.addTransporter(transporter)
+    return this
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isSilentMode() {
+    return this.#silent
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  disableSilentMode() {
+    this.#silent = false
     return this
   }
 

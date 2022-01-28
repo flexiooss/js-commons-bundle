@@ -4,6 +4,8 @@ import {ConsoleTransporter} from "../js/transporters/ConsoleTransporter";
 import {Logger} from "../js/Logger";
 import {HotLogLevel} from "../js/HotLogLevel";
 import {NodejsConsoleFormater} from "../js/formaters/NodejsConsoleFormater";
+import {FilterList} from "../js/transporters/filters/FilterList";
+import {RangeFilter, RangeFilterBuilder} from "../js/transporters/filters/RangeFilter";
 
 const assert = require('assert')
 
@@ -45,9 +47,9 @@ export class TestLogger extends TestCase {
     /**
      * @type {HotLog}
      */
-    const hotLog = HotLog.getHotLog().addTransporter(
-      new ConsoleTransporter(new NodejsConsoleFormater())
-    )
+    const hotLog = HotLog.getHotLog()
+      .addTransporter(new ConsoleTransporter(new NodejsConsoleFormater()))
+      .disableSilentMode()
 
     /**
      * @type {Logger}
@@ -59,20 +61,68 @@ export class TestLogger extends TestCase {
      */
     const specificLogger = Logger.getLogger('withTrace', this, '42').addTransporter(new ConsoleTransporter(new NodejsConsoleFormater(), HotLogLevel.TRACE))
 
+    defaultLogger.fatal('defaultLogger fatal should work', this)
+    defaultLogger.error('defaultLogger error should work')
+    defaultLogger.warn('defaultLogger warn should work')
+    defaultLogger.info('defaultLogger info should work')
+    defaultLogger.debug('defaultLogger debug should not work')
+    defaultLogger.trace('defaultLogger trace should not work')
 
-    defaultLogger.fatal('should work')
-    defaultLogger.error('should work')
-    defaultLogger.warn('should work')
-    defaultLogger.info('should work')
-    defaultLogger.debug('should not work')
-    defaultLogger.trace('should not work')
+    specificLogger.trace('specificLogger trace should work')
+    specificLogger.debug('specificLogger debug should work')
+    specificLogger.info('specificLogger info should work')
+    specificLogger.warn('specificLogger warn should work')
+    specificLogger.error('specificLogger error should work')
+    specificLogger.fatal('specificLogger fatal should work')
+  }
 
-    specificLogger.trace('should work')
-    specificLogger.debug('should work')
-    specificLogger.info('should work')
-    specificLogger.warn('should work')
-    specificLogger.error('should work')
-    specificLogger.fatal('should work')
+  testHotLogWithFilters() {
+    /**
+     * @type {HotLog}
+     */
+    const hotLog = HotLog.getHotLog()
+      .addTransporter(
+        new ConsoleTransporter(new NodejsConsoleFormater())
+      )
+      .disableSilentMode()
+
+    /**
+     * @type {Logger}
+     */
+    const defaultLogger = Logger.getLogger('default')
+
+    /**
+     * @type {Logger}
+     */
+    const specificLogger = Logger.getLogger('specific', this, '42')
+      .addTransporter(
+        new ConsoleTransporter(
+        new NodejsConsoleFormater(),
+        HotLogLevel.DEBUG,
+        new FilterList(
+          new RangeFilterBuilder()
+            .matchEmitter(new RegExp('^My'))
+            .build(),
+          new RangeFilterBuilder()
+            .maxLevel(HotLogLevel.ERROR)
+            .matchMessage(new RegExp('work$'))
+            .build()
+        )
+      ))
+
+    defaultLogger.fatal('defaultLogger fatal defaultLogger fatal should work', this)
+    defaultLogger.error('defaultLogger error defaultLogger error should work')
+    defaultLogger.warn('defaultLogger warn defaultLogger warn should work')
+    defaultLogger.info('defaultLogger info defaultLogger info should work')
+    defaultLogger.debug('defaultLogger debug defaultLogger debug should not work')
+    defaultLogger.trace('defaultLogger trace defaultLogger trace should not work')
+
+    // specificLogger.trace('specificLogger trace should work')
+    // specificLogger.debug('sspecificLogger debug hould work')
+    // specificLogger.info('specificLogger info should work')
+    // specificLogger.warn('specificLogger warn should work')
+    // specificLogger.error('sspecificLogger error hould work')
+    // specificLogger.fatal('specificLogger fatal should not work')
   }
 
 }
