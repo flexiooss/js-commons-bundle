@@ -1,4 +1,4 @@
-import {isNull, TypeCheck} from '../../../assert'
+import {assertInstanceOf, isNull, TypeCheck} from '../../../assert'
 import {Log} from "./Log";
 import {HotLogLevel} from "./HotLogLevel";
 import {HotLog} from "./HotLog";
@@ -13,40 +13,80 @@ export class Logger {
    * @type {TransporterHandler}
    */
   #transporters = new TransporterHandler()
+  /**
+   * @type {?HotLogLevel}
+   */
+  #threshold = null
 
   /**
    * @private
-   * @param {string} fullName
-   * @param {?string} partialName
-   * @param {?string} id
+   * @param {string} name
    */
-  constructor(fullName, partialName, id) {
-    TypeCheck.assertIsString(fullName)
-    TypeCheck.assertIsStringOrNull(partialName)
-    TypeCheck.assertIsStringOrNull(id)
-    this.#name = `${fullName}${!isNull(partialName) ? ':' + partialName : ''}${!isNull(id) ? ':' + id : ''}`
+  constructor(name) {
+    this.#name = TypeCheck.assertIsString(name)
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelTrace() {
+    this.#threshold = HotLogLevel.TRACE
+    return this
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelDebug() {
+    this.#threshold = HotLogLevel.DEBUG
+    return this
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelInfo() {
+    this.#threshold = HotLogLevel.INFO
+    return this
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelWarn() {
+    this.#threshold = HotLogLevel.WARN
+    return this
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelError() {
+    this.#threshold = HotLogLevel.ERROR
+    return this
+  }
+
+  /**
+   * @return {Logger}
+   */
+  levelFatal() {
+    this.#threshold = HotLogLevel.FATAL
+    return this
   }
 
   /**
    * @param {string} name
-   * @param {?Object} [instance=null]
+   * @param {?string} [partialName=null]
    * @param {?string} [id=null]
    * @return {Logger}
    */
-  static getLogger(name, instance = null, id = null) {
-    /**
-     * @type {?string}
-     */
-    let partialName = null
-    if (!isNull(instance)) {
-      try {
-        partialName = instance.constructor.name
-      } catch {
+  static getLogger(name, partialName = null, id = null) {
+    TypeCheck.assertIsString(name)
+    TypeCheck.assertIsStringOrNull(partialName)
+    TypeCheck.assertIsStringOrNull(id)
+    name = `${name}${!isNull(partialName) ? ':' + partialName : ''}${!isNull(id) ? ':' + id : ''}`
 
-      }
-    }
-
-    return new Logger(name, partialName, id)
+    return new Logger(name)
   }
 
   /**
@@ -71,9 +111,10 @@ export class Logger {
        */
       const log = new Log(this.#name, level, message, context)
       if (this.#transporters.transporters().length) {
-        this.#transporters.commit(log)
+        this.#transporters.commit(log, this.#threshold)
+      } else {
+        HotLog.getHotLog().commit(log, this.#threshold)
       }
-      HotLog.getHotLog().commit(log)
     } catch (e) {
       if (!HotLog.getHotLog().isSilentMode()) {
         throw e

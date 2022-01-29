@@ -111,20 +111,98 @@ export class RangeFilterBuilder {
   #matchLog = null
 
   /**
-   * @param {?HotLogLevel} value
    * @return {RangeFilterBuilder}
    */
-  minLevel(value) {
-    this.#minLevel = value;
+  minLevelTrace() {
+    this.#minLevel = HotLogLevel.TRACE
     return this
   }
 
   /**
-   * @param {?HotLogLevel} value
    * @return {RangeFilterBuilder}
    */
-  maxLevel(value) {
-    this.#maxLevel = value;
+  minLevelDebug() {
+    this.#minLevel = HotLogLevel.DEBUG
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  minLevelInfo() {
+    this.#minLevel = HotLogLevel.INFO
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  minLevelWarn() {
+    this.#minLevel = HotLogLevel.WARN
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  minLevelError() {
+    this.#minLevel = HotLogLevel.ERROR
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  minLevelFatal() {
+    this.#minLevel = HotLogLevel.FATAL
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelTrace() {
+    this.#maxLevel = HotLogLevel.TRACE
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelDebug() {
+    this.#maxLevel = HotLogLevel.DEBUG
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelInfo() {
+    this.#maxLevel = HotLogLevel.INFO
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelWarn() {
+    this.#maxLevel = HotLogLevel.WARN
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelError() {
+    this.#maxLevel = HotLogLevel.ERROR
+    return this
+  }
+
+  /**
+   * @return {RangeFilterBuilder}
+   */
+  maxLevelFatal() {
+    this.#maxLevel = HotLogLevel.FATAL
     return this
   }
 

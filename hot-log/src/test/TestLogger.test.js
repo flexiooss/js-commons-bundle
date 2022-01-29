@@ -1,11 +1,10 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {HotLog} from "../js/HotLog";
-import {ConsoleTransporter} from "../js/transporters/ConsoleTransporter";
+import {ConsoleTransporterBuilder} from "../js/transporters/impl/ConsoleTransporter";
 import {Logger} from "../js/Logger";
-import {HotLogLevel} from "../js/HotLogLevel";
-import {NodejsConsoleFormater} from "../js/formaters/NodejsConsoleFormater";
 import {FilterList} from "../js/transporters/filters/FilterList";
-import {RangeFilter, RangeFilterBuilder} from "../js/transporters/filters/RangeFilter";
+import {RangeFilterBuilder} from "../js/transporters/filters/RangeFilter";
+import {TestTransporter} from "../js/transporters/impl/TestTransporter";
 
 const assert = require('assert')
 
@@ -25,8 +24,7 @@ export class TestLogger extends TestCase {
     /**
      * @type {Logger}
      */
-    const specificLogger = Logger.getLogger('withTrace', this, '42')
-
+    const specificLogger = Logger.getLogger(this.constructor.name, 'specific', '42')
 
     defaultLogger.fatal('should not work')
     defaultLogger.error('should not work')
@@ -37,7 +35,7 @@ export class TestLogger extends TestCase {
 
     specificLogger.trace('should not work')
     specificLogger.debug('should not work')
-    specificLogger.info('shouldnot  work')
+    specificLogger.info('should not  work')
     specificLogger.warn('should not work')
     specificLogger.error('should not work')
     specificLogger.fatal('should not work')
@@ -48,7 +46,7 @@ export class TestLogger extends TestCase {
      * @type {HotLog}
      */
     const hotLog = HotLog.getHotLog()
-      .addTransporter(new ConsoleTransporter(new NodejsConsoleFormater()))
+      .addTransporter(ConsoleTransporterBuilder.getWithNodejsConsoleFormater().build())
       .disableSilentMode()
 
     /**
@@ -59,7 +57,7 @@ export class TestLogger extends TestCase {
     /**
      * @type {Logger}
      */
-    const specificLogger = Logger.getLogger('withTrace', this, '42').addTransporter(new ConsoleTransporter(new NodejsConsoleFormater(), HotLogLevel.TRACE))
+    const specificLogger = Logger.getLogger(this.constructor.name, 'specific', '42')
 
     defaultLogger.fatal('defaultLogger fatal should work', this)
     defaultLogger.error('defaultLogger error should work')
@@ -81,9 +79,7 @@ export class TestLogger extends TestCase {
      * @type {HotLog}
      */
     const hotLog = HotLog.getHotLog()
-      .addTransporter(
-        new ConsoleTransporter(new NodejsConsoleFormater())
-      )
+      .addTransporter(ConsoleTransporterBuilder.getWithNodejsConsoleFormater().build())
       .disableSilentMode()
 
     /**
@@ -94,21 +90,18 @@ export class TestLogger extends TestCase {
     /**
      * @type {Logger}
      */
-    const specificLogger = Logger.getLogger('specific', this, '42')
+    const specificLogger = Logger.getLogger(this.constructor.name, 'specific', '42')
       .addTransporter(
-        new ConsoleTransporter(
-        new NodejsConsoleFormater(),
-        HotLogLevel.DEBUG,
-        new FilterList(
-          new RangeFilterBuilder()
-            .matchEmitter(new RegExp('^My'))
-            .build(),
-          new RangeFilterBuilder()
-            .maxLevel(HotLogLevel.ERROR)
-            .matchMessage(new RegExp('work$'))
-            .build()
-        )
-      ))
+        ConsoleTransporterBuilder
+          .getWithNodejsConsoleFormater()
+          .filters(new FilterList(
+            new RangeFilterBuilder()
+              .maxLevelError()
+              .matchMessage(new RegExp('work$'))
+              .build()
+          ))
+          .build()
+      )
 
     defaultLogger.fatal('defaultLogger fatal defaultLogger fatal should work', this)
     defaultLogger.error('defaultLogger error defaultLogger error should work')
@@ -117,12 +110,94 @@ export class TestLogger extends TestCase {
     defaultLogger.debug('defaultLogger debug defaultLogger debug should not work')
     defaultLogger.trace('defaultLogger trace defaultLogger trace should not work')
 
-    // specificLogger.trace('specificLogger trace should work')
-    // specificLogger.debug('sspecificLogger debug hould work')
-    // specificLogger.info('specificLogger info should work')
-    // specificLogger.warn('specificLogger warn should work')
-    // specificLogger.error('sspecificLogger error hould work')
-    // specificLogger.fatal('specificLogger fatal should not work')
+    specificLogger.trace('specificLogger trace should work')
+    specificLogger.debug('specificLogger debug should work')
+    specificLogger.info('specificLogger info should work')
+    specificLogger.warn('specificLogger warn should work')
+    specificLogger.error('specificLogger error should work')
+    specificLogger.fatal('specificLogger fatal should not work')
+  }
+
+  async asyncTestLevelPredominance1() {
+    return new Promise((ok, ko) => {
+
+      /**
+       * @type {HotLog}
+       */
+      const hotLog = HotLog.getHotLog()
+        .addTransporter(new TestTransporter((pass, log) => {
+          if (pass) {
+            ko(new Error('should not pass'))
+          } else {
+            ok()
+          }
+        }, null))
+        .levelError()
+        .disableSilentMode()
+
+      /**
+       * @type {Logger}
+       */
+      const defaultLogger = Logger.getLogger('default')
+
+      defaultLogger.debug(('coucou'))
+    })
+
+  }
+
+  async asyncTestLevelPredominance2() {
+    return new Promise((ok, ko) => {
+
+      /**
+       * @type {HotLog}
+       */
+      const hotLog = HotLog.getHotLog()
+        .addTransporter(new TestTransporter((pass, log) => {
+          if (!pass) {
+            ko(new Error('should  pass'))
+          } else {
+            ok()
+          }
+        }, null))
+        .levelError()
+        .disableSilentMode()
+
+      /**
+       * @type {Logger}
+       */
+      const defaultLogger = Logger.getLogger('default').levelDebug()
+
+      defaultLogger.debug(('coucou'))
+    })
+
+  }
+
+  async asyncTestLevelPredominance3() {
+
+    return new Promise((ok, ko) => {
+
+      /**
+       * @type {HotLog}
+       */
+      const hotLog = HotLog.getHotLog()
+        .addTransporter(new TestTransporter((pass, log) => {
+          if (pass) {
+            ko(new Error('should not pass'))
+          } else {
+            ok()
+          }
+        }, null).levelInfo())
+        .levelError()
+        .disableSilentMode()
+
+      /**
+       * @type {Logger}
+       */
+      const defaultLogger = Logger.getLogger('default').levelDebug()
+
+      defaultLogger.debug(('coucou'))
+    })
+
   }
 
 }

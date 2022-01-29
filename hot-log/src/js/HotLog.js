@@ -1,6 +1,7 @@
 import {isNull} from '../../../assert'
 import {HotLogTransporterList} from "./transporters/HotLogTransporterList";
 import {TransporterHandler} from "./transporters/TransporterHandler";
+import {HotLogLevel} from "./HotLogLevel";
 
 export class HotLog {
   /**
@@ -15,6 +16,10 @@ export class HotLog {
    * @type {boolean}
    */
   #silent = true
+  /**
+   * @type {HotLogLevel}
+   */
+  #threshold = HotLogLevel.INFO
 
   /**
    * @return {HotLog}
@@ -24,6 +29,58 @@ export class HotLog {
       HotLog.#instance = new HotLog()
     }
     return HotLog.#instance
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelTrace() {
+    this.#threshold = HotLogLevel.TRACE
+    return this
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelDebug() {
+    this.#threshold = HotLogLevel.DEBUG
+    return this
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelInfo() {
+    this.#threshold = HotLogLevel.INFO
+    return this
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelWarn() {
+    this.#threshold = HotLogLevel.WARN
+    return this
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelError() {
+    this.#threshold = HotLogLevel.ERROR
+    return this
+  }
+
+  /**
+   * @return {HotLog}
+   */
+  levelFatal() {
+    this.#threshold = HotLogLevel.FATAL
+    return this
+  }
+
+  threshold() {
+    return this.#threshold
   }
 
   /**
@@ -52,10 +109,11 @@ export class HotLog {
 
   /**
    * @param {Log} log
+   * @param {?HotLogLevel} threshold
    * @return {HotLog}
    */
-  commit(log) {
-    this.#transporters.commit(log)
+  commit(log, threshold) {
+    this.#transporters.commit(log, threshold)
     return this
   }
 }

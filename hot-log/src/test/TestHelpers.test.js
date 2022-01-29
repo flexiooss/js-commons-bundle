@@ -35,7 +35,7 @@ export class TestLogger extends TestCase {
               .matchEmitter(new RegExp('^My'))
               .build(),
             new RangeFilterBuilder()
-              .maxLevel(HotLogLevel.WARN)
+              .maxLevelWarn()
               .build()
           )
         ))
@@ -51,7 +51,7 @@ export class TestLogger extends TestCase {
               .matchEmitter(new RegExp('^My'))
               .build(),
             new RangeFilterBuilder()
-              .maxLevel(HotLogLevel.WARN)
+              .maxLevelWarn()
               .build()
           )
         ))
@@ -67,7 +67,7 @@ export class TestLogger extends TestCase {
               .matchEmitter(new RegExp('^My'))
               .build(),
             new RangeFilterBuilder()
-              .maxLevel(HotLogLevel.DEBUG)
+              .maxLevelDebug()
               .build()
           )
         ))
@@ -83,7 +83,7 @@ export class TestLogger extends TestCase {
               .matchEmitter(new RegExp('^Tr'))
               .build(),
             new RangeFilterBuilder()
-              .maxLevel(HotLogLevel.DEBUG)
+              .maxLevelDebug()
               .build()
           )
         ))
@@ -94,88 +94,40 @@ export class TestLogger extends TestCase {
   testRangeFilterSimple() {
     const log = new Log('MyTest', HotLogLevel.WARN, 'ça ne marche pas', {bla: "bla"})
     assert.ok(
-      new RangeFilter(
-        null,
-        null,
-        null,
-        null,
-        null
-      ).match(log),
+      new RangeFilterBuilder().build().match(log),
       'should pass empty'
     )
 
     assert.ok(
-      new RangeFilter(
-        HotLogLevel.INFO,
-        null,
-        null,
-        null,
-        null
-      ).match(log),
+      new RangeFilterBuilder().minLevelInfo().build().match(log),
       'should pass with minLevel'
     )
     assert.ok(
-      !new RangeFilter(
-        HotLogLevel.ERROR,
-        null,
-        null,
-        null,
-        null
-      ).match(log),
+      ! new RangeFilterBuilder().minLevelError().build().match(log),
       'should not pass with minLevel'
     )
 
     assert.ok(
-      new RangeFilter(
-        null,
-        HotLogLevel.FATAL,
-        null,
-        null,
-        null
-      ).match(log),
+      new RangeFilterBuilder().maxLevelError().build().match(log),
       'should pass with maxLevel'
     )
     assert.ok(
-      !new RangeFilter(
-        null,
-        HotLogLevel.DEBUG,
-        null,
-        null,
-        null
-      ).match(log),
+      !new RangeFilterBuilder().maxLevelDebug().build().match(log),
       'should not pass with maxLevel'
     )
 
     assert.ok(
-      new RangeFilter(
-        null,
-        null,
-        new RegExp('^My'),
-        null,
-        null
-      ).match(log),
+      new RangeFilterBuilder().matchEmitter(new RegExp('^My')).build().match(log),
       'should pass with matchEmitter'
     )
 
     assert.ok(
-      !new RangeFilter(
-        null,
-        null,
-        new RegExp('^Truc'),
-        null,
-        null
-      ).match(log),
+      !new RangeFilterBuilder().matchEmitter(new RegExp('^Truc')).build().match(log),
       'should not pass with matchEmitter'
     )
 
     assert.ok(
-      new RangeFilter(
-        null,
-        null,
-        null,
-        new RegExp('pas$'),
-        null
-      ).match(log),
+      new RangeFilterBuilder().matchMessage(new RegExp('pas$')).build().match(log),
       'should pass with matchMessage'
     )
 

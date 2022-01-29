@@ -1,6 +1,7 @@
 import {HotLogTransporterList} from "./HotLogTransporterList";
 import {Log} from "../Log";
-import {assertInstanceOf} from '../../../../assert'
+import {HotLogLevel} from "../HotLogLevel";
+import {assertInstanceOf, isNull} from '../../../../assert'
 
 export class TransporterHandler {
   /**
@@ -26,12 +27,16 @@ export class TransporterHandler {
 
   /**
    * @param {Log} log
+   * @param {?HotLogLevel} threshold
    * @return {TransporterHandler}
    */
-  commit(log) {
+  commit(log, threshold) {
     assertInstanceOf(log, Log, 'Log')
+    if (!isNull(threshold)) {
+      assertInstanceOf(threshold, HotLogLevel, 'HotLogLevel')
+    }
     this.#transporters.forEach(transporter => {
-      transporter.commit(log)
+      transporter.commit(log, threshold)
     })
     return this
   }

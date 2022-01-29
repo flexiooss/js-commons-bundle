@@ -1,6 +1,7 @@
 import {HotLogLevel, HotLogLevelHelper} from "../../HotLogLevel";
 import {assertInstanceOf, isNull} from '../../../../../assert'
 import {FilterListHandler} from "../filters/FilterListHandler";
+import {HotLog} from "../../HotLog";
 
 export class ThresholdResolver {
   /**
@@ -21,6 +22,16 @@ export class ThresholdResolver {
     if (!isNull(filterListHandler)) {
       this.#filterListHandler = assertInstanceOf(filterListHandler, FilterListHandler, 'FilterListHandler');
     }
+  }
+
+  /**
+   * @param {?HotLogLevel} thresholdTransporter
+   * @param {?HotLogLevel} thresholdLogger
+   * @param {FilterListHandler} [filterListHandler=null]
+   * @return {ThresholdResolver}
+   */
+  static fromTransporter(thresholdTransporter, thresholdLogger, filterListHandler) {
+    return new ThresholdResolver((thresholdTransporter ?? thresholdLogger ?? HotLog.getHotLog().threshold()), filterListHandler)
   }
 
   /**

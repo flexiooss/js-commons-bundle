@@ -23,6 +23,12 @@ export class Log {
    */
   #level
 
+  /**
+   * @param {string} emitter
+   * @param {HotLogLevel} level
+   * @param {string} message
+   * @param {?Object} context
+   */
   constructor(emitter, level, message, context) {
     this.#emitter = TypeCheck.assertIsString(emitter);
     this.#level = assertInstanceOf(level, HotLogLevel, 'HotLogLevel');
