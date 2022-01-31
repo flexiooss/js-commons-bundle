@@ -26,6 +26,7 @@ export class HotLogHelper {
   static thresholdResolver(threshold) {
     return new ThresholdResolver(threshold)
   }
+
   /**
    * @param {?HotLogLevel} thresholdTransporter
    * @param {?HotLogLevel} thresholdLogger
