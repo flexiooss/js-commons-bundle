@@ -1,9 +1,9 @@
-import {hotLogTransporter} from "../HotLogTransporter";
-import {AbstractTransporter} from "./AbstarctTransporter";
-import {FilterListHandler} from "../filters/FilterListHandler";
-import {ThresholdResolver} from "../helpers/ThresholdResolver";
-import {HotLogLevel} from "../../HotLogLevel";
-import {isNull, TypeCheck} from '../../../../../assert'
+import {hotLogTransporter} from "../js/transporters/HotLogTransporter";
+import {AbstractTransporter} from "../js/transporters/impl/AbstarctTransporter";
+import {FilterListHandler} from "../js/transporters/filters/FilterListHandler";
+import {ThresholdResolver} from "../js/transporters/helpers/ThresholdResolver";
+import {HotLogLevel} from "../js/HotLogLevel";
+import {isNull, TypeCheck} from '../../../assert'
 
 /**
  * @implements {HotLogTransporter}

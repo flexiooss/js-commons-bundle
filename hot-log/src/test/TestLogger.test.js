@@ -4,7 +4,7 @@ import {ConsoleTransporterBuilder} from "../js/transporters/impl/ConsoleTranspor
 import {Logger} from "../js/Logger";
 import {FilterList} from "../js/transporters/filters/FilterList";
 import {RangeFilterBuilder} from "../js/transporters/filters/RangeFilter";
-import {TestTransporter} from "../js/transporters/impl/TestTransporter";
+import {TestTransporter} from "./TestTransporter";
 
 const assert = require('assert')
 
