@@ -1,11 +1,12 @@
 import {assertInstanceOf, isNull, TypeCheck} from '../../../assert'
 import {HotLogLevel} from "./HotLogLevel";
+import {DateExtended} from '../../../extended-flex-types'
 
 export class Log {
   /**
-   * @type {Date}
+   * @type {FlexDateTime}
    */
-  #date = new Date()
+  #date = new DateExtended().toUTCFlexDateTime()
   /**
    * @type {string}
    */
@@ -37,7 +38,7 @@ export class Log {
   }
 
   /**
-   * @return {Date}
+   * @return {FlexDateTime}
    */
   date() {
     return this.#date;
