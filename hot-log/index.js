@@ -14,3 +14,5 @@ export {AbstractTransporter} from './src/js/transporters/impl/AbstarctTransporte
 export {ConsoleTransporterBuilder} from './src/js/transporters/impl/ConsoleTransporter'
 export {ConsoleFormater} from './src/js/formaters/ConsoleFormater'
 export {NodejsConsoleFormater} from './src/js/formaters/NodejsConsoleFormater'
+
+export {hotLogFormater, implementsHotLogFormater} from './src/js/formaters/HotLogFormater'
