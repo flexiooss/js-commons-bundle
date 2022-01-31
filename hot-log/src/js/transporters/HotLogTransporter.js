@@ -3,7 +3,6 @@ import {NotOverrideException} from '../../../../assert'
 import {HotLogLevel} from "../HotLogLevel";
 
 export const hotLogTransporter = (Base) => {
-  console.log(Base)
   /**
    * @interface
    */

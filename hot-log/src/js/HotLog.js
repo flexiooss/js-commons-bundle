@@ -1,5 +1,4 @@
 import {isNull} from '../../../assert'
-import {HotLogTransporterList} from "./transporters/HotLogTransporterList";
 import {TransporterHandler} from "./transporters/TransporterHandler";
 import {HotLogLevel} from "./HotLogLevel";
 
