@@ -55,7 +55,7 @@ export class DateTimeFormatter {
    * @return {string}
    */
   static #getJsonDate(date) {
-    return `\\Date(${date.getTime()})`
+    return `/Date(${date.getTime()})/`
   }
 }
 
