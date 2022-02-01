@@ -103,7 +103,7 @@ export class TestDateExtendedTest extends TestCase {
   }
 
   testDateTimeJson() {
-    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'json', 'fr', 'Europe/Paris'), '\\Date(1615811047000)')
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'json', 'fr', 'Europe/Paris'), '/Date(1615811047000)/')
   }
 
 
