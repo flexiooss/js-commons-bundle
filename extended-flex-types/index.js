@@ -6,6 +6,7 @@ import {SymbolStringArray, SymbolStringArrayBuilder} from './src/js/FlexArray/Sy
 import {URLExtended, URLExtendedBuilder} from './src/js/URLExtended'
 import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/URLSearchParamsExtended'
 import {DateExtended} from './src/js/DateExtended'
+import {FlexTimeExtended} from './src/js/FlexTimeExtended'
 import {ArrayMap} from './src/js/FlexMap/ArrayMap'
 import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap'
 import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap'
