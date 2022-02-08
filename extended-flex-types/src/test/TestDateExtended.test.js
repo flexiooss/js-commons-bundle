@@ -126,6 +126,23 @@ export class TestDateExtendedTest extends TestCase {
     assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z')
 
     date = new DateExtended('2021-02-15T15:21:07') // applique le offset local, il va donc retrancher 1H
+    this.log(date.getUTCFullYear(), 'utc year')
+    this.log(date.getUTCMonth(), 'utc month')
+    this.log(date.getUTCDate(), 'utc date')
+    this.log(date.getUTCHours(), 'utc hours')
+    this.log(date.getHours(), 'hours')
+    this.log(date.getUTCMinutes(), 'utc minutes')
+    this.log(date.getUTCSeconds(), 'utc seconds')
+    this.log(date.toISOString(), 'date iso')
+    this.log(date.toUTCString(), 'date utc')
+
+    let date2 =  DateExtended.fromISOWithTimezone('2021-02-15T15:21:07') // applique le offset local, il va donc retrancher 1H
+    this.log(date2.toISOString(),'date2 iso' )
+    this.log(date2.toUTCFlexDateTime(),'date2 FlexDateTime' )
+    this.log(date2.toLocaleFlexDateTime(),'date2 FlexDateTime' )
+
+    let date3 = new DateExtended('2021-02-15T15:21:07+03:00') // applique le offset local, il va donc retrancher 1H
+    this.log(date3.toUTCFlexDateTime(),'date3 FlexDateTime' )
     assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07')
   }
 

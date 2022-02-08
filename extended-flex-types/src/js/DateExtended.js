@@ -26,13 +26,46 @@ const padLeft = (input, expectedLength, replaceWith = '0') => {
   return Array(expectedLength - String(input).length + 1).join(replaceWith) + input
 }
 
+/**
+ * @desc
+ * - une FlexDateTime (Service/API) est toujours considérée en UTC, donc pas de Timezone
+ * - on ne manipule que des dates UTC, pas de parse en date locale (comportement natif à JS)
+ * - les Timezones ne sont utilisés qu'en entrée et en sortie : au parse et au formatage
+ */
 export class DateExtended extends Date {
+  constructor(dateString, ...args) {
+    if (isString(dateString)) {
+      /**
+       * @type {boolean}
+       */
+      let errorDate = false
+      /**
+       * @type {boolean}
+       */
+      let errorDateTime = false
+      try {
+        new FlexDate(dateString)
+      } catch {
+        errorDate = true
+      }
+      try {
+        new FlexZonedDateTime(dateString)
+      } catch {
+        errorDateTime = true
+      }
+      if (errorDate && errorDateTime) {
+        throw TypeError('Date string pattern not match : ' + dateString)
+      }
+    }
+    super(dateString, ...args);
+  }
 
   /**
    * @param {FlexTime} flexTime
    * @return {DateExtended}
    */
   static fromFlexTime(flexTime) {
+    throw new Error('pas bien')
     assertType(
       flexTime instanceof FlexTime,
       'DateExtended:fromFlexTime: `flexTime` argument should be an instance of FlexTime'
@@ -123,7 +156,7 @@ export class DateExtended extends Date {
    * @param {string} timezone
    * @return {DateExtended}
    */
-  static fromISOWithTimezone(date, timezone) {
+  static fromISOWithTimezone(date, timezone = 'UTC') {
     const clean = date.endsWith('Z') ? date.replace('Z', '') : date
     const dateTime = DateTime.fromISO(clean, {zone: timezone, setZone: true})
     const iso = dateTime.toUTC().toISO()
@@ -173,6 +206,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toLocaleFullDate() {
+    throw new Error('pas bien utiliser format')
     return this.getFullYear() + '-' +
       padLeft(this.getMonth() + 1, 2) + '-' +
       padLeft(this.getDate(), 2)
@@ -183,6 +217,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toLocaleTime() {
+    throw new Error('pas bien utiliser format')
     return padLeft(this.getHours(), 2) + ':' +
       padLeft(this.getMinutes(), 2) + ':' +
       padLeft(this.getSeconds(), 2) + '.' +
@@ -194,14 +229,14 @@ export class DateExtended extends Date {
    * @return {number}
    */
   getNextMonth() {
-    return this.setMonth(this.getMonth() + 1)
+    return this.setMonth(this.getUTCMonth() + 1)
   }
 
   /**
    * @return {number}
    */
   getPreviousMonth() {
-    return this.setMonth(this.getMonth() - 1)
+    return this.setMonth(this.getUTCMonth() - 1)
   }
 
   /**
@@ -234,6 +269,7 @@ export class DateExtended extends Date {
    * @returns {FlexDateTime}
    */
   toLocaleFlexDateTime() {
+    throw new Error('pas bien')
     let str = this.toLocaleFullDate() + 'T' + this.toLocaleTime()
     return new FlexDateTime(str)
   }
@@ -252,6 +288,7 @@ export class DateExtended extends Date {
    * @returns {FlexDate}
    */
   toLocaleFlexDate() {
+    throw new Error('pas bien')
     let str = this.toLocaleFullDate()
     return new FlexDate(str)
   }
@@ -270,6 +307,7 @@ export class DateExtended extends Date {
    * @returns {FlexTime}
    */
   toLocaleFlexTime() {
+    throw new Error('pas bien')
     let str = this.toLocaleTime()
     return new FlexTime(str)
   }
@@ -289,6 +327,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexDate}
    */
   static fromStringToFlexDate(value) {
+    throw new Error('pas bien')
     try {
       let flexDate = DateExtended.fromFlexDate(new FlexDate(value)).toLocaleFlexDate()
       if (flexDate instanceof FlexDate) {
@@ -306,6 +345,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexDateTime}
    */
   static fromStringToFlexDateTime(value) {
+    throw new Error('pas bien')
     try {
       let flexDateTime = DateExtended.fromFlexDateTime(new FlexDateTime(value)).toLocaleFlexDateTime()
       if (flexDateTime instanceof FlexDateTime) {
@@ -323,6 +363,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexTime}
    */
   static fromStringToFlexTime(value) {
+    throw new Error('pas bien')
     try {
       let flexTime = DateExtended.fromFlexTime(new FlexTime(value)).toLocaleFlexTime()
       if (flexTime instanceof FlexTime) {

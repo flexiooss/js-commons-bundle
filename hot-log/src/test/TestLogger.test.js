@@ -42,6 +42,7 @@ export class TestLogger extends TestCase {
   }
 
   testHotLog() {
+
     /**
      * @type {HotLog}
      */
@@ -79,7 +80,8 @@ export class TestLogger extends TestCase {
      * @type {HotLog}
      */
     const hotLog = HotLog.getHotLog()
-      .addTransporter(ConsoleTransporterBuilder.getWithNodejsConsoleFormater().build())
+      .addTransporter(ConsoleTransporterBuilder.getWithConsoleFormater()
+        .build())
       .disableSilentMode()
 
     /**
@@ -96,18 +98,29 @@ export class TestLogger extends TestCase {
           .getWithNodejsConsoleFormater()
           .filters(new FilterList(
             new RangeFilterBuilder()
-              .maxLevelError()
-              .matchMessage(new RegExp('work$'))
+              .matchEmitter(new RegExp('AbstractKeycloakApplication'))
               .build()
           ))
           .build()
       )
 
     defaultLogger.fatal('defaultLogger fatal defaultLogger fatal should work', this)
+    defaultLogger.error('defaultLogger error defaultLogger error should work',{})
     defaultLogger.error('defaultLogger error defaultLogger error should work')
     defaultLogger.warn('defaultLogger warn defaultLogger warn should work')
-    defaultLogger.info('defaultLogger info defaultLogger info should work')
-    defaultLogger.debug('defaultLogger debug defaultLogger debug should not work')
+    defaultLogger.info('defaultLogger info defaultLogger info should work', (builder)=>{
+      builder.response(monStore).requestId('toto')
+        .build()
+    })
+
+    defaultLogger.debug('defaultLogger debug defaultLogger debug should not work',{
+      response
+      flexcontext
+      objectValue,
+      requestId,
+      error,
+      json,
+    })
     defaultLogger.trace('defaultLogger trace defaultLogger trace should not work')
 
     specificLogger.trace('specificLogger trace should work')
