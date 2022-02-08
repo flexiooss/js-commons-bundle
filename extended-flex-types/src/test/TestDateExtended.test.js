@@ -126,7 +126,7 @@ export class TestDateExtendedTest extends TestCase {
     assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z')
 
     date = new DateExtended('2021-02-15T15:21:07') // applique le offset local, il va donc retrancher 1H
-    assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z') // retourne 2021-02-15T1D:21:07.000Z
+    assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z') // retourne 2021-02-15T14:21:07.000Z
   }
 
   testFormat() {
