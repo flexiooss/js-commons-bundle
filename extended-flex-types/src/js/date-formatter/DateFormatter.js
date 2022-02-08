@@ -1,5 +1,6 @@
 import {DateExtended} from '../DateExtended'
 import {isNull} from '../../../../assert'
+import {DateTime} from 'luxon'
 
 export class DateTimeFormatter {
   /**
@@ -46,7 +47,7 @@ export class DateTimeFormatter {
       case 'json':
         return this.#getJsonDate(date)
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        return DateTime.fromISO(date.toISOString()).setZone(timeZone).setLocale(locale).toFormat(format)
     }
   }
 

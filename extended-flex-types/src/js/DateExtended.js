@@ -1,5 +1,7 @@
 import {assertType, isNumber, isString} from './__import__assert'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from './__import__flex-types'
+import {DateTime} from 'luxon'
+import {DateTimeFormatter} from './date-formatter/DateFormatter'
 
 /**
  *
@@ -115,8 +117,43 @@ export class DateExtended extends Date {
     return tmp
   }
 
+
   /**
-   *
+   * @param {string} date ISO datetime without Z or offset
+   * @param {string} timezone
+   * @return {DateExtended}
+   */
+  static fromISOWithTimezone(date, timezone) {
+    const clean = date.endsWith('Z') ? date.replace('Z', '') : date
+    const dateTime = DateTime.fromISO(clean, {zone: timezone, setZone: true})
+    const iso = dateTime.toUTC().toISO()
+    // console.log('iso : ' + iso, 'offset '+dateTime.offset)
+
+    return new DateExtended(iso)
+  }
+
+  /**
+   * @param {string} date
+   * @param {string} format
+   * @param {string} timeZone
+   * @return {DateExtended}
+   */
+  static fromCustomFormat(date, format, timeZone = 'utc') {
+    const iso = DateTime.fromFormat(date, format, {zone: timeZone}).toISO()
+    return new DateExtended(iso)
+  }
+
+  /**
+   * @param format
+   * @param locale
+   * @param timeZone
+   * @return {string}
+   */
+  format(format, locale, timeZone = 'UTC') {
+    return DateTimeFormatter.format(this.toUTCFlexDateTime(), format, locale, timeZone)
+  }
+
+  /**
    * @return {string}
    */
   toUTCFullDate() {
@@ -176,18 +213,18 @@ export class DateExtended extends Date {
   }
 
   getWeekNumber() {
-    let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
+    let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()))
     let dayNum = date.getUTCDay() || 7
     date.setUTCDate(date.getUTCDate() + 4 - dayNum)
-    let yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1))
-    return Math.ceil((((date - yearStart) / 86400000) + 1)/7)
+    let yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1))
+    return Math.ceil((((date - yearStart) / 86400000) + 1) / 7)
   }
 
   /**
    *
    * @returns {FlexZonedDateTime}
    */
-  toUTCFlexZonedDateTime() {
+  UTCToFlexZonedDateTime() {
     let str = this.toISOString()
     return new FlexZonedDateTime(str)
   }
