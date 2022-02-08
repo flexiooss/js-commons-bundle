@@ -68,7 +68,7 @@ export class DateFormatter {
    * @return {string}
    */
   static format(flexDate, format, locale) {
-    const date = DateExtended.fromUTCFlexDate(flexDate)
+    const date = DateExtended.fromFlexDate(flexDate)
     const dateFormatter = new DateFormatHelper(date, locale, 'UTC')
     switch (format) {
       case 'yyyy':

@@ -65,7 +65,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexTime(flexTime) {
-    throw new Error('pas bien')
+    throw new Error('pas bien faire class Time')
     assertType(
       flexTime instanceof FlexTime,
       'DateExtended:fromFlexTime: `flexTime` argument should be an instance of FlexTime'
@@ -86,6 +86,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexTime(flexTime) {
+    throw new Error('pas bien faire class Time')
     const tmp = DateExtended.fromFlexTime(flexTime)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
@@ -113,7 +114,7 @@ export class DateExtended extends Date {
       'DateExtended:fromFlexDate: `flexDate` argument should be an instance of FlexDate'
     )
     let fullDate = flexDate.toJSON().split('-')
-    return new DateExtended(fullDate[0], fullDate[1] - 1, fullDate[2])
+    return new DateExtended.UTC(parseInt(fullDate[0]), parseInt(fullDate[1]) - 1, parseInt(fullDate[2]))
   }
 
   /**
@@ -122,6 +123,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexDate(flexDate) {
+    throw new Error('pas bien')
     const tmp = DateExtended.fromFlexDate(flexDate)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
@@ -132,11 +134,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexDateTime(flexDateTime) {
-    assertType(
-      flexDateTime instanceof FlexDateTime,
-      'DateExtended:fromFlexDateTime: `flexDateTime` argument should be an instance of FlexDateTime'
-    )
-    return new DateExtended(flexDateTime.toJSON())
+    return DateExtended.fromISOWithTimezone(flexDateTime.toJSON())
   }
 
   /**
@@ -145,9 +143,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexDateTime(flexDateTime) {
-    const tmp = DateExtended.fromFlexDateTime(flexDateTime)
-    tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
-    return tmp
+    return DateExtended.fromFlexDateTime(flexDateTime)
   }
 
 
