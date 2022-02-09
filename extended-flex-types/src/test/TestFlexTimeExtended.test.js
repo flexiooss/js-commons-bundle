@@ -138,16 +138,8 @@ export class TestFlexTimeExtendedTest extends TestCase {
     assert.deepEqual(FlexTimeExtended.fromISO('23:59:00').isAfter(FlexTimeExtended.fromISO('00:00:00')), true)
   }
 
-  testOperationString() {
-    let res = FlexTimeExtended.fromISO('15:53:19').plusTime(FlexTimeExtended.fromISO('01:03:30')).toISO()
-    assert.deepEqual(res, '16:56:49.000')
-
-     res = FlexTimeExtended.fromISO('15:53:19').minusTime(FlexTimeExtended.fromISO('01:03:30')).toISO()
-    assert.deepEqual(res, '14:49:49.000')
-  }
-
-  testFormat(){
-    const format = FlexTimeExtended.fromISO('15:53:19').format("HH")
+  testFormat() {
+    const format = FlexTimeExtended.fromISO('15:53:19').format('HH')
     assert.deepEqual(format, '15')
   }
 

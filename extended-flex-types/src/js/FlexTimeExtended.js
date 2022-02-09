@@ -127,28 +127,6 @@ export class FlexTimeExtended {
   }
 
   /**
-   * @param {FlexTimeExtended} time
-   * @return {FlexTimeExtended}
-   */
-  plusTime(time) {
-    const duration = Duration.fromISOTime(time.toISO())
-    const plus = this.#toDateTime().plus(duration)
-      .toISOTime({includeOffset: false})
-    return FlexTimeExtended.fromISO(plus)
-  }
-
-  /**
-   * @param {FlexTimeExtended} time
-   * @return {FlexTimeExtended}
-   */
-  minusTime(time) {
-    const duration = Duration.fromISOTime(time.toISO())
-    const plus = this.#toDateTime().minus(duration)
-      .toISOTime({includeOffset: false})
-    return FlexTimeExtended.fromISO(plus)
-  }
-
-  /**
    * @param {string|number} hours
    * @return {FlexTimeExtended}
    */

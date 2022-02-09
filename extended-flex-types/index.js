@@ -8,6 +8,7 @@ import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/
 import {DateExtended} from './src/js/DateExtended'
 import {FlexTimeExtended} from './src/js/FlexTimeExtended'
 import {FlexDateExtended} from './src/js/FlexDateExtended'
+import {FlexDateTimeExtended} from './src/js/FlexDateTimeExtended'
 import {ArrayMap} from './src/js/FlexMap/ArrayMap'
 import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap'
 import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap'
@@ -125,7 +126,7 @@ export {FlexUrl}
 export {FlexUrlBuilder}
 export {URLExtended}
 export {URLExtendedBuilder}
-export {FlexTimeExtended, FlexDateExtended}
+export {FlexTimeExtended, FlexDateExtended, FlexDateTimeExtended}
 export {DateExtended}
 export {SymbolStringArray}
 export {SymbolStringArrayBuilder}

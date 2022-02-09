@@ -5,14 +5,13 @@ import {FlexTimeExtended} from '../FlexTimeExtended'
 
 export class DateTimeFormatter {
   /**
-   * @param {FlexDateTime} flexDateTime
+   * @param {FlexDateTimeExtended} dateTime
    * @param {string} format
    * @param {string} locale
    * @param {string} timeZone
    * @return {string}
    */
-  static format(flexDateTime, format, locale, timeZone = 'UTC') {
-    const date = DateExtended.fromUTCFlexDateTime(flexDateTime)
+  static format(dateTime, format, locale, timeZone = 'UTC') {
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
     switch (format) {
       case 'yyyy':
