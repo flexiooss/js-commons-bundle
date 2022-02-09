@@ -25,13 +25,6 @@ export class FlexDateTimeExtended {
   }
 
   /**
-   * @return {DateTime}
-   */
-  #toDateTime() {
-    return DateTime.fromISO(this.toISO())
-  }
-
-  /**
    * @param {FlexDateTime} flexDateTime
    */
   static fromFlexDateTime(flexDateTime) {
@@ -45,10 +38,35 @@ export class FlexDateTimeExtended {
    */
   static fromISO(datetime, timeZone = 'utc') {
     const clean = datetime.endsWith('Z') ? datetime.replace('Z', '') : datetime
-    const dateTime = DateTime.fromISO(clean, {zone: timeZone, setZone: true})
+    const dateTime = DateTime.fromISO(clean, {zone: timeZone})
     const iso = dateTime.toUTC().toISO({includeOffset: false})
     const flexDateTime = new FlexDateTime(iso)
     return new FlexDateTimeExtended(flexDateTime)
+  }
+
+  /**
+   * @param {number} millis
+   * @return {FlexDateTimeExtended}
+   */
+  static fromMillis(millis) {
+    const iso = DateTime.fromMillis(millis).toUTC().toISO({includeOffset: false})
+    return FlexDateTimeExtended.fromISO(iso)
+  }
+
+  /**
+   * @param {number} seconds
+   * @return {FlexDateTimeExtended}
+   */
+  static fromSeconds(seconds) {
+    const iso = DateTime.fromSeconds(seconds).toUTC().toISO({includeOffset: false})
+    return FlexDateTimeExtended.fromISO(iso)
+  }
+
+  /**
+   * @return {DateTime}
+   */
+  #toDateTime() {
+    return DateTime.fromISO(this.toISO())
   }
 
   /**
@@ -333,6 +351,20 @@ export class FlexDateTimeExtended {
    */
   toFlexDateTime() {
     return this.#datetime
+  }
+
+  /**
+   * @return {number}
+   */
+  toSeconds() {
+    return Math.floor(this.toMillis() / 1000.0)
+  }
+
+  /**
+   * @return {number}
+   */
+  toMillis() {
+    return Date.UTC(this.years(), this.months() - 1, this.days(), this.hours(), this.minutes(), this.seconds(), this.milliseconds())
   }
 
   /**

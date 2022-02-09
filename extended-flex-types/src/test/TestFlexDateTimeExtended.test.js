@@ -8,6 +8,32 @@ const assert = require('assert')
 export class TestFlexDateTimeExtendedTest extends TestCase {
   debug = true
 
+  testFromNumber() {
+    const millis = Date.UTC(2022, 2, 9, 15, 53, 19, 0)
+    let iso = FlexDateTimeExtended.fromMillis(millis).toISO()
+    assert.deepEqual(iso, '2022-03-09T15:53:19.000')
+
+    const seconds = Math.floor(millis / 1000)
+    iso = FlexDateTimeExtended.fromSeconds(seconds).toISO()
+    assert.deepEqual(iso, '2022-03-09T15:53:19.000')
+  }
+
+  testToNumber() {
+    const millis = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toMillis()
+    const seconds = Math.floor(millis / 1000)
+    assert.deepEqual(millis, Date.UTC(2022, 2, 9, 15, 53, 19, 0))
+
+    let dt = FlexDateTimeExtended.fromMillis(millis)
+    assert.deepEqual(dt.toISO(), '2022-03-09T15:53:19.000')
+    assert.deepEqual(dt.toMillis(), millis)
+    assert.deepEqual(dt.toSeconds(), seconds)
+
+    dt = FlexDateTimeExtended.fromSeconds(dt.toSeconds())
+    assert.deepEqual(dt.toISO(), '2022-03-09T15:53:19.000')
+    assert.deepEqual(dt.toMillis(), millis)
+    assert.deepEqual(dt.toSeconds(), seconds)
+  }
+
   testFromIso() {
     let flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toFlexDateTime()
     assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.000'))
