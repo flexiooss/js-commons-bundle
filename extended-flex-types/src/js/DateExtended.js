@@ -33,31 +33,9 @@ const padLeft = (input, expectedLength, replaceWith = '0') => {
  * - les Timezones ne sont utilisés qu'en entrée et en sortie : au parse et au formatage
  */
 export class DateExtended extends Date {
-  constructor(dateString, ...args) {
-    if (isString(dateString)) {
-      /**
-       * @type {boolean}
-       */
-      let errorDate = false
-      /**
-       * @type {boolean}
-       */
-      let errorDateTime = false
-      try {
-        new FlexDate(dateString)
-      } catch {
-        errorDate = true
-      }
-      try {
-        new FlexZonedDateTime(dateString)
-      } catch {
-        errorDateTime = true
-      }
-      if (errorDate && errorDateTime) {
-        throw TypeError('Date string pattern not match : ' + dateString)
-      }
-    }
-    super(dateString, ...args);
+  constructor(...args) {
+    super(...args);
+    console.error('[DEPRECATED] DO NOT USE DateExtended')
   }
 
   /**
