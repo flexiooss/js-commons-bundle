@@ -63,7 +63,7 @@ export class FlexDateTimeExtended {
   }
 
   /**
-   * 1 - 30
+   * 1 - 31
    * @return {number}
    */
   days() {
@@ -97,7 +97,6 @@ export class FlexDateTimeExtended {
   milliseconds() {
     return this.#toDateTime().millisecond
   }
-
 
   /**
    * @param {object} object
@@ -197,7 +196,6 @@ export class FlexDateTimeExtended {
     return this.#plus({day: days})
   }
 
-
   /**
    * @param {string|number} hours
    * @return {FlexDateTimeExtended}
@@ -265,7 +263,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} hours
-   * @return {FlexTimeExtended}
+   * @return {FlexDateTimeExtended}
    */
   minusHours(hours) {
     return this.#minus({hour: hours})
@@ -273,7 +271,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} minutes
-   * @return {FlexTimeExtended}
+   * @return {FlexDateTimeExtended}
    */
   minusMinutes(minutes) {
     return this.#minus({minute: minutes})
@@ -281,7 +279,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} seconds
-   * @return {FlexTimeExtended}
+   * @return {FlexDateTimeExtended}
    */
   minusSeconds(seconds) {
     return this.#minus({second: seconds})
@@ -289,7 +287,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} millisecond
-   * @return {FlexTimeExtended}
+   * @return {FlexDateTimeExtended}
    */
   minusMilliseconds(millisecond) {
     return this.#minus({millisecond: millisecond})
@@ -336,9 +334,10 @@ export class FlexDateTimeExtended {
   /**
    * @param {string} format
    * @param {string} locale
+   * @param {string} [timeZone=UTC]
    * @return {string}
    */
-  format(format, locale) {
-    return DateTimeFormatter.format(this, format, locale)
+  format(format, locale, timeZone) {
+    return DateTimeFormatter.format(this, format, locale, timeZone)
   }
 }
