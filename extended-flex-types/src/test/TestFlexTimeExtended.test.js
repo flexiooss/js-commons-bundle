@@ -31,7 +31,6 @@ export class TestFlexTimeExtendedTest extends TestCase {
   testNow() {
     const start = new Date()
     const time = FlexTimeExtended.now()
-    console.log(time.toISO())
 
     assert.deepEqual(start.getUTCHours(), time.hours())
     assert.deepEqual(start.getUTCMinutes(), time.minutes())
@@ -53,19 +52,19 @@ export class TestFlexTimeExtendedTest extends TestCase {
   }
 
   testSetParts() {
-    let time = FlexTimeExtended.fromISO('15:53:19')
-    assert.deepEqual(time.setHours(12).toISO(), '12:53:19.000')
-    assert.deepEqual(time.setHours('22').toISO(), '22:53:19.000')
-    assert.deepEqual(time.setHours(24).toISO(), '00:53:19.000')
-    assert.deepEqual(time.setHours(48).toISO(), '00:53:19.000')
+    const time = FlexTimeExtended.fromISO('15:53:19')
+    assert.deepEqual(time.setHour(12).toISO(), '12:53:19.000')
+    assert.deepEqual(time.setHour('22').toISO(), '22:53:19.000')
+    assert.deepEqual(time.setHour(24).toISO(), '00:53:19.000')
+    assert.deepEqual(time.setHour(48).toISO(), '00:53:19.000')
 
-    assert.deepEqual(time.setMinutes(12).toISO(), '15:12:19.000')
-    assert.deepEqual(time.setMinutes('22').toISO(), '15:22:19.000')
-    assert.deepEqual(time.setMinutes(60).toISO(), '16:00:19.000')
+    assert.deepEqual(time.setMinute(12).toISO(), '15:12:19.000')
+    assert.deepEqual(time.setMinute('22').toISO(), '15:22:19.000')
+    assert.deepEqual(time.setMinute(60).toISO(), '16:00:19.000')
 
-    assert.deepEqual(time.setSeconds(12).toISO(), '15:53:12.000')
-    assert.deepEqual(time.setSeconds('22').toISO(), '15:53:22.000')
-    assert.deepEqual(time.setSeconds(3000).toISO(), '16:43:00.000')
+    assert.deepEqual(time.setSecond(12).toISO(), '15:53:12.000')
+    assert.deepEqual(time.setSecond('22').toISO(), '15:53:22.000')
+    assert.deepEqual(time.setSecond(3000).toISO(), '16:43:00.000')
 
     assert.deepEqual(time.setMilliseconds(12).toISO(), '15:53:19.012')
     assert.deepEqual(time.setMilliseconds('22').toISO(), '15:53:19.022')
@@ -74,7 +73,7 @@ export class TestFlexTimeExtendedTest extends TestCase {
   }
 
   testPlus() {
-    let time = FlexTimeExtended.fromISO('15:53:19')
+    const time = FlexTimeExtended.fromISO('15:53:19')
     assert.deepEqual(time.plusHours(2).toISO(), '17:53:19.000')
     assert.deepEqual(time.plusHours(-4).toISO(), '11:53:19.000')
     assert.deepEqual(time.plusHours(12).toISO(), '03:53:19.000')
@@ -101,7 +100,7 @@ export class TestFlexTimeExtendedTest extends TestCase {
   }
 
   testMinus() {
-    let time = FlexTimeExtended.fromISO('15:53:19')
+    const time = FlexTimeExtended.fromISO('15:53:19')
     assert.deepEqual(time.minusHours(2).toISO(), '13:53:19.000')
     assert.deepEqual(time.minusHours(-4).toISO(), '19:53:19.000')
     assert.deepEqual(time.minusHours(12).toISO(), '03:53:19.000')
@@ -148,7 +147,8 @@ export class TestFlexTimeExtendedTest extends TestCase {
   }
 
   testFormat(){
-    FlexTimeExtended.fromISO('15:53:19').format()
+    const format = FlexTimeExtended.fromISO('15:53:19').format("HH")
+    assert.deepEqual(format, '15')
   }
 
 }

@@ -1,6 +1,7 @@
 import {DateExtended} from '../DateExtended'
 import {isNull} from '../../../../assert'
 import {DateTime} from 'luxon'
+import {FlexTimeExtended} from '../FlexTimeExtended'
 
 export class DateTimeFormatter {
   /**
@@ -62,21 +63,19 @@ export class DateTimeFormatter {
 
 export class DateFormatter {
   /**
-   * @param {FlexDate} flexDate
+   * @param {FlexDateExtended} date
    * @param {string} format
    * @param {string} locale
    * @return {string}
    */
-  static format(flexDate, format, locale) {
-    const date = DateExtended.fromFlexDate(flexDate)
-    const dateFormatter = new DateFormatHelper(date, locale, 'UTC')
+  static format(date, format, locale) {
     switch (format) {
       case 'yyyy':
-        return dateFormatter.year()
+        return `${date.years()}`
       case 'MM':
-        return dateFormatter.month()
+        return `${date.months()}`
       case 'dd':
-        return dateFormatter.day()
+        return `${date.days()}`
       case 'w':
         return date.getWeekNumber().toString()
       case 'dd MM yy':
@@ -93,24 +92,23 @@ export class DateFormatter {
 
 export class TimeFormatter {
   /**
-   * @param {FlexTime} flexTime
+   * @param {FlexTimeExtended} time
    * @param {string} format
    * @param {string} locale
    * @return {string}
    */
-  static format(flexTime, format, locale) {
-    const dateFormatter = new DateFormatHelper(DateExtended.fromUTCFlexTime(flexTime), locale, 'UTC')
+  static format(time, format, locale) {
     switch (format) {
       case 'HH':
-        return dateFormatter.hour()
+        return time.hours()
       case 'mm':
-        return dateFormatter.minute()
+        return time.minutes()
       case 'ss':
-        return dateFormatter.second()
+        return time.seconds()
       case 'HH:mm':
-        return `${dateFormatter.hour()}:${dateFormatter.minute()}`
+        return `${time.hours()}:${time.minutes()}`
       case 'HH:mm:ss':
-        return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
+        return `${time.hours()}:${time.minutes()}:${time.seconds()}`
       default:
         throw Error(`TimeFormatter: format ${format} not implemented yet`)
     }

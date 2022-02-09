@@ -8,6 +8,9 @@ export class FlexTimeExtended {
    */
   #time
 
+  /**
+   * @param {FlexTime} flexTime
+   */
   constructor(flexTime) {
     TypeCheck.assertIsFlexTime(flexTime)
     this.#time = flexTime
@@ -85,7 +88,7 @@ export class FlexTimeExtended {
    * @param {string|number} hours
    * @return {FlexTimeExtended}
    */
-  setHours(hours) {
+  setHour(hours) {
     return this.#set({hour: hours})
   }
 
@@ -93,7 +96,7 @@ export class FlexTimeExtended {
    * @param {string|number} minutes
    * @return {FlexTimeExtended}
    */
-  setMinutes(minutes) {
+  setMinute(minutes) {
     return this.#set({minute: minutes})
   }
 
@@ -101,7 +104,7 @@ export class FlexTimeExtended {
    * @param {string|number} seconds
    * @return {FlexTimeExtended}
    */
-  setSeconds(seconds) {
+  setSecond(seconds) {
     return this.#set({second: seconds})
   }
 
@@ -227,10 +230,18 @@ export class FlexTimeExtended {
     return this.#toDateTime() < DateTime.fromISO(time.toISO())
   }
 
+  /**
+   * @param {FlexTimeExtended} time
+   * @return {boolean}
+   */
   isAfter(time) {
     return this.#toDateTime() > DateTime.fromISO(time.toISO())
   }
 
+  /**
+   * @param {FlexTimeExtended} time
+   * @return {boolean}
+   */
   isEquals(time) {
     return this.#toDateTime().equals(DateTime.fromISO(time.toISO()))
   }
@@ -255,6 +266,6 @@ export class FlexTimeExtended {
    * @return {string}
    */
   format(format, locale) {
-    return TimeFormatter.format(this.toFlexTime(), format, locale)
+    return TimeFormatter.format(this, format, locale)
   }
 }
