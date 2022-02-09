@@ -40,10 +40,14 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string} datetime
+   * @param {string} timeZone
    * @return {FlexDateTimeExtended}
    */
-  static fromISO(datetime) {
-    const flexDateTime = new FlexDateTime(datetime)
+  static fromISO(datetime, timeZone = 'utc') {
+    const clean = datetime.endsWith('Z') ? datetime.replace('Z', '') : datetime
+    const dateTime = DateTime.fromISO(clean, {zone: timeZone, setZone: true})
+    const iso = dateTime.toUTC().toISO({includeOffset: false})
+    const flexDateTime = new FlexDateTime(iso)
     return new FlexDateTimeExtended(flexDateTime)
   }
 

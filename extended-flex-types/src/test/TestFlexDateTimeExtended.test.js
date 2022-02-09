@@ -10,13 +10,33 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
 
   testFromIso() {
     let flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toFlexDateTime()
-    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19'))
+    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.000'))
 
     flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toFlexDateTime()
-    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19'))
+    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.000'))
 
     flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toISO()
-    assert.deepEqual(flexDateTime, '2022-03-09T15:53:19')
+    assert.deepEqual(flexDateTime, '2022-03-09T15:53:19.000')
+  }
+
+  testFromIsoWithTimezone() {
+    let flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19', 'utc').toFlexDateTime()
+    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.000'))
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19Z', 'utc').toFlexDateTime()
+    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.000'))
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T12:53:19', 'Australia/Sydney').toISO()
+    assert.deepEqual(flexDateTime, '2022-03-09T01:53:19.000')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-08-09T12:53:19', 'Australia/Sydney').toISO()
+    assert.deepEqual(flexDateTime, '2022-08-09T02:53:19.000')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-08-09T12:53:19+10:00', 'Australia/Sydney').toISO()
+    assert.deepEqual(flexDateTime, '2022-08-09T02:53:19.000')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-08-09T12:53:19+10:00').toISO()
+    assert.deepEqual(flexDateTime, '2022-08-09T02:53:19.000')
   }
 
   testFromFlexTime() {

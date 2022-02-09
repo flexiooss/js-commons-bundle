@@ -1,9 +1,9 @@
 import {assert, assertType, isNull} from './__import__assert'
 
 
-const datetimePattern = /^((-\d{6})|(\d{4}))-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
-const zonedDatetimePattern = /^((-\d{6})|(\d{4}))-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
-const datePattern = /^((-\d{6})|(\d{4}))-(\d{2})-(\d{2})$/
+const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
+const zonedDatetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
+const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/
 const timePattern = /^(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?/
 
 
