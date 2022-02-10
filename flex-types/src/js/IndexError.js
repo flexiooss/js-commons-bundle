@@ -5,7 +5,7 @@ export class IndexError extends Error {
   }
 
   /**
-   * @param {string} key
+   * @param {string|number} key
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY(key) {
@@ -18,7 +18,7 @@ export class IndexError extends Error {
   }
 
   /**
-   * @param {string} key
+   * @param {string|number} key
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY_GT_LENGTH(key) {
