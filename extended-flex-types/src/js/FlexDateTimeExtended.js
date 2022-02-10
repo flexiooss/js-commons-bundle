@@ -40,8 +40,8 @@ export class FlexDateTimeExtended {
    */
   static fromISO(datetime, timeZone = 'utc') {
     const clean = datetime.endsWith('Z') ? datetime.replace('Z', '') : datetime
-    const dateTime = DateTime.fromISO(clean, {zone: timeZone})
-    const iso = dateTime.toUTC().toISO({includeOffset: false})
+    const dt = DateTime.fromISO(clean, {zone: timeZone})
+    const iso = dt.toUTC().toISO({includeOffset: false})
     const flexDateTime = new FlexDateTime(iso)
     return new FlexDateTimeExtended(flexDateTime)
   }
@@ -51,7 +51,7 @@ export class FlexDateTimeExtended {
    * @return {FlexDateTimeExtended}
    */
   static fromMillis(millis) {
-    const iso = DateTime.fromMillis(millis).toUTC().toISO({includeOffset: false})
+    const iso = DateTime.fromMillis(millis, {zone: 'utc'}).toISO({includeOffset: false})
     return FlexDateTimeExtended.fromISO(iso)
   }
 
@@ -60,7 +60,7 @@ export class FlexDateTimeExtended {
    * @return {FlexDateTimeExtended}
    */
   static fromSeconds(seconds) {
-    const iso = DateTime.fromSeconds(seconds).toUTC().toISO({includeOffset: false})
+    const iso = DateTime.fromSeconds(seconds, {zone: 'utc'}).toISO({includeOffset: false})
     return FlexDateTimeExtended.fromISO(iso)
   }
 
@@ -375,14 +375,14 @@ export class FlexDateTimeExtended {
    * @return {number}
    */
   toSeconds() {
-    return Math.floor(this.toMillis() / 1000.0)
+    return DateTime.fromISO(this.#datetime.toJSON(), {zone: 'UTC'}).toSeconds()
   }
 
   /**
    * @return {number}
    */
   toMillis() {
-    return Date.UTC(this.years(), this.months() - 1, this.days(), this.hours(), this.minutes(), this.seconds(), this.milliseconds())
+    return DateTime.fromISO(this.#datetime.toJSON(), {zone: 'UTC'}).toMillis()
   }
 
   /**

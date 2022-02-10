@@ -224,6 +224,12 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
     let format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr')
     assert.deepEqual(format, '09/03/2022 15:53:19')
 
+    format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr', 'utc')
+    assert.deepEqual(format, '09/03/2022 15:53:19')
+
+    format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr', 'Europe/Paris')
+    assert.deepEqual(format, '09/03/2022 16:53:19')
+
     format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr', 'Australia/Sydney')
     assert.deepEqual(format, '10/03/2022 02:53:19')
   }
