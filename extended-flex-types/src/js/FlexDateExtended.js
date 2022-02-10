@@ -1,6 +1,6 @@
 import {FlexDate, TypeCheck} from './__import__flex-types'
-import {DateTime, Duration} from 'luxon'
-import {DateFormatter, TimeFormatter} from './date-formatter/DateFormatter'
+import {DateTime} from 'luxon'
+import {DateFormatter} from './date-formatter/DateFormatter'
 
 export class FlexDateExtended {
   /**
@@ -68,6 +68,22 @@ export class FlexDateExtended {
    */
   days() {
     return this.#toDateTime().day
+  }
+
+  /**
+   * 1 - 52
+   * @return {number}
+   */
+  weekNumber() {
+    return this.#toDateTime().weekNumber
+  }
+
+  /**
+   * 1-7 1 is Monday and 7 is Sunday
+   * @return {number}
+   */
+  weekDay() {
+    return this.#toDateTime().weekday
   }
 
   /**

@@ -1,4 +1,3 @@
-import {DateExtended} from '../DateExtended'
 import {isNull} from '../../../../assert'
 import {DateTime} from 'luxon'
 import {FlexTimeExtended} from '../FlexTimeExtended'
@@ -12,6 +11,7 @@ export class DateTimeFormatter {
    * @return {string}
    */
   static format(dateTime, format, locale, timeZone = 'UTC') {
+    const date = new Date(dateTime.toISO() + 'Z')
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
     switch (format) {
       case 'yyyy':
@@ -21,7 +21,7 @@ export class DateTimeFormatter {
       case 'dd':
         return dateFormatter.day()
       case 'w':
-        return date.getWeekNumber().toString()
+        return `${dateTime.weekNumber()}`
       case 'HH':
         return dateFormatter.hour()
       case 'mm':
@@ -45,18 +45,10 @@ export class DateTimeFormatter {
       case 'yyyy-MM-ddTHH:mm:ssZ':
         return `${dateFormatter.year('UTC')}-${dateFormatter.month('UTC')}-${dateFormatter.day('UTC')}T${dateFormatter.hour('UTC')}:${dateFormatter.minute('UTC')}:${dateFormatter.second('UTC')}Z`
       case 'json':
-        return this.#getJsonDate(date)
+        return `/Date(${date.getTime()})/`
       default:
         return DateTime.fromISO(date.toISOString()).setZone(timeZone).setLocale(locale).toFormat(format)
     }
-  }
-
-  /**
-   * @param date
-   * @return {string}
-   */
-  static #getJsonDate(date) {
-    return `/Date(${date.getTime()})/`
   }
 }
 
@@ -68,6 +60,8 @@ export class DateFormatter {
    * @return {string}
    */
   static format(date, format, locale) {
+    const dateJS = new Date(date.toISO() + 'Z')
+    const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
     switch (format) {
       case 'yyyy':
         return `${date.years()}`
@@ -76,7 +70,7 @@ export class DateFormatter {
       case 'dd':
         return `${date.days()}`
       case 'w':
-        return date.getWeekNumber().toString()
+        return `${date.weekNumber()}`
       case 'dd MM yy':
         return `${dateFormatter.day()} ${dateFormatter.month()} ${dateFormatter.shortYear()}`
       case 'dd/MM/yyyy':
@@ -99,11 +93,11 @@ export class TimeFormatter {
   static format(time, format, locale) {
     switch (format) {
       case 'HH':
-        return time.hours()
+        return `${time.hours()}`
       case 'mm':
-        return time.minutes()
+        return `${time.minutes()}`
       case 'ss':
-        return time.seconds()
+        return `${time.seconds()}`
       case 'HH:mm':
         return `${time.hours()}:${time.minutes()}`
       case 'HH:mm:ss':

@@ -41,6 +41,8 @@ export class TestFlexDateExtendedTest extends TestCase {
     assert.deepEqual(date.years(), 2022)
     assert.deepEqual(date.months(), 3)
     assert.deepEqual(date.days(), 9)
+    assert.deepEqual(date.weekNumber(), 10)
+    assert.deepEqual(date.weekDay(), 3)
   }
 
   testSetParts() {

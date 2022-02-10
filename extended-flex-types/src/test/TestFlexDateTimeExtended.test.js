@@ -95,6 +95,8 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
     assert.deepEqual(dt.minutes(), 53)
     assert.deepEqual(dt.seconds(), 19)
     assert.deepEqual(dt.milliseconds(), 0)
+    assert.deepEqual(dt.weekNumber(), 10)
+    assert.deepEqual(dt.weekDay(), 3)
 
     dt = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.456')
     assert.deepEqual(dt.milliseconds(), 456)
@@ -212,10 +214,19 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
     assert.deepEqual(FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.000').isAfter(FlexDateTimeExtended.fromISO('2023-03-09T15:53:19.000')), false)
   }
 
-  // testFormat() {
-  //   const format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('HH')
-  //   assert.deepEqual(format, '15')
-  // }
+  testToExtended() {
+    const dt = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.000')
+    assert.deepEqual(dt.toDate().toISO(), '2022-03-09')
+    assert.deepEqual(dt.toTime().toISO(), '15:53:19.000')
+  }
+
+  testFormat() {
+    let format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr')
+    assert.deepEqual(format, '09/03/2022 15:53:19')
+
+    format = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').format('dd/MM/yyyy HH:mm:ss', 'fr', 'Australia/Sydney')
+    assert.deepEqual(format, '10/03/2022 02:53:19')
+  }
 
 }
 

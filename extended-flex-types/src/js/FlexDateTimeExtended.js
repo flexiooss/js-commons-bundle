@@ -1,6 +1,8 @@
 import {FlexDateTime, TypeCheck} from './__import__flex-types'
 import {DateTime} from 'luxon'
 import {DateTimeFormatter} from './date-formatter/DateFormatter'
+import {FlexDateExtended} from './FlexDateExtended'
+import {FlexTimeExtended} from './FlexTimeExtended'
 
 export class FlexDateTimeExtended {
   /**
@@ -118,6 +120,22 @@ export class FlexDateTimeExtended {
    */
   milliseconds() {
     return this.#toDateTime().millisecond
+  }
+
+  /**
+   * 1 - 52
+   * @return {number}
+   */
+  weekNumber() {
+    return this.#toDateTime().weekNumber
+  }
+
+  /**
+   * 1-7 1 is Monday and 7 is Sunday
+   * @return {number}
+   */
+  weekDay() {
+    return this.#toDateTime().weekday
   }
 
   /**
@@ -365,6 +383,20 @@ export class FlexDateTimeExtended {
    */
   toMillis() {
     return Date.UTC(this.years(), this.months() - 1, this.days(), this.hours(), this.minutes(), this.seconds(), this.milliseconds())
+  }
+
+  /**
+   * @return {FlexDateExtended}
+   */
+  toDate() {
+    return FlexDateExtended.fromISO(this.#toDateTime().toISODate())
+  }
+
+  /**
+   * @return {FlexTimeExtended}
+   */
+  toTime() {
+    return FlexTimeExtended.fromISO(this.#toDateTime().toISOTime({includeOffset: false}))
   }
 
   /**
