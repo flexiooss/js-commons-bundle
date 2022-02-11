@@ -15,7 +15,7 @@ export class FlexArray extends Array {
   #frozen = false
 
   /**
-   * @param {...<TYPE>} args
+   * @param {TYPE[]} args
    */
   constructor(...args) {
     super()
@@ -95,7 +95,7 @@ export class FlexArray extends Array {
   get(offset) {
     const ret = this[offset]
     if (isUndefined(ret)) {
-      throw globalFlexioImport.io.flexio.flex_types.IndexError.BAD_ARRAY_KEY(offset)
+      throw IndexError.BAD_ARRAY_KEY(offset)
     }
     return ret
   }
@@ -128,11 +128,11 @@ export class FlexArray extends Array {
    *
    * @param {number} offset
    * @param {TYPE} value
-   * @return {FlexArray.<TYPE>}
+   * @return {this}
    */
   set(offset, value) {
     if (offset > this.length) {
-      throw  IndexError.BAD_ARRAY_KEY_GT_LENGTH(offset)
+      throw IndexError.BAD_ARRAY_KEY_GT_LENGTH(offset)
     }
     this._validate(value)
     this[offset] = value
@@ -176,7 +176,7 @@ export class FlexArray extends Array {
    *
    * @param {number} [start=0]
    * @param {?number} [end=null]
-   * @return {FlexArray.<TYPE>}
+   * @return {this}
    */
   slice(start = 0, end = null) {
     end = (isNull(end))
@@ -202,7 +202,7 @@ export class FlexArray extends Array {
    * @param {number} start
    * @param {number} deleteCount
    * @param {...TYPE} args
-   * @return {FlexArray.<TYPE>}
+   * @return {this}
    */
   splice(start, deleteCount, ...args) {
     const a = this.toArray()
@@ -218,7 +218,7 @@ export class FlexArray extends Array {
    *
    * @param {function(current: TYPE, index: number, all: this):boolean} callback
    * @param thisArg
-   * @return {FlexArray<TYPE>}
+   * @return {this}
    */
   filter(callback, thisArg) {
     TypeCheck.assertIsFunction(callback)
@@ -317,7 +317,7 @@ export class FlexArray extends Array {
   /**
    * @param {number} index
    * @param {TYPE} value
-   * @return {Array<TYPE>}
+   * @return {this}
    */
   with(index, value) {
 
@@ -331,7 +331,7 @@ export class FlexArray extends Array {
 
   /**
    * @param {...TYPE} v
-   * @return {Array<TYPE>}
+   * @return {this}
    */
   withPush(...v) {
     const ret = new this.constructor(...this)
@@ -343,7 +343,7 @@ export class FlexArray extends Array {
   }
 
   /**
-   * @return {Array<TYPE>}
+   * @return {this}
    */
   withPop() {
     const ret = new this.constructor(...this)
@@ -355,7 +355,7 @@ export class FlexArray extends Array {
   }
 
   /**
-   * @return {Array<TYPE>}
+   * @return {this}
    */
   withShift() {
     const ret = new this.constructor(...this)

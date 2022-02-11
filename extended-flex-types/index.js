@@ -34,23 +34,6 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExp', 
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExpBuilder', FlexRegExpBuilder)
 
-///**
-// * @property {StringArray} globalFlexioImport.io.flexio.extended_flex_types.StringArray
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.StringArray', StringArray)
-///**
-// * @property {StringArrayBuilder} globalFlexioImport.io.flexio.extended_flex_types.StringArrayBuilder
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.StringArrayBuilder', StringArrayBuilder)
-///**
-// * @property {NumberArray} globalFlexioImport.io.flexio.extended_flex_types.NumberArray
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.NumberArray', NumberArray)
-///**
-// * @property {NumberArrayBuilder} globalFlexioImport.io.flexio.extended_flex_types.NumberArrayBuilder
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.NumberArrayBuilder', NumberArrayBuilder)
-
 /**
  * @property {DateExtended} globalFlexioImport.io.flexio.extended_flex_types.DateExtended
  */
