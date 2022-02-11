@@ -91,17 +91,20 @@ export class TimeFormatter {
    * @return {string}
    */
   static format(time, format, locale) {
+    const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
+    const dt = new Date(date)
+    const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
     switch (format) {
       case 'HH':
-        return `${time.hours()}`
+        return dateFormatter.hour()
       case 'mm':
-        return `${time.minutes()}`
+        return dateFormatter.minute()
       case 'ss':
-        return `${time.seconds()}`
+        return dateFormatter.second()
       case 'HH:mm':
-        return `${time.hours()}:${time.minutes()}`
+        return `${dateFormatter.hour()}:${dateFormatter.minute()}`
       case 'HH:mm:ss':
-        return `${time.hours()}:${time.minutes()}:${time.seconds()}`
+        return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       default:
         throw Error(`TimeFormatter: format ${format} not implemented yet`)
     }
