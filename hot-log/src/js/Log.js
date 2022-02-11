@@ -1,12 +1,12 @@
-import {assertInstanceOf, isNull, TypeCheck} from '../../../assert'
-import {HotLogLevel} from "./HotLogLevel";
-import {DateExtended} from '../../../extended-flex-types'
+import {assertInstanceOf, TypeCheck} from '../../../assert'
+import {HotLogLevel} from './HotLogLevel'
+import {FlexDateTimeExtended} from '../../../extended-flex-types'
 
 export class Log {
   /**
    * @type {FlexDateTime}
    */
-  #date = new DateExtended().toUTCFlexDateTime()
+  #date = FlexDateTimeExtended.now().toFlexDateTime()
   /**
    * @type {string}
    */
@@ -31,44 +31,44 @@ export class Log {
    * @param {?Object} context
    */
   constructor(emitter, level, message, context) {
-    this.#emitter = TypeCheck.assertIsString(emitter);
-    this.#level = assertInstanceOf(level, HotLogLevel, 'HotLogLevel');
-    this.#message = TypeCheck.assertIsString(message);
-    this.#context = TypeCheck.assertIsObjectOrNull(context);
+    this.#emitter = TypeCheck.assertIsString(emitter)
+    this.#level = assertInstanceOf(level, HotLogLevel, 'HotLogLevel')
+    this.#message = TypeCheck.assertIsString(message)
+    this.#context = TypeCheck.assertIsObjectOrNull(context)
   }
 
   /**
    * @return {FlexDateTime}
    */
   date() {
-    return this.#date;
+    return this.#date
   }
 
   /**
    * @return {string}
    */
   emitter() {
-    return this.#emitter;
+    return this.#emitter
   }
 
   /**
    * @return {HotLogLevel}
    */
   level() {
-    return this.#level;
+    return this.#level
   }
 
   /**
    * @return {string}
    */
   message() {
-    return this.#message;
+    return this.#message
   }
 
   /**
    * @return {?Object}
    */
   context() {
-    return this.#context;
+    return this.#context
   }
 }
