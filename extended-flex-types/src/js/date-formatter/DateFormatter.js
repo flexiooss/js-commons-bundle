@@ -64,11 +64,11 @@ export class DateFormatter {
     const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
     switch (format) {
       case 'yyyy':
-        return `${date.years()}`
+        return dateFormatter.year()
       case 'MM':
-        return `${date.months()}`
+        return dateFormatter.month()
       case 'dd':
-        return `${date.days()}`
+        return dateFormatter.day()
       case 'w':
         return `${date.weekNumber()}`
       case 'dd MM yy':
