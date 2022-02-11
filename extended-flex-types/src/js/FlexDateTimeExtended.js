@@ -68,7 +68,7 @@ export class FlexDateTimeExtended {
    * @return {DateTime}
    */
   #toDateTime() {
-    return DateTime.fromISO(this.toISO())
+    return DateTime.fromISO(this.toISO(), {zone: 'utc'})
   }
 
   /**
@@ -208,7 +208,7 @@ export class FlexDateTimeExtended {
    * @return {FlexDateTimeExtended}
    */
   #plus(object) {
-    const datetime = this.#toDateTime().plus(object).toISO({includeOffset: false})
+    const datetime = this.#toDateTime().plus(object).toUTC().toISO({includeOffset: false})
     return FlexDateTimeExtended.fromISO(datetime)
   }
 
@@ -338,7 +338,7 @@ export class FlexDateTimeExtended {
    * @return {boolean}
    */
   isBefore(datetime) {
-    return this.#toDateTime() < DateTime.fromISO(datetime.toISO())
+    return this.#toDateTime() < DateTime.fromISO(datetime.toISO(), {zone: 'utc'})
   }
 
   /**
@@ -346,7 +346,7 @@ export class FlexDateTimeExtended {
    * @return {boolean}
    */
   isAfter(datetime) {
-    return this.#toDateTime() > DateTime.fromISO(datetime.toISO())
+    return this.#toDateTime() > DateTime.fromISO(datetime.toISO(), {zone: 'utc'})
   }
 
   /**
@@ -354,7 +354,7 @@ export class FlexDateTimeExtended {
    * @return {boolean}
    */
   isEquals(datetime) {
-    return this.#toDateTime().equals(DateTime.fromISO(datetime.toISO()))
+    return this.#toDateTime().equals(DateTime.fromISO(datetime.toISO(), {zone: 'utc'}))
   }
 
   /**

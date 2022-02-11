@@ -148,7 +148,7 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
     assert.deepEqual(dt.plusMilliseconds(-100).toISO(), '2022-03-09T15:53:18.900')
     assert.deepEqual(dt.plusMilliseconds(10_000).toISO(), '2022-03-09T15:53:29.000')
     assert.deepEqual(dt.plusMilliseconds(10_000_000).toISO(), '2022-03-09T18:39:59.000')
-    assert.deepEqual(dt.plusMilliseconds(10_000_000_000).toISO(), '2022-07-03T10:39:59.000')
+    assert.deepEqual(dt.plusMilliseconds(10_000_000_000).toISO(), '2022-07-03T09:39:59.000')
     assert.deepEqual(dt.plusMilliseconds(10_000_000_000_000).toISO(), '2339-01-28T09:39:59.000')
 
     const iso = dt
