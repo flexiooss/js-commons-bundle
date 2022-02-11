@@ -128,50 +128,5 @@ export class TestDateExtendedTest extends TestCase {
     date = new DateExtended('2021-02-15T15:21:07') // applique le offset local, il va donc retrancher 1H
     assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07')
   }
-
-  testFormat() {
-    const date = new DateExtended('2021-02-15T15:21:07Z')
-    let formatted = date.format('dd/MM/yyyy HH:mm:ss')
-    assert.deepEqual(formatted, '15/02/2021 15:21:07')
-
-    formatted = date.format('dd mm')
-    assert.deepEqual(formatted, '15 21')
-  }
-
-  testFormatWithTimeZoneWinter() {
-    const winter = new DateExtended('2021-02-15T15:21:07Z')
-    this.log('winter : ' + winter.toISOString())
-
-    const formatted = winter.format('dd/MM/yyyy HH:mm:ss', 'fr', 'Australia/Sydney')
-    this.log('format winter : ' + formatted)
-    assert.deepEqual(formatted, '16/02/2021 02:21:07')
-
-    const parsed = DateExtended.fromISOWithTimezone('2021-02-16T02:21:07', 'Australia/Sydney')
-    this.log('parsed : ' + parsed.toISOString())
-    assert.deepEqual(parsed.toISOString(), '2021-02-15T15:21:07.000Z')
-  }
-
-  testFormatWithTimeZoneSummer() {
-    const summer = new DateExtended('2021-08-15T15:21:07Z')
-    this.log('summer : ' + summer.toISOString())
-
-    const formatted = summer.format('dd/MM/yyyy HH:mm:ss', 'fr', 'Australia/Sydney')
-    this.log('format summer : ' + formatted)
-    assert.deepEqual(formatted, '16/08/2021 01:21:07', 'format')
-
-    const parsed = DateExtended.fromISOWithTimezone('2021-08-16T01:21:07', 'Australia/Sydney')
-    this.log('parsed : ' + parsed.toISOString())
-    assert.deepEqual(parsed.toISOString(), '2021-08-15T15:21:07.000Z', 'parse')
-  }
-
-  testCustomFormatWithTimezone() {
-    let dateExtended = new DateExtended('2021-02-15T15:21:07Z')
-    let formatted = dateExtended.format('dd HH:ss:mm yyyy/MM', 'fr', 'Australia/Sydney')
-    assert.deepEqual(formatted, '16 02:07:21 2021/02')
-
-    const iso = DateExtended.fromCustomFormat(formatted, 'dd HH:ss:mm yyyy/MM', 'Australia/Sydney').toISOString()
-    assert.deepEqual(iso, '2021-02-15T15:21:07.000Z')
-  }
 }
-
 // runTest(TestDateExtendedTest)
