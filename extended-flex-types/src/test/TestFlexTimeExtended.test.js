@@ -139,7 +139,7 @@ export class TestFlexTimeExtendedTest extends TestCase {
   }
 
   testFormat() {
-    const format = FlexTimeExtended.fromISO('15:53:19').format('HH')
+    const format = FlexTimeExtended.fromISO('15:53:19').format('HH', "fr")
     assert.deepEqual(format, '15')
   }
 
