@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck, isFunction
+  assertInstanceOf, TypeCheck,  isArrowFunction
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
@@ -24,10 +24,8 @@ import {globalFlexioImport} from './__import__global-import-registry'
  * @return {Array}
  */
 const arrayToObject = (a, ret = []) => {
-  assertType(
-    isArray(a) && isArray(ret),
-    'arrayToObject: `a` & `ret` should be Array'
-  )
+  TypeCheck.assertIsArray(a)
+  TypeCheck.assertIsArray(ret)
 
   for (const val of a) {
     if (val instanceof ObjectValue || val instanceof globalFlexioImport.io.flexio.flex_types.FlexArray) {
@@ -61,8 +59,8 @@ const valueFromItem = (value) => {
     }
     return ret
   }
-  return value
 
+  return value
 }
 
 /**
@@ -93,6 +91,7 @@ const objectValueValueEquals = (to, compare) => {
       return false
     }
   }
+
   return true
 }
 
@@ -139,14 +138,15 @@ const objectValueValueArrayEquals = (to, compare) => {
     if (!objectValueValuePropertyEquals(to[i], compare[i])) {
       return false
     }
-
   }
+
   return true
 }
 
 /**
- * @param {*} v
+ * @param {ObjectValueValue} v
  * @throws {TypeError}
+ * @return {ObjectValueValue}
  */
 const validateObjectValueValue = v => {
   assertType(
@@ -154,7 +154,7 @@ const validateObjectValueValue = v => {
     'validateObjectValueValue: `v` should be null or string or number or boolean or Array or ObjectValue : %s',
     typeof v
   )
-
+  return v
 }
 
 export class ObjectValue {
@@ -220,8 +220,7 @@ export class ObjectValue {
    */
   rawValueOr(key, defaultValue = null) {
     if (!this.has(key)) {
-      validateObjectValueValue(defaultValue)
-      return defaultValue
+      return validateObjectValueValue(defaultValue)
     }
     return this.#map.get(key)
   }
@@ -233,12 +232,7 @@ export class ObjectValue {
    * @throws {IndexError, TypeError}
    */
   stringValue(key) {
-    const val = this.rawValue(key)
-    assertType(
-      isString(val) || isNull(val),
-      this.constructor.name + ': `val` should be string or null'
-    )
-    return val
+    return TypeCheck.assertIsStringOrNull(this.rawValue(key))
   }
 
   /**
@@ -249,15 +243,9 @@ export class ObjectValue {
    */
   stringValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
-
     if (!this.has(key) || !(isString(val) || isNull(val))) {
-      assertType(
-        isString(defaultValue) || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be string or null'
-      )
-      return defaultValue
+      return  TypeCheck.assertIsStringOrNull(defaultValue)
     }
-
     return val
   }
 
@@ -267,12 +255,7 @@ export class ObjectValue {
    * @throws {IndexError, TypeError}
    */
   numberValue(key) {
-    const val = this.rawValue(key)
-    assertType(
-      isNumber(val) || isNull(val),
-      this.constructor.name + ': `val` should be number or null'
-    )
-    return val
+    return TypeCheck.assertIsNumberOrNull(this.rawValue(key))
   }
 
   /**
@@ -284,13 +267,8 @@ export class ObjectValue {
   numberValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isNumber(val) || isNull(val))) {
-      assertType(
-        isNumber(defaultValue) || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be number or null'
-      )
-      return defaultValue
+      return  TypeCheck.assertIsNumberOrNull(defaultValue)
     }
-
     return val
   }
 
@@ -300,12 +278,7 @@ export class ObjectValue {
    * @throws {IndexError, TypeError}
    */
   booleanValue(key) {
-    const val = this.rawValue(key)
-    assertType(
-      isBoolean(val) || isNull(val),
-      this.constructor.name + ': `val` should be boolean or null'
-    )
-    return val
+    return TypeCheck.assertIsBooleanOrNull(this.rawValue(key))
   }
 
   /**
@@ -318,11 +291,7 @@ export class ObjectValue {
   booleanValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isBoolean(val) || isNull(val))) {
-      assertType(
-        isBoolean(defaultValue) || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be array or null'
-      )
-      return defaultValue
+      return TypeCheck.assertIsBooleanOrNull(defaultValue)
     }
     return val
   }
@@ -334,12 +303,7 @@ export class ObjectValue {
    * @throws {IndexError, TypeError}
    */
   arrayValue(key) {
-    const val = this.rawValue(key)
-    assertType(
-      isArray(val) || isNull(val),
-      this.constructor.name + ': `val` should be array or null'
-    )
-    return val
+    return TypeCheck.assertIsArrayOrNull(this.rawValue(key))
   }
 
   /**
@@ -525,7 +489,7 @@ export class ObjectValue {
    * @return {ObjectValue}
    */
   withArrayValue(key, value) {
-    if (isFunction(value)) {
+    if (isArrowFunction(value)) {
       value = value.call(null, this.arrayValueOr(key, new ObjectValueValueArray()))
     }
     const builder = ObjectValueBuilder.from(this)
@@ -539,7 +503,7 @@ export class ObjectValue {
    * @return {ObjectValue}
    */
   withObjectValueValue(key, value) {
-    if (isFunction(value)) {
+    if (isArrowFunction(value)) {
       value = value.call(null, this.objectValueValueOr(key, new ObjectValueBuilder().build()))
     }
     const builder = ObjectValueBuilder.from(this)
@@ -553,7 +517,7 @@ export class ObjectValue {
    * @return {ObjectValue}
    */
   withChangedObjectValueValue(key, clb) {
-    const value = TypeCheck.assertIsFunction(clb).call(null, ObjectValueBuilder.from(this.objectValueValueOr(key, new ObjectValueBuilder().build())))
+    const value = TypeCheck.assertIsArrowFunction(clb).call(null, ObjectValueBuilder.from(this.objectValueValueOr(key, new ObjectValueBuilder().build())))
     return this.withObjectValueValue(key, value)
   }
 
@@ -625,6 +589,14 @@ export class ObjectValueBuilder {
   #map = new ObjectValueFlexMap()
 
   /**
+   * @param {string} message
+   * @return {string}
+   */
+  #message(message) {
+    return `ObjectValueBuilder|${this.constructor.name}:${message}`
+  }
+
+  /**
    * @param {ObjectValueFlexMap} map
    * @return {ObjectValueBuilder}
    */
@@ -644,10 +616,8 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   stringValue(key, value) {
-    assertType(
-      isString(key) && (isNull(value) || isString(value)),
-      this.constructor.name + ': `key` should be string, `value` should be null or string'
-    )
+    TypeCheck.assertIsString(key)
+    TypeCheck.assertIsStringOrNull(value)
     this.#map.set(key, value)
     return this
   }
@@ -658,10 +628,8 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   numberValue(key, value) {
-    assertType(
-      isString(key) && (isNull(value) || isNumber(value)),
-      this.constructor.name + ': `key` should be string, `value` should be null or number'
-    )
+    TypeCheck.assertIsString(key)
+    TypeCheck.assertIsNumberOrNull(value)
     this.#map.set(key, value)
     return this
   }
@@ -672,10 +640,8 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   booleanValue(key, value) {
-    assertType(
-      isString(key) && (isNull(value) || isBoolean(value)),
-      this.constructor.name + ': `key` should be string, `value` should be null or boolean'
-    )
+    TypeCheck.assertIsString(key)
+    TypeCheck.assertIsBooleanOrNull(value)
     this.#map.set(key, value)
     return this
   }
@@ -686,14 +652,11 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   arrayValue(key, value) {
-    if (isFunction(value)) {
+    if (isArrowFunction(value)) {
       value = value.call(null, new ObjectValueValueArray())
     }
-    assertType(
-      isString(key) && (isNull(value) || isArray(value)),
-      this.constructor.name + ': `key` should be string, `value` should be null or Array(strict)'
-    )
-
+    TypeCheck.assertIsString(key)
+    TypeCheck.assertIsArrayOrNull(value)
     if (value instanceof ObjectValueValueArray) {
       this.#map.set(key, value)
     } else {
@@ -708,13 +671,11 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   objectValueValue(key, value) {
-    if (isFunction(value)) {
+    if (isArrowFunction(value)) {
       value = value.call(null, new ObjectValueBuilder())
     }
-    assertType(
-      isString(key) && (isNull(value) || value instanceof ObjectValue),
-      this.constructor.name + ': `key` should be string, `value` should be null or ObjectValue'
-    )
+    TypeCheck.assertIsString(key)
+    assertType(isNull(value) || value instanceof ObjectValue, this.#message('should be null or ObjectValue'))
     this.#map.set(key, value)
     return this
   }
@@ -725,14 +686,10 @@ export class ObjectValueBuilder {
    * @return {ObjectValueBuilder}
    */
   value(key, value) {
-    assertType(
-      isString(key),
-      this.constructor.name + ': `key` should be string'
-    )
+    TypeCheck.assertIsString(key)
     if (isArray(value)) {
       this.arrayValue(key, value)
     } else {
-
       this.#map.set(key, value)
     }
     return this
@@ -775,8 +732,7 @@ export class ObjectValueBuilder {
    * @returns {ObjectValueBuilder}
    */
   static from(instance) {
-    assertType(instance instanceof ObjectValue, 'input should be an instance of ObjectValue')
-
+    assertInstanceOf(instance, ObjectValue, 'ObjectValue')
     let builder = new ObjectValueBuilder()
     for (const item of instance.toArray()) {
       builder.value(item.key, item.value)
@@ -789,7 +745,7 @@ export class ObjectValueBuilder {
    * @returns {ObjectValueBuilder}
    */
   merge(instance) {
-    assertType(instance instanceof ObjectValue, 'input should be an instance of ObjectValue')
+    assertInstanceOf(instance, ObjectValue, 'ObjectValue')
     for (const item of instance.toArray()) {
       this.value(item.key, item.value)
     }
