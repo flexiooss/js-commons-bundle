@@ -32,7 +32,6 @@ export class AbstractTransporter extends  hotLogTransporter(class  {
    * @return {this}
    */
   levelInfo() {
-    console.log('ici')
     this.#threshold = HotLogLevel.INFO
     return this
   }

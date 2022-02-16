@@ -1,7 +1,7 @@
 import {hotLogTransporter} from "../HotLogTransporter";
 import {Log} from "../../Log";
 import {HotLogLevel} from "../../HotLogLevel";
-import {assertInstanceOf, assertType, isNull} from "../../../../../assert";
+import {assertInstanceOf, assertType, isArrowFunction, isNull, TypeCheck} from "../../../../../assert";
 import {implementsHotLogFormater} from "../../formaters/HotLogFormater";
 import {ThresholdResolver} from "../helpers/ThresholdResolver";
 import {FilterList} from "../filters/FilterList";
@@ -110,10 +110,13 @@ export class ConsoleTransporterBuilder {
   }
 
   /**
-   * @param {?FilterList} value
+   * @param {?FilterList|function(FilterList):FilterList} value
    * @return {ConsoleTransporterBuilder}
    */
   filters(value) {
+    if (isArrowFunction(value)) {
+      value = value.call(null, isNull(this.#filters) ? new FilterList() : this.#filters)
+    }
     this.#filters = value;
     return this
   }
