@@ -44,7 +44,6 @@ export class ConsoleTransporter extends AbstractTransporter {
    */
   commit(log, threshold) {
     if (ThresholdResolver.fromTransporter(this.threshold(), threshold, this.#filters).pass(log)) {
-
       /**
        * @type {string}
        */
@@ -68,7 +67,7 @@ export class ConsoleTransporter extends AbstractTransporter {
           this.#logContext(log)
           break
         case HotLogLevel.DEBUG:
-          globalThis.console.debug(formatedLog)
+          globalThis.console.log(formatedLog)
           this.#logContext(log)
           break
         case HotLogLevel.TRACE:
@@ -84,7 +83,7 @@ export class ConsoleTransporter extends AbstractTransporter {
    */
   #logContext(log) {
     if (!isNull(log.context())) {
-      globalThis.console.debug(log.context())
+      globalThis.console.log(log.context())
     }
   }
 }
