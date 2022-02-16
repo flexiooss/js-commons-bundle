@@ -103,16 +103,17 @@ export const formatType = (v) => {
       value = v ? 'true' : 'false'
     }
   } else {
-
-    try {
-      value = JSON.stringify(v)
-    } catch (e) {
-      value = 'value not serializable'
+    if (isFunction(v)) {
+      value = v.toString()
+    } else {
+      try {
+        value = JSON.stringify(v)
+      } catch (e) {
+        value = 'value not serializable'
+      }
     }
     try {
-      if ('constructor' in v) {
-        constructor = v.constructor.name
-      }
+      constructor = ('constructor' in v) ? v.constructor.name : typeof v
     } catch (e) {
       constructor = 'no constructor found'
     }
