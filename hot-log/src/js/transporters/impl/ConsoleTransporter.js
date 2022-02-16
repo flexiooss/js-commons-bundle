@@ -115,7 +115,7 @@ export class ConsoleTransporterBuilder {
    */
   filters(value) {
     if (isArrowFunction(value)) {
-      value = value.call(null, isNull(this.#filters) ? new FilterList() : this.#filters)
+      value = value.call(null, (isNull(this.#filters) ? new FilterList() : this.#filters))
     }
     this.#filters = value;
     return this
