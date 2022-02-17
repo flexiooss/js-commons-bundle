@@ -13,7 +13,7 @@ class AssertionError extends Error {
 
 /**
  * @param {(boolean|Function)} assertion
- * @param {string} message %s will be replaced by messageArgs
+ * @param {string|function():string} message %s will be replaced by messageArgs
  * @param {...string} messageArgs
  * @function
  * @throws AssertionError
@@ -24,11 +24,17 @@ export const assert = (assertion, message, ...messageArgs) => {
   }
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
     let ArgIndex = 0
-    throw new AssertionError(
-      message.replace(/%s/g, () =>
+
+    if (isFunction(message)) {
+      throw new AssertionError(message.call(null).replace(/%s/g, () =>
         messageArgs[ArgIndex++]
+      ))
+    } else {
+      throw new AssertionError(message.replace(/%s/g, () =>
+          messageArgs[ArgIndex++]
+        )
       )
-    )
+    }
   }
 }
 /**
@@ -46,7 +52,9 @@ export const assertType = (assertion, message, ...messageArgs) => {
     let ArgIndex = 0
 
     if (isFunction(message)) {
-      throw new TypeError(message.call(null))
+      throw new TypeError(message.call(null).replace(/%s/g, () =>
+        messageArgs[ArgIndex++]
+      ))
     } else {
       throw new TypeError(message.replace(/%s/g, () =>
           messageArgs[ArgIndex++]
