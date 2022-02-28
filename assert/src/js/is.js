@@ -65,20 +65,27 @@ export const isFloat = a => isNumber(a) && !Number.isInteger(a) && a === +a
 export const isObject = a => a !== null && typeof a === 'object' && !isArray(a) && !isRegex(a)
 
 /**
- *
  * @param {*} a
  * @return {boolean}
  * @function
  */
 export const isStrictObject = a => isObject(a) && a.constructor.name === 'Object'
 /**
- *
  * @param {*} a
  * @return {boolean}
  * @function
  * @export
  */
 export const isFunction = a => typeof a === 'function' && !isClass(a)
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ * @function
+ * @export
+ */
+export const isArrowFunction = a => isFunction(a) && (/^([^{=]+|\(.*\)\s*)?=>/).test(a.toString().replace(/\s/, ''))
+
 /**
  *
  * @param {*} a
@@ -165,7 +172,7 @@ export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) &
  * @return {boolean}
  * @export
  */
-export const isClass = a =>  typeof a === 'function' && /^class\s/.test(Function.prototype.toString.call(a))
+export const isClass = a => typeof a === 'function' && /^class\s/.test(Function.prototype.toString.call(a))
 
 /**
  *

@@ -3,6 +3,9 @@ export class NotOverrideException extends Error {
     super(...params)
     this.message = message
     this.name = this.constructor.name
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, NotOverrideException);
+    }
   }
 
   /**
@@ -12,6 +15,7 @@ export class NotOverrideException extends Error {
   static FROM_INTERFACE(name) {
     return new NotOverrideException(`Method not override at ${name} interface`)
   }
+
   /**
    * @param {string} name
    * @return {IndexError}

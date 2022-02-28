@@ -49,7 +49,7 @@ export class LogInterface {
 
   /**
    *
-   * @return {Level}
+   * @return {HotLogLevel}
    */
   level() {
     throw new Error('Not implemented yet')

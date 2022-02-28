@@ -1,4 +1,4 @@
-import {assertType} from './assert'
+import {assertType, formatType} from './assert'
 import {
   isBoolean,
   isInteger,
@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate
+  isDate, isArrowFn, isArrowFunction
 } from './is'
 
 
@@ -28,7 +28,8 @@ export class TypeCheck {
   static assertIsNull(inst) {
     assertType(
       isNull(inst),
-      'input should be Null'
+      'input should be Null given: %s',
+      _ => ` ${formatType(inst)}`
     )
     return inst
   }
@@ -41,7 +42,8 @@ export class TypeCheck {
   static assertIsNotNull(inst) {
     assertType(
       !isNull(inst),
-      'input should be Null'
+      'input should be Null given: %s',
+      _ => ` ${formatType(inst)}`
     )
     return inst
   }
@@ -54,7 +56,7 @@ export class TypeCheck {
   static assertIsString(inst) {
     assertType(
       isString(inst),
-      'input should be String'
+      _ => `input should be String given: ${formatType(inst)}`
     )
     return inst
   }
@@ -79,7 +81,7 @@ export class TypeCheck {
   static assertIsBoolean(inst) {
     assertType(
       isBoolean(inst),
-      'input should be Boolean'
+      _ => `input should be Boolean given: ${formatType(inst)}`
     )
     return inst
   }
@@ -104,7 +106,7 @@ export class TypeCheck {
   static assertIsNumber(inst) {
     assertType(
       isNumber(inst),
-      'input should be Number'
+      _ => `input should be Number given: ${formatType(inst)}`
     )
     return inst
   }
@@ -129,7 +131,7 @@ export class TypeCheck {
   static assertIsInteger(inst) {
     assertType(
       isInteger(inst),
-      'input should be Integer'
+      _ => `input should be Integer given: ${formatType(inst)}`
     )
     return inst
   }
@@ -154,7 +156,7 @@ export class TypeCheck {
   static assertIsObject(inst) {
     assertType(
       isObject(inst),
-      'input should be Object'
+      _ => `input should be Object given: ${formatType(inst)}`
     )
     return inst
   }
@@ -179,7 +181,7 @@ export class TypeCheck {
   static assertIsStrictObject(inst) {
     assertType(
       isStrictObject(inst),
-      'input should be Object'
+      _ => `input should be Object given: ${formatType(inst)}`
     )
     return inst
   }
@@ -204,7 +206,7 @@ export class TypeCheck {
   static assertIsFunction(inst) {
     assertType(
       isFunction(inst),
-      'input should be Function'
+      _ => `input should be Function given: ${formatType(inst)}`
     )
     return inst
   }
@@ -222,6 +224,31 @@ export class TypeCheck {
   }
 
   /**
+   * @param {Function} inst
+   * @throws {TypeError}
+   * @return {Function}
+   */
+  static assertIsArrowFunction(inst) {
+    assertType(
+      isArrowFunction(inst),
+      _ => `input should be Arrow Function given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Function} inst
+   * @throws {TypeError}
+   * @return {?Function}
+   */
+  static assertIsArrowFunctionOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsArrowFunction(inst)
+    }
+    return inst
+  }
+
+  /**
    * @param {Node} inst
    * @throws {TypeError}
    * @return {Node}
@@ -229,7 +256,7 @@ export class TypeCheck {
   static assertIsNode(inst) {
     assertType(
       isNode(inst),
-      'input should be Node'
+      _ => `input should be Node given: ${formatType(inst)}`
     )
     return inst
   }
@@ -254,7 +281,7 @@ export class TypeCheck {
   static assertIsSymbol(inst) {
     assertType(
       isSymbol(inst),
-      'input should be Symbol'
+      _ => `input should be Symbol given: ${formatType(inst)}`
     )
     return inst
   }
@@ -279,7 +306,7 @@ export class TypeCheck {
   static assertIsArray(inst) {
     assertType(
       isArray(inst),
-      'input should be Array'
+      _ => `input should be Array given: ${formatType(inst)}`
     )
     return inst
   }
@@ -304,7 +331,7 @@ export class TypeCheck {
   static assertIsStrictArray(inst) {
     assertType(
       isStrictArray(inst),
-      'input should be Array(strict)'
+      _ => `input should be Array(strict) given: ${formatType(inst)}`
     )
     return inst
   }
@@ -329,7 +356,7 @@ export class TypeCheck {
   static assertIsClass(inst) {
     assertType(
       isClass(inst),
-      'input should be Class'
+      _ => `input should be Class given: ${formatType(inst)}`
     )
     return inst
   }
@@ -354,7 +381,7 @@ export class TypeCheck {
   static assertIsRegExp(inst) {
     assertType(
       isRegex(inst),
-      'input should be RegExp'
+      _ => `input should be RegExp given: ${formatType(inst)}`
     )
     return inst
   }
@@ -379,7 +406,7 @@ export class TypeCheck {
   static assertIsBinary(inst) {
     assertType(
       isBinary(inst),
-      'input should be Binary'
+      _ => `input should be Binary given: ${formatType(inst)}`
     )
     return inst
   }
@@ -404,7 +431,7 @@ export class TypeCheck {
   static assertIsDate(inst) {
     assertType(
       isDate(inst),
-      'input should be Date'
+      _ => `input should be Date given: ${formatType(inst)}`
     )
     return inst
   }

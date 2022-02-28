@@ -1,3 +1,13 @@
+import {isNull} from '../../../assert'
+
+/**
+ * @param {String} input
+ * @returns {boolean}
+ */
+export const isEmpty = (input) => {
+  return isNull(input) || input === ''
+}
+
 /**
  *
  * @param {String} word

@@ -152,7 +152,7 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.arrays.TzDateTimeArray
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.arrays.BlobArray', BlobArray)
 
 /**
- * @property {typeof IndexError} globalFlexioImport.io.flexio.flex_types.IndexError
+ * @property {IndexError} globalFlexioImport.io.flexio.flex_types.IndexError
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.IndexError', IndexError)
 

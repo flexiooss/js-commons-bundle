@@ -6,6 +6,9 @@ import {SymbolStringArray, SymbolStringArrayBuilder} from './src/js/FlexArray/Sy
 import {URLExtended, URLExtendedBuilder} from './src/js/URLExtended'
 import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/URLSearchParamsExtended'
 import {DateExtended} from './src/js/DateExtended'
+import {FlexTimeExtended} from './src/js/FlexTimeExtended'
+import {FlexDateExtended} from './src/js/FlexDateExtended'
+import {FlexDateTimeExtended} from './src/js/FlexDateTimeExtended'
 import {ArrayMap} from './src/js/FlexMap/ArrayMap'
 import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap'
 import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap'
@@ -30,23 +33,6 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExp', 
  * @property {FlexRegExpBuilder} globalFlexioImport.io.flexio.extended_flex_types.FlexRegExpBuilder
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExpBuilder', FlexRegExpBuilder)
-
-///**
-// * @property {StringArray} globalFlexioImport.io.flexio.extended_flex_types.StringArray
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.StringArray', StringArray)
-///**
-// * @property {StringArrayBuilder} globalFlexioImport.io.flexio.extended_flex_types.StringArrayBuilder
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.StringArrayBuilder', StringArrayBuilder)
-///**
-// * @property {NumberArray} globalFlexioImport.io.flexio.extended_flex_types.NumberArray
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.NumberArray', NumberArray)
-///**
-// * @property {NumberArrayBuilder} globalFlexioImport.io.flexio.extended_flex_types.NumberArrayBuilder
-// */
-//deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.NumberArrayBuilder', NumberArrayBuilder)
 
 /**
  * @property {DateExtended} globalFlexioImport.io.flexio.extended_flex_types.DateExtended
@@ -123,6 +109,7 @@ export {FlexUrl}
 export {FlexUrlBuilder}
 export {URLExtended}
 export {URLExtendedBuilder}
+export {FlexTimeExtended, FlexDateExtended, FlexDateTimeExtended}
 export {DateExtended}
 export {SymbolStringArray}
 export {SymbolStringArrayBuilder}

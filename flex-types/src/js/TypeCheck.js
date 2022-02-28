@@ -1,4 +1,4 @@
-import {assertType, isNull} from './__import__assert'
+import {assertType, formatType, isNull} from './__import__assert'
 import {globalFlexioImport} from './__import__global-import-registry'
 import {isObjectValueValue} from './ObjectValue'
 
@@ -9,7 +9,8 @@ export class TypeCheck {
    * @return {ObjectValue}
    */
   static assertIsObjectValue(inst) {
-    assertType(TypeCheck.isObjectValue(inst), 'should be ObjectValue')
+    assertType(TypeCheck.isObjectValue(inst),
+      _=>`should be ObjectValue given: ${formatType(inst)}`)
     return inst
   }
 
@@ -38,7 +39,7 @@ export class TypeCheck {
   static assertIsFlexArray(inst) {
     assertType(
       TypeCheck.isFlexArray(inst),
-      'should be FlexArray'
+      _=>`should be FlexArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -68,7 +69,7 @@ export class TypeCheck {
   static assertIsFlexDate(inst) {
     assertType(
       TypeCheck.isFlexDate(inst),
-      'should be FlexDate'
+      _=>`should be FlexDate given: ${formatType(inst)}`
     )
     return inst
   }
@@ -98,7 +99,7 @@ export class TypeCheck {
   static assertIsFlexDateTime(inst) {
     assertType(
       TypeCheck.isFlexDateTime(inst),
-      'should be FlexDateTime'
+      _=>`should be FlexDateTime given: ${formatType(inst)}`
     )
     return inst
   }
@@ -128,7 +129,7 @@ export class TypeCheck {
   static assertIsFlexTime(inst) {
     assertType(
       TypeCheck.isFlexTime(inst),
-      'should be FlexTime'
+      _=>`should be FlexTime given: ${formatType(inst)}`
     )
     return inst
   }
@@ -158,7 +159,7 @@ export class TypeCheck {
   static assertIsFlexZonedDateTime(inst) {
     assertType(
       TypeCheck.isFlexZonedDateTime(inst),
-      'should be FlexZonedDateTime'
+      _=>`should be FlexZonedDateTime given: ${formatType(inst)}`
     )
     return inst
   }
@@ -188,7 +189,7 @@ export class TypeCheck {
   static assertIsFlexEnum(inst) {
     assertType(
       TypeCheck.isFlexEnum(inst),
-      'should be FlexEnum'
+      _=>`should be FlexEnum given: ${formatType(inst)}`
     )
     return inst
   }
@@ -218,7 +219,7 @@ export class TypeCheck {
   static assertIsFlexMap(inst) {
     assertType(
       TypeCheck.isFlexMap(inst),
-      'should be FlexMap'
+      _=>`should be FlexMap given: ${formatType(inst)}`
     )
     return inst
   }
@@ -248,7 +249,7 @@ export class TypeCheck {
   static assertIsStringArray(inst) {
     assertType(
       TypeCheck.isStringArray(inst),
-      'should be StringArray'
+      _=>`should be StringArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -278,7 +279,7 @@ export class TypeCheck {
   static assertIsBooleanArray(inst) {
     assertType(
       TypeCheck.isBooleanArray(inst),
-      'should be BooleanArray'
+      _=>`should be BooleanArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -308,7 +309,7 @@ export class TypeCheck {
   static assertIsDateArray(inst) {
     assertType(
       TypeCheck.isDateArray(inst),
-      'should be DateArray'
+      _=>`should be DateArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -338,7 +339,7 @@ export class TypeCheck {
   static assertIsDateTimeArray(inst) {
     assertType(
       TypeCheck.isDateTimeArray(inst),
-      'should be DateArray'
+      _=>`should be DateArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -368,7 +369,7 @@ export class TypeCheck {
   static assertIsDoubleArray(inst) {
     assertType(
       TypeCheck.isDoubleArray(inst),
-      'should be DoubleArray'
+      _=>`should be DoubleArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -398,7 +399,7 @@ export class TypeCheck {
   static assertIsTzDateTimeArray(inst) {
     assertType(
       TypeCheck.isTzDateTimeArray(inst),
-      'should be TzDateTimeArray'
+      _=>`should be TzDateTimeArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -428,7 +429,7 @@ export class TypeCheck {
   static assertIsTimeArray(inst) {
     assertType(
       TypeCheck.isTimeArray(inst),
-      'should be TimeArray'
+      _=>`should be TimeArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -458,7 +459,7 @@ export class TypeCheck {
   static assertIsIntegerArray(inst) {
     assertType(
       TypeCheck.isIntegerArray(inst),
-      'should be IntegerArray'
+      _=>`should be IntegerArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -488,7 +489,7 @@ export class TypeCheck {
   static assertIsObjectArray(inst) {
     assertType(
       TypeCheck.isObjectArray(inst),
-      'should be ObjectArray'
+      _=>`should be ObjectArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -518,7 +519,7 @@ export class TypeCheck {
   static assertIsFloatArray(inst) {
     assertType(
       TypeCheck.isFloatArray(inst),
-      'should be FloatArray'
+      _=>`should be FloatArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -549,7 +550,7 @@ export class TypeCheck {
   static assertIsLongArray(inst) {
     assertType(
       TypeCheck.isLongArray(inst),
-      'should be LongArray'
+      _=>`should be LongArray given: ${formatType(inst)}`
     )
     return inst
   }
@@ -593,7 +594,8 @@ export class TypeCheck {
    * @return {ObjectValueValue}
    */
   static assertIsObjectValueValue(inst) {
-    assertType(TypeCheck.isObjectValueValue(inst), 'should be `ObjectValueValue`')
+    assertType(TypeCheck.isObjectValueValue(inst),
+      _=>`should be \`ObjectValueValue\` given: ${formatType(inst)}`)
     return inst
   }
 

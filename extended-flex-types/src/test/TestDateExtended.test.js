@@ -6,9 +6,11 @@ import {FlexDate, FlexDateTime, FlexTime} from '../js/__import__flex-types'
 const assert = require('assert')
 
 export class TestDateExtendedTest extends TestCase {
+  debug = true
+
   testToUTCFlexDateTimeZoned() {
     let date = new DateExtended(2019, 6, 19, 9, 59, 3, 34)
-    let flexDate = date.toUTCFlexZonedDateTime()
+    let flexDate = date.UTCToFlexZonedDateTime()
     assert.deepEqual(DateExtended.fromFlexZonedDateTime(flexDate), date)
   }
 
@@ -115,6 +117,16 @@ export class TestDateExtendedTest extends TestCase {
     flexTime = DateExtended.fromStringToFlexTime(str)
     assert.deepEqual(flexTime, null)
   }
-}
 
-runTest(TestDateExtendedTest)
+  testDateWithZ() {
+    let date = new DateExtended('2021-02-15T15:21:07Z')
+    assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z')
+
+    date = new DateExtended(date.toISOString())
+    assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07.000Z')
+
+    date = new DateExtended('2021-02-15T15:21:07') // applique le offset local, il va donc retrancher 1H
+    assert.deepEqual(date.toISOString(), '2021-02-15T15:21:07')
+  }
+}
+// runTest(TestDateExtendedTest)

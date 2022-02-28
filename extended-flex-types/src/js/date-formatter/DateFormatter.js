@@ -1,16 +1,17 @@
-import {DateExtended} from '../DateExtended'
 import {isNull} from '../../../../assert'
+import {DateTime} from 'luxon'
+import {FlexTimeExtended} from '../FlexTimeExtended'
 
 export class DateTimeFormatter {
   /**
-   * @param {FlexDateTime} flexDateTime
+   * @param {FlexDateTimeExtended} dateTime
    * @param {string} format
    * @param {string} locale
    * @param {string} timeZone
    * @return {string}
    */
-  static format(flexDateTime, format, locale, timeZone = 'UTC') {
-    const date = DateExtended.fromUTCFlexDateTime(flexDateTime)
+  static format(dateTime, format, locale, timeZone = 'UTC') {
+    const date = new Date(dateTime.toISO() + 'Z')
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
     switch (format) {
       case 'yyyy':
@@ -20,7 +21,7 @@ export class DateTimeFormatter {
       case 'dd':
         return dateFormatter.day()
       case 'w':
-        return date.getWeekNumber().toString()
+        return `${dateTime.weekNumber()}`
       case 'HH':
         return dateFormatter.hour()
       case 'mm':
@@ -44,31 +45,23 @@ export class DateTimeFormatter {
       case 'yyyy-MM-ddTHH:mm:ssZ':
         return `${dateFormatter.year('UTC')}-${dateFormatter.month('UTC')}-${dateFormatter.day('UTC')}T${dateFormatter.hour('UTC')}:${dateFormatter.minute('UTC')}:${dateFormatter.second('UTC')}Z`
       case 'json':
-        return this.#getJsonDate(date)
+        return `/Date(${date.getTime()})/`
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        return DateTime.fromISO(date.toISOString()).setZone(timeZone).setLocale(locale).toFormat(format)
     }
-  }
-
-  /**
-   * @param date
-   * @return {string}
-   */
-  static #getJsonDate(date) {
-    return `\\Date("${date.getTime()}")`
   }
 }
 
 export class DateFormatter {
   /**
-   * @param {FlexDate} flexDate
+   * @param {FlexDateExtended} date
    * @param {string} format
    * @param {string} locale
    * @return {string}
    */
-  static format(flexDate, format, locale) {
-    const date = DateExtended.fromUTCFlexDate(flexDate)
-    const dateFormatter = new DateFormatHelper(date, locale, 'UTC')
+  static format(date, format, locale) {
+    const dateJS = new Date(date.toISO() + 'Z')
+    const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
     switch (format) {
       case 'yyyy':
         return dateFormatter.year()
@@ -77,7 +70,7 @@ export class DateFormatter {
       case 'dd':
         return dateFormatter.day()
       case 'w':
-        return date.getWeekNumber().toString()
+        return `${date.weekNumber()}`
       case 'dd MM yy':
         return `${dateFormatter.day()} ${dateFormatter.month()} ${dateFormatter.shortYear()}`
       case 'dd/MM/yyyy':
@@ -85,20 +78,22 @@ export class DateFormatter {
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        throw Error(`DateFormatter: format ${format} not implemented yet`)
     }
   }
 }
 
 export class TimeFormatter {
   /**
-   * @param {FlexTime} flexTime
+   * @param {FlexTimeExtended} time
    * @param {string} format
    * @param {string} locale
    * @return {string}
    */
-  static format(flexTime, format, locale) {
-    const dateFormatter = new DateFormatHelper(DateExtended.fromUTCFlexTime(flexTime), locale, 'UTC')
+  static format(time, format, locale) {
+    const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
+    const dt = new Date(date)
+    const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
     switch (format) {
       case 'HH':
         return dateFormatter.hour()
@@ -111,23 +106,24 @@ export class TimeFormatter {
       case 'HH:mm:ss':
         return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
       default:
-        throw Error(`DateTimeFormatter: format ${format} not implemented yet`)
+        throw Error(`TimeFormatter: format ${format} not implemented yet`)
     }
   }
 }
+
 class DateFormatHelper {
-/**
-  * @type {Date}
- */
-#date
-/**
-* @type {string}
- */
-#locale
-/**
-* @type {string}
- */
-#timeZone
+  /**
+   * @type {Date}
+   */
+  #date
+  /**
+   * @type {string}
+   */
+  #locale
+  /**
+   * @type {string}
+   */
+  #timeZone
 
   /**
    * @param {Date} date

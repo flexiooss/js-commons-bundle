@@ -24,6 +24,9 @@ const padLeft = (input, expectedLength, replaceWith = '0') => {
   return Array(expectedLength - String(input).length + 1).join(replaceWith) + input
 }
 
+/**
+ * @Deprecated Use FlexDateTimeExtended, FlexDateExtended, FlexTimeExtended
+ */
 export class DateExtended extends Date {
 
   /**
@@ -31,6 +34,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexTime(flexTime) {
+    console.error("[DEPRECATED] DO NOT USE")
     assertType(
       flexTime instanceof FlexTime,
       'DateExtended:fromFlexTime: `flexTime` argument should be an instance of FlexTime'
@@ -51,6 +55,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexTime(flexTime) {
+    console.error("[DEPRECATED] DO NOT USE")
     const tmp = DateExtended.fromFlexTime(flexTime)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
@@ -61,6 +66,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexZonedDateTime(flexZonedDateTime) {
+    console.error("[DEPRECATED] DO NOT USE")
     assertType(
       flexZonedDateTime instanceof FlexZonedDateTime,
       'DateExtended:fromFlexZonedDateTime: `flexZonedDateTime` argument should be an instance of FlexZonedDateTime'
@@ -73,6 +79,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexDate(flexDate) {
+    console.error("[DEPRECATED] DO NOT USE")
     assertType(
       flexDate instanceof FlexDate,
       'DateExtended:fromFlexDate: `flexDate` argument should be an instance of FlexDate'
@@ -87,6 +94,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexDate(flexDate) {
+    console.error("[DEPRECATED] DO NOT USE")
     const tmp = DateExtended.fromFlexDate(flexDate)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
@@ -97,6 +105,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromFlexDateTime(flexDateTime) {
+    console.error("[DEPRECATED] DO NOT USE")
     assertType(
       flexDateTime instanceof FlexDateTime,
       'DateExtended:fromFlexDateTime: `flexDateTime` argument should be an instance of FlexDateTime'
@@ -110,6 +119,7 @@ export class DateExtended extends Date {
    * @return {DateExtended}
    */
   static fromUTCFlexDateTime(flexDateTime) {
+    console.error("[DEPRECATED] DO NOT USE")
     const tmp = DateExtended.fromFlexDateTime(flexDateTime)
     tmp.setMinutes(tmp.getMinutes() - tmp.getTimezoneOffset())
     return tmp
@@ -120,6 +130,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toUTCFullDate() {
+    console.error("[DEPRECATED] DO NOT USE")
     return this.toISOString().split('T')[0]
   }
 
@@ -128,6 +139,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toUTCTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     return this.toISOString().split('T')[1].split('Z')[0]
   }
 
@@ -136,6 +148,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toLocaleFullDate() {
+    console.error("[DEPRECATED] DO NOT USE")
     return this.getFullYear() + '-' +
       padLeft(this.getMonth() + 1, 2) + '-' +
       padLeft(this.getDate(), 2)
@@ -146,6 +159,7 @@ export class DateExtended extends Date {
    * @return {string}
    */
   toLocaleTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     return padLeft(this.getHours(), 2) + ':' +
       padLeft(this.getMinutes(), 2) + ':' +
       padLeft(this.getSeconds(), 2) + '.' +
@@ -157,6 +171,7 @@ export class DateExtended extends Date {
    * @return {number}
    */
   getNextMonth() {
+    console.error("[DEPRECATED] DO NOT USE")
     return this.setMonth(this.getMonth() + 1)
   }
 
@@ -164,6 +179,7 @@ export class DateExtended extends Date {
    * @return {number}
    */
   getPreviousMonth() {
+    console.error("[DEPRECATED] DO NOT USE")
     return this.setMonth(this.getMonth() - 1)
   }
 
@@ -172,10 +188,12 @@ export class DateExtended extends Date {
    * @return {number}
    */
   getDaysInMonth() {
+    console.error("[DEPRECATED] DO NOT USE")
     return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate()
   }
 
   getWeekNumber() {
+    console.error("[DEPRECATED] DO NOT USE")
     let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
     let dayNum = date.getUTCDay() || 7
     date.setUTCDate(date.getUTCDate() + 4 - dayNum)
@@ -188,6 +206,7 @@ export class DateExtended extends Date {
    * @returns {FlexZonedDateTime}
    */
   toUTCFlexZonedDateTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toISOString()
     return new FlexZonedDateTime(str)
   }
@@ -197,6 +216,7 @@ export class DateExtended extends Date {
    * @returns {FlexDateTime}
    */
   toLocaleFlexDateTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toLocaleFullDate() + 'T' + this.toLocaleTime()
     return new FlexDateTime(str)
   }
@@ -206,6 +226,7 @@ export class DateExtended extends Date {
    * @returns {FlexDateTime}
    */
   toUTCFlexDateTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toUTCFullDate() + 'T' + this.toUTCTime()
     return new FlexDateTime(str)
   }
@@ -215,6 +236,7 @@ export class DateExtended extends Date {
    * @returns {FlexDate}
    */
   toLocaleFlexDate() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toLocaleFullDate()
     return new FlexDate(str)
   }
@@ -224,6 +246,7 @@ export class DateExtended extends Date {
    * @returns {FlexDate}
    */
   toUTCFlexDate() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toUTCFullDate()
     return new FlexDate(str)
   }
@@ -233,6 +256,7 @@ export class DateExtended extends Date {
    * @returns {FlexTime}
    */
   toLocaleFlexTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toLocaleTime()
     return new FlexTime(str)
   }
@@ -242,6 +266,7 @@ export class DateExtended extends Date {
    * @returns {FlexTime}
    */
   toUTCFlexTime() {
+    console.error("[DEPRECATED] DO NOT USE")
     let str = this.toUTCTime()
     return new FlexTime(str)
   }
@@ -252,6 +277,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexDate}
    */
   static fromStringToFlexDate(value) {
+    console.error("[DEPRECATED] DO NOT USE")
     try {
       let flexDate = DateExtended.fromFlexDate(new FlexDate(value)).toLocaleFlexDate()
       if (flexDate instanceof FlexDate) {
@@ -269,6 +295,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexDateTime}
    */
   static fromStringToFlexDateTime(value) {
+    console.error("[DEPRECATED] DO NOT USE")
     try {
       let flexDateTime = DateExtended.fromFlexDateTime(new FlexDateTime(value)).toLocaleFlexDateTime()
       if (flexDateTime instanceof FlexDateTime) {
@@ -286,6 +313,7 @@ export class DateExtended extends Date {
    * @returns {null|FlexTime}
    */
   static fromStringToFlexTime(value) {
+    console.error("[DEPRECATED] DO NOT USE")
     try {
       let flexTime = DateExtended.fromFlexTime(new FlexTime(value)).toLocaleFlexTime()
       if (flexTime instanceof FlexTime) {
