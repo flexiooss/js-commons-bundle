@@ -1,4 +1,4 @@
-import {TypeCheck} from '../../../assert'
+import {isArrowFunction, isFunction, TypeCheck} from '../../../assert'
 
 export class BaseException extends Error {
   /**
@@ -19,13 +19,16 @@ export class BaseException extends Error {
   #date
 
   /**
-   * @param {string} [message='']
+   * @param {?string|function():string} [message=null]
    * @param {?number} [code=null]
    * @param params
    */
-  constructor(message = '', code = null, ...params) {
+  constructor(message = null, code = null, ...params) {
     super(...params)
-    this.#message = TypeCheck.assertIsString(message)
+    if(isArrowFunction(message)){
+      message = message.call(null)
+    }
+    this.#message = TypeCheck.assertIsStringOrNull(message) || ''
     this.#code = TypeCheck.assertIsNumberOrNull(code)
     this.#name = this.constructor.name
     this.#date = new Date()
@@ -48,6 +51,20 @@ export class BaseException extends Error {
    */
   message() {
     return this.#message
+  }
+
+  /**
+   * @return {Date}
+   */
+  date(){
+    return this.#date
+  }
+
+  /**
+   * @return {string}
+   */
+  name(){
+    return this.#name
   }
 
   /**
@@ -77,10 +94,10 @@ export class BaseException extends Error {
    */
   toJSON() {
     return {
-      date: this.#date,
-      code: this.#code,
+      date: this.date(),
+      code: this.code(),
       realName: this.realName(),
-      name: this.#name,
+      name: this.name(),
       message: this.toString(),
       trace: this.getTrace()
     }
