@@ -51,6 +51,20 @@ export class BaseException extends Error {
   }
 
   /**
+   * @return {Date}
+   */
+  date(){
+    return this.#date
+  }
+
+  /**
+   * @return {string}
+   */
+  name(){
+    return this.#name
+  }
+
+  /**
    * @return {string}
    */
   toString() {
@@ -77,10 +91,10 @@ export class BaseException extends Error {
    */
   toJSON() {
     return {
-      date: this.#date,
-      code: this.#code,
+      date: this.date(),
+      code: this.code(),
       realName: this.realName(),
-      name: this.#name,
+      name: this.name(),
       message: this.toString(),
       trace: this.getTrace()
     }
