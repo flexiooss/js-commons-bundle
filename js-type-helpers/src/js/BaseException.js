@@ -1,4 +1,4 @@
-import {TypeCheck} from '../../../assert'
+import {isFunction, TypeCheck} from '../../../assert'
 
 export class BaseException extends Error {
   /**
@@ -19,13 +19,16 @@ export class BaseException extends Error {
   #date
 
   /**
-   * @param {string} [message='']
+   * @param {?string|function():string} [message=null]
    * @param {?number} [code=null]
    * @param params
    */
-  constructor(message = '', code = null, ...params) {
+  constructor(message = null, code = null, ...params) {
     super(...params)
-    this.#message = TypeCheck.assertIsString(message)
+    if(isFunction(message)){
+      message = message.call(null)
+    }
+    this.#message = TypeCheck.assertIsStringOrNull(message) || ''
     this.#code = TypeCheck.assertIsNumberOrNull(code)
     this.#name = this.constructor.name
     this.#date = new Date()
