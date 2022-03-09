@@ -1,4 +1,4 @@
-import {isFunction, TypeCheck} from '../../../assert'
+import {isArrowFunction, isFunction, TypeCheck} from '../../../assert'
 
 export class BaseException extends Error {
   /**
@@ -25,7 +25,7 @@ export class BaseException extends Error {
    */
   constructor(message = null, code = null, ...params) {
     super(...params)
-    if(isFunction(message)){
+    if(isArrowFunction(message)){
       message = message.call(null)
     }
     this.#message = TypeCheck.assertIsStringOrNull(message) || ''
