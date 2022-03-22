@@ -218,3 +218,9 @@ export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
  * @export
  */
 export const isDate = a => !isNull(a) && a instanceof Date
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ */
+export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length)

@@ -81,6 +81,20 @@ export const assertInstanceOf = (instance, constructor, stringName = null) => {
 }
 
 /**
+ * @param {*} instance
+ * @param {Class} constructor
+ * @return {any}
+ * @throws TypeError
+ * @param {?string} [stringName=null]
+ */
+export const assertInstanceOfOrNull = (instance, constructor, stringName = null) => {
+  if (!isNull(instance)) {
+    return assertInstanceOf(instance, constructor, stringName)
+  }
+  return instance
+}
+
+/**
  * @param {*} v
  * @return {string}
  */

@@ -15,6 +15,7 @@ import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap'
 import {FlexUrl, FlexUrlBuilder} from './src/js/FlexUrl'
 import {FlexRegExp, FlexRegExpBuilder} from './src/js/FlexRegExp'
 import {Any, AnyBuilder} from './src/js/Any'
+import {FlexRegExpList} from "./src/js/FlexRegExpList";
 
 /**
  * @property {Any} globalFlexioImport.io.flexio.extended_flex_types.Any
@@ -29,6 +30,10 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.AnyBuilder', 
  * @property {FlexRegExp} globalFlexioImport.io.flexio.extended_flex_types.FlexRegExp
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExp', FlexRegExp)
+/**
+ * @property {FlexRegExpList} globalFlexioImport.io.flexio.extended_flex_types.FlexRegExpList
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.extended_flex_types.FlexRegExpList', FlexRegExpList)
 /**
  * @property {FlexRegExpBuilder} globalFlexioImport.io.flexio.extended_flex_types.FlexRegExpBuilder
  */
