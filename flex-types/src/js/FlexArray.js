@@ -343,6 +343,18 @@ export class FlexArray extends Array {
   }
 
   /**
+   * @param {...TYPE} v
+   * @return {this}
+   */
+  withUnshift(...v) {
+    const ret = new this.constructor(...v,...this )
+    if(this.#frozen){
+      ret.freeze()
+    }
+    return ret
+  }
+
+  /**
    * @return {this}
    */
   withPop() {
