@@ -1,6 +1,6 @@
-import {globalFlexioImport} from '@flexio-oss/js-commons-bundle/global-import-registry'
-import {assertInstanceOfOrNull} from '@flexio-oss/js-commons-bundle/assert'
-import {FlexArray} from '@flexio-oss/js-commons-bundle/flex-types'
+import {globalFlexioImport} from '../../../global-import-registry'
+import {assertInstanceOfOrNull} from '../../../assert'
+import {FlexArray} from '../../../flex-types'
 
 /**
  * @extends {FlexArray<?FlexRegExp>}
