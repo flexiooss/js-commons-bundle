@@ -27,7 +27,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @return {FlexMap<TYPE>}
+   * @return {this}
    */
   freeze() {
     deepFreezeSeal(this)

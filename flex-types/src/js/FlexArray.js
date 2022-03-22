@@ -36,7 +36,7 @@ export class FlexArray extends Array {
 
   /**
    *
-   * @return {FlexArray<TYPE>}
+   * @return {this}
    */
   freeze() {
     if(this.isFrozen()){
@@ -274,9 +274,9 @@ export class FlexArray extends Array {
 
   /**
    * @template TYPE, TYPE_OUT
-   * @param {Array<TYPE_OUT>} init
+   * @param {TYPE_OUT} init
    * @param {function(value: TYPE, index: number, all: this):*} clb
-   * @return {Array<TYPE_OUT>}
+   * @return {TYPE_OUT}
    */
   mapTo(init, clb) {
     this.forEach((v, k, a) => {
@@ -301,14 +301,14 @@ export class FlexArray extends Array {
   }
 
   /**
-   * @return {Array.<TYPE>}
+   * @return {Array<TYPE>}
    */
   toObject() {
     return this.toArray()
   }
 
   /**
-   * @return {Array.<TYPE>}
+   * @return {Array<TYPE>}
    */
   toJSON() {
     return this.toObject()
