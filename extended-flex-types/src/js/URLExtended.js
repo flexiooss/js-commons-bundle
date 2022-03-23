@@ -1,15 +1,22 @@
-import {assertType, isNull, isString} from './__import__assert'
+import {assertType, isEmpty, isNull, isString, TypeCheck} from './__import__assert'
 import {globalFlexioImport} from './__import__global-import-registry'
 
 export class URLExtended extends URL {
+
   /**
-   *
    * @return {Object}
    */
   toObject() {
     return {
       href: this.href
     }
+  }
+
+  /**
+   * @return {FlexUrl}
+   */
+  toFlexUrl() {
+    return globalFlexioImport.io.flexio.extended_flex_types.FlexUrl.builder().value(this.href).build()
   }
 
   /**
