@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFn, isArrowFunction
+  isDate, isArrowFunction
 } from './is'
 
 
