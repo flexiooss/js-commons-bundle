@@ -42,7 +42,7 @@ export class TypeCheck {
   static assertIsNotNull(inst) {
     assertType(
       !isNull(inst),
-      'input should be Null given: %s',
+      'input should not be Null given: %s',
       _ => ` ${formatType(inst)}`
     )
     return inst
