@@ -44,7 +44,8 @@ class FlexUrl {
    * @private
    */
   constructor(value) {
-    this.#href = TypeCheck.assertIsString(value)
+    const url = new URL(value)
+    this.#href = url.href
     this.#parseStringUrl()
     deepFreezeSeal(this)
   }
@@ -53,7 +54,7 @@ class FlexUrl {
    * @return {FlexUrl}
    */
   #parseStringUrl() {
-    const urlRE = /^(?:([\w.+-]+):)?\/{2}(?:([\w-]+):)?(?:([\w-]+)@)?([.\w-]+)(?::([\w-]+))?(\/[\w\/%-]+)(\?[\w;:@&=%,\[\]-]*)?(#[\w_-]+)?/
+    const urlRE = /^(?:([\w.+-]+):)?\/{2}(?:([\w-]+):)?(?:([\w-]+)@)?([.\w-]+)(?::([\w-]+))?(\/[\w\/%&()-]*)?(\?[\w;:@&=%,\[\]-]*)?(#[\w_-]+)?/
     const matches = TypeCheck.assertIsString(this.#href).match(urlRE)
     if (!isNull(matches)) {
       this.#protocol = !isEmpty(matches[1]) ? matches[1] : null
@@ -64,6 +65,8 @@ class FlexUrl {
       this.#pathname = !isEmpty(matches[6]) ? matches[6] : null
       this.#search = !isEmpty(matches[7]) ? matches[7] : null
       this.#hash = !isEmpty(matches[8]) ? matches[8] : null
+    } else {
+      throw new Error('string not parsable as URL::' + this.#href)
     }
     return this
   }
@@ -162,6 +165,10 @@ class FlexUrl {
    */
   href() {
     return this.#href
+  }
+
+  toString() {
+    return this.href()
   }
 
   /**
