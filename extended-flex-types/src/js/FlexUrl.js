@@ -53,7 +53,7 @@ class FlexUrl {
    * @return {FlexUrl}
    */
   #parseStringUrl() {
-    const urlRE = /^(?:([\w.+-]+):)?\/{2}(?:([\w-]+):)?(?:([\w-]+)@)?([.\w-]+)(?::([\w-]+))?(\/[\w\/%&(){}-]*)?(\?[\w;:@&=%,\[\]-]*)?(#[\w_-]+)?/
+    const urlRE = /^(?:([\w.+-]+):)?\/{2}(?:(?:([\w-]+):)?(?:([\w-]+)@))?([.\w-]+)(?::([\w-]+))?(\/[\w\/%&(){}-]*)?(\?[\w;:@&=%,\[\]-]*)?(#[\w_-]+)?/
     const matches = TypeCheck.assertIsString(this.#href).match(urlRE)
     if (!isNull(matches)) {
       this.#protocol = !isEmpty(matches[1]) ? matches[1] : null
