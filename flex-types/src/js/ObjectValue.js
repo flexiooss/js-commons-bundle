@@ -74,7 +74,7 @@ export const isObjectValueValue = a => isNull(a) || isString(a) || isBoolean(a) 
  * @param {?ObjectValue} compare
  * @return {boolean}
  */
-const objectValueValueEquals = (to, compare) => {
+export const objectValueValueEquals = (to, compare) => {
 
   assertType((to instanceof ObjectValue || isNull(to)) && (compare instanceof ObjectValue || isNull(compare)), '`to` & `compare` should be an instance of ObjectValue or null')
 
@@ -100,7 +100,7 @@ const objectValueValueEquals = (to, compare) => {
  * @param {ObjectValueValue} compare
  * @return {boolean}
  */
-const objectValueValuePropertyEquals = (to, compare) => {
+export const objectValueValuePropertyEquals = (to, compare) => {
   if (compare === to) {
     return true
   }
@@ -124,7 +124,7 @@ const objectValueValuePropertyEquals = (to, compare) => {
  * @param {?Array} compare
  * @return {boolean}
  */
-const objectValueValueArrayEquals = (to, compare) => {
+export const objectValueValueArrayEquals = (to, compare) => {
 
   assertType(isArray(to) && isArray(compare), '`to` & `compare` should be an Array')
   if (compare == to) {
