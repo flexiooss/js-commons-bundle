@@ -18,6 +18,6 @@ export {TimeArray} from './src/js/arrays/TimeArray'
 export {TzDateTimeArray} from './src/js/arrays/TzDateTimeArray'
 export {BlobArray} from './src/js/arrays/BlobArray'
 export {IndexError} from './src/js/IndexError'
-export {ObjectValue, ObjectValueBuilder, ObjectValueValueArray} from './src/js/ObjectValue'
+export {ObjectValue, ObjectValueBuilder, ObjectValueValueArray,objectValueValuePropertyEquals} from './src/js/ObjectValue'
 
 export {TypeCheck} from './src/js/TypeCheck'
