@@ -155,6 +155,19 @@ class FlexUrl {
   /**
    * @return {string}
    */
+  origin() {
+    let origin = this.protocol()
+    origin += "://"
+    origin += !isNull(this.#username) ? this.#username : ''
+    origin += !isNull(this.#password) ? ':' + this.#password : ''
+    origin += !isNull(this.#username) ? '@' : ''
+    origin += this.host()
+    return origin
+  }
+
+  /**
+   * @return {string}
+   */
   value() {
     return this.href()
   }
