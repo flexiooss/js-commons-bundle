@@ -2,17 +2,9 @@ import {isArrowFunction, isFunction, TypeCheck} from '../../../assert'
 
 export class BaseException extends Error {
   /**
-   * @type {string}
-   */
-  #message
-  /**
    * @type {?number}
    */
   #code
-  /**
-   * @type {string}
-   */
-  #name
   /**
    * @type {Date}
    */
@@ -28,9 +20,9 @@ export class BaseException extends Error {
     if(isArrowFunction(message)){
       message = message.call(null)
     }
-    this.#message = TypeCheck.assertIsStringOrNull(message) || ''
+    this.message = TypeCheck.assertIsStringOrNull(message) || ''
+    this.name = this.constructor.name
     this.#code = TypeCheck.assertIsNumberOrNull(code)
-    this.#name = this.constructor.name
     this.#date = new Date()
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, this.constructor);
@@ -47,13 +39,6 @@ export class BaseException extends Error {
   }
 
   /**
-   * @return {string}
-   */
-  message() {
-    return this.#message
-  }
-
-  /**
    * @return {Date}
    */
   date(){
@@ -63,15 +48,8 @@ export class BaseException extends Error {
   /**
    * @return {string}
    */
-  name(){
-    return this.#name
-  }
-
-  /**
-   * @return {string}
-   */
   toString() {
-    return ` ${this.realName()} --- ${this.#message} `
+    return ` ${this.realName()} --- ${this.message} `
   }
 
   /**
@@ -79,7 +57,7 @@ export class BaseException extends Error {
    * @return {string}
    */
   realName() {
-    throw new Error('realName() should be override at:' + this.#name)
+    throw new Error('realName() should be override at:' + this.name)
   }
 
   /**
@@ -97,7 +75,7 @@ export class BaseException extends Error {
       date: this.date(),
       code: this.code(),
       realName: this.realName(),
-      name: this.name(),
+      name: this.name,
       message: this.toString(),
       trace: this.getTrace()
     }
