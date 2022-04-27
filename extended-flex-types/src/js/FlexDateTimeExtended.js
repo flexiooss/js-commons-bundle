@@ -65,6 +65,15 @@ export class FlexDateTimeExtended {
   }
 
   /**
+   * @param {number} year
+   * @param {number} month
+   * @return {number}
+   */
+  static getDaysInMonth(year, month) {
+    return FlexDateExtended.getDaysInMonth(year, month)
+  }
+
+  /**
    * @return {DateTime}
    */
   #toDateTime() {
