@@ -48,6 +48,7 @@ export class FlexDateExtended {
   }
 
   /**
+   * @desc use month between 1-12
    * @param {number} year
    * @param {number} month
    * @return {number}
