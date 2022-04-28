@@ -1,33 +1,193 @@
-import {assertType, isNull, isString} from './__import__assert'
+import {assertInstanceOf, assertType, isEmpty, isNull, isString, TypeCheck} from './__import__assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 class FlexUrl {
   /**
    * @type {String}
    */
-  #value
+  #href
+  /**
+   * @type {?String}
+   */
+  #protocol
+  /**
+   * @type {?String}
+   */
+  #username
+  /**
+   * @type {?String}
+   */
+  #password
+  /**
+   * @type {?String}
+   */
+  #hostname
+  /**
+   * @type {?String}
+   */
+  #port
+  /**
+   * @type {?String}
+   */
+  #pathname
+  /**
+   * @type {?String}
+   */
+  #search
+  /**
+   * @type {String}
+   */
+  #hash
 
   /**
    * @param {string} value
    * @private
    */
   constructor(value) {
-    this.#value = value
+    this.#href = value
+    this.#parseStringUrl()
     deepFreezeSeal(this)
+  }
+
+  /**
+   * @return {FlexUrl}
+   */
+  #parseStringUrl() {
+    const urlRE = /^(?:([\w.+-]+):)?\/{2}(?:(?:([\w-]+):)?(?:([\w-]+)@))?([.\w-]+)(?::([\w-]+))?(\/[\w\/%&(){}-]*)?(\?[\w;:@&=%,\[\]-]*)?(#[\w_-]+)?/
+    const matches = TypeCheck.assertIsString(this.#href).match(urlRE)
+    if (!isNull(matches)) {
+      this.#protocol = !isEmpty(matches[1]) ? matches[1] : null
+      this.#username = !isEmpty(matches[2]) ? matches[2] : null
+      this.#password = !isEmpty(matches[3]) ? matches[3] : null
+      this.#hostname = !isEmpty(matches[4]) ? matches[4] : null
+      this.#port = !isEmpty(matches[5]) ? matches[5] : null
+      this.#pathname = !isEmpty(matches[6]) ? matches[6] : null
+      this.#search = !isEmpty(matches[7]) ? matches[7] : null
+      this.#hash = !isEmpty(matches[8]) ? matches[8] : null
+    } else {
+      throw new Error('string not parsable as URL::' + this.#href)
+    }
+    return this
+  }
+
+  /**
+   * @return {?String}
+   */
+  protocol() {
+    return this.#protocol;
+  }
+
+  /**
+   * @return {?String}
+   */
+  username() {
+    return this.#username;
+  }
+
+  /**
+   * @return {?String}
+   */
+  password() {
+    return this.#password;
+  }
+
+  /**
+   * @return {?String}
+   */
+  hostname() {
+    return this.#hostname;
+  }
+
+  /**
+   * @return {?string[]}
+   */
+  hostnames() {
+    return isNull(this.#hostname) ? null : this.#hostname.split('.');
+  }
+
+  /**
+   * @return {*}
+   */
+  host() {
+    return (this.#hostname ?? '') + (isNull(this.#port) ? '' : (':' + this.#port))
+  }
+
+  /**
+   * @return {?String}
+   */
+  port() {
+    return this.#port;
+  }
+
+  /**
+   * @return {?String}
+   */
+  pathname() {
+    return this.#pathname;
+  }
+
+  /**
+   * @param {boolean} [clean=false]
+   * @return {?String}
+   */
+  search(clean = false) {
+    return (clean) ? this.#search.replace(/^\?/, '') : this.#search;
+  }
+
+  /**
+   * @param {boolean} [clean=false]
+   * @return {String}
+   */
+  hash(clean = false) {
+    return (clean) ? this.#hash.replace(/^#/, '') : this.#hash;
+  }
+
+  /**
+   * @return {?URLSearchParams}
+   */
+  urlSearchParams() {
+    if (!isNull(this.search())) {
+      return new URLSearchParams(this.search())
+    }
+    return null
+  }
+
+  /**
+   * @return {string}
+   */
+  origin() {
+    let origin = this.protocol()
+    origin += "://"
+    origin += !isNull(this.#username) ? this.#username : ''
+    origin += !isNull(this.#password) ? ':' + this.#password : ''
+    origin += !isNull(this.#username) ? '@' : ''
+    origin += this.host()
+    return origin
   }
 
   /**
    * @return {string}
    */
   value() {
-    return this.#value
+    return this.href()
+  }
+
+  /**
+   * @return {string}
+   */
+  href() {
+    return this.#href
+  }
+
+  toString() {
+    return this.href()
   }
 
   /**
    * @return {URL}
    */
   toURL() {
-    return new URL(this.#value)
+    return new URL(this.#href)
   }
 
   /**
@@ -41,8 +201,8 @@ class FlexUrl {
 
   toObject() {
     let jsonObject = {}
-    if (this.#value !== null) {
-      jsonObject['value'] = this.#value
+    if (this.#href !== null) {
+      jsonObject['href'] = this.#href
     }
     return jsonObject
   }
@@ -55,7 +215,6 @@ class FlexUrl {
   }
 
   /**
-   *
    * @return {FlexUrlBuilder}
    */
   static builder() {
@@ -99,30 +258,37 @@ export {FlexUrl}
 
 class FlexUrlBuilder {
   /**
-   * @constructor
+   * @type {?string}
    */
-  constructor() {
-    this._value = null
-  }
+  #href = null
 
   /**
    * @param {string} value
    * @returns {FlexUrlBuilder}
    */
-  value(value) {
+  href(value) {
     if (!isNull(value)) {
       assertType(isString(value), 'value should be a string')
       new URL(value)
     }
-    this._value = value
+    this.#href = value
     return this
+  }
+
+  /**
+   * @param {string} value
+   * @returns {FlexUrlBuilder}
+   * @deprecated
+   */
+  value(value) {
+    return this.href(value)
   }
 
   /**
    * @returns {FlexUrl}
    */
   build() {
-    return new FlexUrl(this._value)
+    return new FlexUrl(this.#href)
   }
 
   /**
@@ -131,8 +297,8 @@ class FlexUrlBuilder {
    */
   static fromObject(jsonObject) {
     let builder = new FlexUrlBuilder()
-    if (jsonObject['value'] !== undefined && jsonObject['value'] !== null) {
-      builder.value(jsonObject['value'])
+    if (jsonObject['href'] !== undefined && jsonObject['href'] !== null) {
+      builder.href(jsonObject['href'])
     }
     return builder
   }
@@ -152,7 +318,7 @@ class FlexUrlBuilder {
    */
   static from(instance) {
     let builder = new FlexUrlBuilder()
-    builder.value(instance.value())
+    builder.href(instance.href())
     return builder
   }
 
@@ -161,12 +327,9 @@ class FlexUrlBuilder {
    * @returns {FlexUrlBuilder}
    */
   static fromURL(url) {
-    assertType(
-      url instanceof URL,
-      'FlexUrlBuilder:fromURL: `url` should be an instance of URL'
-    )
+    assertInstanceOf(url, URL, 'URL')
     let builder = new FlexUrlBuilder()
-    builder.value(url.href)
+    builder.href(url.href)
     return builder
   }
 }
