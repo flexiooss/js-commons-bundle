@@ -47,6 +47,15 @@ export class FlexDateTimeExtended {
   }
 
   /**
+   * @param {string} time
+   * @return {FlexDateTimeExtended}
+   */
+  static fromTimeISO(time) {
+    const t = FlexTimeExtended.fromISO(time)
+    return  FlexDateTimeExtended.now().setHour(t.hours()).setMinute(t.minutes()).setSecond(t.seconds()).setMilliseconds(t.milliseconds())
+  }
+
+  /**
    * @param {number} millis
    * @return {FlexDateTimeExtended}
    */
