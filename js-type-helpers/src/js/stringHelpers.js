@@ -1,4 +1,4 @@
-import {isNull} from '../../../assert'
+import {isNull, TypeCheck} from '../../../assert'
 
 /**
  * @param {String} input
@@ -9,7 +9,6 @@ export const isEmpty = (input) => {
 }
 
 /**
- *
  * @param {String} word
  * @returns {String}
  */
@@ -19,7 +18,6 @@ export const firstUppercase = (word) => {
 }
 
 /**
- *
  * @param {String} word
  * @param {String} sep
  * @param {Boolean} firstUpper
@@ -41,7 +39,6 @@ export const camelCase = (word, sep = '_', firstUpper = true) => {
 }
 
 /**
- *
  * @param {RegExp} regexp
  * @param {String} str
  * @returns {Array}
@@ -59,8 +56,6 @@ export const matchAll2Array = (regexp, str) => {
   return matches.length ? matches : null
 }
 /**
- *
- *
  * @param {string} input
  * @param  {number } expectedLength
  * @param {string} replaceWith
@@ -68,4 +63,22 @@ export const matchAll2Array = (regexp, str) => {
  */
 export const padLeft = (input, expectedLength, replaceWith) => {
   return Array(expectedLength - String(input).length + 1).join(replaceWith || '0') + input;
+}
+
+/**
+ * @param {?string} str
+ * @param {string} [separator='-']
+ * @return {string}
+ */
+export const slugify = (str, separator = '-') => {
+  TypeCheck.assertIsStringOrNull(str)
+  TypeCheck.assertIsString(separator)
+  if (isNull(str)) return ''
+
+  str = str.normalize('NFD')
+  str = str.replace(/[^A-Za-z0-9\s_-]/g, '')
+  str = str.trim()
+  str = str.replace(/\s+/g, separator)
+
+  return str
 }

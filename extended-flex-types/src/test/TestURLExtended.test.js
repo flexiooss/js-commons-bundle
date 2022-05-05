@@ -5,6 +5,8 @@ import {URLExtendedBuilder, URLExtended} from '../js/URLExtended'
 const assert = require('assert')
 
 export class TestURLExtendedTest extends TestCase {
+  debug = true
+
   testEncodeUrl() {
     const a = new URLExtended('https://monsite.com/truc?bibi=tagada')
     assert.strictEqual(JSON.stringify(a), '{"href":"https://monsite.com/truc?bibi=tagada"}')

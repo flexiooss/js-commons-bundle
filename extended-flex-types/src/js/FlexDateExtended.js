@@ -48,6 +48,16 @@ export class FlexDateExtended {
   }
 
   /**
+   * @desc use month between 0-11
+   * @param {number} year
+   * @param {number} month
+   * @return {number}
+   */
+  static getDaysInMonth(year, month) {
+    return new Date(year, month+1, 0).getDate()
+  }
+
+  /**
    * @return {number}
    */
   years() {

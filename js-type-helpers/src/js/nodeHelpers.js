@@ -1,4 +1,4 @@
-import {assertType, assert,isNode} from './__import__assert'
+import {assertType, assert, isNode, isNull} from './__import__assert'
 
 /**
  *
@@ -35,4 +35,22 @@ export const checkOverflow=(el)=>
 {
   return  el.clientWidth < el.scrollWidth
     || el.clientHeight < el.scrollHeight
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {function(HTMLElement):boolean} check
+ * @param {HTMLElement} stop
+ * @return {?HTMLElement}
+ */
+export const getParentNode = (el, check, stop = null) => {
+  let node = el
+  const breaker = !isNull(stop) ? stop : document.body
+  while(!check.call(null, node)) {
+    if (node === breaker) {
+      return null
+    }
+    node = node.parentNode
+  }
+  return node
 }

@@ -47,6 +47,15 @@ export class FlexDateTimeExtended {
   }
 
   /**
+   * @param {string} time
+   * @return {FlexDateTimeExtended}
+   */
+  static fromTimeISO(time) {
+    const t = FlexTimeExtended.fromISO(time)
+    return  FlexDateTimeExtended.now().setHour(t.hours()).setMinute(t.minutes()).setSecond(t.seconds()).setMilliseconds(t.milliseconds())
+  }
+
+  /**
    * @param {number} millis
    * @return {FlexDateTimeExtended}
    */
@@ -62,6 +71,16 @@ export class FlexDateTimeExtended {
   static fromSeconds(seconds) {
     const iso = DateTime.fromSeconds(seconds, {zone: 'utc'}).toISO({includeOffset: false})
     return FlexDateTimeExtended.fromISO(iso)
+  }
+
+  /**
+   * @desc use month between 1-12
+   * @param {number} year
+   * @param {number} month
+   * @return {number}
+   */
+  static getDaysInMonth(year, month) {
+    return FlexDateExtended.getDaysInMonth(year, month)
   }
 
   /**

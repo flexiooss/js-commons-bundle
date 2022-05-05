@@ -1,9 +1,11 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {camelCase, firstUppercase, matchAll2Array, padLeft} from '../js/stringHelpers'
+import {camelCase, firstUppercase, matchAll2Array, padLeft, slugify} from '../js/stringHelpers'
 
 const assert = require('assert')
 
 export class TestStringHelpers extends TestCase {
+  debug = false
+
   testFirstUppercase() {
     let sentence = firstUppercase('always handle a teleporter.')
     assert(sentence === 'Always handle a teleporter.')
@@ -38,6 +40,18 @@ export class TestStringHelpers extends TestCase {
 
   testPadLeft() {
     assert(padLeft('123', 10, '0') === '0000000123')
+  }
+
+  testSlugify() {
+    const a = ' g $ @ eu un µ '
+    const aa = slugify(a)
+    this.log(aa, 'aa')
+    assert.equal(aa, 'g-eu-un', 'a should be slugified')
+
+    const b = ' _ c\'est un truc de ôuf * 45 '
+    const bb = slugify(b, '_')
+    assert.equal(bb, 'cest_un_truc_de_ouf_45', 'b should be slugified')
+    this.log(bb, 'bb')
   }
 }
 
