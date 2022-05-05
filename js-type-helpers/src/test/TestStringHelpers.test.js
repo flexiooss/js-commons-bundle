@@ -50,7 +50,7 @@ export class TestStringHelpers extends TestCase {
 
     const b = ' _ c\'est un truc de ôuf * 45 '
     const bb = slugify(b, '_')
-    assert.equal(bb, 'cest_un_truc_de_ouf_45', 'b should be slugified')
+    assert.equal(bb, '__cest_un_truc_de_ouf_45', 'b should be slugified')
     this.log(bb, 'bb')
   }
 }
