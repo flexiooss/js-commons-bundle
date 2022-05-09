@@ -82,8 +82,14 @@ export class EventHandlerBase {
       try {
         dispatchExecution.listeners()
           .forEach(
+            /**
+             * @param {EventListenerConfig} eventListenerConfig
+             * @param {string} listenerToken
+             */
             (eventListenerConfig, listenerToken) => {
-              this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback)
+              if (eventListenerConfig.active()) {
+                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback())
+              }
             }
           )
       } finally {
@@ -125,7 +131,7 @@ export class EventHandlerBase {
     )
     const ids = new StringArray()
 
-    for (const event of eventListenerConfig.events) {
+    for (const event of eventListenerConfig.events()) {
       this._ensureHaveListenersMap(event)
       const id = this.nextID()
 
@@ -163,6 +169,60 @@ export class EventHandlerBase {
           this._listeners.get(event).delete(token)
           return true
         }
+      }
+    }
+    return false
+  }
+
+  /**
+   * @param {(String|Symbol)} event
+   * @param {String} token
+   * @throws AssertionError
+   * @return {boolean}
+   */
+  disableEventListener(event, token = null) {
+    if (this._listeners.has(event)) {
+      if (this._listeners.has(event) && this._listeners.get(event).has(token)) {
+        /**
+         * @type {EventListenerConfig}
+         */
+        const current = this._listeners.get(event).get(token)
+        this._listeners.get(event).set(
+          token,
+          EventListenerConfig.create(
+            current.events(),
+            current.callback,
+            false
+          )
+        )
+        return true
+      }
+    }
+    return false
+  }
+
+  /**
+   * @param {(String|Symbol)} event
+   * @param {String} token
+   * @throws AssertionError
+   * @return {boolean}
+   */
+  enableEventListener(event, token) {
+    if (this._listeners.has(event)) {
+      if (this._listeners.has(event) && this._listeners.get(event).has(token)) {
+        /**
+         * @type {EventListenerConfig}
+         */
+        const current = this._listeners.get(event).get(token)
+        this._listeners.get(event).set(
+          token,
+          EventListenerConfig.create(
+            current.events(),
+            current.callback,
+            true
+          )
+        )
+        return true
       }
     }
     return false
