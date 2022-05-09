@@ -21,8 +21,8 @@ export class EventListenerConfig {
    * @param {EventHandlerBase~eventClb} callback
    * @param {boolean} [active=true]
    */
-  constructor(events, callback,active=true) {
-    this.#events = assertInstanceOf(events,SymbolStringArray, 'SymbolStringArray')
+  constructor(events, callback, active = true) {
+    this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
     this.#callback = TypeCheck.assertIsArrowFunction(callback)
     this.#active = TypeCheck.assertIsBoolean(active)
     this.#events = events;
@@ -32,24 +32,32 @@ export class EventListenerConfig {
 
 
   /**
-    * @return {SymbolStringArray}
+   * @return {SymbolStringArray}
    */
   events() {
     return this.#events;
   }
 
   /**
-    * @return {EventHandlerBase~eventClb}
+   * @return {EventHandlerBase~eventClb}
    */
   callback() {
     return this.#callback;
   }
 
   /**
-    * @return {boolean}
+   * @return {boolean}
    */
   active() {
     return this.#active;
+  }
+
+  /**
+   * @param {boolean} active
+   * @return {EventListenerConfig}
+   */
+  withActive(active) {
+    return EventListenerConfig.create(this.events(), this.callback(), active)
   }
 
   /**
@@ -59,7 +67,7 @@ export class EventListenerConfig {
    * @constructor
    * @readonly {EventListenerConfig}
    */
-  static create(events, callback, active=true) {
+  static create(events, callback, active = true) {
     return deepFreezeSeal(new this(events, callback, active))
   }
 }

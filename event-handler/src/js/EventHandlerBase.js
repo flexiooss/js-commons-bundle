@@ -189,11 +189,7 @@ export class EventHandlerBase {
         const current = this._listeners.get(event).get(token)
         this._listeners.get(event).set(
           token,
-          EventListenerConfig.create(
-            current.events(),
-            current.callback,
-            false
-          )
+          current.withActive(false)
         )
         return true
       }
@@ -216,11 +212,7 @@ export class EventHandlerBase {
         const current = this._listeners.get(event).get(token)
         this._listeners.get(event).set(
           token,
-          EventListenerConfig.create(
-            current.events(),
-            current.callback,
-            true
-          )
+          current.withActive(true)
         )
         return true
       }
