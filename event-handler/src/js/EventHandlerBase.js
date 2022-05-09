@@ -182,7 +182,7 @@ export class EventHandlerBase {
    */
   disableEventListener(event, token = null) {
     if (this._listeners.has(event)) {
-      if (this._listeners.has(event) && this._listeners.get(event).has(token)) {
+      if (this._listeners.has(event) && this._listeners.get(event).has(token)  && this._listeners.get(event).get(token).active()) {
         /**
          * @type {EventListenerConfig}
          */
@@ -205,7 +205,7 @@ export class EventHandlerBase {
    */
   enableEventListener(event, token) {
     if (this._listeners.has(event)) {
-      if (this._listeners.has(event) && this._listeners.get(event).has(token)) {
+      if (this._listeners.has(event) && this._listeners.get(event).has(token) && !this._listeners.get(event).get(token).active()) {
         /**
          * @type {EventListenerConfig}
          */
