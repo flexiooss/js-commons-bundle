@@ -23,7 +23,6 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
      * @type {Number}
      */
     this.#priority = TypeCheck.assertIsNumber(priority)
-    this.#priority = priority;
   }
 
   /**

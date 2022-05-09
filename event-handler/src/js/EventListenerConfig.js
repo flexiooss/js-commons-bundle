@@ -25,9 +25,6 @@ export class EventListenerConfig {
     this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
     this.#callback = TypeCheck.assertIsArrowFunction(callback)
     this.#active = TypeCheck.assertIsBoolean(active)
-    this.#events = events;
-    this.#callback = callback;
-    this.#active = active;
   }
 
 
