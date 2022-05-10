@@ -15,11 +15,39 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFunction
+  isDate, isArrowFunction, isEmpty
 } from './is'
 
 
 export class TypeCheck {
+  /**
+   * @param {any} inst
+   * @throws {TypeError}
+   * @return {any}
+   */
+  static assertIsEmpty(inst) {
+    assertType(
+      isEmpty(inst),
+      'input should be Empty given: %s',
+      _ => ` ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {any} inst
+   * @throws {TypeError}
+   * @return {any}
+   */
+  static assertIsNotEmpty(inst) {
+    assertType(
+      !isEmpty(inst),
+      'input should not be Empty given: %s',
+      _ => ` ${formatType(inst)}`
+    )
+    return inst
+  }
+
   /**
    * @param {null} inst
    * @throws {TypeError}
