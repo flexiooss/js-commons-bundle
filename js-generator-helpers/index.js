@@ -1,2 +1,5 @@
 export * from './src/js/objectHelpers'
 export * from './src/js/PayloadHandle'
+export {builder, implementsBuilder} from './src/js/builder/Builder'
+export {haveBuilder, implementsHaveBuilder} from './src/js/builder/HaveBuilder'
+export {BuilderHelper} from './src/js/builder/BuilderHelper'
