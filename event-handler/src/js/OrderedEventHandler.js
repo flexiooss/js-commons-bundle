@@ -1,4 +1,4 @@
-import {assertType} from './__import__assert'
+import {assertInstanceOf, assertType} from './__import__assert'
 import {StringArray} from './__import__flex-types'
 import {EventHandlerBase} from './EventHandlerBase'
 import {sortMap} from './__import__js-type-helpers'
@@ -17,13 +17,11 @@ export class OrderedEventHandler extends EventHandlerBase {
    * @override
    */
   addEventListener(orderedEventListenerConfig) {
-    assertType(orderedEventListenerConfig instanceof OrderedEventListenerConfig,
-      'EventHandler:addEventListener: ̀`orderedEventListenerConfig` argument assert be an instance of OrderedEventListenerConfig'
-    )
+    assertInstanceOf(orderedEventListenerConfig, OrderedEventListenerConfig, 'OrderedEventListenerConfig')
 
     const ids = new StringArray()
 
-    for (const event of orderedEventListenerConfig.events) {
+    for (const event of orderedEventListenerConfig.events()) {
       this._ensureHaveListenersMap(event)
 
       const id = this.nextID()
@@ -34,7 +32,7 @@ export class OrderedEventHandler extends EventHandlerBase {
         sortMap(
           this._listeners.get(event),
           (a, b) => {
-            return a.value.priority - b.value.priority
+            return a.value.priority() - b.value.priority()
           }
         )
       )

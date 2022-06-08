@@ -1,4 +1,4 @@
-import {isArrowFunction, isFunction, TypeCheck} from '../../../assert'
+import {isArrowFunction, isFunction, isNull, TypeCheck} from '../../../assert'
 
 export class BaseException extends Error {
   /**
@@ -49,7 +49,7 @@ export class BaseException extends Error {
    * @return {string}
    */
   toString() {
-    return ` ${this.realName()} --- ${this.message} `
+    return ` ${this.realName()} --- ${!isNull(this.code())?'['+this.code()+'] ':''} ${this.message} `
   }
 
   /**

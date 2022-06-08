@@ -15,6 +15,12 @@ export class EventListenerConfigBuilder {
     this._events = events
     /**
      *
+     * @type {boolean}
+     * @protected
+     */
+    this._active = true
+    /**
+     *
      * @type {EventHandlerBase~eventClb}
      * @protected
      */
@@ -40,6 +46,13 @@ export class EventListenerConfigBuilder {
     this._callback = clb
     return this
   }
+  /**
+   * @return {this}
+   */
+  disabled() {
+    this._active = false
+    return this
+  }
 
   /**
    *
@@ -48,7 +61,8 @@ export class EventListenerConfigBuilder {
   build() {
     return EventListenerConfig.create(
       this._events,
-      this._callback
+      this._callback,
+      this._active
     )
   }
 }

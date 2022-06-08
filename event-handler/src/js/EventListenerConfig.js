@@ -1,40 +1,70 @@
-import {isFunction,assert} from './__import__assert'
+import {isFunction, assert, assertInstanceOf, TypeCheck} from './__import__assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {SymbolStringArray} from './__import__extended-flex-types'
 
 export class EventListenerConfig {
   /**
-   *
+   * @type {EventHandlerBase~eventClb}
+   */
+  #callback
+  /**
+   * @type {SymbolStringArray}
+   */
+  #events
+  /**
+   * @type {boolean}
+   */
+  #active
+
+  /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
+   * @param {boolean} [active=true]
    */
-  constructor(events, callback) {
-    assert(events instanceof SymbolStringArray,
-      'EventListenerConfig:constructor: ̀`events` property assert be not empty'
-    )
-    assert(isFunction(callback),
-      'EventListenerConfig:constructor: ̀`callback` property assert be Callable'
-    )
-    /**
-     *
-     * @type {SymbolStringArray}
-     */
-    this.events = events
-    /**
-     *
-     * @type {EventHandlerBase~eventClb}
-     */
-    this.callback = callback
+  constructor(events, callback, active = true) {
+    this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
+    this.#callback = TypeCheck.assertIsArrowFunction(callback)
+    this.#active = TypeCheck.assertIsBoolean(active)
+  }
+
+
+  /**
+   * @return {SymbolStringArray}
+   */
+  events() {
+    return this.#events;
   }
 
   /**
-   *
+   * @return {EventHandlerBase~eventClb}
+   */
+  callback() {
+    return this.#callback;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  active() {
+    return this.#active;
+  }
+
+  /**
+   * @param {boolean} active
+   * @return {EventListenerConfig}
+   */
+  withActive(active) {
+    return EventListenerConfig.create(this.events(), this.callback(), active)
+  }
+
+  /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
+   * @param {boolean} [active=true]
    * @constructor
    * @readonly {EventListenerConfig}
    */
-  static create(events, callback) {
-    return deepFreezeSeal(new this(events, callback))
+  static create(events, callback, active = true) {
+    return deepFreezeSeal(new this(events, callback, active))
   }
 }
