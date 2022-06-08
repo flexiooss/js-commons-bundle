@@ -1,16 +1,22 @@
-import {NotOverrideException} from '../../../../assert'
+import {isNull, NotOverrideException} from '../../../../assert'
 import {isImplement} from '../../../../js-helpers'
 
 /**
  * @mixin
- * @param {*} Base
+ * @param {?*} Base
  * @return {{new(): Builder, prototype: Builder}}
  */
-export const builder = (Base) => {
+export const builder = (Base = null) => {
+  if (isNull(Base)) {
+    Base = class{}
+  }
   /**
    * @interface
    */
   return class Builder extends Base {
+    /**
+     * @return {HaveBuilder}
+     */
     build() {
       throw NotOverrideException.FROM_INTERFACE('Builder')
     }

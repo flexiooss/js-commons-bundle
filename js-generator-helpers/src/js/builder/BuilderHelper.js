@@ -1,14 +1,14 @@
-import {assertInstanceOf, isFunction, isNull} from '../../../../assert'
+import {assertInstanceOfOrNull, isFunction, isNull} from '../../../../assert'
 
 export class BuilderHelper {
   /**
    * @param {?HaveBuilder|function(Builder):Builder} builder
    * @param {Class<HaveBuilder>} constructor
    * @param {?string} stringName
-   * @param canBeNull
+   * @param {boolean} [canBeNull=false]
    * @returns {*}
    */
-  consume(builder, constructor, stringName, canBeNull) {
+  static consume(builder, constructor, stringName, canBeNull = false) {
     let object = builder
     if (isFunction(builder)) {
       object = builder.call(null, constructor.builder()).build()
@@ -16,7 +16,7 @@ export class BuilderHelper {
     if (!canBeNull && isNull(object)) {
       object = constructor.builder().build()
     }
-    assertInstanceOf(object, constructor, stringName)
+    assertInstanceOfOrNull(object, constructor, stringName)
     return object
   }
 }
