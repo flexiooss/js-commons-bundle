@@ -173,25 +173,14 @@ export class FlexArray extends Array {
   }
 
   /**
-   *
-   * @param {number} [start=0]
+   * @param {?number} [start=null]
    * @param {?number} [end=null]
    * @return {this}
    */
-  slice(start = 0, end = null) {
-    end = (isNull(end))
-      ? this.length
-      : ((end < 0) ? (this.length + end) : end)
-
-    if (end < start) {
-      throw new Error('end should not be less than start')
-    }
-
-    const ret = new this.constructor()
-
-    for (let i = start; i < end; ++i) {
-      ret.push(this.get(i))
-    }
+  slice(start= null, end = null) {
+    const a = this.toArray()
+    a.slice(start, end)
+    let ret = new this.constructor(...a)
     if(this.#frozen){
       ret.freeze()
     }
