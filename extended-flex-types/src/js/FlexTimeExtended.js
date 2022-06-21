@@ -1,5 +1,5 @@
 import {FlexTime, TypeCheck} from './__import__flex-types'
-import {DateTime, Duration} from 'luxon'
+import {DateTime} from 'luxon'
 import {TimeFormatter} from './date-formatter/DateFormatter'
 
 export class FlexTimeExtended {
