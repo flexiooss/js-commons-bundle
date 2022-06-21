@@ -68,6 +68,10 @@ export class TestFlexArray extends TestCase {
       a.slice(2, -1),
       new TestArrayNumber(3, 4, 5)
     )
+    assert.deepStrictEqual(
+      a.slice(-1),
+      new TestArrayNumber(6)
+    )
     assert.throws(() => {
       a.slice(2, 1)
     })
