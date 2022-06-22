@@ -52,25 +52,50 @@ export class TestFlexArray extends TestCase {
     let a = new TestArrayNumber(1, 2, 3, 4, 5, 6)
     assert.deepStrictEqual(
       a.slice(),
-      new TestArrayNumber(1, 2, 3, 4, 5, 6)
+      new TestArrayNumber(1, 2, 3, 4, 5, 6),
+      'simple slice should give full array'
     )
     assert.deepStrictEqual(
       a.slice(2),
-      new TestArrayNumber(3, 4, 5, 6)
+      new TestArrayNumber(3, 4, 5, 6),
+      'slice 2 should give array without 2 first items'
     )
 
     assert.deepStrictEqual(
       a.slice(2, 3),
-      new TestArrayNumber(3)
+      new TestArrayNumber(3),
+      'slice 3 should give array without 3 first items'
     )
 
     assert.deepStrictEqual(
       a.slice(2, -1),
-      new TestArrayNumber(3, 4, 5)
+      new TestArrayNumber(3, 4, 5),
+      'slice (2,-1) should give array without 2 first items and without last item'
+    )
+    assert.deepStrictEqual(
+      a.slice(-42),
+      new TestArrayNumber(1, 2, 3, 4, 5, 6),
+      'slice -42 should give full array'
+    )
+    assert.deepStrictEqual(
+      a.slice(42),
+      new TestArrayNumber(),
+      'slice 42 should give empty array'
     )
     assert.deepStrictEqual(
       a.slice(-1),
-      new TestArrayNumber(6)
+      new TestArrayNumber(6),
+      'slice -1 should give array with last item'
+    )
+    assert.deepStrictEqual(
+      new TestArrayNumber().slice(1),
+      new TestArrayNumber(),
+      'slice 1 for empty array should give empty array'
+    )
+    assert.deepStrictEqual(
+      new TestArrayNumber().slice(-1),
+      new TestArrayNumber(),
+      'slice -1 for empty array should give empty array'
     )
     assert.throws(() => {
       a.slice(2, 1)
