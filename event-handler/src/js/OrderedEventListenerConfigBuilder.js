@@ -35,6 +35,6 @@ export class OrderedEventListenerConfigBuilder extends EventListenerConfigBuilde
    * @return {OrderedEventListenerConfig}
    */
   build() {
-    return OrderedEventListenerConfig.create(this._events, this._callback, this._priority, this._active)
+    return OrderedEventListenerConfig.create(this._events, this._callback, this._priority, this._active, this._guard)
   }
 }
