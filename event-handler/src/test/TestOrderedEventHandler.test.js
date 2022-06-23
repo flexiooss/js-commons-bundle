@@ -2,6 +2,7 @@
 import {OrderedEventHandler} from '../js/OrderedEventHandler'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {OrderedEventListenerConfigBuilder} from '../js/OrderedEventListenerConfigBuilder'
+import {EventListenerConfigBuilder} from "../js/EventListenerConfigBuilder";
 
 
 const assert = require('assert')
@@ -155,6 +156,48 @@ export class TestOrderedEventHandler extends TestCase {
       'should throw max exec'
     )
 
+  }
+
+  testGuard() {
+    const EVENT_1 = 'EVENT_1'
+    let result = []
+
+    const token_1 = this.handler.addEventListener(
+      OrderedEventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 1)
+        })
+        .priority(100)
+        .build()
+    )
+
+    const token_2 = this.handler.addEventListener(
+      OrderedEventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 2)
+        })
+        .guard(payload => {
+          return  payload !== 'a'
+        })
+        .priority(50)
+        .build()
+    )
+
+    const token_3 = this.handler.addEventListener(
+      OrderedEventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 3)
+        })
+        .priority(400)
+        .build()
+    )
+
+    this.handler.dispatch(EVENT_1, 'a')
+    this.log(result, 'guard result')
+    assert.deepStrictEqual(['a1', 'a3'], result, 'Listeners should be guarded')
   }
 
 }
