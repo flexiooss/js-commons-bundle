@@ -10,9 +10,15 @@ const _sequenceId_ = Symbol('_sequenceId_')
 
 /**
  * @callback EventHandlerBase~eventClb
- * @param {Object} payload
+ * @param {?Object} payload
  * @param {(string|Symbol)} eventName
  * @param {string} executionId
+ */
+
+/**
+ * @callback EventHandlerBase~guardClb
+ * @param {?Object} payload
+ * @return {boolean}
  */
 
 export class EventHandlerBase {
@@ -87,7 +93,7 @@ export class EventHandlerBase {
              * @param {string} listenerToken
              */
             (eventListenerConfig, listenerToken) => {
-              if (eventListenerConfig.active()) {
+              if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
                 this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback())
               }
             }
@@ -182,7 +188,7 @@ export class EventHandlerBase {
    */
   disableEventListener(event, token = null) {
     if (this._listeners.has(event)) {
-      if (this._listeners.has(event) && this._listeners.get(event).has(token)  && this._listeners.get(event).get(token).active()) {
+      if (this._listeners.has(event) && this._listeners.get(event).has(token) && this._listeners.get(event).get(token).active()) {
         /**
          * @type {EventListenerConfig}
          */
