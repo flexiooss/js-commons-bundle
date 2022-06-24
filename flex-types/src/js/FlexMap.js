@@ -1,4 +1,4 @@
-import {TypeCheck} from '../../../assert'
+import {NotOverrideException, TypeCheck} from '../../../assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 /**
@@ -30,18 +30,30 @@ export class FlexMap extends Map {
    * @return {this}
    */
   freeze() {
-    deepFreezeSeal(this)
     this.#frozen = true
+    this.forEach((v) => {
+      deepFreezeSeal(v)
+    })
+    this.delete = function (key) {
+      throw new Error('Can\'t delete property ' + key + ', map is frozen')
+    }
+
+    this.clear = function () {
+      throw new Error('Can\'t clear map, map is frozen')
+    }
+    deepFreezeSeal(this)
     return this
   }
+
 
   /**
    * @param {*} v
    * @protected
-   * @throws Error
+   * @throws {NotOverrideException}
+   * @abstract
    */
   _validate(v) {
-    throw new TypeError('Should be implemented')
+    throw NotOverrideException.FROM_ABSTRACT('FlexMap')
   }
 
   /**
@@ -52,10 +64,9 @@ export class FlexMap extends Map {
     super.forEach(callbackfn, thisArg)
   }
 
-
   /**
    * @param key
-   * @return {TYPE}
+   * @return {?TYPE}
    */
   get(key) {
     return (super.get(key) === undefined ? null : super.get(key))
@@ -94,6 +105,10 @@ export class FlexMap extends Map {
    * @return {this}
    */
   set(key, value) {
+    if (this.#frozen) {
+      throw new Error('Can\'t add property ' + key + ', map is not extensible')
+    }
+
     this._validate(value)
     return super.set(key, value)
   }
