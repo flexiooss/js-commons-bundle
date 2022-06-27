@@ -117,7 +117,7 @@ export class FlexMap extends Map {
    * @return {Object.<*, TYPE>}
    */
   toObject() {
-    let obj = Object.create(null)
+    let obj = {}
     for (let [k, v] of this) {
       obj[k] = v
     }
