@@ -141,7 +141,7 @@ export class FlexMap extends Map {
    * @returns {FlexMapBuilder}
    */
   static builder() {
-    return new FlexMapBuilder(this.constructor)
+    return new FlexMapBuilder(this)
   }
 
   /**
@@ -149,7 +149,7 @@ export class FlexMap extends Map {
    * @returns {FlexMapBuilder}
    */
   static from(instance) {
-    return FlexMapBuilder.from(this.constructor, instance)
+    return FlexMapBuilder.from(this, instance)
   }
 
   /**
@@ -157,7 +157,7 @@ export class FlexMap extends Map {
    * @returns {FlexMapBuilder}
    */
   static fromObject(jsonObject) {
-    return FlexMapBuilder.fromObject(this.constructor, jsonObject)
+    return FlexMapBuilder.fromObject(this, jsonObject)
   }
 
   /**
@@ -165,7 +165,7 @@ export class FlexMap extends Map {
    * @returns {FlexMapBuilder}
    */
   static fromJson(json) {
-    return FlexMapBuilder.fromJson(this.constructor, json)
+    return FlexMapBuilder.fromJson(this, json)
   }
 }
 
@@ -174,7 +174,7 @@ export class FlexMap extends Map {
  */
 export class FlexMapBuilder {
   /**
-   * @type {FlexMap<KEY,TYPE>}
+   * @type {Class<FlexMap<KEY,TYPE>>}
    */
   #mapConstructor = null
   /**
@@ -183,7 +183,7 @@ export class FlexMapBuilder {
   #entries = null
 
   /**
-   * @param {FlexMap<KEY,TYPE>} mapConstructor
+   * @param {Class<FlexMap<KEY,TYPE>>} mapConstructor
    */
   constructor(mapConstructor) {
     this.#mapConstructor = TypeCheck.assertIsClass(constructor)
