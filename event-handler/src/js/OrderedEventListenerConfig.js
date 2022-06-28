@@ -16,9 +16,10 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @param {EventHandlerBase~eventClb} callback
    * @param {number} priority
    * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    */
-  constructor(events, callback, priority, active = true) {
-    super(events, callback, active)
+  constructor(events, callback, priority, active = true, guard = null) {
+    super(events, callback, active, guard)
     /**
      * @type {Number}
      */
@@ -37,7 +38,7 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), active)
+    return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), active, this.guard())
   }
 
 
@@ -47,11 +48,12 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @param {EventHandlerBase~eventClb} callback
    * @param {number} priority
    * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    * @return {OrderedEventListenerConfig}
    * @constructor
    * @readonly
    */
-  static create(events, callback, priority, active = true) {
-    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority, active))
+  static create(events, callback, priority, active = true, guard=null) {
+    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority, active, guard))
   }
 }

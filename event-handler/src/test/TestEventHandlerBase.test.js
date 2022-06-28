@@ -8,6 +8,12 @@ const assert = require('assert')
 
 
 export class TestEventHandlerBase extends TestCase {
+
+  /**
+   * @type {boolean}
+   */
+  // debug = true
+
   setUp() {
     this.handler = new EventHandlerBase(10)
   }
@@ -102,7 +108,45 @@ export class TestEventHandlerBase extends TestCase {
     this.handler.dispatch(EVENT_1, 'a')
 
     assert.deepStrictEqual(['a1', 'b1', 'b2', 'b3', 'a2', 'a3'], result, 'Listeners should be executed in deep and recursivly')
+  }
 
+  testGuard() {
+    const EVENT_1 = 'EVENT_1'
+    let result = []
+
+    const token_1 = this.handler.addEventListener(
+      EventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 1)
+        })
+        .build()
+    )
+
+    const token_2 = this.handler.addEventListener(
+      EventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 2)
+        })
+        .guard(payload => {
+         return  payload !== 'a'
+        })
+        .build()
+    )
+
+    const token_3 = this.handler.addEventListener(
+      EventListenerConfigBuilder
+        .listen(EVENT_1)
+        .callback((n) => {
+          result.push(n + 3)
+        })
+        .build()
+    )
+
+    this.handler.dispatch(EVENT_1, 'a')
+    this.log(result, 'guard result')
+    assert.deepStrictEqual(['a1', 'a3'], result, 'Listeners should be guarded')
   }
 
   testMaxRecursiveExecution() {

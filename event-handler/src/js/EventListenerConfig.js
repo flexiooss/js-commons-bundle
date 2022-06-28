@@ -1,4 +1,4 @@
-import {isFunction, assert, assertInstanceOf, TypeCheck} from './__import__assert'
+import {assertInstanceOf, TypeCheck} from './__import__assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {SymbolStringArray} from './__import__extended-flex-types'
 
@@ -15,16 +15,22 @@ export class EventListenerConfig {
    * @type {boolean}
    */
   #active
+  /**
+   * @type {?EventHandlerBase~guardClb}
+   */
+  #guard
 
   /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
    * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    */
-  constructor(events, callback, active = true) {
+  constructor(events, callback, active = true, guard = null) {
     this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
     this.#callback = TypeCheck.assertIsArrowFunction(callback)
     this.#active = TypeCheck.assertIsBoolean(active)
+    this.#guard = TypeCheck.assertIsArrowFunctionOrNull(guard)
   }
 
 
@@ -50,21 +56,30 @@ export class EventListenerConfig {
   }
 
   /**
+   * @return {?EventHandlerBase~guardClb}
+   */
+  guard() {
+    return this.#guard;
+  }
+
+  /**
    * @param {boolean} active
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return EventListenerConfig.create(this.events(), this.callback(), active)
+    return EventListenerConfig.create(this.events(), this.callback(), active, this.guard())
   }
 
   /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
    * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    * @constructor
-   * @readonly {EventListenerConfig}
+   * @readonly
+   * @return {EventListenerConfig}
    */
-  static create(events, callback, active = true) {
-    return deepFreezeSeal(new this(events, callback, active))
+  static create(events, callback, active = true, guard = null) {
+    return deepFreezeSeal(new this(events, callback, active, guard))
   }
 }
