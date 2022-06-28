@@ -1,4 +1,4 @@
-import {NotOverrideException, TypeCheck} from '../../../assert'
+import {isNull, NotOverrideException, TypeCheck} from '../../../assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 /**
@@ -12,11 +12,16 @@ export class FlexMap extends Map {
   #frozen = false
 
   /**
-   * @param {...TYPE} args
+   * @param {Iterable<KEY,TYPE>} args
    */
-  constructor(args) {
+  constructor(args = null) {
     super()
-    this.forEach((a) => this._validate(a))
+    if (!isNull(args)) {
+      for (const [key, item] of args[Symbol.iterator]()) {
+        this._validate(item)
+        this.set(key, item)
+      }
+    }
   }
 
   /**

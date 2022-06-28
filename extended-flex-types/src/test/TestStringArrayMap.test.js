@@ -25,7 +25,6 @@ export class TestStringArrayMap extends TestCase {
     a.set(2, new StringArray(...['toto', 'titi', 'tutu']))
 
     const sa = JSON.stringify(a)
-
     const b = StringArrayMapBuilder.fromJson(sa).build()
     assert.deepEqual(a, b)
   }
