@@ -2,8 +2,8 @@ import {TypeCheck} from '../../../assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 
 /**
- * @template TYPE
- * @extends Map.<*, TYPE>
+ * @template KEY, TYPE
+ * @extends Map<KEY,TYPE>
  */
 export class FlexMap extends Map {
   /**
@@ -12,10 +12,10 @@ export class FlexMap extends Map {
   #frozen = false
 
   /**
-   * @param {...<TYPE>} args
+   * @param {...TYPE} args
    */
   constructor(args) {
-    super(args)
+    super()
     this.forEach((a) => this._validate(a))
   }
 
@@ -36,7 +36,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @param {*} v
+   * @param {TYPE} v
    * @protected
    * @throws Error
    */
@@ -45,16 +45,16 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @param {function(value: TYPE, key: *, map: this)} callbackfn
+   * @param {function(value: TYPE, key: KEY, map: this)} callback
    * @param {*?} thisArg
    */
-  forEach(callbackfn, thisArg) {
-    super.forEach(callbackfn, thisArg)
+  forEach(callback, thisArg) {
+    super.forEach(callback, thisArg)
   }
 
 
   /**
-   * @param key
+   * @param {KEY} key
    * @return {TYPE}
    */
   get(key) {
@@ -62,7 +62,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @param key
+   * @param {KEY} key
    * @param {TYPE} value
    * @returns {this}
    */
@@ -76,7 +76,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @param key
+   * @param {KEY} key
    * @returns {this}
    */
   without(key) {
@@ -89,7 +89,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @param key
+   * @param {KEY} key
    * @param {TYPE} value
    * @return {this}
    */
@@ -99,7 +99,7 @@ export class FlexMap extends Map {
   }
 
   /**
-   * @return {Object.<*, TYPE>}
+   * @return {Object<KEY,TYPE>}
    */
   toObject() {
     let obj = Object.create(null)
@@ -111,7 +111,7 @@ export class FlexMap extends Map {
 
   /**
    *
-   * @return {Object<*, TYPE>}
+   * @return {Object<KEY,TYPE>}
    */
   toJSON() {
     return this.toObject()
@@ -150,11 +150,11 @@ export class FlexMap extends Map {
 }
 
 /**
- * @template TYPE
+ * @template KEY, TYPE
  */
 export class FlexMapBuilder {
   /**
-   * @type {FlexMap.<*,TYPE>}
+   * @type {FlexMap<KEY,TYPE>}
    */
   #mapConstructor = null
   /**
@@ -163,7 +163,7 @@ export class FlexMapBuilder {
   #entries = null
 
   /**
-   * @param {FlexMap.<*,TYPE>} mapConstructor
+   * @param {FlexMap<KEY,TYPE>} mapConstructor
    */
   constructor(mapConstructor) {
     this.#mapConstructor = TypeCheck.assertIsClass(constructor)
@@ -182,7 +182,7 @@ export class FlexMapBuilder {
   /**
    * @param {Object} jsonObject
    * @returns {FlexMapBuilder}
-   * @param  {FlexMap.<*,TYPE>} mapConstructor
+   * @param  {FlexMap<KEY,TYPE>} mapConstructor
    */
   static fromObject(mapConstructor, jsonObject) {
     const builder = new FlexMapBuilder(mapConstructor)
@@ -193,7 +193,7 @@ export class FlexMapBuilder {
   /**
    * @param {string} json
    * @returns {FlexMapBuilder}
-   * @param  {FlexMap.<*,TYPE>} mapConstructor
+   * @param  {FlexMap<KEY,TYPE>} mapConstructor
    */
   static fromJson(mapConstructor, json) {
     const jsonObject = JSON.parse(json)
@@ -203,7 +203,7 @@ export class FlexMapBuilder {
   /**
    * @param {FlexMap} instance
    * @returns {FlexMapBuilder}
-   * @param  {FlexMap.<*,TYPE>} mapConstructor
+   * @param  {FlexMap<KEY,TYPE>} mapConstructor
    */
   static from(mapConstructor, instance) {
     const builder = new FlexMapBuilder(mapConstructor)
