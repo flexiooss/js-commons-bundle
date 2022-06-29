@@ -2,7 +2,7 @@ import {FlexMap} from '../__import__flex-types'
 import {assertType, isNull, isString} from '../__import__assert'
 
 /**
- * @extends {FlexMap<?String>}
+ * @extends {FlexMap<*, String>}
  */
 export class StringMap extends FlexMap {
   _validate(v) {
