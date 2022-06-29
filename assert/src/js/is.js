@@ -84,7 +84,17 @@ export const isFunction = a => typeof a === 'function' && !isClass(a)
  * @function
  * @export
  */
+export const isAsyncFunction = a => isFunction(a) && a.constructor.name === "AsyncFunction";
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ * @function
+ * @export
+ */
 export const isArrowFunction = a => isFunction(a) && (/^([^{=]+|\(.*\)\s*)?=>/).test(a.toString().replace(/\s/, ''))
+
+
 
 /**
  *
