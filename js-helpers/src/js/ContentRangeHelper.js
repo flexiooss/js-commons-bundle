@@ -1,5 +1,3 @@
-import {isNull} from '../../../assert'
-
 export class ContentRangeHelper {
   /**
    * @param {string} contentRange
