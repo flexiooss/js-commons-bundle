@@ -1,6 +1,7 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {Sequence} from "../js/Sequence";
 import {PaginationHelper} from '../js/PaginationHelper'
+import {ContentRangeHelper} from '../js/ContentRangeHelper'
 
 const assert = require('assert')
 
@@ -34,6 +35,10 @@ export class TestPaginationTest extends TestCase {
   testRange() {
     assert.deepStrictEqual(PaginationHelper.getRange(0,100, 0), '0-99')
     assert.deepStrictEqual(PaginationHelper.getRange(0,100, 0, (min, max) => `${max}@${min}`), '99@0')
+  }
+
+  testContentRange() {
+    assert.deepStrictEqual(ContentRangeHelper.getTotal('0-100/521'), 521)
   }
 }
 
