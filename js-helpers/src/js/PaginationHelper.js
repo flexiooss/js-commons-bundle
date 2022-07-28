@@ -1,4 +1,4 @@
-import {TypeCheck} from '../../../assert'
+import {isNull} from '../../../assert'
 
 export class PaginationHelper {
   /**
@@ -7,7 +7,7 @@ export class PaginationHelper {
    * @param {number} offset
    * @return {number}
    */
-  static rangeMin(pageIndex, maxByPage, offset) {
+  static rangeMin(pageIndex, maxByPage, offset = 0) {
     return pageIndex * maxByPage + offset
   }
 
@@ -17,8 +17,19 @@ export class PaginationHelper {
    * @param {number} offset
    * @return {number}
    */
-  static rangeMax(pageIndex, maxByPage, offset) {
+  static rangeMax(pageIndex, maxByPage, offset = 0) {
     return (pageIndex * maxByPage + offset) + maxByPage - 1
+  }
+  /**
+   * @param {number} totalElements
+   * @param {number} pageIndex
+   * @param {number} maxByPage
+   * @param {number} offset
+   * @return {number}
+   */
+  static printedRangeMin(totalElements, pageIndex, maxByPage, offset = 0) {
+    const rangeMin = PaginationHelper.rangeMin(pageIndex, maxByPage, offset)
+    return totalElements === 0 ? 0 : totalElements <= rangeMin ? totalElements : rangeMin + 1
   }
 
   /**
@@ -26,28 +37,28 @@ export class PaginationHelper {
    * @param {number} pageIndex
    * @param {number} maxByPage
    * @param {number} offset
-   * @return {string}
+   * @return {number}
    */
-  static printedRange(totalElements, pageIndex, maxByPage, offset) {
-    const rangeMin = PaginationHelper.rangeMin(pageIndex, maxByPage, offset)
+  static printedRangeMax(totalElements, pageIndex, maxByPage, offset = 0) {
     const rangeMax = PaginationHelper.rangeMax(pageIndex, maxByPage, offset)
-    return `${totalElements === 0 ? 0 : rangeMin + 1}-${totalElements < rangeMax ? totalElements : rangeMax + 1}`
+    return totalElements <= rangeMax ? totalElements : rangeMax + 1
   }
 
+
   /**
-   * @param {number} page
+   * @param {number} pageIndex
    * @param {number} maxByPage
-   * @param {number} [offset=0]
-   * @returns {string}
+   * @param {number} offset
+   * @param {function(rangeMin:string, rangeMax:string)} format
+   * @return {number}
    */
-  static getRange(page, maxByPage, offset = 0) {
-    TypeCheck.assertIsNumber(page)
-    TypeCheck.assertIsNumber(maxByPage)
-    TypeCheck.assertIsNumber(offset)
-
-    const rangeMin = PaginationHelper.rangeMin(page, maxByPage, offset)
-    const rangeMax = PaginationHelper.rangeMax(page, maxByPage, offset)
-
-    return rangeMin + '-' + rangeMax
+  static getRange(pageIndex, maxByPage, offset= 0, format = null) {
+    if (isNull(format)) {
+      format = (rangeMin, rangeMax) => `${rangeMin}-${rangeMax}`
+    }
+    return format.call(null,
+      this.rangeMin(pageIndex, maxByPage, offset),
+      this.rangeMax(pageIndex, maxByPage, offset)
+    )
   }
 }
