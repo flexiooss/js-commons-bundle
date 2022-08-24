@@ -1,5 +1,5 @@
 import {RequestEventHandler} from './RequestEventHandler'
-import {OrderedEventHandler} from '../../../event-handler/src/js/OrderedEventHandler'
+import {OrderedEventHandler} from '../../../event-handler'
 
 export class CacheRequestDispatcher {
   /**
@@ -33,21 +33,27 @@ export class CacheRequestDispatcher {
    * @param {function:Promise<*>} requestClb
    */
   get(requestID, requestClb) {
-    return new Promise(resolver => {
+    return new Promise((resolve, reject) => {
       if (this.#responses.has(requestID)) {
         const response = this.#responses.get(requestID)
-        resolver(response)
+        resolve.call(null, response)
         return
       }
       const listener = this.on().requested(requestID, () => {
-        resolver(this.#responses.get(requestID))
+        resolve.call(null, this.#responses.get(requestID))
         this.#orderedEventHandler.removeEventListener(listener)
       })
       if (!this.#requests.has(requestID)) {
         this.#requests.set(requestID, true)
-        requestClb.call(null).then((response => {
-          this.postResponse(requestID, response)
-        }))
+        requestClb.call(null)
+          .then(response => {
+            this.postResponse(requestID, response)
+          })
+          .catch((e) => {
+            this.#orderedEventHandler.removeEventListener(listener)
+            this.#requests.delete(requestID)
+            reject.call(null, e)
+          })
       }
     })
   }
