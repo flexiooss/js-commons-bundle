@@ -28,7 +28,7 @@ export class HttpRequester {
 
   /**
    * @param {ExecutorRequesterInterface~executionClb} callback
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
   get(callback) {
     throw new Error('should be override')
@@ -38,7 +38,7 @@ export class HttpRequester {
    * @param {ExecutorRequesterInterface~executionClb} callback
    * @param {?string} [contentType=null]
    * @param {?string} [body=null]
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
   post(callback, contentType = null, body = null) {
     throw new Error('should be override')
@@ -48,7 +48,7 @@ export class HttpRequester {
    * @param {ExecutorRequesterInterface~executionClb} callback
    * @param {?string} contentType
    * @param {?string} body
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
   put(callback, contentType = null, body = null) {
     throw new Error('should be override')
@@ -58,7 +58,7 @@ export class HttpRequester {
    * @param {ExecutorRequesterInterface~executionClb} callback
    * @param {?string} contentType
    * @param {?string} body
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
   patch(callback, contentType = null, body = null) {
     throw new Error('should be override')
@@ -66,7 +66,7 @@ export class HttpRequester {
 
   /**
    * @param {ExecutorRequesterInterface~executionClb} callback
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
   delete(callback) {
     throw new Error('should be override')
