@@ -1,4 +1,5 @@
 import {isArray, isBoolean, isFunction, isNull, isPrimitive, isUndefined} from './is'
+import {Logger} from '../../../hot-log'
 
 class AssertionError extends Error {
   constructor(...params) {
@@ -25,15 +26,14 @@ export const assert = (assertion, message, ...messageArgs) => {
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
     let ArgIndex = 0
 
-    if (isFunction(message)) {
-      throw new AssertionError(message.call(null).replace(/%s/g, () =>
-        messageArgs[ArgIndex++]
-      ))
+    message = isFunction(message)
+      ? message.call(null).replace(/%s/g, () => messageArgs[ArgIndex++])
+      : message.replace(/%s/g, () => messageArgs[ArgIndex++])
+
+    if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
+      Logger.getLogger('ASSERT').error(message)
     } else {
-      throw new AssertionError(message.replace(/%s/g, () =>
-          messageArgs[ArgIndex++]
-        )
-      )
+      throw new AssertionError(message)
     }
   }
 }
@@ -51,15 +51,14 @@ export const assertType = (assertion, message, ...messageArgs) => {
   if (!((typeof assertion === 'function') ? assertion() : assertion)) {
     let ArgIndex = 0
 
-    if (isFunction(message)) {
-      throw new TypeError(message.call(null).replace(/%s/g, () =>
-        messageArgs[ArgIndex++]
-      ))
+    message = isFunction(message)
+      ? message.call(null).replace(/%s/g, () => messageArgs[ArgIndex++])
+      : message.replace(/%s/g, () => messageArgs[ArgIndex++])
+
+    if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
+      Logger.getLogger('ASSERT_TYPE').error(message)
     } else {
-      throw new TypeError(message.replace(/%s/g, () =>
-          messageArgs[ArgIndex++]
-        )
-      )
+      throw new TypeError(message)
     }
   }
 }

@@ -33,14 +33,16 @@ class FakeClass {
 
 export class TestIs extends TestCase {
   testIsArrowFunction() {
+
     assert(isArrowFunction((a)=>{return a}) === true)
     assert(isArrowFunction(async (a)=>{return a}) === true)
     assert(isArrowFunction(async a=>a) === true)
     assert(isArrowFunction( a=>a) === true)
   }
 
-
   testIsUndefined() {
+    assert((typeof TOTO === 'undefined') === true)
+
     assert(isUndefined(undefined) === true)
     assert(isUndefined(0) === false)
     assert(isUndefined(1) === false)
