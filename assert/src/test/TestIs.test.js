@@ -17,7 +17,7 @@ import {
   isClass,
   isBlob,
   isInt8Array,
-  isArrayBuffer
+  isArrayBuffer, isArrowFunction
 } from '../js/is'
 const assert = require('assert')
 class Blob{
@@ -32,6 +32,14 @@ class FakeClass {
 
 
 export class TestIs extends TestCase {
+  testIsArrowFunction() {
+    assert(isArrowFunction((a)=>{return a}) === true)
+    assert(isArrowFunction(async (a)=>{return a}) === true)
+    assert(isArrowFunction(async a=>a) === true)
+    assert(isArrowFunction( a=>a) === true)
+  }
+
+
   testIsUndefined() {
     assert(isUndefined(undefined) === true)
     assert(isUndefined(0) === false)
