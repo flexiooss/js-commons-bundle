@@ -1,5 +1,5 @@
 import {isArray, isBoolean, isFunction, isNull, isPrimitive, isUndefined} from './is'
-import {Logger} from '../../../hot-log'
+// import {Logger} from '../../../hot-log'
 
 class AssertionError extends Error {
   constructor(...params) {
@@ -31,7 +31,8 @@ export const assert = (assertion, message, ...messageArgs) => {
       : message.replace(/%s/g, () => messageArgs[ArgIndex++])
 
     if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
-      Logger.getLogger('ASSERT').error(message)
+      // Logger.getLogger('ASSERT').error(message)
+      console.error('[ASSERT] '+message)
     } else {
       throw new AssertionError(message)
     }
@@ -56,7 +57,8 @@ export const assertType = (assertion, message, ...messageArgs) => {
       : message.replace(/%s/g, () => messageArgs[ArgIndex++])
 
     if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
-      Logger.getLogger('ASSERT_TYPE').error(message)
+      console.error('[ASSERT_TYPE] '+message)
+      // Logger.getLogger('ASSERT_TYPE').error(message)
     } else {
       throw new TypeError(message)
     }
