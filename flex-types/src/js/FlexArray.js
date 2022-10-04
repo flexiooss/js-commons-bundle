@@ -174,14 +174,34 @@ export class FlexArray extends Array {
 
   /**
    *
-   * @param {number} [start=0]
+   * @param {?number} [start=null]
    * @param {?number} [end=null]
    * @return {this}
    */
-  slice(start = 0, end = null) {
-    end = (isNull(end))
-      ? this.length
-      : ((end < 0) ? (this.length + end) : end)
+  slice(start = null, end = null) {
+    if (!isNull(start)) {
+      if (start < 0) {
+        start = this.length + start
+        if (start < 0) {
+          start = 0
+        }
+      }
+      if (start > this.length) {
+        start = this.length
+      }
+    } else {
+      start = 0
+    }
+    if (!isNull(end)) {
+      if (end < 0) {
+        end = this.length + end
+        if (end < 0) {
+          end = 0
+        }
+      }
+    } else {
+      end = this.length
+    }
 
     if (end < start) {
       throw new Error('end should not be less than start')

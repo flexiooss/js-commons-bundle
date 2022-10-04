@@ -76,9 +76,12 @@ export const slugify = (str, separator = '-') => {
   if (isNull(str)) return ''
 
   str = str.normalize('NFD')
-  str = str.replace(/[^A-Za-z0-9\s_-]/g, '')
+  str = str.replace('#', '')
+  str = str.replace(separator, '#')
+  str = str.replace(/[^A-Za-z0-9#\s_-]/g, '')
   str = str.trim()
   str = str.replace(/\s+/g, separator)
+  str = str.replace('#', separator)
 
   return str
 }

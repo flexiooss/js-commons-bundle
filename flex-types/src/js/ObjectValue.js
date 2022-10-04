@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck,  isArrowFunction
+  assertInstanceOf, TypeCheck, isArrowFunction
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 import {globalFlexioImport} from './__import__global-import-registry'
@@ -244,7 +244,7 @@ export class ObjectValue {
   stringValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isString(val) || isNull(val))) {
-      return  TypeCheck.assertIsStringOrNull(defaultValue)
+      return TypeCheck.assertIsStringOrNull(defaultValue)
     }
     return val
   }
@@ -267,7 +267,7 @@ export class ObjectValue {
   numberValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isNumber(val) || isNull(val))) {
-      return  TypeCheck.assertIsNumberOrNull(defaultValue)
+      return TypeCheck.assertIsNumberOrNull(defaultValue)
     }
     return val
   }
@@ -551,6 +551,15 @@ export class ObjectValue {
   }
 
   /**
+   * @param {string} key
+   * @return {ObjectValue}
+   */
+  without(key) {
+    const builder = ObjectValueBuilder.from(this)
+    return builder.without(key).build()
+  }
+
+  /**
    * @returns {ObjectValueBuilder}
    */
   static builder() {
@@ -749,6 +758,15 @@ export class ObjectValueBuilder {
     for (const item of instance.toArray()) {
       this.value(item.key, item.value)
     }
+    return this
+  }
+
+  /**
+   * @param {string} key
+   * @return {ObjectValueBuilder}
+   */
+  without(key) {
+    this.#map.delete(key)
     return this
   }
 }

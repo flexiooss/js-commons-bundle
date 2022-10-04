@@ -8,13 +8,21 @@ export class EventListenerConfigBuilder {
    */
   constructor(events) {
     /**
-     *
      * @type {SymbolStringArray}
      * @protected
      */
     this._events = events
     /**
-     *
+     * @type {boolean}
+     * @protected
+     */
+    this._active = true
+    /**
+     * @type {?EventHandlerBase~guardClb}
+     * @protected
+     */
+    this._guard = null
+    /**
      * @type {EventHandlerBase~eventClb}
      * @protected
      */
@@ -22,7 +30,6 @@ export class EventListenerConfigBuilder {
   }
 
   /**
-   *
    * @param {...(String|Symbol)} events
    * @return {this}
    * @constructor
@@ -32,7 +39,6 @@ export class EventListenerConfigBuilder {
   }
 
   /**
-   *
    * @param {EventHandlerBase~eventClb} clb
    * @return {this}
    */
@@ -42,13 +48,31 @@ export class EventListenerConfigBuilder {
   }
 
   /**
-   *
+   * @param {?EventHandlerBase~guardClb} clb
+   * @return {this}
+   */
+  guard(clb) {
+    this._guard = clb
+    return this
+  }
+
+  /**
+   * @return {this}
+   */
+  disabled() {
+    this._active = false
+    return this
+  }
+
+  /**
    * @return {EventListenerConfig}
    */
   build() {
     return EventListenerConfig.create(
       this._events,
-      this._callback
+      this._callback,
+      this._active,
+      this._guard
     )
   }
 }

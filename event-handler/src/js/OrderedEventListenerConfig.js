@@ -1,4 +1,4 @@
-import {isNumber, assertType} from './__import__assert'
+import {isNumber, assertType, TypeCheck} from './__import__assert'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {EventListenerConfig} from './EventListenerConfig'
 
@@ -7,29 +7,53 @@ import {EventListenerConfig} from './EventListenerConfig'
  */
 export class OrderedEventListenerConfig extends EventListenerConfig {
   /**
-   *
+   * @type {Number}
+   */
+  #priority
+
+  /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
    * @param {number} priority
+   * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    */
-  constructor(events, callback, priority) {
-    super(events, callback)
-    assertType(isNumber(priority),
-      'OrderedEventListenerConfig: ̀`priority` property should be a Number'
-    )
-    this.priority = priority
+  constructor(events, callback, priority, active = true, guard = null) {
+    super(events, callback, active, guard)
+    /**
+     * @type {Number}
+     */
+    this.#priority = TypeCheck.assertIsNumber(priority)
   }
+
+  /**
+   * @return {Number}
+   */
+  priority() {
+    return this.#priority;
+  }
+
+  /**
+   * @param {boolean} active
+   * @return {EventListenerConfig}
+   */
+  withActive(active) {
+    return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), active, this.guard())
+  }
+
 
   /**
    *
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
    * @param {number} priority
+   * @param {boolean} [active=true]
+   * @param {?EventHandlerBase~guardClb} [guard=null]
    * @return {OrderedEventListenerConfig}
    * @constructor
    * @readonly
    */
-  static create(events, callback, priority) {
-    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority))
+  static create(events, callback, priority, active = true, guard=null) {
+    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority, active, guard))
   }
 }

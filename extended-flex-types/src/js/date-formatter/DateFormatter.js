@@ -1,6 +1,5 @@
 import {isNull} from '../../../../assert'
 import {DateTime} from 'luxon'
-import {FlexTimeExtended} from '../FlexTimeExtended'
 
 export class DateTimeFormatter {
   /**

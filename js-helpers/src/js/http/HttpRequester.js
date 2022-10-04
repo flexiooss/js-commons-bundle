@@ -1,4 +1,4 @@
-import {assertType} from '../../../../assert'
+import {assertType, NotOverrideException} from '../../../../assert'
 
 /**
  * @interface
@@ -23,61 +23,61 @@ export class HttpRequester {
   }
 
   abort() {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
-   * @return {ResponseDelegate}
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
+   * @return {Promise<ResponseDelegate>}
    */
-  get(callback) {
-    throw new Error('should be override')
+  async get(callback=null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @param {?string} [contentType=null]
    * @param {?string} [body=null]
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
-  post(callback, contentType = null, body = null) {
-    throw new Error('should be override')
+  async post(callback=null, contentType = null, body = null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @param {?string} contentType
    * @param {?string} body
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
-  put(callback, contentType = null, body = null) {
-    throw new Error('should be override')
+  async put(callback=null, contentType = null, body = null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @param {?string} contentType
    * @param {?string} body
-   * @return {ResponseDelegate}
+   * @return {Promise<ResponseDelegate>}
    */
-  patch(callback, contentType = null, body = null) {
-    throw new Error('should be override')
+  async patch(callback=null, contentType = null, body = null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
-   * @return {ResponseDelegate}
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
+   * @return {Promise<ResponseDelegate>}
    */
-  delete(callback) {
-    throw new Error('should be override')
+  async delete(callback=null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
-   * @param {ExecutorRequesterInterface~executionClb} callback
+   * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @return {ResponseDelegate}
    */
-  head(callback) {
-    throw new Error('should be override')
+  async head(callback=null) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -86,7 +86,7 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   parameter(name, value) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -95,7 +95,7 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   arrayParameter(name, values) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -103,7 +103,7 @@ export class HttpRequester {
    * @param {URLSearchParams} urlSearchParams
    */
   parametersFromURLSearchParams(urlSearchParams) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -112,7 +112,7 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   header(name, value) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -121,7 +121,7 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   arrayHeader(name, values) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
   /**
@@ -129,6 +129,6 @@ export class HttpRequester {
    * @return {HttpRequester}
    */
   path(path) {
-    throw new Error('should be override')
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 }

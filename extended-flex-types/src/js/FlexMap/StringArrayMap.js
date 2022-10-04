@@ -5,7 +5,7 @@ import {globalFlexioImport} from '../__import__global-import-registry'
 
 
 /**
- * @extends {FlexMap<?StringArray>}
+ * @extends {FlexMap<*, StringArray>}
  */
 export class StringArrayMap extends FlexMap {
   _validate(v) {

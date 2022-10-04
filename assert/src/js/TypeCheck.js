@@ -15,11 +15,39 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFunction
+  isDate, isArrowFunction, isEmpty, isAsyncFunction
 } from './is'
 
 
 export class TypeCheck {
+  /**
+   * @param {any} inst
+   * @throws {TypeError}
+   * @return {any}
+   */
+  static assertIsEmpty(inst) {
+    assertType(
+      isEmpty(inst),
+      'input should be Empty given: %s',
+      _ => ` ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {any} inst
+   * @throws {TypeError}
+   * @return {any}
+   */
+  static assertIsNotEmpty(inst) {
+    assertType(
+      !isEmpty(inst),
+      'input should not be Empty given: %s',
+      _ => ` ${formatType(inst)}`
+    )
+    return inst
+  }
+
   /**
    * @param {null} inst
    * @throws {TypeError}
@@ -219,6 +247,31 @@ export class TypeCheck {
   static assertIsFunctionOrNull(inst) {
     if (!isNull(inst)) {
       return TypeCheck.assertIsFunction(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Function} inst
+   * @throws {TypeError}
+   * @return {Function}
+   */
+  static assertIsAsyncFunction(inst) {
+    assertType(
+      isAsyncFunction(inst),
+      _ => `input should be AsyncFunction given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Function} inst
+   * @throws {TypeError}
+   * @return {?Function}
+   */
+  static assertIsAsyncFunctionOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsAsyncFunction(inst)
     }
     return inst
   }
