@@ -1,4 +1,4 @@
-import {assertType, assert, isNode, isNull} from './__import__assert'
+import {assertType, assert, isNode, isNull, isBoolean, isNumber} from './__import__assert'
 
 /**
  *
@@ -31,9 +31,8 @@ export const removeChildNodes = (node, start, end) => {
  * @param {HTMLElement} el
  * @return {boolean}
  */
-export const checkOverflow=(el)=>
-{
-  return  el.clientWidth < el.scrollWidth
+export const checkOverflow = (el) => {
+  return el.clientWidth < el.scrollWidth
     || el.clientHeight < el.scrollHeight
 }
 
@@ -46,11 +45,72 @@ export const checkOverflow=(el)=>
 export const getParentNode = (el, check, stop = null) => {
   let node = el
   const breaker = !isNull(stop) ? stop : document.body
-  while(!check.call(null, node)) {
+  while (!check.call(null, node)) {
     if (node === breaker) {
       return null
     }
     node = node.parentNode
   }
   return node
+}
+/**
+ * @param {HTMLElement} el
+ * @param {string} html
+ * @return {HTMLElement}
+ */
+export const safeInnerHTML = (el, html) => {
+  el.innerHTML = escapeForBrowser(html)
+  return el
+}
+
+const matchHtmlRegExp = /["'&<>]/;
+/**
+ * @param {string} text
+ * @return {string}
+ */
+export const escapeForBrowser = (text) => {
+  if (isBoolean(text) || isNumber(text)) return '' + text
+
+  const str = '' + text;
+  const match = matchHtmlRegExp.exec(str);
+
+  if (!match) {
+    return str;
+  }
+
+  let escape;
+  let html = '';
+  let index;
+  let lastIndex = 0;
+
+  for (index = match.index; index < str.length; index++) {
+    switch (str.charCodeAt(index)) {
+      case 34: // "
+        escape = '&quot;';
+        break;
+      case 38: // &
+        escape = '&amp;';
+        break;
+      case 39: // '
+        escape = '&#x27;';
+        break;
+      case 60: // <
+        escape = '&lt;';
+        break;
+      case 62: // >
+        escape = '&gt;';
+        break;
+      default:
+        continue;
+    }
+
+    if (lastIndex !== index) {
+      html += str.substring(lastIndex, index);
+    }
+
+    lastIndex = index + 1;
+    html += escape;
+  }
+
+  return lastIndex !== index ? html + str.substring(lastIndex, index) : html;
 }
