@@ -53,6 +53,23 @@ export const getParentNode = (el, check, stop = null) => {
   }
   return node
 }
+
+const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|data|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
+
+/**
+ * @param url
+ * @return {string}
+ */
+export const sanitizeUrl = (url) => {
+  url = String(url);
+  if (url.match(SAFE_URL_PATTERN)) return url;
+
+  if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
+    console.error(`[SECURITY] WARNING: sanitizing unsafe URL value ${url}`);
+  }
+  return 'unsafe:' + url;
+}
+
 /**
  * @param {HTMLElement} el
  * @param {string} html
