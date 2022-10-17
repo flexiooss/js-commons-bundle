@@ -1,4 +1,4 @@
-import {assertType, assert, isNode, isNull, isBoolean, isNumber} from './__import__assert'
+import {assertType, assert, isNode, isNull, isBoolean, isNumber, TypeCheck, isUndefined} from './__import__assert'
 
 /**
  *
@@ -9,8 +9,7 @@ import {assertType, assert, isNode, isNull, isBoolean, isNumber} from './__impor
  * @throws AssertionError
  */
 export const removeChildNodes = (node, start, end) => {
-  assertType(isNode(node),
-    'removeChildNodes: `node` argument assert be Node')
+  TypeCheck.assertIsNode(node)
   start = start || 0
   end = end || node.childNodes.length
 
@@ -130,4 +129,82 @@ export const escapeForBrowser = (text) => {
   }
 
   return lastIndex !== index ? html + str.substring(lastIndex, index) : html;
+}
+
+
+/**
+ *
+ * @param {HTMLElement} node
+ * @param {number} [start=0]
+ * @param {number} [end=node.childNodes.length]
+ * @throws AssertionError
+ */
+export const sanitizeJSNodes = (node, start, end) => {
+  TypeCheck.assertIsNode(node)
+  start = start || 0
+  sanitizeJSNode(node)
+  if (!node.hasChildNodes()) {
+    return
+  }
+  end = end || node.childNodes.length
+
+
+  assert(!!(start <= end),
+    'removeChildNodes: `welcome` assert be less than `end`')
+
+  while (start < end) {
+    sanitizeJSNodes(node.childNodes[end - 1])
+    end--
+  }
+}
+
+/**
+ * @param {HTMLElement} node
+ */
+export const sanitizeJSNode = (node) => {
+  if ((node?.nodeName ?? 'none').toLowerCase() === 'script') {
+    node.remove()
+    if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
+      console.error(`[SECURITY] WARNING: remove unsafe <script>`);
+    }
+  }
+  /**
+   * @type {NamedNodeMap}
+   */
+  const elAttrs = node?.attributes;
+  if (!isUndefined(elAttrs)) {
+    for (let i = 0; i < elAttrs.length; i++) {
+      const elAttr = elAttrs.item(i);
+      const attrName = elAttr?.name;
+      const lower = attrName.toLowerCase();
+      if (lower.startsWith('on')) {
+        if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
+          console.error(`[SECURITY] WARNING: sanitizing unsafe attribute value ${lower}`);
+        }
+        node.removeAttribute(attrName)
+      }
+      if (URI_ATTR.has(lower)) {
+        let value = elAttr?.value;
+        node.setAttribute(attrName, sanitizeUrl(value))
+      }
+    }
+  }
+}
+
+
+/**
+ * @type {Set<string>}
+ */
+const URI_ATTR = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+
+/**
+ * @param {string} key
+ * @param {string} value
+ * @return {string}
+ */
+const sanitizeURLAttributes = (key, value) => {
+  if (URI_ATTR.has(key)) {
+    return sanitizeUrl(value)
+  }
+  return value
 }

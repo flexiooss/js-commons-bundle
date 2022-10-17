@@ -5,7 +5,8 @@
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "hbshed dev --entry src/test/dev/nodeHelpers.js --server-config local"
+    "dev": "hbshed dev --entry src/test/dev/nodeHelpers.js --server-config local",
+    "sanitizeJSNodes": "hbshed dev --entry src/test/dev/sanitizeJSNodes.js --server-config local"
   },
   "hotballoon-shed": {
     "module": {
