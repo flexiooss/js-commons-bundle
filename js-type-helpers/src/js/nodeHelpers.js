@@ -64,7 +64,7 @@ export const sanitizeUrl = (url) => {
   url = String(url);
   if (url.match(SAFE_URL_PATTERN)) return url;
 
-  if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === false) {
+  if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
     console.error(`[SECURITY] WARNING: sanitizing unsafe URL value ${url}`);
   }
   return 'unsafe:' + url;
