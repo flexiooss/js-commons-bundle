@@ -139,33 +139,39 @@ export const escapeForBrowser = (text) => {
  * @param {number} [end=node.childNodes.length]
  * @throws AssertionError
  */
-export const sanitizeJSNodes = (node, start, end) => {
+export const sanitizeHTMLTree = (node, start, end) => {
   TypeCheck.assertIsNode(node)
-  start = start || 0
-  sanitizeJSNode(node)
+  sanitizeHTMLElement(node)
   if (!node.hasChildNodes()) {
     return
   }
+  start = start || 0
   end = end || node.childNodes.length
 
-
-  assert(!!(start <= end),
-    'removeChildNodes: `welcome` assert be less than `end`')
+  assert(!!(start <= end), '`start` should be less than `end`')
 
   while (start < end) {
-    sanitizeJSNodes(node.childNodes[end - 1])
+    sanitizeHTMLTree(node.childNodes[end - 1])
     end--
   }
 }
 
 /**
+ * @type {Set<string>}
+ */
+const INVALID_TAGS = new Set(['script', 'style', 'template'])
+/**
  * @param {HTMLElement} node
  */
-export const sanitizeJSNode = (node) => {
-  if ((node?.nodeName ?? 'none').toLowerCase() === 'script') {
-    node.remove()
+export const sanitizeHTMLElement = (node) => {
+  /**
+   * @type {string}
+   */
+  const tagName = (node?.nodeName ?? 'none').toLowerCase();
+  if (INVALID_TAGS.has(tagName)) {
+    node.outerText = node.outerHTML
     if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
-      console.error(`[SECURITY] WARNING: remove unsafe <script>`);
+      console.error(`[SECURITY] WARNING: encode unsafe <${tagName}>`);
     }
   }
   /**
@@ -179,7 +185,7 @@ export const sanitizeJSNode = (node) => {
       const lower = attrName.toLowerCase();
       if (lower.startsWith('on')) {
         if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
-          console.error(`[SECURITY] WARNING: sanitizing unsafe attribute value ${lower}`);
+          console.error(`[SECURITY] WARNING: remove unsafe attribute value ${lower}`);
         }
         node.removeAttribute(attrName)
       }
