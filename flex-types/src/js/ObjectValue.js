@@ -1,5 +1,5 @@
+import {globalFlexioImport} from './__import__global-import-registry'
 import {FlexMap} from './FlexMap'
-
 import {deepFreezeSeal} from './__import__js-generator-helpers'
 import {
   assertType,
@@ -9,13 +9,12 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck, isArrowFunction
+  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
-import {globalFlexioImport} from './__import__global-import-registry'
 
 /**
- * @typedef {(null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue)} ObjectValueValue
+ * @typedef {(null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue | FlexDateTime | FlexDate | FlexTime | FlexZonedDateTime)} ObjectValueValue
  */
 
 /**
@@ -67,7 +66,17 @@ const valueFromItem = (value) => {
  * @param {*} a
  * @return {boolean}
  */
-export const isObjectValueValue = a => isNull(a) || isString(a) || isBoolean(a) || isNumber(a) || a instanceof ObjectValue || a instanceof ObjectValueValueArray
+export const isObjectValueValue = a =>
+  isNull(a)
+  || isString(a)
+  || isBoolean(a)
+  || isNumber(a)
+  || a instanceof ObjectValue
+  || a instanceof ObjectValueValueArray
+  || a instanceof globalFlexioImport.io.flexio.flex_types.FlexDateTime
+  || a instanceof globalFlexioImport.io.flexio.flex_types.FlexDate
+  || a instanceof globalFlexioImport.io.flexio.flex_types.FlexTime
+  || a instanceof globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime
 
 /**
  * @param {?ObjectValue} to
@@ -105,18 +114,42 @@ export const objectValueValuePropertyEquals = (to, compare) => {
     return true
   }
 
-  if (to instanceof ObjectValue) {
-    if (!(compare instanceof ObjectValue)) {
-      return false
-    }
+  /**
+   * @type {ObjectValue|FlexDateTime|FlexTime|FlexDate|FlexZonedDateTime|null}
+   */
+  const type = getInstanceWithEquals(to)
 
-    return to.equals(compare)
-
+  if (!isNull(type)) {
+    return instanceWithEqualsImplEquals(to, compare, type)
   } else if (isArray(to)) {
     return isArray(compare) && objectValueValueArrayEquals(to, compare)
   }
 
   return false
+}
+
+
+/**
+ * @param inst
+ * @return {null|ObjectValue|FlexDateTime|*|FlexTime|FlexDate|FlexZonedDateTime}
+ */
+const getInstanceWithEquals = (inst) => {
+  for (const i of instanceWithEqualsList()) {
+    if (inst instanceof i) return i
+  }
+  return null
+}
+
+/**
+ * @param {ObjectValueValue} to
+ * @param {ObjectValueValue} compare
+ * @return {boolean}
+ */
+const instanceWithEqualsImplEquals = (to, compare, type) => {
+  if (!(compare instanceof type)) {
+    return false
+  }
+  return to.equals(compare)
 }
 
 /**
@@ -151,8 +184,7 @@ export const objectValueValueArrayEquals = (to, compare) => {
 const validateObjectValueValue = v => {
   assertType(
     isObjectValueValue(v),
-    'validateObjectValueValue: `v` should be null or string or number or boolean or Array or ObjectValue : %s',
-    typeof v
+    () => 'should be (null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue | FlexDateTime | FlexDate | FlexTime | FlexZonedDateTime) given : ' + formatType(v),
   )
   return v
 }
@@ -226,7 +258,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @return {?string}
    * @throws {IndexError, TypeError}
@@ -294,6 +325,119 @@ export class ObjectValue {
       return TypeCheck.assertIsBooleanOrNull(defaultValue)
     }
     return val
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDate|FlexTime|FlexDateTime|FlexZonedDateTime} defaultValue
+   * @param {Class<FlexDate>|Class<FlexTime>|Class<FlexDateTime>|Class<FlexZonedDateTime>} type
+   * @param {string} typeName
+   * @return {?FlexDate|FlexTime|FlexDateTime|FlexZonedDateTime}
+   * @throws {TypeError}
+   */
+  #dateAccessorOr(key, defaultValue = null, type, typeName) {
+    const val = this.#map.get(key)
+    if (!this.has(key) || isNull(val)) {
+      return (isNull(defaultValue)) ? defaultValue : assertInstanceOf(defaultValue, type, typeName)
+    }
+    if (isString(val)) {
+      try {
+        return new type(val)
+      } catch (e) {
+        return (isNull(defaultValue)) ? defaultValue : assertInstanceOf(defaultValue, type, typeName)
+      }
+    }
+    return assertInstanceOf(val, type, typeName)
+  }
+
+  /**
+   * @param {string} key
+   * @param {Class<FlexDate>|Class<FlexTime>|Class<FlexDateTime>|Class<FlexZonedDateTime>} type
+   * @param {string} typeName
+   * @return {string|number|ObjectValueValue[]|ObjectValueValueArray|ObjectValue|FlexDateTime|FlexDate|FlexTime|FlexZonedDateTime|boolean|*}
+   */
+  #dateAccessor(key, type, typeName) {
+    const v = this.rawValue(key)
+    if (isString(v)) {
+      return new type(v)
+    }
+    return (isNull(v)) ? v : assertInstanceOf(v, type, typeName)
+  }
+
+  /**
+   * @param {string} key
+   * @return {?FlexDate}
+   * @throws {IndexError, TypeError}
+   */
+  flexDateValue(key) {
+    return this.#dateAccessor(key, globalFlexioImport.io.flexio.flex_types.FlexDate, 'io.flexio.flex_types.FlexDate')
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDate} [defaultValue=null]
+   * @return {?FlexDate}
+   * @throws {TypeError}
+   */
+  flexDateValueOr(key, defaultValue = null) {
+    return this.#dateAccessorOr(key, defaultValue, globalFlexioImport.io.flexio.flex_types.FlexDate, 'io.flexio.flex_types.FlexDate')
+  }
+
+  /**
+   * @param {string} key
+   * @return {?FlexDateTime}
+   * @throws {IndexError, TypeError}
+   */
+  flexDateTimeValue(key) {
+    return this.#dateAccessor(key, globalFlexioImport.io.flexio.flex_types.FlexDateTime, 'io.flexio.flex_types.FlexDateTime')
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDateTime} [defaultValue=null]
+   * @return {?FlexDateTime}
+   * @throws {TypeError}
+   */
+  flexDateTimeValueOr(key, defaultValue = null) {
+    return this.#dateAccessorOr(key, defaultValue, globalFlexioImport.io.flexio.flex_types.FlexDateTime, 'io.flexio.flex_types.FlexDateTime')
+  }
+
+  /**
+   * @param {string} key
+   * @return {?FlexZonedDateTime}
+   * @throws {IndexError, TypeError}
+   */
+  flexZonedDateTimeValue(key) {
+    return this.#dateAccessor(key, globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime, 'io.flexio.flex_types.FlexZonedDateTime')
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexZonedDateTime} [defaultValue=null]
+   * @return {?FlexZonedDateTime}
+   * @throws {TypeError}
+   */
+  flexZonedDateTimeValueOr(key, defaultValue = null) {
+    return this.#dateAccessorOr(key, defaultValue, globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime, 'io.flexio.flex_types.FlexZonedDateTime')
+  }
+
+  /**
+   * @param {string} key
+   * @return {?FlexTime}
+   * @throws {IndexError, TypeError}
+   */
+  flexTimeValue(key) {
+    return this.#dateAccessor(key, globalFlexioImport.io.flexio.flex_types.FlexTime, 'io.flexio.flex_types.FlexTime')
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexTime} [defaultValue=null]
+   * @return {?FlexTime}
+   * @throws {TypeError}
+   */
+  flexTimeValueOr(key, defaultValue = null) {
+    return this.#dateAccessorOr(key, defaultValue, globalFlexioImport.io.flexio.flex_types.FlexTime, 'io.flexio.flex_types.FlexTime')
   }
 
   /**
@@ -657,6 +801,54 @@ export class ObjectValueBuilder {
 
   /**
    * @param {string} key
+   * @param {?FlexDate} value
+   * @return {ObjectValueBuilder}
+   */
+  flexDateValue(key, value) {
+    TypeCheck.assertIsString(key)
+    assertInstanceOfOrNull(value, globalFlexioImport.io.flexio.flex_types.FlexDate, 'io.flexio.flex_types.FlexDate')
+    this.#map.set(key, value)
+    return this
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDateTime} value
+   * @return {ObjectValueBuilder}
+   */
+  flexDateTimeValue(key, value) {
+    TypeCheck.assertIsString(key)
+    assertInstanceOfOrNull(value, globalFlexioImport.io.flexio.flex_types.FlexDateTime, 'io.flexio.flex_types.FlexDateTime')
+    this.#map.set(key, value)
+    return this
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDateTime} value
+   * @return {ObjectValueBuilder}
+   */
+  flexTimeValue(key, value) {
+    TypeCheck.assertIsString(key)
+    assertInstanceOfOrNull(value, globalFlexioImport.io.flexio.flex_types.FlexTime, 'io.flexio.flex_types.FlexTime')
+    this.#map.set(key, value)
+    return this
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDateTime} value
+   * @return {ObjectValueBuilder}
+   */
+  flexZonedDateTimeValue(key, value) {
+    TypeCheck.assertIsString(key)
+    assertInstanceOfOrNull(value, globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime, 'io.flexio.flex_types.FlexZonedDateTime')
+    this.#map.set(key, value)
+    return this
+  }
+
+  /**
+   * @param {string} key
    * @param {?(Array|ObjectValueValueArray)|function(list:ObjectValueValueArray):ObjectValueValueArray} value
    * @return {ObjectValueBuilder}
    */
@@ -770,6 +962,17 @@ export class ObjectValueBuilder {
     return this
   }
 }
+
+/**
+ * @type {function():(ObjectValue|FlexDateTime|FlexTime|FlexDate|FlexZonedDateTime)[]}
+ */
+const instanceWithEqualsList = () => [
+  ObjectValue,
+  globalFlexioImport.io.flexio.flex_types.FlexDateTime,
+  globalFlexioImport.io.flexio.flex_types.FlexTime,
+  globalFlexioImport.io.flexio.flex_types.FlexDate,
+  globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime
+]
 
 /**
  * @extends {FlexMap<ObjectValueValue>}
