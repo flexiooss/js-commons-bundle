@@ -313,7 +313,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?boolean} [defaultValue=null]
    * @return {?boolean}
@@ -441,7 +440,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @return {?ObjectValueValueArray}
    * @throws {IndexError, TypeError}
@@ -451,7 +449,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?(Array|ObjectValueValueArray)} [defaultValue=null]
    * @return {?(Array|ObjectValueValueArray)}
@@ -477,7 +474,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @return {?ObjectValue}
    * @throws {IndexError, TypeError}
@@ -492,7 +488,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?ObjectValue} [defaultValue=null]
    * @return {?ObjectValue}
@@ -512,7 +507,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @return {number}
    */
   size() {
@@ -520,7 +514,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @return {ObjectValueValueArray}
    */
   properties() {
@@ -603,7 +596,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?number} value
    * @return {ObjectValue}
@@ -615,7 +607,6 @@ export class ObjectValue {
   }
 
   /**
-   *
    * @param {string} key
    * @param {?boolean} value
    * @return {ObjectValue}
@@ -627,7 +618,50 @@ export class ObjectValue {
   }
 
   /**
-   *
+   * @param {string} key
+   * @param {?FlexDate} value
+   * @return {ObjectValue}
+   */
+  withFlexDateValue(key, value) {
+    const builder = ObjectValueBuilder.from(this)
+    builder.flexDateValue(key, value)
+    return builder.build()
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexDateTime} value
+   * @return {ObjectValue}
+   */
+  withFlexDateTimeValue(key, value) {
+    const builder = ObjectValueBuilder.from(this)
+    builder.flexDateTimeValue(key, value)
+    return builder.build()
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexTime} value
+   * @return {ObjectValue}
+   */
+  withFlexTimeValue(key, value) {
+    const builder = ObjectValueBuilder.from(this)
+    builder.flexTimeValue(key, value)
+    return builder.build()
+  }
+
+  /**
+   * @param {string} key
+   * @param {?FlexZonedDateTime} value
+   * @return {ObjectValue}
+   */
+  withFlexZonedDateTimeValue(key, value) {
+    const builder = ObjectValueBuilder.from(this)
+    builder.flexZonedDateTimeValue(key, value)
+    return builder.build()
+  }
+
+  /**
    * @param {string} key
    * @param {?Array | function(list:ObjectValueValueArray):ObjectValueValueArray} value
    * @return {ObjectValue}
@@ -825,7 +859,7 @@ export class ObjectValueBuilder {
 
   /**
    * @param {string} key
-   * @param {?FlexDateTime} value
+   * @param {?FlexTime} value
    * @return {ObjectValueBuilder}
    */
   flexTimeValue(key, value) {
@@ -837,7 +871,7 @@ export class ObjectValueBuilder {
 
   /**
    * @param {string} key
-   * @param {?FlexDateTime} value
+   * @param {?FlexZonedDateTime} value
    * @return {ObjectValueBuilder}
    */
   flexZonedDateTimeValue(key, value) {

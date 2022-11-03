@@ -4,6 +4,7 @@ import {globalFlexioImport} from '../js/__import__global-import-registry'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue'
 import {IndexError} from '../js/IndexError'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate'
 
 const assert = require('assert')
 
@@ -300,7 +301,7 @@ export class TestObjectValue extends TestCase {
 
   }
 
-  testEqualsDate(){
+  testEqualsDate() {
     /**
      * @type {ObjectValue}
      */
@@ -371,6 +372,10 @@ export class TestObjectValue extends TestCase {
       .booleanValue('bool', true)
       .numberValue('number', 12)
       .arrayValue('array', ['tutu', true, 12])
+      .flexTimeValue('time', new FlexTime('09:35:10'))
+      .flexDateValue('date', new FlexDate('2022-11-03'))
+      .flexDateTimeValue('datetime', new FlexDateTime('2022-11-03T09:35:10'))
+      .flexZonedDateTimeValue('zdatetime', new FlexZonedDateTime('2022-11-03T09:35:10+02:00'))
       .build()
 
     /**
@@ -402,6 +407,13 @@ export class TestObjectValue extends TestCase {
     assert.ok(ob2 !== ob4, 'immutability : not same instance')
     assert.ok(ob2.equals(ob4), 'immutability : equals')
 
+    assert.ok(ob2.withNumberValue('number', 42).numberValue('number') === 42)
+    assert.ok(ob2.withFlexTimeValue('time', new FlexTime('10:35:10')).flexTimeValue('time').equals(new FlexTime('10:35:10')))
+    assert.ok(ob2.withFlexDateValue('date', new FlexDate('2022-10-29')).flexDateValue('date').equals(new FlexDate('2022-10-29')))
+    assert.ok(ob2.withFlexDateTimeValue('datetime', new FlexDateTime('2022-10-29T10:35:10'))
+      .flexDateTimeValue('datetime').equals(new FlexDateTime('2022-10-29T10:35:10')))
+    assert.ok(ob2.withFlexZonedDateTimeValue('zdatetime', new FlexZonedDateTime('2022-10-29T10:35:10+02:00'))
+      .flexZonedDateTimeValue('zdatetime').equals(new FlexZonedDateTime('2022-10-29T10:35:10+02:00')))
   }
 
   testSize() {
