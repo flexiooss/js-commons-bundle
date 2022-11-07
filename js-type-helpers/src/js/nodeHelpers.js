@@ -214,3 +214,30 @@ const sanitizeURLAttributes = (key, value) => {
   }
   return value
 }
+
+/**
+ * @param {HTMLElement} parent
+ * @return {?HTMLElement}
+ */
+export const getFirstVisibleElement = (parent) => {
+  return getVisibleIn(parent, (parent.offsetTop + parent.scrollTop), parent.offsetHeight)
+}
+
+/**
+ * @param {HTMLElement} el
+ * @param {number} top
+ * @param {number} height
+ * @return {?HTMLElement}
+ */
+const getVisibleIn = (el, top, height) => {
+  for (const c of el.children) {
+    if (top <= c.offsetTop && (c.offsetHeight + c.offsetTop) < (top + height)) {
+      return c
+    }
+    if (c.children.length && (c.offsetHeight + c.offsetTop) >= top) {
+      const re = getVisibleIn(c, top, height)
+      if (!isNull(re)) return re
+    }
+  }
+  return null
+}
