@@ -52,7 +52,7 @@ export class FlexDateTimeExtended {
    */
   static fromTimeISO(time) {
     const t = FlexTimeExtended.fromISO(time)
-    return  FlexDateTimeExtended.now().setHour(t.hours()).setMinute(t.minutes()).setSecond(t.seconds()).setMilliseconds(t.milliseconds())
+    return FlexDateTimeExtended.now().setHour(t.hours()).setMinute(t.minutes()).setSecond(t.seconds()).setMilliseconds(t.milliseconds())
   }
 
   /**
@@ -155,6 +155,13 @@ export class FlexDateTimeExtended {
    */
   weekDay() {
     return this.#toDateTime().weekday
+  }
+
+  /**
+   * @return {number}
+   */
+  dayOfYear() {
+    return this.#toDateTime().ordinal
   }
 
   /**
