@@ -97,6 +97,13 @@ export class FlexDateExtended {
   }
 
   /**
+   * @return {number}
+   */
+  dayOfYear() {
+    return this.#toDateTime().ordinal
+  }
+
+  /**
    * @param {object} object
    * @return {FlexDateExtended}
    */

@@ -1,4 +1,4 @@
-import {  isUndefined, TypeCheck, isNull} from './__import__assert'
+import {isUndefined, TypeCheck, isNull} from './__import__assert'
 import {globalFlexioImport} from './__import__global-import-registry'
 import {IndexError} from './IndexError'
 import {deepFreezeSeal} from './__import__js-generator-helpers'
@@ -9,6 +9,15 @@ import {deepFreezeSeal} from './__import__js-generator-helpers'
  * @extends Array<TYPE>
  */
 export class FlexArray extends Array {
+
+  /**
+   * @param {?*} item
+   * @return {?TYPE}
+   */
+  static itemFromObject(item) {
+    return item
+  }
+
   /**
    * @type {boolean}
    */
@@ -39,7 +48,7 @@ export class FlexArray extends Array {
    * @return {this}
    */
   freeze() {
-    if(this.isFrozen()){
+    if (this.isFrozen()) {
       return this
     }
     deepFreezeSeal(this)
@@ -50,7 +59,7 @@ export class FlexArray extends Array {
   /**
    * @return {boolean}
    */
-  isFrozen(){
+  isFrozen() {
     return this.#frozen
   }
 
@@ -212,7 +221,7 @@ export class FlexArray extends Array {
     for (let i = start; i < end; ++i) {
       ret.push(this.get(i))
     }
-    if(this.#frozen){
+    if (this.#frozen) {
       ret.freeze()
     }
     return ret
@@ -228,7 +237,7 @@ export class FlexArray extends Array {
     const a = this.toArray()
     a.splice(start, deleteCount, ...args)
     let ret = new this.constructor(...a)
-    if(this.#frozen){
+    if (this.#frozen) {
       ret.freeze()
     }
     return ret
@@ -267,7 +276,7 @@ export class FlexArray extends Array {
       }
     }
 
-    if(this.#frozen){
+    if (this.#frozen) {
       res.freeze()
     }
 
@@ -343,7 +352,7 @@ export class FlexArray extends Array {
 
     const ret = new this.constructor(...this)
     ret.set(index, value)
-    if(this.#frozen){
+    if (this.#frozen) {
       ret.freeze()
     }
     return ret
@@ -356,7 +365,7 @@ export class FlexArray extends Array {
   withPush(...v) {
     const ret = new this.constructor(...this)
     ret.push(...v)
-    if(this.#frozen){
+    if (this.#frozen) {
       ret.freeze()
     }
     return ret
@@ -367,8 +376,8 @@ export class FlexArray extends Array {
    * @return {this}
    */
   withUnshift(...v) {
-    const ret = new this.constructor(...v,...this )
-    if(this.#frozen){
+    const ret = new this.constructor(...v, ...this)
+    if (this.#frozen) {
       ret.freeze()
     }
     return ret
@@ -411,28 +420,31 @@ export class FlexArray extends Array {
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static builder() {
-    return new FlexArrayBuilder(this)
+    return new FlexArrayBuilder(this, item => this.itemFromObject(item))
   }
 
   /**
+   * @param {ARRAY_TYPE} instance
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static from(instance) {
-    return FlexArrayBuilder.from(this, this)
+    return FlexArrayBuilder.from(this, this, item => this.itemFromObject(item))
   }
 
   /**
+   * @param {Array} jsonObject
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromObject(jsonObject) {
-    return FlexArrayBuilder.fromObject(this, jsonObject)
+    return FlexArrayBuilder.fromObject(this, jsonObject, item => this.itemFromObject(item))
   }
 
   /**
+   * @param {string} json
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static fromJson(json) {
-    return FlexArrayBuilder.fromJson(this, json)
+    return FlexArrayBuilder.fromJson(this, json, item => this.itemFromObject(item))
   }
 }
 
@@ -446,13 +458,21 @@ class FlexArrayBuilder {
    */
   #arrayConstructor = null
   /**
+   * @type{?function(*):TYPE}
+   */
+  #itemProcessor = null
+  /**
    * @type {TYPE[]}
    */
   #values = []
 
-  constructor(constructor) {
-
+  /**
+   * @param {?Class.<ARRAY_TYPE>} constructor
+   * @param {?function(*):TYPE} itemProcessor
+   */
+  constructor(constructor, itemProcessor = null) {
     this.#arrayConstructor = TypeCheck.assertIsClass(constructor)
+    this.#itemProcessor = TypeCheck.assertIsArrowFunctionOrNull(itemProcessor)
   }
 
   /**
@@ -461,37 +481,44 @@ class FlexArrayBuilder {
    */
   values(values) {
     TypeCheck.assertIsArray(values)
-    this.#values = values
+    if (!isNull(this.#itemProcessor)) {
+      this.#values = values.map(this.#itemProcessor)
+    } else {
+      this.#values = values
+    }
     return this
   }
 
   /**
-   * @param {Array} jsonObject
-   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    * @param {?Class.<ARRAY_TYPE>} constructor
+   * @param {Array} jsonObject
+   * @param {?function(*):TYPE} [itemProcessor=null]
+   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    */
-  static fromObject(constructor, jsonObject) {
-    const builder = new FlexArrayBuilder(constructor)
+  static fromObject(constructor, jsonObject, itemProcessor = null) {
+    const builder = new FlexArrayBuilder(constructor, itemProcessor)
     builder.values(TypeCheck.assertIsArray(jsonObject))
     return builder
   }
 
   /**
    * @param {string} json
-   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    * @param {?Class.<ARRAY_TYPE>} constructor
+   * @param {?function(*):TYPE} [itemProcessor=null]
+   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    */
-  static fromJson(constructor, json) {
-    return FlexArrayBuilder.fromObject(constructor, JSON.parse(json))
+  static fromJson(constructor, json, itemProcessor = null) {
+    return FlexArrayBuilder.fromObject(constructor, JSON.parse(json), itemProcessor)
   }
 
   /**
    * @param {ARRAY_TYPE} instance
-   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    * @param {?Class.<ARRAY_TYPE>} constructor
+   * @param {?function(*):TYPE} [itemProcessor=null]
+   * @return {FlexArrayBuilder.<TYPE, ARRAY_TYPE>}
    */
-  static from(constructor, instance) {
-    const builder = new FlexArrayBuilder(constructor)
+  static from(constructor, instance, itemProcessor = null) {
+    const builder = new FlexArrayBuilder(constructor, itemProcessor)
     builder.values(instance)
     return builder
   }

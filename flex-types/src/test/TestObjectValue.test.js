@@ -1,13 +1,17 @@
 /* global runTest */
 import '../../package'
+import {globalFlexioImport} from '../js/__import__global-import-registry'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue'
 import {IndexError} from '../js/IndexError'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate'
 
 const assert = require('assert')
 
 
 export class TestObjectValue extends TestCase {
+  // debug=true
+
   testBuildAndGet() {
 
     /**
@@ -20,6 +24,10 @@ export class TestObjectValue extends TestCase {
       .booleanValue('bool', true)
       .numberValue('number', 12)
       .arrayValue('array', ['tutu', 'roro', 12])
+      .flexDateTimeValue('dt', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32'))
+      .flexDateValue('d', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17'))
+      .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
+      .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
       .build()
 
     /**
@@ -28,6 +36,10 @@ export class TestObjectValue extends TestCase {
     const ob3 = ObjectValue
       .builder()
       .stringValue('string', 'titi')
+      .stringValue('dt', '1992-12-17T04:17:32')
+      .stringValue('d', '1992-10-17')
+      .stringValue('t', '04:17:32.527')
+      .stringValue('zdt', '1992-10-17T04:17:32+03:00')
       .booleanValue('bool', false)
       .numberValue('number', 42)
       .arrayValue('array', ['tutu', 'bibi', 12])
@@ -56,6 +68,32 @@ export class TestObjectValue extends TestCase {
 
     assert.ok(ob2.booleanValue('bool') === true, 'booleanValue')
     assert.ok(ob2.booleanValueOr('badKey', false) === false, 'booleanValueOr')
+
+    assert.ok(ob.flexDateTimeValue('dt').equals(new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')), 'dateTime value')
+    assert.ok(ob.flexDateTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')).equals(new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')), 'dateTime valueOr')
+
+    assert.ok(ob.flexTimeValue('t').equals(new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')), 'Time value')
+    assert.ok(ob.flexTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')).equals(new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')), 'Time valueOr')
+
+    assert.ok(ob.flexDateValue('d').equals(new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')), 'date value')
+    assert.ok(ob.flexDateValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')).equals(new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')), 'date valueOr')
+
+    assert.ok(ob.flexZonedDateTimeValue('zdt').equals(new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')), 'zonedDateTime value')
+    assert.ok(ob.flexZonedDateTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')).equals(new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')), 'zonedDateTime valueOr')
+
+
+    assert.ok(ob3.flexDateTimeValue('dt').equals(new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')), 'cast dateTime value')
+    assert.ok(ob3.flexDateTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')).equals(new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32')), 'cast  dateTime valueOr')
+
+    assert.ok(ob3.flexTimeValue('t').equals(new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')), 'cast Time value')
+    assert.ok(ob3.flexTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')).equals(new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527')), 'cast Time valueOr')
+
+    assert.ok(ob3.flexDateValue('d').equals(new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')), 'cast date value')
+    assert.ok(ob3.flexDateValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')).equals(new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17')), 'cast date valueOr')
+
+    assert.ok(ob3.flexZonedDateTimeValue('zdt').equals(new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')), 'cast zonedDateTime value')
+    assert.ok(ob3.flexZonedDateTimeValueOr('badKey', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')).equals(new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00')), 'cast zonedDateTime valueOr')
+
 
     assert.ok(ob2.numberValue('number') === 12, 'numberValue')
     assert.ok(ob2.numberValueOr('badKey', 14) === 14, 'numberValueOr')
@@ -263,6 +301,48 @@ export class TestObjectValue extends TestCase {
 
   }
 
+  testEqualsDate() {
+    /**
+     * @type {ObjectValue}
+     */
+    const ob = ObjectValue
+      .builder()
+      .flexDateTimeValue('dt', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32'))
+      .flexDateValue('d', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17'))
+      .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
+      .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
+      .build()
+
+    /**
+     * @type {ObjectValue}
+     */
+    const ob2 = ObjectValue
+      .builder()
+      .flexDateTimeValue('dt', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32'))
+      .flexDateValue('d', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17'))
+      .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
+      .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
+      .build()
+
+    /**
+     * @type {ObjectValue}
+     */
+    const ob3 = ObjectValue
+      .builder()
+      .stringValue('dt', '1992-12-17T04:17:32')
+      .stringValue('d', '1992-10-17')
+      .stringValue('t', '04:17:32.527')
+      .stringValue('zdt', '1992-10-17T04:17:32+03:00')
+      .build()
+
+    assert.ok(ob.equals(ob2), 'dates should be equals')
+    assert.ok(!ob.equals(ob3), 'dates should not be equals')
+    assert.ok(ob.flexDateValue('d').equals(ob3.flexDateValue('d')), 'date by accessor should be equals')
+    assert.ok(ob.flexTimeValue('t').equals(ob3.flexTimeValue('t')), 'time by accessor should be equals')
+    assert.ok(ob.flexDateTimeValue('dt').equals(ob3.flexDateTimeValue('dt')), 'dateTime by accessor should be equals')
+    assert.ok(ob.flexZonedDateTimeValue('zdt').equals(ob3.flexZonedDateTimeValue('zdt')), 'ZoneddateTime by accessor should be equals')
+  }
+
   testEqualsNullityAndUndefined() {
     /**
      * @type {ObjectValue}
@@ -292,6 +372,10 @@ export class TestObjectValue extends TestCase {
       .booleanValue('bool', true)
       .numberValue('number', 12)
       .arrayValue('array', ['tutu', true, 12])
+      .flexTimeValue('time', new FlexTime('09:35:10'))
+      .flexDateValue('date', new FlexDate('2022-11-03'))
+      .flexDateTimeValue('datetime', new FlexDateTime('2022-11-03T09:35:10'))
+      .flexZonedDateTimeValue('zdatetime', new FlexZonedDateTime('2022-11-03T09:35:10+02:00'))
       .build()
 
     /**
@@ -323,6 +407,13 @@ export class TestObjectValue extends TestCase {
     assert.ok(ob2 !== ob4, 'immutability : not same instance')
     assert.ok(ob2.equals(ob4), 'immutability : equals')
 
+    assert.ok(ob2.withNumberValue('number', 42).numberValue('number') === 42)
+    assert.ok(ob2.withFlexTimeValue('time', new FlexTime('10:35:10')).flexTimeValue('time').equals(new FlexTime('10:35:10')))
+    assert.ok(ob2.withFlexDateValue('date', new FlexDate('2022-10-29')).flexDateValue('date').equals(new FlexDate('2022-10-29')))
+    assert.ok(ob2.withFlexDateTimeValue('datetime', new FlexDateTime('2022-10-29T10:35:10'))
+      .flexDateTimeValue('datetime').equals(new FlexDateTime('2022-10-29T10:35:10')))
+    assert.ok(ob2.withFlexZonedDateTimeValue('zdatetime', new FlexZonedDateTime('2022-10-29T10:35:10+02:00'))
+      .flexZonedDateTimeValue('zdatetime').equals(new FlexZonedDateTime('2022-10-29T10:35:10+02:00')))
   }
 
   testSize() {
@@ -419,7 +510,7 @@ export class TestObjectValue extends TestCase {
     )
   }
 
-  testWithout(){
+  testWithout() {
     const a = ObjectValue
       .builder()
       .stringValue('string', 'toto')
