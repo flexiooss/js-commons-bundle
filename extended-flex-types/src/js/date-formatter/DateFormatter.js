@@ -31,6 +31,8 @@ export class DateTimeFormatter {
         return `${dateFormatter.hour()}:${dateFormatter.minute()}`
       case 'HH:mm:ss':
         return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
+      case 'HH:mm:ss.SSS':
+        return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}.${dateFormatter.millis()}`
       case 'dd MM yy':
         return `${dateFormatter.day()} ${dateFormatter.month()} ${dateFormatter.shortYear()}`
       case 'dd/MM/yyyy':
@@ -39,10 +41,16 @@ export class DateTimeFormatter {
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       case 'yyyy-MM-dd HH:mm:ss':
         return `${dateFormatter.year()}-${dateFormatter.month()}-${dateFormatter.day()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
+      case 'yyyy-MM-dd HH:mm:ss.SSS':
+        return `${dateFormatter.year()}-${dateFormatter.month()}-${dateFormatter.day()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}.${dateFormatter.millis()}`
       case 'dd/MM/yyyy HH:mm:ss':
         return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
+      case 'dd/MM/yyyy HH:mm:ss.SSS':
+        return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()} ${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}.${dateFormatter.millis()}`
       case 'yyyy-MM-ddTHH:mm:ssZ':
         return `${dateFormatter.year('UTC')}-${dateFormatter.month('UTC')}-${dateFormatter.day('UTC')}T${dateFormatter.hour('UTC')}:${dateFormatter.minute('UTC')}:${dateFormatter.second('UTC')}Z`
+      case 'yyyy-MM-ddTHH:mm:ss.SSSZ':
+        return `${dateFormatter.year('UTC')}-${dateFormatter.month('UTC')}-${dateFormatter.day('UTC')}T${dateFormatter.hour('UTC')}:${dateFormatter.minute('UTC')}:${dateFormatter.second('UTC')}.${dateFormatter.millis('UTC')}Z`
       case 'json':
         return `/Date(${date.getTime()})/`
       default:
@@ -104,6 +112,8 @@ export class TimeFormatter {
         return `${dateFormatter.hour()}:${dateFormatter.minute()}`
       case 'HH:mm:ss':
         return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}`
+      case 'HH:mm:ss.SSS':
+        return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}.${dateFormatter.millis()}`
       default:
         throw Error(`TimeFormatter: format ${format} not implemented yet`)
     }
@@ -189,6 +199,14 @@ class DateFormatHelper {
    */
   second(timeZone = null) {
     return this.#format({second: 'numeric'}, timeZone || this.#timeZone).padStart(2, '0')
+  }
+
+  /**
+   * @param {?string} timeZone
+   * @return {string}
+   */
+  millis(timeZone = null) {
+    return this.#format({fractionalSecondDigits: 3}, timeZone || this.#timeZone).padStart(3, '0')
   }
 
   /**
