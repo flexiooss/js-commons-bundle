@@ -97,6 +97,7 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
     assert.deepEqual(dt.milliseconds(), 0)
     assert.deepEqual(dt.weekNumber(), 10)
     assert.deepEqual(dt.weekDay(), 3)
+    assert.deepEqual(dt.dayOfYear(), 68)
 
     dt = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.456')
     assert.deepEqual(dt.milliseconds(), 456)
