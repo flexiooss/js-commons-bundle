@@ -75,6 +75,11 @@ export class TestDateExtendedTest extends TestCase {
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd MM yy', 'fr', 'Europe/Paris'), '01 01 21')
   }
 
+  testDateTimeBorder() {
+    assert.strictEqual(DateTimeFormatter.format(FlexDateTimeExtended.fromISO('2020-12-31T23:00:00'), 'dd MM yy', 'fr', 'Europe/Paris'), '01 01 21')
+    assert.strictEqual(DateTimeFormatter.format(FlexDateTimeExtended.fromISO('2020-12-31T23:00:00'), 'dd/MM/yyyy', 'fr', 'Europe/Paris'), '01/01/2021')
+  }
+
   testDateTimeDateFrench() {
     assert.strictEqual(DateTimeFormatter.format(this.datetime, 'dd/MM/yyyy', 'fr'), '15/03/2021')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd/MM/yyyy', 'fr'), '31/12/2020')
