@@ -10,9 +10,9 @@ const assert = require('assert')
 export class TestDateExtendedTest extends TestCase {
   setUp() {
     this.datetime = FlexDateTimeExtended.fromISO('2021-03-15T12:24:07.456')
-    this.datetimeBorder = FlexDateTimeExtended.fromISO('2020-12-31T23:50:33')
+    this.datetimeBorder = FlexDateTimeExtended.fromISO('2020-12-31T23:50:33.456')
     this.date = FlexDateExtended.fromISO('2020-12-31')
-    this.time = FlexTimeExtended.fromISO('23:50:33')
+    this.time = FlexTimeExtended.fromISO('23:50:33.456')
   }
 
   testDateTimeYear() {
@@ -69,10 +69,21 @@ export class TestDateExtendedTest extends TestCase {
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'HH:mm:ss', 'fr', 'Europe/Paris'), '00:50:33')
   }
 
+  testDateTimeTimeWithMillis() {
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'HH:mm:ss.SSS', 'fr'), '12:24:07.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'HH:mm:ss.SSS', 'fr'), '23:50:33.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'HH:mm:ss.SSS', 'fr', 'Europe/Paris'), '00:50:33.456')
+  }
+
   testDateTimeDateWithSpace() {
     assert.strictEqual(DateTimeFormatter.format(this.datetime, 'dd MM yy', 'fr'), '15 03 21')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd MM yy', 'fr'), '31 12 20')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd MM yy', 'fr', 'Europe/Paris'), '01 01 21')
+  }
+
+  testDateTimeBorder() {
+    assert.strictEqual(DateTimeFormatter.format(FlexDateTimeExtended.fromISO('2020-12-31T23:00:00'), 'dd MM yy', 'fr', 'Europe/Paris'), '01 01 21')
+    assert.strictEqual(DateTimeFormatter.format(FlexDateTimeExtended.fromISO('2020-12-31T23:00:00'), 'dd/MM/yyyy', 'fr', 'Europe/Paris'), '01/01/2021')
   }
 
   testDateTimeDateFrench() {
@@ -93,15 +104,32 @@ export class TestDateExtendedTest extends TestCase {
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-dd HH:mm:ss', 'fr', 'Europe/Paris'), '2021-01-01 00:50:33')
   }
 
+  testDateTimeDateTimeDataBaseWithMillis() {
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'yyyy-MM-dd HH:mm:ss.SSS', 'fr'), '2021-03-15 12:24:07.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-dd HH:mm:ss.SSS', 'fr'), '2020-12-31 23:50:33.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-dd HH:mm:ss.SSS', 'fr', 'Europe/Paris'), '2021-01-01 00:50:33.456')
+  }
+
   testDateTime() {
     assert.strictEqual(DateTimeFormatter.format(this.datetime, 'dd/MM/yyyy HH:mm:ss', 'fr'), '15/03/2021 12:24:07')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd/MM/yyyy HH:mm:ss', 'fr'), '31/12/2020 23:50:33')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd/MM/yyyy HH:mm:ss', 'fr', 'Europe/Paris'), '01/01/2021 00:50:33')
   }
 
+  testDateTimeWithMillis() {
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'dd/MM/yyyy HH:mm:ss.SSS', 'fr'), '15/03/2021 12:24:07.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd/MM/yyyy HH:mm:ss.SSS', 'fr'), '31/12/2020 23:50:33.456')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'dd/MM/yyyy HH:mm:ss.SSS', 'fr', 'Europe/Paris'), '01/01/2021 00:50:33.456')
+  }
+
   testDateTimeISO() {
     assert.strictEqual(DateTimeFormatter.format(this.datetime, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2021-03-15T12:24:07Z')
     assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-ddTHH:mm:ssZ', 'fr', 'Europe/Paris'), '2020-12-31T23:50:33Z')
+  }
+
+  testDateTimeISOWithMillis() {
+    assert.strictEqual(DateTimeFormatter.format(this.datetime, 'yyyy-MM-ddTHH:mm:ss.SSSZ', 'fr', 'Europe/Paris'), '2021-03-15T12:24:07.456Z')
+    assert.strictEqual(DateTimeFormatter.format(this.datetimeBorder, 'yyyy-MM-ddTHH:mm:ss.SSSZ', 'fr', 'Europe/Paris'), '2020-12-31T23:50:33.456Z')
   }
 
   testDateTimeJson() {
@@ -151,6 +179,10 @@ export class TestDateExtendedTest extends TestCase {
 
   testTimeWithSeconds() {
     assert.strictEqual(TimeFormatter.format(this.time, 'HH:mm:ss', 'fr'), '23:50:33')
+  }
+
+  testTimeWithMillis() {
+    assert.strictEqual(TimeFormatter.format(this.time, 'HH:mm:ss.SSS', 'fr'), '23:50:33.456')
   }
 
   testCustomSymbol() {

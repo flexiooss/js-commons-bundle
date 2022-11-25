@@ -1,6 +1,6 @@
 {
   "name": "@flexio-oss/js-commons-bundle",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "repository": "git@github.com:flexiooss/js-commons-bundle.git",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
@@ -28,7 +28,7 @@
   },
   "peerDependencies": {
     "@flexio-oss/code-altimeter-js": "1.11.0",
-    "@flexio-oss/js-commons-bundle": "1.46.0-dev",
+    "@flexio-oss/js-commons-bundle": "1.48.0-dev",
     "luxon": "2.3.0"
   }
 }
