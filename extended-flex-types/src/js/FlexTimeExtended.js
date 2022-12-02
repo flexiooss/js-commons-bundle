@@ -19,8 +19,8 @@ export class FlexTimeExtended {
   /**
    * @return {FlexTimeExtended}
    */
-  static now() {
-    const iso = DateTime.now().toUTC().toISOTime({includeOffset: false})
+  static now(timezone = 'utc') {
+    const iso = DateTime.local().setZone(timezone).toISOTime({includeOffset: false})
     return FlexTimeExtended.fromISO(iso)
   }
 
