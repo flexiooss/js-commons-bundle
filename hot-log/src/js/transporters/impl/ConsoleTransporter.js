@@ -1,7 +1,7 @@
 import {hotLogTransporter} from "../HotLogTransporter";
 import {Log} from "../../Log";
 import {HotLogLevel} from "../../HotLogLevel";
-import {assertInstanceOf, assertType, isArrowFunction, isNull, TypeCheck} from "../../../../../assert";
+import {assertInstanceOf, assertType, isArrowFunction, isFunction, isNull, TypeCheck} from "../../../../../assert";
 import {implementsHotLogFormater} from "../../formaters/HotLogFormater";
 import {ThresholdResolver} from "../helpers/ThresholdResolver";
 import {FilterList} from "../filters/FilterList";
@@ -83,7 +83,7 @@ export class ConsoleTransporter extends AbstractTransporter {
    */
   #logContext(log) {
     if (!isNull(log.context())) {
-      globalThis.console.log(log.context())
+      globalThis.console.log(isFunction(log.context()) ? log.context().call(null) : log.context())
     }
   }
 }

@@ -1,4 +1,4 @@
-import {assertInstanceOf, TypeCheck} from '../../../assert'
+import {assertInstanceOf, isFunction, TypeCheck} from '../../../assert'
 import {HotLogLevel} from './HotLogLevel'
 import {FlexDateTimeExtended} from '../../../extended-flex-types'
 
@@ -12,11 +12,11 @@ export class Log {
    */
   #emitter
   /**
-   * @type {string}
+   * @type {string|function():string}
    */
   #message
   /**
-   * @type {?Object}
+   * @type {?Object|function():?Object}
    */
   #context = null
   /**
@@ -27,14 +27,20 @@ export class Log {
   /**
    * @param {string} emitter
    * @param {HotLogLevel} level
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {?Object} context
    */
   constructor(emitter, level, message, context) {
     this.#emitter = TypeCheck.assertIsString(emitter)
     this.#level = assertInstanceOf(level, HotLogLevel, 'HotLogLevel')
-    this.#message = TypeCheck.assertIsString(message)
-    this.#context = TypeCheck.assertIsObjectOrNull(context)
+    if(!isFunction(message)){
+      TypeCheck.assertIsString(message)
+    }
+    this.#message = message
+    if(!isFunction(context)){
+      TypeCheck.assertIsObjectOrNull(context)
+    }
+    this.#context = context
   }
 
   /**
@@ -59,14 +65,14 @@ export class Log {
   }
 
   /**
-   * @return {string}
+   * @return {string|function():string}
    */
   message() {
     return this.#message
   }
 
   /**
-   * @return {?Object}
+   * @return {?Object|function():?Object}
    */
   context() {
     return this.#context
