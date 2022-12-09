@@ -59,8 +59,9 @@ export const hotLogTransporter = (Base) => {
     /**
      * @param {Log} log
      * @param {?HotLogLevel} threshold
+     * @return {Promise<void>}
      */
-    commit(log, threshold) {
+   async commit(log, threshold) {
       NotOverrideException.FROM_INTERFACE('HotLogTransporter')
     }
   }
