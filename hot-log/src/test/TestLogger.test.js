@@ -108,18 +108,12 @@ export class TestLogger extends TestCase {
     defaultLogger.error('defaultLogger error defaultLogger error should work',{})
     defaultLogger.error('defaultLogger error defaultLogger error should work')
     defaultLogger.warn('defaultLogger warn defaultLogger warn should work')
-    defaultLogger.info('defaultLogger info defaultLogger info should work', (builder)=>{
-      builder.response(monStore).requestId('toto')
-        .build()
+    defaultLogger.info('defaultLogger info defaultLogger info should work', ()=>{
+     return {}
     })
 
     defaultLogger.debug('defaultLogger debug defaultLogger debug should not work',{
-      response
-      flexcontext
-      objectValue,
-      requestId,
-      error,
-      json,
+
     })
     defaultLogger.trace('defaultLogger trace defaultLogger trace should not work')
 

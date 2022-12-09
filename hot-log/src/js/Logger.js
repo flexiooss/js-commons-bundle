@@ -138,7 +138,7 @@ export class Logger {
   }
 
   /**
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {Object} [context=null]
    * @return {Logger}
    */
@@ -148,7 +148,7 @@ export class Logger {
   }
 
   /**
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {Object} [context=null]
    * @return {Logger}
    */
@@ -158,7 +158,7 @@ export class Logger {
   }
 
   /**
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {Object} [context=null]
    * @return {Logger}
    */
@@ -168,7 +168,7 @@ export class Logger {
   }
 
   /**
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {Object} [context=null]
    * @return {Logger}
    */
@@ -178,7 +178,7 @@ export class Logger {
   }
 
   /**
-   * @param {string} message
+   * @param {string|function():string} message
    * @param {Object} [context=null]
    * @return {Logger}
    */

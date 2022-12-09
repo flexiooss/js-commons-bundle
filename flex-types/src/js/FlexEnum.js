@@ -106,7 +106,8 @@ export class FlexEnum {
    * Default `toString()` method for enum constant.
    */
   toString() {
-    return `${this.constructor.name}.${this.__name}`
+    return `${this.__name}`
+    // return `${this.constructor.name}.${this.__name}`
   }
 
   /**
