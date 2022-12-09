@@ -4,6 +4,6 @@ export class AcceptRangeHelper {
    * @return {number}
    */
   static getRange(acceptRange) {
-    return parseInt(acceptRange)
+    return parseInt(acceptRange.match(/\d+$/)[0])
   }
 }
