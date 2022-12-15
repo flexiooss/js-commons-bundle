@@ -1,8 +1,83 @@
 import {assertInstanceOf, isNull, TypeCheck} from '../../../assert'
 import {Log} from "./Log";
-import {HotLogLevel} from "./HotLogLevel";
+import {HotLogLevel, HotLogLevelHelper} from "./HotLogLevel";
 import {HotLog} from "./HotLog";
 import {TransporterHandler} from "./transporters/TransporterHandler";
+
+export class LoggerBuilder {
+  /**
+   * @type {?LoggerBuilder}
+   */
+  static #instance = null
+  /**
+   * @type {boolean}
+   */
+  #transporters = true
+  /**
+   * @type {?HotLogLevel}
+   */
+  #threshold = null
+
+  /**
+   * @return {LoggerBuilder}
+   */
+  static getInstance() {
+    if (isNull(this.#instance)) {
+      this.#instance = new LoggerBuilder()
+    }
+    return this.#instance
+  }
+
+  /**
+   * @return {LoggerBuilder}
+   */
+  withoutTransporter() {
+    this.#transporters = false
+    return this
+  }
+
+  /**
+   * @return {LoggerBuilder}
+   */
+  withHotLogLevel() {
+    this.#threshold = HotLog.getHotLog().threshold()
+    return this
+  }
+
+  /**
+   * @param {Logger} logger
+   * @return {Logger}
+   */
+  build(logger) {
+    assertInstanceOf(logger, Logger, 'Logger')
+    if (!this.#transporters) {
+      logger.addTransporter = () => logger
+    }
+    if (!isNull(this.#threshold)) {
+      if (HotLogLevelHelper.lt(HotLogLevel.TRACE, this.#threshold)) {
+        logger.trace = () => logger
+      }
+      if (HotLogLevelHelper.lt(HotLogLevel.DEBUG, this.#threshold)) {
+        logger.debug = () => logger
+      }
+      if (HotLogLevelHelper.lt(HotLogLevel.INFO, this.#threshold)) {
+        logger.info = () => logger
+      }
+      if (HotLogLevelHelper.lt(HotLogLevel.WARN, this.#threshold)) {
+        logger.warn = () => logger
+      }
+      if (HotLogLevelHelper.lt(HotLogLevel.ERROR, this.#threshold)) {
+        logger.error = () => logger
+      }
+      if (HotLogLevelHelper.lt(HotLogLevel.FATAL, this.#threshold)) {
+        logger.fatal = () => logger
+      }
+    }
+
+    return logger
+  }
+
+}
 
 export class Logger {
   /**
@@ -86,7 +161,7 @@ export class Logger {
     TypeCheck.assertIsStringOrNull(id)
     name = `${name}${!isNull(partialName) ? ':' + partialName : ''}${!isNull(id) ? ':' + id : ''}`
 
-    return new Logger(name)
+    return LoggerBuilder.getInstance().build(new Logger(name))
   }
 
   /**
@@ -133,7 +208,7 @@ export class Logger {
    * @return {Logger}
    */
   trace(message, context = null) {
-    // this.#commit(HotLogLevel.TRACE, message, context)
+    this.#commit(HotLogLevel.TRACE, message, context)
     return this
   }
 
@@ -143,7 +218,7 @@ export class Logger {
    * @return {Logger}
    */
   debug(message, context = null) {
-    // this.#commit(HotLogLevel.DEBUG, message, context)
+    this.#commit(HotLogLevel.DEBUG, message, context)
     return this
   }
 
@@ -153,7 +228,7 @@ export class Logger {
    * @return {Logger}
    */
   info(message, context = null) {
-    // this.#commit(HotLogLevel.INFO, message, context)
+    this.#commit(HotLogLevel.INFO, message, context)
     return this
   }
 
@@ -163,7 +238,7 @@ export class Logger {
    * @return {Logger}
    */
   warn(message, context = null) {
-    // this.#commit(HotLogLevel.WARN, message, context)
+    this.#commit(HotLogLevel.WARN, message, context)
     return this
   }
 
