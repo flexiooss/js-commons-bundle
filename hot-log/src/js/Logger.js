@@ -133,7 +133,7 @@ export class Logger {
    * @return {Logger}
    */
   trace(message, context = null) {
-    this.#commit(HotLogLevel.TRACE, message, context)
+    // this.#commit(HotLogLevel.TRACE, message, context)
     return this
   }
 
@@ -143,7 +143,7 @@ export class Logger {
    * @return {Logger}
    */
   debug(message, context = null) {
-    this.#commit(HotLogLevel.DEBUG, message, context)
+    // this.#commit(HotLogLevel.DEBUG, message, context)
     return this
   }
 
@@ -153,7 +153,7 @@ export class Logger {
    * @return {Logger}
    */
   info(message, context = null) {
-    this.#commit(HotLogLevel.INFO, message, context)
+    // this.#commit(HotLogLevel.INFO, message, context)
     return this
   }
 
@@ -163,7 +163,7 @@ export class Logger {
    * @return {Logger}
    */
   warn(message, context = null) {
-    this.#commit(HotLogLevel.WARN, message, context)
+    // this.#commit(HotLogLevel.WARN, message, context)
     return this
   }
 
