@@ -8,7 +8,7 @@ import {ThresholdResolver} from "../js/transporters/helpers/ThresholdResolver";
 
 const assert = require('assert')
 
-export class TestLogger extends TestCase {
+export class TestHelpers extends TestCase {
 
   testLevelHelper() {
     assert.ok(HotLogLevelHelper.equals(HotLogLevel.DEBUG, HotLogLevel.DEBUG), 'should be equals')
@@ -276,4 +276,4 @@ export class TestLogger extends TestCase {
   }
 }
 
-runTest(TestLogger)
+runTest(TestHelpers)

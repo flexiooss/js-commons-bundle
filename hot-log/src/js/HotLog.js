@@ -19,6 +19,16 @@ export class HotLog {
    * @type {HotLogLevel}
    */
   #threshold = HotLogLevel.INFO
+  /**
+   * @type {boolean}
+   */
+  #synchronous = true
+  /**
+   * @param {Log} log
+   * @param {?HotLogLevel}threshold
+   * @return {TransporterHandler}
+   */
+  #commitClb = (log, threshold) => this.#transporters.commit(log, threshold)
 
   /**
    * @return {HotLog}
@@ -28,6 +38,30 @@ export class HotLog {
       HotLog.#instance = new HotLog()
     }
     return HotLog.#instance
+  }
+
+  /**
+   * @param {?Window} [window=null]
+   * @return {HotLog}
+   */
+  asynchronous(window = null) {
+    this.#synchronous = false
+    if (!isNull(window)) {
+      if ('requestIdleCallback' in window) {
+        this.#commitClb = (log, threshold) => {
+          window.requestIdleCallback(() => {
+            this.#transporters.commit(log, threshold)
+          })
+        }
+      } else {
+        this.#commitClb = (log, threshold) => {
+          setTimeout(() => {
+            this.#transporters.commit(log, threshold)
+          }, 10)
+        }
+      }
+    }
+    return this
   }
 
   /**
@@ -112,7 +146,7 @@ export class HotLog {
    * @return {HotLog}
    */
   commit(log, threshold) {
-    this.#transporters.commit(log, threshold)
+    this.#commitClb(log, threshold)
     return this
   }
 }

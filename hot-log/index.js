@@ -1,5 +1,5 @@
 export {HotLog} from './src/js/HotLog'
-export {Logger} from './src/js/Logger'
+export {Logger,LoggerBuilder} from './src/js/Logger'
 export {HotLogLevel} from './src/js/HotLogLevel'
 export {HotLogHelper} from './src/js/HotLogHelper'
 
