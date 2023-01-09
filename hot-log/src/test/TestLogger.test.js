@@ -75,6 +75,41 @@ export class TestLogger extends TestCase {
     specificLogger.fatal('specificLogger fatal should work')
   }
 
+  testHotLogAsync() {
+
+    /**
+     * @type {HotLog}
+     */
+    const hotLog = HotLog.getHotLog()
+      .asynchronous()
+      .addTransporter(ConsoleTransporterBuilder.getWithNodejsConsoleFormater().build())
+      .disableSilentMode()
+
+    /**
+     * @type {Logger}
+     */
+    const defaultLogger = Logger.getLogger('default')
+
+    /**
+     * @type {Logger}
+     */
+    const specificLogger = Logger.getLogger(this.constructor.name, 'specific', '42')
+
+    defaultLogger.fatal('defaultLogger fatal should work', this)
+    defaultLogger.error('defaultLogger error should work')
+    defaultLogger.warn('defaultLogger warn should work')
+    defaultLogger.info('defaultLogger info should work')
+    defaultLogger.debug('defaultLogger debug should not work')
+    defaultLogger.trace('defaultLogger trace should not work')
+
+    specificLogger.trace('specificLogger trace should work')
+    specificLogger.debug('specificLogger debug should work')
+    specificLogger.info('specificLogger info should work')
+    specificLogger.warn('specificLogger warn should work')
+    specificLogger.error('specificLogger error should work')
+    specificLogger.fatal('specificLogger fatal should work')
+  }
+
   testHotLogWithFilters() {
     /**
      * @type {HotLog}
@@ -105,16 +140,14 @@ export class TestLogger extends TestCase {
       )
 
     defaultLogger.fatal('defaultLogger fatal defaultLogger fatal should work', this)
-    defaultLogger.error('defaultLogger error defaultLogger error should work',{})
+    defaultLogger.error('defaultLogger error defaultLogger error should work', {})
     defaultLogger.error('defaultLogger error defaultLogger error should work')
     defaultLogger.warn('defaultLogger warn defaultLogger warn should work')
-    defaultLogger.info('defaultLogger info defaultLogger info should work', ()=>{
-     return {}
+    defaultLogger.info('defaultLogger info defaultLogger info should work', () => {
+      return {}
     })
 
-    defaultLogger.debug('defaultLogger debug defaultLogger debug should not work',{
-
-    })
+    defaultLogger.debug('defaultLogger debug defaultLogger debug should not work', {})
     defaultLogger.trace('defaultLogger trace defaultLogger trace should not work')
 
     specificLogger.trace('specificLogger trace should work')
