@@ -12,6 +12,7 @@ export class DateTimeFormatter {
   static format(dateTime, format, locale, timeZone = 'UTC') {
     const date = new Date(dateTime.toISO() + 'Z')
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
+
     switch (format) {
       case 'yyyy':
         return dateFormatter.year()
@@ -69,6 +70,7 @@ export class DateFormatter {
   static format(date, format, locale) {
     const dateJS = new Date(date.toISO() + 'Z')
     const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
+
     switch (format) {
       case 'yyyy':
         return dateFormatter.year()
@@ -85,7 +87,7 @@ export class DateFormatter {
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       default:
-        throw Error(`DateFormatter: format ${format} not implemented yet`)
+        return DateTime.fromISO(dateJS.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
     }
   }
 }
@@ -101,6 +103,7 @@ export class TimeFormatter {
     const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
     const dt = new Date(date)
     const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
+
     switch (format) {
       case 'HH':
         return dateFormatter.hour()
@@ -115,7 +118,7 @@ export class TimeFormatter {
       case 'HH:mm:ss.SSS':
         return `${dateFormatter.hour()}:${dateFormatter.minute()}:${dateFormatter.second()}.${dateFormatter.millis()}`
       default:
-        throw Error(`TimeFormatter: format ${format} not implemented yet`)
+        return DateTime.fromISO(dt.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
     }
   }
 }
