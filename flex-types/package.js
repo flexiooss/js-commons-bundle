@@ -170,3 +170,12 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ObjectValueBuilder', O
  * @property {ObjectValueValueArray.} globalFlexioImport.io.flexio.flex_types.ObjectValueValueArray
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ObjectValueValueArray', ObjectValueValueArray)
+
+/**
+ * @property {ObjectValue.} globalFlexioImport.org.codingmatters.value.objects.values.ObjectValue
+ */
+deepKeyAssigner(globalFlexioImport, 'org.codingmatters.value.objects.values.ObjectValue', ObjectValue)
+/**
+ * @property {ObjectValueBuilder.} globalFlexioImport.org.codingmatters.value.objects.values.ObjectValueBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'org.codingmatters.value.objects.values.ObjectValueBuilder', ObjectValueBuilder)
