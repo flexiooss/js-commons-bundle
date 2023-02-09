@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType
+  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction
 } from './__import__assert'
 import {FlexArray} from './FlexArray'
 
@@ -81,9 +81,10 @@ export const isObjectValueValue = a =>
 /**
  * @param {?ObjectValue} to
  * @param {?ObjectValue} compare
+ * @param {boolean} [strict=false]
  * @return {boolean}
  */
-export const objectValueValueEquals = (to, compare) => {
+export const objectValueValueEquals = (to, compare, strict = false) => {
 
   assertType((to instanceof ObjectValue || isNull(to)) && (compare instanceof ObjectValue || isNull(compare)), '`to` & `compare` should be an instance of ObjectValue or null')
 
@@ -94,22 +95,36 @@ export const objectValueValueEquals = (to, compare) => {
   if (compare == to) {
     return true
   }
-
-  for (const key of compare.propertyNames()) {
-    if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key))) {
-      return false
+  if (strict) {
+    if (compare.size() !== to.size()) return false
+    for (const key of compare.propertyNames()) {
+      if (to.has(key) && compare.has(key)) {
+        if (!objectValueValuePropertyEquals(to.rawValue(key), compare.rawValue(key), strict)) {
+          return false
+        }
+      } else {
+        return false
+      }
+    }
+  } else {
+    for (const key of compare.propertyNames()) {
+      if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) {
+        return false
+      }
     }
   }
 
   return true
 }
 
+
 /**
  * @param {ObjectValueValue} to
  * @param {ObjectValueValue} compare
+ * @param {boolean} [strict=false]
  * @return {boolean}
  */
-export const objectValueValuePropertyEquals = (to, compare) => {
+export const objectValueValuePropertyEquals = (to, compare, strict = false) => {
   if (compare === to) {
     return true
   }
@@ -120,9 +135,9 @@ export const objectValueValuePropertyEquals = (to, compare) => {
   const type = getInstanceWithEquals(to)
 
   if (!isNull(type)) {
-    return instanceWithEqualsImplEquals(to, compare, type)
+    return instanceWithEqualsImplEquals(to, compare, type, strict)
   } else if (isArray(to)) {
-    return isArray(compare) && objectValueValueArrayEquals(to, compare)
+    return isArray(compare) && objectValueValueArrayEquals(to, compare, strict)
   }
 
   return false
@@ -143,11 +158,15 @@ const getInstanceWithEquals = (inst) => {
 /**
  * @param {ObjectValueValue} to
  * @param {ObjectValueValue} compare
+ * @param {boolean} [strict=false]
  * @return {boolean}
  */
-const instanceWithEqualsImplEquals = (to, compare, type) => {
+const instanceWithEqualsImplEquals = (to, compare, type, strict = false) => {
   if (!(compare instanceof type)) {
     return false
+  }
+  if (strict && isFunction(to?.strictEquals)) {
+    return to.strictEquals(compare)
   }
   return to.equals(compare)
 }
@@ -155,9 +174,10 @@ const instanceWithEqualsImplEquals = (to, compare, type) => {
 /**
  * @param {?Array} to
  * @param {?Array} compare
+ * @param {boolean} [strict=false]
  * @return {boolean}
  */
-export const objectValueValueArrayEquals = (to, compare) => {
+export const objectValueValueArrayEquals = (to, compare, strict = false) => {
 
   assertType(isArray(to) && isArray(compare), '`to` & `compare` should be an Array')
   if (compare == to) {
@@ -168,7 +188,7 @@ export const objectValueValueArrayEquals = (to, compare) => {
   }
 
   for (let i = to.length - 1; i >= 0; --i) {
-    if (!objectValueValuePropertyEquals(to[i], compare[i])) {
+    if (!objectValueValuePropertyEquals(to[i], compare[i], strict)) {
       return false
     }
   }
@@ -540,8 +560,7 @@ export class ObjectValue {
    * @return {boolean}
    */
   strictEquals(to) {
-    if (!isNull(to)) return this.size() === to.size()
-    return objectValueValueEquals(this, to)
+    return objectValueValueEquals(this, to, true)
   }
 
   /**

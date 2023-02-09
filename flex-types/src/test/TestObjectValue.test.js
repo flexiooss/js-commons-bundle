@@ -5,12 +5,14 @@ import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue'
 import {IndexError} from '../js/IndexError'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate'
+import fixture_ob1 from './fixtures/_1.json'
+import fixture_ob2 from './fixtures/_2.json'
 
 const assert = require('assert')
 
 
 export class TestObjectValue extends TestCase {
-  // debug=true
+  // debug = true
 
   testBuildAndGet() {
 
@@ -298,6 +300,23 @@ export class TestObjectValue extends TestCase {
         ),
       9
     )
+
+
+    assert.ok(ObjectValue.builder().stringValue('string', 'toto').build().equals(ObjectValue.builder().stringValue('string', 'toto').build()), 10)
+    assert.ok(!ObjectValue.builder().stringValue('string', 'toto').build().equals(ObjectValue.builder().stringValue('string', 'tutu').build()), 11)
+    assert.ok(!ObjectValue.builder().stringValue('string', 'toto').build().equals(ObjectValue.builder().stringValue('string2', 'toto').build()), 12)
+    assert.ok(ObjectValue.builder().stringValue('string', null).build().equals(ObjectValue.builder().build()), 13)
+    assert.ok(!ObjectValue.builder().stringValue('string', null).build().strictEquals(ObjectValue.builder().build()), 14)
+  }
+
+  testBigEquals() {
+    const obj1 = ObjectValue.fromObject(fixture_ob1).build()
+    const to = ObjectValue.fromObject(fixture_ob2).build();
+    this.log(obj1)
+    this.log(to)
+    const ret = obj1.equals(to)
+    this.log(ret)
+    assert.ok(!ret)
 
   }
 
