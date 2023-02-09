@@ -11,6 +11,14 @@ import fixture_ob2 from './fixtures/_2.json'
 const assert = require('assert')
 
 
+const ob4 = ObjectValue
+  .builder()
+  .stringValue('string', null)
+  .booleanValue('bool', true)
+  .numberValue('number', 12)
+  .arrayValue('array', ['tutu', true, 12])
+  .build();
+
 export class TestObjectValue extends TestCase {
   // debug = true
 
@@ -152,16 +160,17 @@ export class TestObjectValue extends TestCase {
   }
 
   testEquals() {
-    /**
-     * @type {ObjectValue}
-     */
-    const ob = ObjectValue
+    const ob3 = ObjectValue
       .builder()
       .stringValue('string', 'toto')
       .booleanValue('bool', true)
       .numberValue('number', 12)
       .arrayValue('array', ['tutu', true, 12])
-      .build()
+      .build();
+    /**
+     * @type {ObjectValue}
+     */
+    const ob = ob3
 
     /**
      * @type {ObjectValue}
@@ -180,15 +189,10 @@ export class TestObjectValue extends TestCase {
     assert.ok(ob2 === ob2, 'strict equality', 1)
     assert.ok(ob2 !== ob2Bis, 'not strict equality', 2)
     assert.ok(ob2.equals(ob2Bis), 'equals', 3)
+    assert.ok(ob2Bis.equals(ob2), 'equals', '3-')
 
     assert.ok(
-      !ObjectValue
-        .builder()
-        .stringValue('string', 'toto')
-        .booleanValue('bool', true)
-        .numberValue('number', 12)
-        .arrayValue('array', ['tutu', true, 12])
-        .build()
+      !ob3
         .equals(
           ObjectValue
             .builder()
@@ -201,51 +205,42 @@ export class TestObjectValue extends TestCase {
     )
 
     assert.ok(
-      !ObjectValue
-        .builder()
-        .stringValue('string', 'toto')
-        .booleanValue('bool', true)
-        .numberValue('number', 12)
-        .arrayValue('array', ['tutu', true, 12])
-        .build()
+      !ob3
         .equals(
-          ObjectValue
-            .builder()
-            .stringValue('string', null)
-            .booleanValue('bool', true)
-            .numberValue('number', 12)
-            .arrayValue('array', ['tutu', true, 12])
-            .build()
+          ob4
         ), 5
     )
+    assert.ok(
+      !ob4
+        .equals(
+          ob3
+        ), '5-'
+    )
+
+    const ob5 = ObjectValue
+      .builder()
+      .stringValue('string', 'toto')
+      .booleanValue('bool', true)
+      .numberValue('number', 12)
+      .arrayValue('array', ['tuta', true, 12])
+      .build();
 
     assert.ok(
-      !ObjectValue
-        .builder()
-        .stringValue('string', 'toto')
-        .booleanValue('bool', true)
-        .numberValue('number', 12)
-        .arrayValue('array', ['tutu', true, 12])
-        .build()
+      !ob3
         .equals(
-          ObjectValue
-            .builder()
-            .stringValue('string', 'toto')
-            .booleanValue('bool', true)
-            .numberValue('number', 12)
-            .arrayValue('array', ['tuta', true, 12])
-            .build()
+          ob5
         ), 6
     )
 
     assert.ok(
-      !ObjectValue
-        .builder()
-        .stringValue('string', 'toto')
-        .booleanValue('bool', true)
-        .numberValue('number', 12)
-        .arrayValue('array', ['tutu', true, 12])
-        .build()
+      !ob5
+        .equals(
+          ob3
+        ), '6-'
+    )
+
+    assert.ok(
+      !ob3
         .equals(
           null
         ), 7
@@ -314,10 +309,10 @@ export class TestObjectValue extends TestCase {
     const to = ObjectValue.fromObject(fixture_ob2).build();
     this.log(obj1)
     this.log(to)
-    const ret = obj1.equals(to)
-    this.log(ret)
-    assert.ok(!ret)
-
+    assert.ok(!obj1.equals(to),1)
+    assert.ok(!obj1.strictEquals(to),2)
+    assert.ok(!to.equals(obj1), 3)
+    assert.ok(!to.strictEquals(obj1), 4)
   }
 
   testEqualsDate() {
