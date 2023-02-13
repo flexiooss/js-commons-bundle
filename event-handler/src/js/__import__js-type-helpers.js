@@ -1,1 +1,1 @@
-export * from '../../../js-type-helpers'
+export * from '../../../js-type-helpers/index.js'

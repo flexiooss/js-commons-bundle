@@ -1,6 +1,6 @@
-import {CookieStorage} from './CookieStorage'
-import {CookieStorageConfig} from './CookieStorageConfig'
-import {CookieConfig} from './cookie/CookieConfig'
+import {CookieStorage} from './CookieStorage.js'
+import {CookieStorageConfig} from './CookieStorageConfig.js'
+import {CookieConfig} from './cookie/CookieConfig.js'
 
 export class CookieStorageBuilder {
 

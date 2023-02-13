@@ -1,6 +1,6 @@
-import {Validator} from './Validator'
-import {isNull} from '../__import__assert'
-import {TypeCheck} from '../__import__flex-types'
+import {Validator} from './Validator.js'
+import {isNull} from '../__import__assert.js'
+import {TypeCheck} from '../__import__flex-types.js'
 
 /**
  * @implements {Validator}

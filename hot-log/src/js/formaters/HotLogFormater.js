@@ -1,5 +1,5 @@
-import {isImplement} from '../../../../js-helpers'
-import {NotOverrideException} from '../../../../assert'
+import {isImplement} from '../../../../js-helpers/index.js'
+import {NotOverrideException} from '../../../../assert/index.js'
 
 export const hotLogFormater = (Base) => {
   /**

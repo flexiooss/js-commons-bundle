@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import '../js/__import__flex-types'
-import {PhoneNumberValidator} from '../js/Validator/PhoneNumberValidator'
+import '../js/__import__flex-types.js'
+import {PhoneNumberValidator} from '../js/Validator/PhoneNumberValidator.js'
 
 const assert = require('assert')
 

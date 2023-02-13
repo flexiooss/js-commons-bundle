@@ -1,21 +1,21 @@
-import {globalFlexioImport} from './src/js/__import__global-import-registry'
-import {deepKeyAssigner} from './src/js/__import__js-generator-helpers'
+import {globalFlexioImport} from './src/js/__import__global-import-registry.js'
+import {deepKeyAssigner} from './src/js/__import__js-generator-helpers.js'
 
 
-import {SymbolStringArray, SymbolStringArrayBuilder} from './src/js/FlexArray/SymbolStringArray'
-import {URLExtended, URLExtendedBuilder} from './src/js/URLExtended'
-import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/URLSearchParamsExtended'
-import {DateExtended} from './src/js/DateExtended'
-import {FlexTimeExtended} from './src/js/FlexTimeExtended'
-import {FlexDateExtended} from './src/js/FlexDateExtended'
-import {FlexDateTimeExtended} from './src/js/FlexDateTimeExtended'
-import {ArrayMap} from './src/js/FlexMap/ArrayMap'
-import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap'
-import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap'
-import {FlexUrl, FlexUrlBuilder} from './src/js/FlexUrl'
-import {FlexRegExp, FlexRegExpBuilder} from './src/js/FlexRegExp'
-import {Any, AnyBuilder} from './src/js/Any'
-import {FlexRegExpList} from "./src/js/FlexRegExpList";
+import {SymbolStringArray, SymbolStringArrayBuilder} from './src/js/FlexArray/SymbolStringArray.js'
+import {URLExtended, URLExtendedBuilder} from './src/js/URLExtended.js'
+import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from './src/js/URLSearchParamsExtended.js'
+import {DateExtended} from './src/js/DateExtended.js'
+import {FlexTimeExtended} from './src/js/FlexTimeExtended.js'
+import {FlexDateExtended} from './src/js/FlexDateExtended.js'
+import {FlexDateTimeExtended} from './src/js/FlexDateTimeExtended.js'
+import {ArrayMap} from './src/js/FlexMap/ArrayMap.js'
+import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap.js'
+import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap.js'
+import {FlexUrl, FlexUrlBuilder} from './src/js/FlexUrl.js'
+import {FlexRegExp, FlexRegExpBuilder} from './src/js/FlexRegExp.js'
+import {Any, AnyBuilder} from './src/js/Any.js'
+import {FlexRegExpList} from "./src/js/FlexRegExpList.js";
 
 /**
  * @property {Any} globalFlexioImport.io.flexio.extended_flex_types.Any
@@ -125,6 +125,6 @@ export {StringArrayMap}
 export {StringArrayMapBuilder}
 export {StringMap}
 export {StringMapBuilder}
-export {BuilderInterface} from './src/js/BuilderInterface'
-export {TypeCheck} from './src/js/TypeCheck'
-export {DateFormatter, DateTimeFormatter, TimeFormatter} from './src/js/date-formatter/DateFormatter'
+export {BuilderInterface} from './src/js/BuilderInterface.js'
+export {TypeCheck} from './src/js/TypeCheck.js'
+export {DateFormatter, DateTimeFormatter, TimeFormatter} from './src/js/date-formatter/DateFormatter.js'

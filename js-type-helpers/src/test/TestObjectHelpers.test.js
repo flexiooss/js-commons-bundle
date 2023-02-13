@@ -3,7 +3,7 @@ import {
   filterObject, hasProperties,
   maxKey,
   sortObject, deepKeyResolverByPath, deepKeyAssignerByPath, deepMerge
-} from '../js/objectHelpers'
+} from '../js/objectHelpers.js'
 
 
 const assert = require('assert')

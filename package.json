@@ -1,5 +1,6 @@
 {
   "name": "@flexio-oss/js-commons-bundle",
+  "type": "module",
   "version": "1.65.0-dev",
   "repository": "git@github.com:flexiooss/js-commons-bundle.git",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
@@ -18,7 +19,7 @@
       "global-import-registry",
       "js-generator-helpers",
       "js-helpers",
-      "js-logger",
+      "hot-log",
       "js-type-helpers",
       "js-validator-helper"
     ]

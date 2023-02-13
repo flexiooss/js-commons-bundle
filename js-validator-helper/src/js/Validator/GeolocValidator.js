@@ -1,6 +1,6 @@
-import {Validator} from './Validator'
-import {TypeCheck} from '../__import__flex-types'
-import {isNull} from '../__import__assert'
+import {Validator} from './Validator.js'
+import {TypeCheck} from '../__import__flex-types.js'
+import {isNull} from '../__import__assert.js'
 
 export const LATITUDE_PROPERTY = 'latitude'
 export const LONGITUDE_PROPERTY = 'longitude'

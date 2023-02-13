@@ -1,6 +1,6 @@
-import {globalFlexioImport} from '../../../global-import-registry'
-import {assertInstanceOfOrNull} from '../../../assert'
-import {FlexArray} from '../../../flex-types'
+import {globalFlexioImport} from '../../../global-import-registry/index.js'
+import {assertInstanceOfOrNull} from '../../../assert/index.js'
+import {FlexArray} from '../../../flex-types/index.js'
 
 /**
  * @extends {FlexArray<?FlexRegExp>}

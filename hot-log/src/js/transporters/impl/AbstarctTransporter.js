@@ -1,5 +1,5 @@
-import {HotLogLevel} from "../../HotLogLevel";
-import {hotLogTransporter} from "../HotLogTransporter";
+import {HotLogLevel} from "../../HotLogLevel.js";
+import {hotLogTransporter} from "../HotLogTransporter.js";
 
 /**
  * @abstract

@@ -1,10 +1,10 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {HotLogLevel, HotLogLevelHelper} from "../js/HotLogLevel";
-import {Log} from "../js/Log";
-import {RangeFilter, RangeFilterBuilder} from "../js/transporters/filters/RangeFilter";
-import {FilterListHandler} from "../js/transporters/filters/FilterListHandler";
-import {FilterList} from "../js/transporters/filters/FilterList";
-import {ThresholdResolver} from "../js/transporters/helpers/ThresholdResolver";
+import {HotLogLevel, HotLogLevelHelper} from "../js/HotLogLevel.js";
+import {Log} from "../js/Log.js";
+import {RangeFilter, RangeFilterBuilder} from "../js/transporters/filters/RangeFilter.js";
+import {FilterListHandler} from "../js/transporters/filters/FilterListHandler.js";
+import {FilterList} from "../js/transporters/filters/FilterList.js";
+import {ThresholdResolver} from "../js/transporters/helpers/ThresholdResolver.js";
 
 const assert = require('assert')
 

@@ -1,5 +1,5 @@
-import {RequestEventHandler} from './RequestEventHandler'
-import {OrderedEventHandler} from '../../../event-handler'
+import {RequestEventHandler} from './RequestEventHandler.js'
+import {OrderedEventHandler} from '../../../event-handler/index.js'
 
 export class CacheRequestDispatcher {
   /**

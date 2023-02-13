@@ -2,6 +2,7 @@
   "name": "js-type-helpers",
   "main": "index.js",
   "module": "index.js",
+  "type": "module",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
   "scripts": {

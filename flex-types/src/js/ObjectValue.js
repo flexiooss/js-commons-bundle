@@ -1,6 +1,6 @@
-import {globalFlexioImport} from './__import__global-import-registry'
-import {FlexMap} from './FlexMap'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {globalFlexioImport} from './__import__global-import-registry.js'
+import {FlexMap} from './FlexMap.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 import {
   assertType,
   isObject,
@@ -10,8 +10,8 @@ import {
   isNumber,
   isArray,
   assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction
-} from './__import__assert'
-import {FlexArray} from './FlexArray'
+} from './__import__assert.js'
+import {FlexArray} from './FlexArray.js'
 
 /**
  * @typedef {(null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue | FlexDateTime | FlexDate | FlexTime | FlexZonedDateTime)} ObjectValueValue

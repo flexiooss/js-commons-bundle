@@ -1,5 +1,5 @@
-import {assertType, isNumber, isString} from './__import__assert'
-import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from './__import__flex-types'
+import {assertType, isNumber, isString} from './__import__assert.js'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from './__import__flex-types.js'
 
 /**
  *

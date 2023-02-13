@@ -1,4 +1,4 @@
-import {assertType, isFunction, isNull, isNumber} from './__import__assert'
+import {assertType, isFunction, isNull, isNumber} from './__import__assert.js'
 
 export class Throttle {
   /**

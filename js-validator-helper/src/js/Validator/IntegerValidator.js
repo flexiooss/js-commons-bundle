@@ -1,7 +1,7 @@
-import {isInteger, isNull} from '../__import__assert'
-import {Validator} from './Validator'
-import {globalFlexioImport} from '../__import__global-import-registry'
-import {TypeCheck} from '../__import__flex-types'
+import {isInteger, isNull} from '../__import__assert.js'
+import {Validator} from './Validator.js'
+import {globalFlexioImport} from '../__import__global-import-registry.js'
+import {TypeCheck} from '../__import__flex-types.js'
 
 /**
  * @implements {Validator}

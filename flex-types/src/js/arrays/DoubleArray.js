@@ -1,7 +1,7 @@
-import { assertType, isNumber, isNull } from '../__import__assert'
-import {FlexArray} from '../FlexArray'
-import {equalsPrimitive} from './Equals'
-import {TypeCheck} from '../TypeCheck'
+import { assertType, isNumber, isNull } from '../__import__assert.js'
+import {FlexArray} from '../FlexArray.js'
+import {equalsPrimitive} from './Equals.js'
+import {TypeCheck} from '../TypeCheck.js'
 
 /**
  * @extends {FlexArray<?number>}

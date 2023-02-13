@@ -1,6 +1,6 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {bibiInterface, implementsBibi} from './BibiInterface'
-import {bubuInterface, implementsBubu} from './BubuInterface'
+import {bibiInterface, implementsBibi} from './BibiInterface.js'
+import {bubuInterface, implementsBubu} from './BubuInterface.js'
 
 
 const assert = require('assert')

@@ -1,6 +1,6 @@
-import {FlexArray} from '../../../../flex-types'
-import {assertType} from '../../../../assert'
-import {implementsHotLogTransporter} from "./HotLogTransporter";
+import {FlexArray} from '../../../../flex-types/index.js'
+import {assertType} from '../../../../assert/index.js'
+import {implementsHotLogTransporter} from "./HotLogTransporter.js";
 
 /**
  * @extends FlexArray<HotLogTransporter>

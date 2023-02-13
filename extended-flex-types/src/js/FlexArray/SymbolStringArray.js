@@ -1,5 +1,5 @@
-import {FlexArray} from '../__import__flex-types'
-import {isNull, isString, isSymbol, assertType} from '../__import__assert'
+import {FlexArray} from '../__import__flex-types.js'
+import {isNull, isString, isSymbol, assertType} from '../__import__assert.js'
 
 /**
  * @extends {FlexArray<?(string|Symbol)>}

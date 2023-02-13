@@ -1,5 +1,5 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {Sequence} from "../js/Sequence";
+import {Sequence} from "../js/Sequence.js";
 
 const assert = require('assert')
 

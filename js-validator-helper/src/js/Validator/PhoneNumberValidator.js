@@ -1,5 +1,5 @@
-import {Validator} from './Validator'
-import {isNull, isString, isRegex} from '../__import__assert'
+import {Validator} from './Validator.js'
+import {isNull, isString, isRegex} from '../__import__assert.js'
 
 const PHONE_NUMBER_REGEX = /^\+\d{1,3}\d{1,14}$/
 /**

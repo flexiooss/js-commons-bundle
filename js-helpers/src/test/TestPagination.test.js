@@ -1,7 +1,6 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {Sequence} from "../js/Sequence";
-import {PaginationHelper} from '../js/PaginationHelper'
-import {ContentRangeHelper} from '../js/ContentRangeHelper'
+import {PaginationHelper} from '../js/PaginationHelper.js'
+import {ContentRangeHelper} from '../js/ContentRangeHelper.js'
 
 const assert = require('assert')
 

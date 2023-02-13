@@ -3,6 +3,7 @@
   "main": "index.js",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
+  "type": "module",
   "hotballoon-shed": {
     "module": {
       "parent": {

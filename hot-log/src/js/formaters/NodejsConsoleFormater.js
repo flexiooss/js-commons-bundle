@@ -1,5 +1,5 @@
-import {hotLogFormater} from "./HotLogFormater";
-import {isFunction} from "../../../../assert";
+import {hotLogFormater} from "./HotLogFormater.js";
+import {isFunction} from "../../../../assert/index.js";
 
 /**
  * @implements {HotLogFormater}

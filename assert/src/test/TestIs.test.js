@@ -18,7 +18,7 @@ import {
   isBlob,
   isInt8Array,
   isArrayBuffer, isArrowFunction
-} from '../js/is'
+} from '../js/is.js'
 const assert = require('assert')
 class Blob{
 

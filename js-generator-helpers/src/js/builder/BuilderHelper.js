@@ -1,4 +1,4 @@
-import {assertInstanceOfOrNull, isFunction, isNull} from '../../../../assert'
+import {assertInstanceOfOrNull, isFunction, isNull} from '../../../../assert/index.js'
 
 export class BuilderHelper {
   /**

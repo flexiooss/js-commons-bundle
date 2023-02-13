@@ -1,6 +1,6 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {FlexUrl, FlexUrlBuilder} from '../js/FlexUrl'
+import {FlexUrl, FlexUrlBuilder} from '../js/FlexUrl.js'
 
 const assert = require('assert')
 

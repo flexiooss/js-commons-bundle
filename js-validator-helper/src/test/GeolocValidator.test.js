@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {GeolocValidator, LATITUDE_PROPERTY, LONGITUDE_PROPERTY} from '../js/Validator/GeolocValidator'
-import {ObjectValue} from '../js/__import__flex-types'
+import {GeolocValidator, LATITUDE_PROPERTY, LONGITUDE_PROPERTY} from '../js/Validator/GeolocValidator.js'
+import {ObjectValue} from '../js/__import__flex-types.js'
 
 const assert = require('assert')
 

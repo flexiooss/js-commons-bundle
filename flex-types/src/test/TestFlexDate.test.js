@@ -1,5 +1,5 @@
 /* global runTest */
-import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../../src/js/FlexDate'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../../src/js/FlexDate.js'
 
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 

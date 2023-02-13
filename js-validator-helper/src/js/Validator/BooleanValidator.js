@@ -1,5 +1,5 @@
-import {Validator} from './Validator'
-import {isNull, isBoolean} from '../__import__assert'
+import {Validator} from './Validator.js'
+import {isNull, isBoolean} from '../__import__assert.js'
 
 /**
  * @implements {Validator}

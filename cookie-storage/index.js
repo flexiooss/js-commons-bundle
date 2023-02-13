@@ -1,2 +1,2 @@
-export {CookieStorageBuilder} from './src/js/CookieStorageBuilder'
-export {CookieConfigBuilder} from './src/js/cookie/CookieConfigBuilder'
+export {CookieStorageBuilder} from './src/js/CookieStorageBuilder.js'
+export {CookieConfigBuilder} from './src/js/cookie/CookieConfigBuilder.js'

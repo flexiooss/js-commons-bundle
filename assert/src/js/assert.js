@@ -1,4 +1,4 @@
-import {isArray, isBoolean, isFunction, isNull, isPrimitive, isUndefined} from './is'
+import {isArray, isBoolean, isFunction, isNull, isPrimitive, isUndefined} from './is.js'
 // import {Logger} from '../../../hot-log'
 
 class AssertionError extends Error {

@@ -1,6 +1,7 @@
 {
   "name": "cache-request-dispatcher",
   "main": "index.js",
+  "type": "module",
   "hotballoon-shed": {
     "module": {
       "parent": {

@@ -1,14 +1,12 @@
-import {hotLogTransporter} from "../HotLogTransporter";
-import {Log} from "../../Log";
-import {HotLogLevel} from "../../HotLogLevel";
-import {assertInstanceOf, assertType, isArrowFunction, isFunction, isNull, TypeCheck} from "../../../../../assert";
-import {implementsHotLogFormater} from "../../formaters/HotLogFormater";
-import {ThresholdResolver} from "../helpers/ThresholdResolver";
-import {FilterList} from "../filters/FilterList";
-import {FilterListHandler} from "../filters/FilterListHandler";
-import {ConsoleFormater} from "../../formaters/ConsoleFormater";
-import {NodejsConsoleFormater} from "../../formaters/NodejsConsoleFormater";
-import {AbstractTransporter} from "./AbstarctTransporter";
+import {HotLogLevel} from "../../HotLogLevel.js";
+import { assertType, isArrowFunction, isFunction, isNull} from "../../../../../assert/index.js";
+import {implementsHotLogFormater} from "../../formaters/HotLogFormater.js";
+import {ThresholdResolver} from "../helpers/ThresholdResolver.js";
+import {FilterList} from "../filters/FilterList.js";
+import {FilterListHandler} from "../filters/FilterListHandler.js";
+import {ConsoleFormater} from "../../formaters/ConsoleFormater.js";
+import {NodejsConsoleFormater} from "../../formaters/NodejsConsoleFormater.js";
+import {AbstractTransporter} from "./AbstarctTransporter.js";
 
 /**
  * @implements {HotLogTransporter}

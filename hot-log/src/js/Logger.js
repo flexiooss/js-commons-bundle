@@ -1,8 +1,8 @@
-import {assertInstanceOf, isNull, TypeCheck} from '../../../assert'
-import {Log} from "./Log";
-import {HotLogLevel, HotLogLevelHelper} from "./HotLogLevel";
-import {HotLog} from "./HotLog";
-import {TransporterHandler} from "./transporters/TransporterHandler";
+import {assertInstanceOf, isNull, TypeCheck} from '../../../assert/index.js'
+import {Log} from "./Log.js";
+import {HotLogLevel, HotLogLevelHelper} from "./HotLogLevel.js";
+import {HotLog} from "./HotLog.js";
+import {TransporterHandler} from "./transporters/TransporterHandler.js";
 
 export class LoggerBuilder {
   /**

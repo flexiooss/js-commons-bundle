@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import '../js/__import__flex-types'
-import {EmailValidator} from '../js/Validator/EmailValidator'
+import '../js/__import__flex-types.js'
+import {EmailValidator} from '../js/Validator/EmailValidator.js'
 
 const assert = require('assert')
 

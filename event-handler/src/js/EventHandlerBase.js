@@ -1,7 +1,7 @@
-import {isBoolean, assert, isNull} from './__import__assert'
-import {UID, Sequence} from './__import__js-helpers'
-import {EventListenerConfig} from './EventListenerConfig'
-import {StringArray} from './__import__flex-types'
+import {isBoolean, assert, isNull} from './__import__assert.js'
+import {UID, Sequence} from './__import__js-helpers.js'
+import {EventListenerConfig} from './EventListenerConfig.js'
+import {StringArray} from './__import__flex-types.js'
 
 
 const _isDispatching_ = Symbol('_isDispatching_')

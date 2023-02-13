@@ -1,7 +1,7 @@
 /* global runTest */
-import {FlexEnum} from '../js/FlexEnum'
+import {FlexEnum} from '../js/FlexEnum.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {IndexError} from '../../src/js/IndexError'
+import {IndexError} from '../../src/js/IndexError.js'
 
 
 const assert = require('assert')

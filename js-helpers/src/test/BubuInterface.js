@@ -1,4 +1,4 @@
-import {isImplement} from '../js/isImplement'
+import {isImplement} from '../js/isImplement.js'
 
 
 export const bubuInterface = (Base) => {

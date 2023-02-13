@@ -1,8 +1,8 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {StringValidator} from '../js/Validator/StringValidator'
-import '../js/__import__flex-types'
-import {globalFlexioImport} from '../js/__import__global-import-registry'
+import {StringValidator} from '../js/Validator/StringValidator.js'
+import '../js/__import__flex-types.js'
+import {globalFlexioImport} from '../js/__import__global-import-registry.js'
 
 
 const assert = require('assert')

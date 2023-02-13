@@ -3,7 +3,7 @@ import {
   isObject,
   isUndefined,
   isArray, isNull, isNumber, isString,isStrictObject
-} from './__import__assert'
+} from './__import__assert.js'
 
 /**
  *

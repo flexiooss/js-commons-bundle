@@ -1,10 +1,10 @@
 /* global runTest */
-import '../../package'
-import {globalFlexioImport} from '../js/__import__global-import-registry'
+import '../../package.js'
+import {globalFlexioImport} from '../js/__import__global-import-registry.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue'
-import {IndexError} from '../js/IndexError'
-import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate'
+import {ObjectValue, ObjectValueBuilder} from '../../src/js/ObjectValue.js'
+import {IndexError} from '../js/IndexError.js'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate.js'
 import fixture_ob1 from './fixtures/_1.json'
 import fixture_ob2 from './fixtures/_2.json'
 

@@ -1,8 +1,8 @@
 /* global runTest */
-import '../../package'
+import '../../package.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {ObjectArray} from "../js/arrays/ObjectArray";
-import {globalFlexioImport} from '../../../global-import-registry'
+import {ObjectArray} from "../js/arrays/ObjectArray.js";
+import {globalFlexioImport} from '../../../global-import-registry/index.js'
 
 const assert = require('assert')
 

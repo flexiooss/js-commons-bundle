@@ -1,4 +1,4 @@
-import {isNull} from '../__import__assert'
+import {isNull} from '../__import__assert.js'
 
 
 export class DocumentCookieHandler {
