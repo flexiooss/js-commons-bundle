@@ -43,6 +43,23 @@ export class TestFlexDateTimeExtendedTest extends TestCase {
 
     flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19').toISO()
     assert.deepEqual(flexDateTime, '2022-03-09T15:53:19.000')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.123').toISO()
+    assert.deepEqual(flexDateTime, '2022-03-09T15:53:19.123')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.123456789').toISO()
+    assert.deepEqual(flexDateTime, '2022-03-09T15:53:19.123')
+
+    flexDateTime = FlexDateTimeExtended.fromISO('2022-03-09T15:53:19.123456789').toFlexDateTime()
+    assert.deepEqual(flexDateTime, new FlexDateTime('2022-03-09T15:53:19.123'))
+  }
+
+  testFromFlexDateTime() {
+    let flexDateTime = FlexDateTimeExtended.fromFlexDateTime(new FlexDateTime('1992-10-17T04:17:32.123456789')).toFlexDateTime()
+    assert.deepEqual(flexDateTime, new FlexDateTime('1992-10-17T04:17:32.123456789'))
+
+    flexDateTime = FlexDateTimeExtended.fromFlexDateTime(new FlexDateTime('1992-10-17T04:17:32.123456789')).toISO()
+    assert.deepEqual(flexDateTime, '1992-10-17T04:17:32.123456789')
   }
 
   testFromIsoWithTimezone() {
