@@ -1,7 +1,7 @@
-import {isUndefined, TypeCheck, isNull} from './__import__assert'
-import {globalFlexioImport} from './__import__global-import-registry'
-import {IndexError} from './IndexError'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {isUndefined, TypeCheck, isNull} from './__import__assert.js'
+import {globalFlexioImport} from './__import__global-import-registry.js'
+import {IndexError} from './IndexError.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 
 
 /**

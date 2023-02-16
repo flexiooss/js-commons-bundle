@@ -1,6 +1,6 @@
-import {assertInstanceOf, formatType} from '../../../assert'
-import {HotLogLevel} from "./HotLogLevel";
-import {ThresholdResolver} from "./transporters/helpers/ThresholdResolver";
+import { formatType} from '../../../assert/index.js'
+import {HotLogLevel} from "./HotLogLevel.js";
+import {ThresholdResolver} from "./transporters/helpers/ThresholdResolver.js";
 
 export class HotLogHelper {
   /**

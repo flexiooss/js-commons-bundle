@@ -1,5 +1,5 @@
 /* global runTest */
-import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../../src/js/FlexDate'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../../src/js/FlexDate.js'
 
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 
@@ -8,6 +8,7 @@ const assert = require('assert')
 
 
 export class TestFlexDate extends TestCase {
+  debug = true
   testDateCreation() {
     let date = new FlexDate('1992-10-17')
     assert.strictEqual(date.toJSON(), '1992-10-17', 'test date creation')
@@ -39,6 +40,9 @@ export class TestFlexDate extends TestCase {
 
     time = new FlexTime('04:17:32Z')
     assert.strictEqual(time.toJSON(), '04:17:32', 'test time creation')
+
+    time = new FlexTime('04:17:32Z')
+    assert.strictEqual(time.toJSON(), '04:17:32', 'test time creation')
   }
 
   testDateTimeCreation() {
@@ -52,6 +56,8 @@ export class TestFlexDate extends TestCase {
     time = new FlexDateTime('1992-10-17T04:17:32.174')
     assert.strictEqual(time.toJSON(), '1992-10-17T04:17:32.174', 'test datetime creation')
 
+    time = new FlexDateTime('1992-10-17T04:17:32.123456789')
+    assert.strictEqual(time.toJSON(), '1992-10-17T04:17:32.123456789', 'test datetime creation with nanos')
     assert.throws(() => {
       new FlexDateTime('1992-10-17T04:17:32.174Z')
     })

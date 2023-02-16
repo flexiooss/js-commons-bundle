@@ -1,5 +1,5 @@
-import {ValueObjectValidator} from './ValueObjectValidator/ValueObjectValidator'
-import {Validator} from './Validator/Validator'
+import {ValueObjectValidator} from './ValueObjectValidator/ValueObjectValidator.js'
+import {Validator} from './Validator/Validator.js'
 
 export class TypeCheck {
   /**

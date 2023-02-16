@@ -1,4 +1,4 @@
-import { isNull, TypeCheck} from '../../../assert'
+import { isNull, TypeCheck} from '../../../assert/index.js'
 
 export class LightOrDarkColor {
   /**

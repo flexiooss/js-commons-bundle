@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {FlexMap} from '../js/FlexMap'
-import {deepFreezeSeal} from '../js/__import__js-generator-helpers'
+import {FlexMap} from '../js/FlexMap.js'
+import {deepFreezeSeal} from '../js/__import__js-generator-helpers.js'
 
 const assert = require('assert')
 

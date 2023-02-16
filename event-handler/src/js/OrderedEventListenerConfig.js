@@ -1,6 +1,6 @@
-import {isNumber, assertType, TypeCheck} from './__import__assert'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
-import {EventListenerConfig} from './EventListenerConfig'
+import { TypeCheck} from './__import__assert.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
+import {EventListenerConfig} from './EventListenerConfig.js'
 
 /**
  * @extends {EventListenerConfig}

@@ -1,6 +1,6 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {FlexRegExp, FlexRegExpBuilder} from '../js/FlexRegExp'
+import {FlexRegExp, FlexRegExpBuilder} from '../js/FlexRegExp.js'
 
 const assert = require('assert')
 

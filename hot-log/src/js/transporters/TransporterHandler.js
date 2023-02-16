@@ -1,7 +1,7 @@
-import {HotLogTransporterList} from "./HotLogTransporterList";
-import {Log} from "../Log";
-import {HotLogLevel} from "../HotLogLevel";
-import {assertInstanceOf, isNull} from '../../../../assert'
+import {HotLogTransporterList} from "./HotLogTransporterList.js";
+import {Log} from "../Log.js";
+import {HotLogLevel} from "../HotLogLevel.js";
+import {assertInstanceOf, isNull} from '../../../../assert/index.js'
 
 export class TransporterHandler {
   /**

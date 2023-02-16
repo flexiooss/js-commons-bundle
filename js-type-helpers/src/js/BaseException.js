@@ -1,4 +1,4 @@
-import {isArrowFunction, isFunction, isNull, TypeCheck} from '../../../assert'
+import {isArrowFunction,  isNull, TypeCheck} from '../../../assert/index.js'
 
 export class BaseException extends Error {
   /**

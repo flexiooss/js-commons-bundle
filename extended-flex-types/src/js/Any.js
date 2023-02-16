@@ -1,4 +1,4 @@
-import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 
 class Any {
 

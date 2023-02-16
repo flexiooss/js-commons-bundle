@@ -1,6 +1,6 @@
-import {isImplement} from '../../../../js-helpers'
-import {NotOverrideException} from '../../../../assert'
-import {HotLogLevel} from "../HotLogLevel";
+import {isImplement} from '../../../../js-helpers/index.js'
+import {NotOverrideException} from '../../../../assert/index.js'
+import {HotLogLevel} from "../HotLogLevel.js";
 
 export const hotLogTransporter = (Base) => {
   /**

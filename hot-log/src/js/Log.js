@@ -1,6 +1,6 @@
-import {assertInstanceOf, isFunction, TypeCheck} from '../../../assert'
-import {HotLogLevel} from './HotLogLevel'
-import {FlexDateTimeExtended} from '../../../extended-flex-types'
+import {assertInstanceOf, isFunction, TypeCheck} from '../../../assert/index.js'
+import {HotLogLevel} from './HotLogLevel.js'
+import {FlexDateTimeExtended} from '../../../extended-flex-types/index.js'
 
 export class Log {
   /**

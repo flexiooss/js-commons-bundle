@@ -1,5 +1,5 @@
-import {globalFlexioImport} from './__import__global-import-registry'
-import {assertType} from './__import__assert'
+import {globalFlexioImport} from './__import__global-import-registry.js'
+import {assertType} from './__import__assert.js'
 
 
 export class TypeCheck {

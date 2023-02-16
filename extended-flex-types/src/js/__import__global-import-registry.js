@@ -1,1 +1,1 @@
-export * from '../../../global-import-registry'
+export * from '../../../global-import-registry/index.js'

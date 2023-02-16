@@ -1,5 +1,5 @@
-import { assertType, isObject, assert, isNumber, isNull, isString } from './__import__assert'
-import { deepFreezeSeal } from './__import__js-generator-helpers'
+import { assertType, isObject, assert, isNumber, isNull, isString } from './__import__assert.js'
+import { deepFreezeSeal } from './__import__js-generator-helpers.js'
 
 class Geoloc {
   /**

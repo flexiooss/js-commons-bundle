@@ -1,8 +1,7 @@
 /* global runTest */
-import {OrderedEventHandler} from '../js/OrderedEventHandler'
+import {OrderedEventHandler} from '../js/OrderedEventHandler.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {OrderedEventListenerConfigBuilder} from '../js/OrderedEventListenerConfigBuilder'
-import {EventListenerConfigBuilder} from "../js/EventListenerConfigBuilder";
+import {OrderedEventListenerConfigBuilder} from '../js/OrderedEventListenerConfigBuilder.js'
 
 
 const assert = require('assert')

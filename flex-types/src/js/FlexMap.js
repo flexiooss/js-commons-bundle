@@ -1,5 +1,5 @@
-import {isNull, NotOverrideException, TypeCheck} from '../../../assert'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {isNull, NotOverrideException, TypeCheck} from '../../../assert/index.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 
 /**
  * @template KEY, TYPE

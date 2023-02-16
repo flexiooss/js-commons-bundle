@@ -1,5 +1,5 @@
-import {FlexEnum} from '../../../flex-types'
-import {assertInstanceOf} from '../../../assert'
+import {FlexEnum} from '../../../flex-types/index.js'
+import {assertInstanceOf} from '../../../assert/index.js'
 
 class HotLogLevel extends FlexEnum {
 

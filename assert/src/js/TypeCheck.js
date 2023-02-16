@@ -1,4 +1,4 @@
-import {assertType, formatType} from './assert'
+import {assertType, formatType} from './assert.js'
 import {
   isBoolean,
   isInteger,

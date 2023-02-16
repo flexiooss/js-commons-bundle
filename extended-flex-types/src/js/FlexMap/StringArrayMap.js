@@ -1,7 +1,7 @@
-import {FlexMap} from '../__import__flex-types'
-import {assertType, isObject, isString} from '../__import__assert'
-import {TypeCheck} from '../__import__flex-types'
-import {globalFlexioImport} from '../__import__global-import-registry'
+import {FlexMap} from '../__import__flex-types.js'
+import {assertType, isObject, isString} from '../__import__assert.js'
+import {TypeCheck} from '../__import__flex-types.js'
+import {globalFlexioImport} from '../__import__global-import-registry.js'
 
 
 /**

@@ -1,5 +1,5 @@
-import {assertInstanceOf, assertType, isEmpty, isNull, isString, TypeCheck} from './__import__assert'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
+import {assertInstanceOf, assertType, isEmpty, isNull, isString, TypeCheck} from './__import__assert.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 
 class FlexUrl {
   /**

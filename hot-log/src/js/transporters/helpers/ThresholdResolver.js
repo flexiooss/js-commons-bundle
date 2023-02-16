@@ -1,7 +1,7 @@
-import {HotLogLevel, HotLogLevelHelper} from "../../HotLogLevel";
-import {assertInstanceOf, isNull} from '../../../../../assert'
-import {FilterListHandler} from "../filters/FilterListHandler";
-import {HotLog} from "../../HotLog";
+import { HotLogLevelHelper} from "../../HotLogLevel.js";
+import {assertInstanceOf, isNull} from '../../../../../assert/index.js'
+import {FilterListHandler} from "../filters/FilterListHandler.js";
+import {HotLog} from "../../HotLog.js";
 
 export class ThresholdResolver {
   /**

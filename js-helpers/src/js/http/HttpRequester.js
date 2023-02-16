@@ -1,4 +1,4 @@
-import {assertType, NotOverrideException} from '../../../../assert'
+import {assertType, NotOverrideException} from '../../../../assert/index.js'
 
 /**
  * @interface

@@ -1,5 +1,5 @@
-import {FilterList} from "./FilterList";
-import {assertInstanceOf, assertType, isNull} from "../../../../../assert";
+import {FilterList} from "./FilterList.js";
+import {assertInstanceOf,  isNull} from "../../../../../assert/index.js";
 
 export class FilterListHandler {
   /**

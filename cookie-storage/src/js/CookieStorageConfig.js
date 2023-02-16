@@ -1,5 +1,5 @@
-import {isNull, TypeCheck, assertType} from './__import__assert'
-import {CookieConfig} from './cookie/CookieConfig'
+import {isNull, TypeCheck, assertType} from './__import__assert.js'
+import {CookieConfig} from './cookie/CookieConfig.js'
 
 export class CookieStorageConfig {
 

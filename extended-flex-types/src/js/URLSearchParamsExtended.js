@@ -1,4 +1,4 @@
-import {assertType, isNull, isString} from './__import__assert'
+import {assertType, isNull, isString} from './__import__assert.js'
 
 export class URLSearchParamsExtended extends URLSearchParams {
   /**

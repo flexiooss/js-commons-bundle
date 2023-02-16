@@ -1,1 +1,1 @@
-export * from '../../../js-generator-helpers'
+export * from '../../../js-generator-helpers/index.js'

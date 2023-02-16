@@ -1,6 +1,6 @@
-import {FlexDate, TypeCheck} from './__import__flex-types'
+import {FlexDate, TypeCheck} from './__import__flex-types.js'
 import {DateTime} from 'luxon'
-import {DateFormatter} from './date-formatter/DateFormatter'
+import {DateFormatter} from './date-formatter/DateFormatter.js'
 
 export class FlexDateExtended {
   /**

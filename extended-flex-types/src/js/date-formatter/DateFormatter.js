@@ -1,4 +1,4 @@
-import {isNull} from '../../../../assert'
+import {isNull} from '../../../../assert/index.js'
 import {DateTime} from 'luxon'
 
 export class DateTimeFormatter {

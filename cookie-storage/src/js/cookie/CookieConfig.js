@@ -1,5 +1,5 @@
-import {deepFreezeSeal} from '../__import__js-generator-helpers'
-import {isNull, TypeCheck} from '../__import__assert'
+import {deepFreezeSeal} from '../__import__js-generator-helpers.js'
+import {isNull, TypeCheck} from '../__import__assert.js'
 
 export class CookieConfig {
   /**

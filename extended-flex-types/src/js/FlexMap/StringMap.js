@@ -1,5 +1,5 @@
-import {FlexMap} from '../__import__flex-types'
-import {assertType, isNull, isString} from '../__import__assert'
+import {FlexMap} from '../__import__flex-types.js'
+import {assertType, isNull, isString} from '../__import__assert.js'
 
 /**
  * @extends {FlexMap<*, String>}

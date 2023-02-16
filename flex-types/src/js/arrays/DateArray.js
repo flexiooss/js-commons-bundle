@@ -1,7 +1,7 @@
-import { globalFlexioImport } from '../__import__global-import-registry'
-import {assertType, isNull, TypeCheck} from '../__import__assert'
-import {FlexArray} from '../FlexArray'
-import {equalsObject} from './Equals'
+import { globalFlexioImport } from '../__import__global-import-registry.js'
+import {assertType, isNull, TypeCheck} from '../__import__assert.js'
+import {FlexArray} from '../FlexArray.js'
+import {equalsObject} from './Equals.js'
 
 /**
  * @extends {FlexArray<?FlexDate>}

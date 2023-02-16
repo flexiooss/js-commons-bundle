@@ -1,0 +1,66 @@
+{
+  "value": [
+    {
+      "representation-curve": false,
+      "representation-points-size": 5,
+      "stack-group": false,
+      "representation-points": true,
+      "representation-curve-thickness": 2,
+      "abscissa-number": {
+        "ingredient": {
+          "locator": {
+            "context": "CURRENT_ENTITY",
+            "path": [
+              "60d07015fa61bd002e24f0c9"
+            ]
+          }
+        }
+      },
+      "group-by": {
+        "value-view": [],
+        "override": false,
+        "field": "id",
+        "dataset": "61139e04ad8da61eab9c9b42",
+        "data-view": {
+          "description": "En noir",
+          "text-color": {
+            "ingredient": {
+              "type": {
+                "data-type": "STRING"
+              },
+              "locator": {
+                "context": "VALUE"
+              },
+              "value": "#a25a00"
+            }
+          },
+          "view-label": {
+            "ingredient": {
+              "locator": {
+                "context": "CURRENT_ENTITY",
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "aggregation": {
+        "data": {
+          "ingredient": {
+            "locator": {
+              "context": "CURRENT_ENTITY",
+              "path": [
+                "60d0703cfa61bd002e24f0ca"
+              ]
+            }
+          }
+        },
+        "aggregator": "AVG"
+      },
+      "representation-area": false,
+      "representation-ordinate": "dry"
+    }
+  ]
+}

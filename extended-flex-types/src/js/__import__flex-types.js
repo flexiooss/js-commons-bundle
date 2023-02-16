@@ -1,1 +1,1 @@
-export * from '../../../flex-types'
+export * from '../../../flex-types/index.js'

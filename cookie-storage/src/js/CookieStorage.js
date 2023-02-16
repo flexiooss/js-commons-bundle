@@ -1,6 +1,6 @@
-import {isNull, assertType} from './__import__assert'
-import {DocumentCookieHandler} from './cookie/DocumentCookieHandler'
-import {CookieStorageConfig} from './CookieStorageConfig'
+import {isNull, assertType} from './__import__assert.js'
+import {DocumentCookieHandler} from './cookie/DocumentCookieHandler.js'
+import {CookieStorageConfig} from './CookieStorageConfig.js'
 
 /**
  * @implements {Storage}

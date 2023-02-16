@@ -1,6 +1,6 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from '../js/URLSearchParamsExtended'
+import {URLSearchParamsExtended, URLSearchParamsExtendedBuilder} from '../js/URLSearchParamsExtended.js'
 
 const assert = require('assert')
 

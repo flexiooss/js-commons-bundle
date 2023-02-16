@@ -1,6 +1,6 @@
-import {assertType, formatType, isNull} from './__import__assert'
-import {globalFlexioImport} from './__import__global-import-registry'
-import {isObjectValueValue} from './ObjectValue'
+import {assertType, formatType, isNull} from './__import__assert.js'
+import {globalFlexioImport} from './__import__global-import-registry.js'
+import {isObjectValueValue} from './ObjectValue.js'
 
 export class TypeCheck {
   /**

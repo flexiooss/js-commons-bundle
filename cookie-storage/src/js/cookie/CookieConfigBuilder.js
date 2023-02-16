@@ -1,4 +1,4 @@
-import {CookieConfig} from './CookieConfig'
+import {CookieConfig} from './CookieConfig.js'
 
 export class CookieConfigBuilder {
   constructor() {

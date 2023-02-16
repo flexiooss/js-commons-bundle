@@ -1,5 +1,5 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {DurationHelper} from '../js/DurationHelper'
+import {DurationHelper} from '../js/DurationHelper.js'
 
 const assert = require('assert')
 

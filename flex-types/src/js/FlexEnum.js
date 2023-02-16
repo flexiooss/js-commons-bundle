@@ -1,5 +1,5 @@
-import {  TypeCheck} from './__import__assert'
-import {IndexError} from './IndexError'
+import {  TypeCheck} from './__import__assert.js'
+import {IndexError} from './IndexError.js'
 
 
 const INITIALIZED = Symbol('initialized')

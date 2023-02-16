@@ -1,5 +1,5 @@
-import {EventListenerConfig} from './EventListenerConfig'
-import {SymbolStringArray} from './__import__extended-flex-types'
+import {EventListenerConfig} from './EventListenerConfig.js'
+import {SymbolStringArray} from './__import__extended-flex-types.js'
 
 export class EventListenerConfigBuilder {
   /**

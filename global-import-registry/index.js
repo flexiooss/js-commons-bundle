@@ -1,1 +1,1 @@
-export * from './src/js/import'
+export * from './src/js/import.js'

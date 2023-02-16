@@ -1,5 +1,5 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {BaseException} from "../js/BaseException";
+import {BaseException} from "../js/BaseException.js";
 
 const assert = require('assert')
 

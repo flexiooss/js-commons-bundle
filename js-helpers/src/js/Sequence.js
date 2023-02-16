@@ -1,4 +1,4 @@
-import {isNumber, assertType} from './__import__assert'
+import {isNumber, assertType} from './__import__assert.js'
 
 const STEP = 1
 

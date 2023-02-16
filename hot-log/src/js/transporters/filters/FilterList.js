@@ -1,6 +1,6 @@
-import {FlexArray} from '../../../../../flex-types'
-import {assertType} from '../../../../../assert'
-import {implementsFilter} from "./Filter";
+import {FlexArray} from '../../../../../flex-types/index.js'
+import {assertType} from '../../../../../assert/index.js'
+import {implementsFilter} from "./Filter.js";
 
 /**
  * @extends FlexArray<Filter>

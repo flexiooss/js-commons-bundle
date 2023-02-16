@@ -1,7 +1,7 @@
-import {filter} from "./Filter";
-import {Log} from "../../Log";
-import {assertInstanceOf, isNull, TypeCheck} from "../../../../../assert";
-import {HotLogLevel, HotLogLevelHelper} from "../../HotLogLevel";
+import {filter} from "./Filter.js";
+import {Log} from "../../Log.js";
+import {assertInstanceOf, isNull, TypeCheck} from "../../../../../assert/index.js";
+import {HotLogLevel, HotLogLevelHelper} from "../../HotLogLevel.js";
 
 /**
  * @implements {Filter}

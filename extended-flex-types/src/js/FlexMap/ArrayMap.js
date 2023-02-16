@@ -1,5 +1,5 @@
-import {FlexMap} from '../__import__flex-types'
-import {assertType, isArray} from '../__import__assert'
+import {FlexMap} from '../__import__flex-types.js'
+import {assertType, isArray} from '../__import__assert.js'
 
 /**
  * @extends {FlexMap<?Array>}

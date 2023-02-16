@@ -1,5 +1,5 @@
-import {OrderedEventListenerConfig} from './OrderedEventListenerConfig'
-import {EventListenerConfigBuilder} from './EventListenerConfigBuilder'
+import {OrderedEventListenerConfig} from './OrderedEventListenerConfig.js'
+import {EventListenerConfigBuilder} from './EventListenerConfigBuilder.js'
 
 /**
  * @class

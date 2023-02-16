@@ -1,9 +1,9 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {DocumentCookieHandler} from '../js/cookie/DocumentCookieHandler'
-import {CookieStorageConfig} from '../js/CookieStorageConfig'
-import {CookieConfig} from '../js/cookie/CookieConfig'
-import {isNull} from '../js/__import__assert'
+import {DocumentCookieHandler} from '../js/cookie/DocumentCookieHandler.js'
+import {CookieStorageConfig} from '../js/CookieStorageConfig.js'
+import {CookieConfig} from '../js/cookie/CookieConfig.js'
+import {isNull} from '../js/__import__assert.js'
 
 const assert = require('assert')
 

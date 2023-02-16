@@ -1,4 +1,4 @@
-import {isNull, isUndefined} from './__import__assert'
+import {isNull, isUndefined} from './__import__assert.js'
 
 
 /**

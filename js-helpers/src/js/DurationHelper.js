@@ -1,4 +1,4 @@
-import {assertInstanceOf, assertType, isDate, isNull, TypeCheck} from '../../../assert'
+import {assertInstanceOf, assertType, isDate, isNull, TypeCheck} from '../../../assert/index.js'
 
 export class DurationHelper {
   /**

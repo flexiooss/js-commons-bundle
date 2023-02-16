@@ -1,6 +1,6 @@
-import {assertInstanceOf, TypeCheck} from './__import__assert'
-import {deepFreezeSeal} from './__import__js-generator-helpers'
-import {SymbolStringArray} from './__import__extended-flex-types'
+import {assertInstanceOf, TypeCheck} from './__import__assert.js'
+import {deepFreezeSeal} from './__import__js-generator-helpers.js'
+import {SymbolStringArray} from './__import__extended-flex-types.js'
 
 export class EventListenerConfig {
   /**

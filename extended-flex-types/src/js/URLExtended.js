@@ -1,5 +1,5 @@
-import {assertType, isEmpty, isNull, isString, TypeCheck} from './__import__assert'
-import {globalFlexioImport} from './__import__global-import-registry'
+import {assertType,  isNull, isString} from './__import__assert.js'
+import {globalFlexioImport} from './__import__global-import-registry.js'
 
 export class URLExtended extends URL {
 

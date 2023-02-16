@@ -1,5 +1,5 @@
-import {Validator} from './Validator'
-import {isNull, isString, isRegex} from '../__import__assert'
+import {Validator} from './Validator.js'
+import {isNull, isString, isRegex} from '../__import__assert.js'
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 /**

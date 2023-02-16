@@ -1,8 +1,8 @@
-import {assertInstanceOf, assertType} from './__import__assert'
-import {StringArray} from './__import__flex-types'
-import {EventHandlerBase} from './EventHandlerBase'
-import {sortMap} from './__import__js-type-helpers'
-import {OrderedEventListenerConfig} from './OrderedEventListenerConfig'
+import {assertInstanceOf} from './__import__assert.js'
+import {StringArray} from './__import__flex-types.js'
+import {EventHandlerBase} from './EventHandlerBase.js'
+import {sortMap} from './__import__js-type-helpers.js'
+import {OrderedEventListenerConfig} from './OrderedEventListenerConfig.js'
 
 
 /**

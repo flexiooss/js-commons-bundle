@@ -1,5 +1,5 @@
-import {isNull, NotOverrideException} from '../../../../assert'
-import {isImplement} from '../../../../js-helpers'
+import {isNull, NotOverrideException} from '../../../../assert/index.js'
+import {isImplement} from '../../../../js-helpers/index.js'
 
 /**
  * @mixin

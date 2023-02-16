@@ -1,4 +1,4 @@
-import {assert, assertType, isNull} from './__import__assert'
+import {assert, assertType, isNull} from './__import__assert.js'
 
 
 const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/

@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {FlexArray} from '../../src/js/FlexArray'
-import {assertType, isBoolean, isNull, isNumber} from '../js/__import__assert'
+import {FlexArray} from '../../src/js/FlexArray.js'
+import {assertType, isBoolean, isNull, isNumber} from '../js/__import__assert.js'
 
 
 const assert = require('assert')

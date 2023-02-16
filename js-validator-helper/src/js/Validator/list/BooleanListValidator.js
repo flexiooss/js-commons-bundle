@@ -1,6 +1,6 @@
-import {Validator} from '../Validator'
-import {globalFlexioImport} from '../../__import__global-import-registry'
-import {ListValidator} from './ListValidator'
+import {Validator} from '../Validator.js'
+import {globalFlexioImport} from '../../__import__global-import-registry.js'
+import {ListValidator} from './ListValidator.js'
 
 /**
  * @implements {Validator}

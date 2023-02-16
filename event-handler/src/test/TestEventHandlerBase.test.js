@@ -1,7 +1,7 @@
 /* global runTest */
-import {EventHandlerBase} from '../js/EventHandlerBase'
+import {EventHandlerBase} from '../js/EventHandlerBase.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder'
+import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder.js'
 
 
 const assert = require('assert')

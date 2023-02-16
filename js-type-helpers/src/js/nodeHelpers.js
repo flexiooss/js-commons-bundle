@@ -1,4 +1,4 @@
-import {assertType, assert, isNode, isNull, isBoolean, isNumber, TypeCheck, isUndefined} from './__import__assert'
+import {assertType, assert, isNode, isNull, isBoolean, isNumber, TypeCheck, isUndefined} from './__import__assert.js'
 
 /**
  *
