@@ -1,4 +1,4 @@
-import {assert, assertType, isNull} from './__import__assert.js'
+import { assertType, isNull} from './__import__assert.js'
 import {BaseException} from '../../../js-type-helpers/index.js'
 
 const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
