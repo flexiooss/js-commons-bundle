@@ -1,26 +1,69 @@
-import {assert, assertType, isNull} from './__import__assert.js'
-
+import { assertType, isNull} from './__import__assert.js'
+import {BaseException} from '../../../js-type-helpers/index.js'
 
 const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
 const zonedDatetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
 const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/
 const timePattern = /^(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?/
 
-
-export class FlexZonedDateTime {
-  constructor(dateStr) {
-    let found = dateStr.match(zonedDatetimePattern)
-    assert(!isNull(found), 'Invalid tz datetime format: ' + dateStr)
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    this.__zonedDateTime = dateStr
+export class DateTimeParseException extends BaseException {
+  realName() {
+    return 'DateTimeParseException'
   }
 
   /**
-   *
+   * @param {string} value
+   * @return {DateTimeParseException}
+   * @constructor
+   */
+  static FROM_DATE(value){
+    return new DateTimeParseException(`Invalid date parse input: ${value}`)
+  }
+  /**
+   * @param {string} value
+   * @return {DateTimeParseException}
+   * @constructor
+   */
+  static FROM_DATETIME(value){
+    return new DateTimeParseException(`Invalid date time parse input: ${value}`)
+  }
+  /**
+   * @param {string} value
+   * @return {DateTimeParseException}
+   * @constructor
+   */
+  static FROM_ZONED_DATETIME(value){
+    return new DateTimeParseException(`Invalid zoned date time parse input: ${value}`)
+  }
+  /**
+   * @param {string} value
+   * @return {DateTimeParseException}
+   * @constructor
+   */
+  static FROM_TIME(value){
+    return new DateTimeParseException(`Invalid time parse input: ${value}`)
+  }
+}
+
+export class FlexZonedDateTime {
+  /**
+   * @type {string}
+   */
+  #value
+
+  /**
+   * @param {string} dateStr
+   * @throws {DateTimeParseException}
+   */
+  constructor(dateStr) {
+    let found = dateStr.match(zonedDatetimePattern)
+    if(isNull(found)){
+      throw  DateTimeParseException.FROM_ZONED_DATETIME(dateStr)
+    }
+    this.#value = dateStr
+  }
+
+  /**
    * @return {string}
    */
   toJSON() {
@@ -28,11 +71,10 @@ export class FlexZonedDateTime {
   }
 
   /**
-   *
    * @return {string}
    */
   toString() {
-    return this.__zonedDateTime
+    return this.#value
   }
 
   /**
@@ -53,19 +95,24 @@ export class FlexZonedDateTime {
 
 
 export class FlexDateTime {
+  /**
+   * @type {string}
+   */
+  #value
+
+  /**
+   * @param {string} dateStr
+   * @throws {DateTimeParseException}
+   */
   constructor(dateStr) {
     let found = dateStr.match(datetimePattern)
-    assert(!isNull(found), 'Invalid datetime format: ' + dateStr)
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    this.__dateTime = dateStr.split('Z')[0]
+    if(isNull(found)){
+      throw  DateTimeParseException.FROM_DATETIME(dateStr)
+    }
+    this.#value = dateStr.split('Z')[0]
   }
 
   /**
-   *
    * @return {string}
    */
   toJSON() {
@@ -73,11 +120,10 @@ export class FlexDateTime {
   }
 
   /**
-   *
    * @return {string}
    */
   toString() {
-    return this.__dateTime
+    return this.#value
   }
 
   /**
@@ -98,17 +144,24 @@ export class FlexDateTime {
 
 
 export class FlexDate {
+  /**
+   * @type {string}
+   */
+  #value
+
+  /**
+   * @param {string} dateStr
+   * @throws {DateTimeParseException}
+   */
   constructor(dateStr) {
     let found = dateStr.match(datePattern)
-    assert(!isNull(found), 'Invalid date format: ' + dateStr)
-    /**
-     *
-     */
-    this.__date = dateStr
+    if(isNull(found)){
+      throw  DateTimeParseException.FROM_DATE(dateStr)
+    }
+    this.#value = dateStr
   }
 
   /**
-   *
    * @return {string}
    */
   toJSON() {
@@ -116,15 +169,13 @@ export class FlexDate {
   }
 
   /**
-   *
    * @return {string}
    */
   toString() {
-    return this.__date
+    return this.#value
   }
 
   /**
-   *
    * @param {FlexDate} to
    * @return {boolean}
    */
@@ -141,19 +192,24 @@ export class FlexDate {
 
 
 export class FlexTime {
+  /**
+   * @type {string}
+   */
+  #value
+
+  /**
+   * @param {string} dateStr
+   * @throws {DateTimeParseException}
+   */
   constructor(dateStr) {
     let found = dateStr.match(timePattern)
-    assert(!isNull(found), 'Invalid time format: ' + dateStr)
-    /**
-     *
-     * @type {string}
-     * @private
-     */
-    this.__time = dateStr.split('Z')[0]
+    if(isNull(found)){
+      throw  DateTimeParseException.FROM_TIME(dateStr)
+    }
+    this.#value = dateStr.split('Z')[0]
   }
 
   /**
-   *
    * @return {string}
    */
   toJSON() {
@@ -161,15 +217,13 @@ export class FlexTime {
   }
 
   /**
-   *
    * @return {string}
    */
   toString() {
-    return this.__time
+    return this.#value
   }
 
   /**
-   *
    * @param {FlexTime} to
    * @return {boolean}
    */
@@ -186,7 +240,6 @@ export class FlexTime {
 
 
 /**
- *
  * @param from
  * @param to
  * @param {function(to)} typeCheck
