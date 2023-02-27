@@ -1,7 +1,7 @@
 import './package.js'
 
 export {FlexEnum} from './src/js/FlexEnum.js'
-export {FlexDateTime, FlexZonedDateTime, FlexDate, FlexTime} from './src/js/FlexDate.js'
+export {FlexDateTime, FlexZonedDateTime, FlexDate, FlexTime,DateTimeParseException} from './src/js/FlexDate.js'
 export {FlexMap, FlexMapBuilder} from './src/js/FlexMap.js'
 export {FlexArray} from './src/js/FlexArray.js'
 
