@@ -1,4 +1,4 @@
-import { assert, isNull} from './__import__assert.js'
+import {assert, isNull} from './__import__assert.js'
 import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
@@ -94,7 +94,7 @@ export class EventHandlerBase {
   _invokeCallback(dispatchExecution, listenerToken, clb) {
     if (dispatchExecution.startExecution(listenerToken)) {
       try {
-        clb(dispatchExecution.payload(), dispatchExecution.event(), dispatchExecution.id())
+        clb(dispatchExecution.payload(), dispatchExecution.event(), dispatchExecution.token())
       } finally {
         dispatchExecution.finishExecution(listenerToken)
       }
@@ -229,9 +229,10 @@ export class EventHandlerBase {
      */
     const execution = new DispatchExecution(
       event,
-      (token ?? this.nextID()),
+      this.nextID(),
       payload,
-      this._listeners.get(event)
+      this._listeners.get(event),
+      token
     )
 
     this
@@ -326,6 +327,10 @@ class DispatchExecution {
    */
   #id
   /**
+   * @type {?string}
+   */
+  #token
+  /**
    * @type {*}
    */
   #payload
@@ -351,10 +356,12 @@ class DispatchExecution {
    * @param {string} id
    * @param {*} payload
    * @param {Map<string,EventListenerConfig>} listeners
+   * @param {?string} token
    */
-  constructor(event, id, payload, listeners) {
+  constructor(event, id, payload, listeners, token) {
     this.#event = event
     this.#id = id
+    this.#token = token
     this.#payload = payload
     this.#listeners = listeners
     this.#pending = this.#initPending()
@@ -386,6 +393,13 @@ class DispatchExecution {
    */
   payload() {
     return this.#payload
+  }
+
+  /**
+   * @return {string}
+   */
+  token() {
+    return this.#token ?? this.#id
   }
 
   /**
