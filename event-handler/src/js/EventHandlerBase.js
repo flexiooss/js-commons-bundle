@@ -1,11 +1,7 @@
-import {isBoolean, assert, isNull} from './__import__assert.js'
+import { assert, isNull} from './__import__assert.js'
 import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
-
-
-const _isDispatching_ = Symbol('_isDispatching_')
-const _sequenceId_ = Symbol('_sequenceId_')
 
 
 /**
@@ -22,6 +18,19 @@ const _sequenceId_ = Symbol('_sequenceId_')
  */
 
 export class EventHandlerBase {
+  /**
+   * @type {?DispatchExecution}
+   */
+  #currentExecution = null
+  /**
+   * @type {Sequence}
+   */
+  #sequenceID = new Sequence(UID())
+  /**
+   * @type {boolean}
+   */
+  #isDispatching = false
+
   /**
    * @param {Number} [maxExecution=100]
    */
@@ -42,48 +51,20 @@ export class EventHandlerBase {
      * @private
      */
     this._executionQueue = new Map()
-
-    this[_sequenceId_] = new Sequence(UID())
-    /**
-     *
-     * @type {?DispatchExecution}
-     * @private
-     */
-    this.__currentExecution = null
-
-    /**
-     * @property {boolean}
-     * @name EventHandlerBase#Symbol(_isDispatching_)
-     * @private
-     */
-    let _isDispatching = false
-    Object.defineProperty(this,
-      _isDispatching_,
-      {
-        enumerable: false,
-        configurable: false,
-        get: () => _isDispatching,
-        set: (v) => {
-          assert(isBoolean(v),
-            '_isDispatching argument should be a Boolean'
-          )
-          _isDispatching = v
-        }
-      })
   }
 
   /**
    * @param {(String|Symbol)} event
    * @param {Object} payload
+   * @param {?string} [token=null]
    */
-  dispatch(event, payload) {
+  dispatch(event, payload, token = null) {
     if (this._listeners.has(event)) {
 
       /**
-       *
        * @type {DispatchExecution}
        */
-      const dispatchExecution = this._prepareDispatch(event, payload)
+      const dispatchExecution = this._prepareDispatch(event, payload, token)
 
       try {
         dispatchExecution.listeners()
@@ -124,7 +105,7 @@ export class EventHandlerBase {
    * @return {string}
    */
   nextID() {
-    return this[_sequenceId_].nextID()
+    return this.#sequenceID.nextID()
   }
 
   /**
@@ -238,14 +219,17 @@ export class EventHandlerBase {
   /**
    * @param {(String|Symbol)} event of Listener
    * @param {Object} payload
+   * @param {?string} token
    * @return {DispatchExecution}
    * @private
    */
-  _prepareDispatch(event, payload) {
-
+  _prepareDispatch(event, payload, token) {
+    /**
+     * @type {DispatchExecution}
+     */
     const execution = new DispatchExecution(
       event,
-      this.nextID(),
+      (token ?? this.nextID()),
       payload,
       this._listeners.get(event)
     )
@@ -257,8 +241,8 @@ export class EventHandlerBase {
       .get(event)
       .set(execution.id(), execution)
 
-    this[_isDispatching_] = true
-    this.__currentExecution = execution
+    this.#isDispatching = true
+    this.#currentExecution = execution
     return execution
   }
 
@@ -295,8 +279,8 @@ export class EventHandlerBase {
    * @protected
    */
   _stopDispatch(execution) {
-    this.__currentExecution = null
-    this[_isDispatching_] = false
+    this.#currentExecution = null
+    this.#isDispatching = false
     if (this._executionQueue.has(execution.event())) {
       this._executionQueue.get(execution.event()).delete(execution.id())
     }
@@ -307,7 +291,7 @@ export class EventHandlerBase {
    * @return {boolean}
    */
   isDispatching() {
-    return this[_isDispatching_]
+    return this.#isDispatching
   }
 
   /**
@@ -315,8 +299,8 @@ export class EventHandlerBase {
    */
   clear() {
     this._listeners.clear()
-    if (!isNull(this.__currentExecution)) {
-      this.__currentExecution.remove()
+    if (!isNull(this.#currentExecution)) {
+      this.#currentExecution.remove()
     }
     this._executionQueue.clear()
     return this
@@ -326,12 +310,41 @@ export class EventHandlerBase {
    * @return {?DispatchExecution}
    */
   currentExecution() {
-    return this.__currentExecution
+    return this.#currentExecution
   }
 }
 
 
 class DispatchExecution {
+
+  /**
+   * @type {string}
+   */
+  #event
+  /**
+   * @type {string}
+   */
+  #id
+  /**
+   * @type {*}
+   */
+  #payload
+  /**
+   * @type  {Map<string,EventListenerConfig>}
+   */
+  #listeners
+  /**
+   * @type {Set<string>}
+   */
+  #pending
+  /**
+   * @type {boolean}
+   */
+  #removed = false
+  /**
+   * @type {?string}
+   */
+  #executing = null
 
   /**
    * @param {string} event
@@ -340,76 +353,47 @@ class DispatchExecution {
    * @param {Map<string,EventListenerConfig>} listeners
    */
   constructor(event, id, payload, listeners) {
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.__event = event
-    /**
-     * @type {string}
-     * @private
-     */
-    this.__id = id
-    /**
-     * @type {*}
-     * @private
-     */
-    this.__payload = payload
-    /**
-     * @type  {Map<string,EventListenerConfig>}
-     * @private
-     */
-    this.__listeners = listeners
-    /**
-     *
-     * @type {Set<string>}
-     * @private
-     */
-    this.__pending = this.__initPending()
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.__removed = false
-
+    this.#event = event
+    this.#id = id
+    this.#payload = payload
+    this.#listeners = listeners
+    this.#pending = this.#initPending()
   }
 
   /**
    * @return  {Map<string,EventListenerConfig>}
    */
   listeners() {
-    return this.__listeners
+    return this.#listeners
   }
 
   /**
    * @return {string}
    */
   event() {
-    return this.__event
+    return this.#event
   }
 
   /**
    * @return {string}
    */
   id() {
-    return this.__id
+    return this.#id
   }
 
   /**
    * @return {*}
    */
   payload() {
-    return this.__payload
+    return this.#payload
   }
 
   /**
    * @return {Set<string>}
-   * @private
    */
-  __initPending() {
+  #initPending() {
     const pending = new Set()
-    this.__listeners.forEach((v, k) => {
+    this.#listeners.forEach((v, k) => {
       pending.add(k)
     })
     return pending
@@ -420,7 +404,7 @@ class DispatchExecution {
    * @return {boolean}
    */
   isPending(listenerToken) {
-    return this.__pending.has(listenerToken)
+    return this.#pending.has(listenerToken)
   }
 
   /**
@@ -432,7 +416,7 @@ class DispatchExecution {
       return false
     }
     if (this.isPending(listenerToken)) {
-      this.__executing = listenerToken
+      this.#executing = listenerToken
       return true
     }
     return false
@@ -443,8 +427,8 @@ class DispatchExecution {
    * @return {DispatchExecution}
    */
   finishExecution(listenerToken) {
-    this.__executing = null
-    this.__pending.delete(listenerToken)
+    this.#executing = null
+    this.#pending.delete(listenerToken)
     return this
   }
 
@@ -453,7 +437,7 @@ class DispatchExecution {
    * @return {boolean}
    */
   isExecuting(listenerToken) {
-    return this.__executing === listenerToken
+    return this.#executing === listenerToken
   }
 
   /**
@@ -469,12 +453,12 @@ class DispatchExecution {
    * @return {boolean}
    */
   isRemoved() {
-    return this.__removed === true
+    return this.#removed === true
   }
 
   remove() {
-    this.__removed = true
-    this.__pending.clear()
+    this.#removed = true
+    this.#pending.clear()
   }
 }
 
