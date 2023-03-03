@@ -16,6 +16,10 @@ export class EventListenerConfig {
    */
   #active
   /**
+   * @type {boolean}
+   */
+  #once
+  /**
    * @type {?EventHandlerBase~guardClb}
    */
   #guard
@@ -23,12 +27,14 @@ export class EventListenerConfig {
   /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
+   * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
    */
-  constructor(events, callback, active = true, guard = null) {
+  constructor(events, callback, once, active = true, guard = null) {
     this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
     this.#callback = TypeCheck.assertIsArrowFunction(callback)
+    this.#once = TypeCheck.assertIsBoolean(once)
     this.#active = TypeCheck.assertIsBoolean(active)
     this.#guard = TypeCheck.assertIsArrowFunctionOrNull(guard)
   }
@@ -56,6 +62,13 @@ export class EventListenerConfig {
   }
 
   /**
+   * @return {boolean}
+   */
+  once() {
+    return this.#once;
+  }
+
+  /**
    * @return {?EventHandlerBase~guardClb}
    */
   guard() {
@@ -67,19 +80,20 @@ export class EventListenerConfig {
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return EventListenerConfig.create(this.events(), this.callback(), active, this.guard())
+    return EventListenerConfig.create(this.events(), this.callback(), this.once(), active, this.guard())
   }
 
   /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
+   * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
    * @constructor
    * @readonly
    * @return {EventListenerConfig}
    */
-  static create(events, callback, active = true, guard = null) {
-    return deepFreezeSeal(new this(events, callback, active, guard))
+  static create(events, callback, once, active = true, guard = null) {
+    return deepFreezeSeal(new this(events, callback, once, active, guard))
   }
 }

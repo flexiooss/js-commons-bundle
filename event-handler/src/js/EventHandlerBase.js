@@ -75,7 +75,7 @@ export class EventHandlerBase {
              */
             (eventListenerConfig, listenerToken) => {
               if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
-                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback())
+                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
               }
             }
           )
@@ -90,11 +90,20 @@ export class EventHandlerBase {
    * @param {DispatchExecution} dispatchExecution
    * @param {String} listenerToken
    * @param {EventHandlerBase~eventClb} clb
+   * @param {boolean} removeListenerBeforeCallabck
    */
-  _invokeCallback(dispatchExecution, listenerToken, clb) {
+  _invokeCallback(dispatchExecution, listenerToken, clb, removeListenerBeforeCallabck) {
     if (dispatchExecution.startExecution(listenerToken)) {
       try {
-        clb(dispatchExecution.payload(), dispatchExecution.event(), dispatchExecution.token())
+        try {
+          if (removeListenerBeforeCallabck) {
+            this.removeEventListener(dispatchExecution.event(), listenerToken)
+          }
+        } catch (e) {
+          console.error(e)
+        } finally {
+          clb.call(null, dispatchExecution.payload(), dispatchExecution.event(), dispatchExecution.token())
+        }
       } finally {
         dispatchExecution.finishExecution(listenerToken)
       }
@@ -110,7 +119,7 @@ export class EventHandlerBase {
 
   /**
    * @param {EventListenerConfig} eventListenerConfig
-   * @returns {(String|StringArray)} externalChooserPublic
+   * @returns {(String|StringArray)}
    */
   addEventListener(eventListenerConfig) {
     assert(eventListenerConfig instanceof EventListenerConfig,
@@ -261,7 +270,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {(string|Symbol)} event
    * @return {EventHandlerBase}
    * @protected
@@ -274,7 +282,6 @@ export class EventHandlerBase {
   }
 
   /**
-   *
    * @param {DispatchExecution} execution
    * @return {this}
    * @protected
