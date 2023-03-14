@@ -130,7 +130,7 @@ export class TestEventHandlerBase extends TestCase {
           result.push(n + 2)
         })
         .guard(payload => {
-         return  payload !== 'a'
+          return payload !== 'a'
         })
         .build()
     )
@@ -147,6 +147,83 @@ export class TestEventHandlerBase extends TestCase {
     this.handler.dispatch(EVENT_1, 'a')
     this.log(result, 'guard result')
     assert.deepStrictEqual(['a1', 'a3'], result, 'Listeners should be guarded')
+  }
+
+  async asyncTestPropagateExecutionId() {
+    return new Promise((ok, ko) => {
+      const EVENT_1 = 'EVENT_1'
+      const EXPRECTED = 'EXPRECTED'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .callback((payload, eventName, executionId) => {
+            this.log(executionId, 'executionId')
+            if (executionId === EXPRECTED) {
+              ok()
+            } else {
+              ko()
+            }
+          })
+          .build()
+      )
+
+      this.handler.dispatch(EVENT_1, 'a', EXPRECTED)
+
+    })
+  }
+
+  async asyncTestOnce() {
+    return new Promise((ok, ko) => {
+      const EVENT_1 = 'EVENT_1'
+      const EXPRECTED = 'EXPRECTED'
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .once()
+          .callback((payload, eventName, executionId) => {
+            if (this.handler.hasEventListener(EVENT_1, token_1)) {
+              ko('listener should be deletd after dispatch')
+            } else {
+              ok()
+            }
+          })
+          .build()
+      )
+      assert.ok(this.handler.hasEventListener(EVENT_1, token_1), 'should have listner before dispatch')
+
+      this.handler.dispatch(EVENT_1, 'a')
+    })
+  }
+
+  async asyncTestOnceWithGuard() {
+    return new Promise((ok, ko) => {
+      const EVENT_1 = 'EVENT_1'
+      const NOT_EXPRECTED = 'NOT_EXPRECTED'
+      const EXPRECTED = 'EXPRECTED'
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .once()
+          .callback((payload, eventName, executionId) => {
+            if (EXPRECTED !== executionId) {
+              ko('should be blocked by guard')
+            }
+            if (this.handler.hasEventListener(EVENT_1, token_1)) {
+              ko('listener should be deletd after dispatch')
+            } else {
+              ok()
+            }
+          })
+          .guard(v => v === 'b')
+          .build()
+      )
+      assert.ok(this.handler.hasEventListener(EVENT_1, token_1), 'should have listner before dispatch')
+
+      this.handler.dispatch(EVENT_1, 'a', NOT_EXPRECTED)
+      assert.ok(this.handler.hasEventListener(EVENT_1, token_1), 'should always have listner after dispatch blocked by guard')
+      this.handler.dispatch(EVENT_1, 'b', EXPRECTED)
+    })
   }
 
   testMaxRecursiveExecution() {

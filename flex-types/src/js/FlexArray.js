@@ -44,6 +44,13 @@ export class FlexArray extends Array {
   }
 
   /**
+   * @return {boolean}
+   */
+  isEmpty(){
+    return this.length === 0
+  }
+
+  /**
    *
    * @return {this}
    */
