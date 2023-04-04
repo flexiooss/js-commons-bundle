@@ -87,7 +87,7 @@ export const slugify = (str, separator = '-') => {
 }
 
 /**
- * @param string
+ * @param {string} str
  * @return {string}
  */
 export const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
