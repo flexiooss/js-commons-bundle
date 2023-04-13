@@ -1,3 +1,5 @@
+import {isNull} from "@flexio-oss/js-commons-bundle/assert/index.js";
+
 export class FileHelper {
   /**
    * @param {File} file
@@ -31,6 +33,7 @@ export class FileHelper {
    * @return {string}
    */
   static sizeToString(size) {
+    if (isNull(size)) return ''
     let sizeNumber = Math.abs(parseInt(size, 10))
     if (!sizeNumber) {
       return '0 ko'
