@@ -28,20 +28,20 @@ export class TestRequestDispatcherTest extends TestCase {
 
   async asyncTestSyncRequest() {
     return new Promise((resolve, reject) => {
-      this.#request('request_id')
+      this.#request('request_id', 'toto')
         .then(_ => {
           if (this.#cptRequest !== 1) {
-            reject()
+            reject.call(null)
           }
-          this.#request('request_id')
+          this.#request('request_id', 'toto')
             .then(_ => {
               if (this.#cptRequest !== 1) {
-                reject()
+                reject.call(null)
               }
-              this.#request('request_id')
+              this.#request('request_id', 'toto')
                 .then(_ => {
                   if (this.#cptRequest !== 1) {
-                    reject()
+                    reject.call(null)
                   }
                   resolve()
                 })
@@ -52,9 +52,9 @@ export class TestRequestDispatcherTest extends TestCase {
 
   async asyncTestAsyncRequest() {
     return new Promise((resolve, reject) => {
-      const promise1 = this.#request('request_id')
-      const promise2 = this.#request('request_id')
-      const promise3 = this.#request('request_id')
+      const promise1 = this.#request('request_id', 'toto')
+      const promise2 = this.#request('request_id', 'toto')
+      const promise3 = this.#request('request_id', 'toto')
 
       Promise.all([promise1, promise2, promise3]).then((values) => {
         if (this.#cptRequest !== 1) {
@@ -67,23 +67,23 @@ export class TestRequestDispatcherTest extends TestCase {
 
   async asyncTestMultipleAsyncRequest() {
     return new Promise(async (resolve, reject) => {
-      const promise1 = await this.#request('request_id')
+      const promise1 = await this.#request('request_id', 'toto')
       if (this.#cptRequest !== 1) {
         reject()
       }
-      const promise2 = await this.#request('request_id_2')
+      const promise2 = await this.#request('request_id_2', 'toto')
       if (this.#cptRequest !== 2) {
         reject()
       }
-      const promise3 = await this.#request('request_id')
+      const promise3 = await this.#request('request_id', 'toto')
       if (this.#cptRequest !== 2) {
         reject()
       }
-      const promise4 = await this.#request('request_id_2')
+      const promise4 = await this.#request('request_id_2', 'toto')
       if (this.#cptRequest !== 2) {
         reject()
       }
-      const promise5 = await this.#request('request_id_3')
+      const promise5 = await this.#request('request_id_3', 'toto')
       if (this.#cptRequest !== 3) {
         reject()
       }

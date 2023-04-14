@@ -1,5 +1,6 @@
 import {RequestEventHandler} from './RequestEventHandler.js'
 import {OrderedEventHandler} from '../../../event-handler/index.js'
+import {isNull} from '../../../assert/index.js'
 
 export class CacheRequestDispatcher {
   /**
@@ -40,10 +41,11 @@ export class CacheRequestDispatcher {
         return
       }
       const listener = this.on().requested(requestID, () => {
-        resolve.call(null, this.#responses.get(requestID))
+        resolve.call(null, this.#responses.has(requestID) ? this.#responses.get(requestID) : null)
         this.#orderedEventHandler.removeEventListener(listener)
       })
       if (!this.#requests.has(requestID)) {
+
         this.#requests.set(requestID, true)
         requestClb.call(null)
           .then(response => {
@@ -58,10 +60,17 @@ export class CacheRequestDispatcher {
     })
   }
 
+  /**
+   * @param {string} id
+   * @param {?Response} response
+   * @return {?Response}
+   */
   postResponse(id, response) {
-    this.#responses.set(id, response)
+    if (!isNull(response)) {
+      this.#responses.set(id, response)
+    }
     this.#dispatchRequested(id)
-    return this.#responses.get(id)
+    return response
   }
 
   #dispatchRequested(id) {
