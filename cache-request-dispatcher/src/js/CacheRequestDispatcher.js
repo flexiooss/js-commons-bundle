@@ -1,6 +1,6 @@
 import {RequestEventHandler} from './RequestEventHandler.js'
 import {OrderedEventHandler} from '../../../event-handler/index.js'
-import {isNull} from "@flexio-oss/js-commons-bundle/assert/index.js";
+import {isNull} from '../../../assert/index.js'
 
 export class CacheRequestDispatcher {
   /**

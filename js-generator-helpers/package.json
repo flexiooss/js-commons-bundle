@@ -26,7 +26,7 @@
   },
   "peerDependencies": {
     "@flexio-oss/code-altimeter-js": "1.11.0",
-    "@flexio-oss/js-commons-bundle": "1.65.0-dev",
+    "@flexio-oss/js-commons-bundle": "1.77.0-dev",
     "luxon": "3.2.1"
   }
 }

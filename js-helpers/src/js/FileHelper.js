@@ -1,4 +1,4 @@
-import {isNull} from "@flexio-oss/js-commons-bundle/assert/index.js";
+import {isNull} from '../../../assert/index.js'
 
 export class FileHelper {
   /**
