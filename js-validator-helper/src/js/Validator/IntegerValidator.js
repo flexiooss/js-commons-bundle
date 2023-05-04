@@ -55,6 +55,7 @@ export class IntegerValidator extends Validator {
     if (isNull(rangeEnd)) {
       return this.validateType(value) && value >= parseInt(rangeStart, 10)
     }
+    return this.validateType(value) && value >= parseInt(rangeStart, 10) && value <= parseInt(rangeEnd, 10)
   }
 
   /**
