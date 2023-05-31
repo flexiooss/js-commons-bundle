@@ -60,7 +60,8 @@ export const getParentNode = (el, check, stop = null) => {
 export const getParentWithScroll = (el) => {
 
   return getParentNode(el,  (el)=>{
-    return el.scrollHeight > el.clientHeight
+    const s = document.defaultView.getComputedStyle(el)
+    return el.scrollHeight > el.clientHeight && !(s.getPropertyValue("overflow") === 'hidden' ||(s.getPropertyValue("display") === 'flex' && s.getPropertyValue("flex-direction") === 'column') )
   })
 }
 
