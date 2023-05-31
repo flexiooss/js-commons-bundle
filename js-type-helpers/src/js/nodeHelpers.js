@@ -53,6 +53,18 @@ export const getParentNode = (el, check, stop = null) => {
   return node
 }
 
+/**
+ * @param {HTMLElement} el
+ * @return {?HTMLElement}
+ */
+export const getParentWithScroll = (el) => {
+
+  return getParentNode(el,  (el)=>{
+    const s = document.defaultView.getComputedStyle(el)
+    return el.scrollHeight > el.clientHeight && !(s.getPropertyValue("overflow") === 'hidden' ||(s.getPropertyValue("display") === 'flex' && s.getPropertyValue("flex-direction") === 'column') )
+  })
+}
+
 const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|data|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
 
 /**
