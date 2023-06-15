@@ -1,3 +1,5 @@
+import './generated/io/package.js'
+
 export * from './src/js/Sequence.js'
 export * from './src/js/uid.js'
 export {HttpRequester} from './src/js/http/HttpRequester.js'
