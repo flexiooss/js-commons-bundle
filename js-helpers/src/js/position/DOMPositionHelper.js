@@ -4,6 +4,7 @@ import {globalFlexioImport} from '../../../../global-import-registry/index.js'
 export class DOMPositionHelper {
   /**
    * @param {Element} element
+   * @return {DOMPosition}
    */
   static getElementBounding(element) {
     const rect = element?.getBoundingClientRect() ?? null
@@ -12,6 +13,7 @@ export class DOMPositionHelper {
 
   /**
    * @param {CustomEvent|MouseEvent|PointerEvent} event
+   * @return {DOMPosition}
    */
   static getCursorPosition(event) {
     return globalFlexioImport.io.flexio.js_helpers.types.DOMPosition.builder()
