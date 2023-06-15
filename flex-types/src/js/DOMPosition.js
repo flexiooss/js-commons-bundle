@@ -1,5 +1,5 @@
-import { assertType, isInteger, isObject, assert, isNull, isString } from '../../../assert/index.js'
-import { deepFreezeSeal } from '../../../js-generator-helpers/index.js'
+import {assertType, isInteger, isObject, isNull, isString} from '../../../assert/index.js'
+import {deepFreezeSeal} from '../../../js-generator-helpers/index.js'
 
 class DOMPosition {
   /**
@@ -66,7 +66,7 @@ class DOMPosition {
    * @returns {DOMPosition}
    */
   withX(x) {
-    let builder = DOMPositionBuilder.from(this);
+    let builder = DOMPositionBuilder.from(this)
     builder.x(x)
     return builder.build()
   }
@@ -76,7 +76,7 @@ class DOMPosition {
    * @returns {DOMPosition}
    */
   withY(y) {
-    let builder = DOMPositionBuilder.from(this);
+    let builder = DOMPositionBuilder.from(this)
     builder.y(y)
     return builder.build()
   }
@@ -86,7 +86,7 @@ class DOMPosition {
    * @returns {DOMPosition}
    */
   withWidth(width) {
-    let builder = DOMPositionBuilder.from(this);
+    let builder = DOMPositionBuilder.from(this)
     builder.width(width)
     return builder.build()
   }
@@ -96,7 +96,7 @@ class DOMPosition {
    * @returns {DOMPosition}
    */
   withHeight(height) {
-    let builder = DOMPositionBuilder.from(this);
+    let builder = DOMPositionBuilder.from(this)
     builder.height(height)
     return builder.build()
   }
@@ -160,7 +160,7 @@ class DOMPosition {
   }
 }
 
-export { DOMPosition }
+export {DOMPosition}
 
 class DOMPositionBuilder {
   /**
@@ -172,7 +172,7 @@ class DOMPositionBuilder {
     this._width = null
     this._height = null
   }
-  
+
   /**
    * @param {?number} x
    * @returns {DOMPositionBuilder}
@@ -228,17 +228,16 @@ class DOMPositionBuilder {
     return new DOMPosition(this._x, this._y, this._width, this._height)
   }
 
-  static getPropertyFromObject( jsonObject, propertyName, normalizedPropertyName ){
-    if( jsonObject[propertyName] !== undefined && !isNull( jsonObject[propertyName] )){
-      return jsonObject[propertyName];
-    }
-    else if( jsonObject[normalizedPropertyName] !== undefined && !isNull( jsonObject[normalizedPropertyName] )){
-      return jsonObject[normalizedPropertyName];
-    }
-    else {
-      return null;
+  static getPropertyFromObject(jsonObject, propertyName, normalizedPropertyName) {
+    if (jsonObject[propertyName] !== undefined && !isNull(jsonObject[propertyName])) {
+      return jsonObject[propertyName]
+    } else if (jsonObject[normalizedPropertyName] !== undefined && !isNull(jsonObject[normalizedPropertyName])) {
+      return jsonObject[normalizedPropertyName]
+    } else {
+      return null
     }
   }
+
   /**
    * @param {Object} jsonObject
    * @returns {DOMPositionBuilder}
@@ -246,21 +245,21 @@ class DOMPositionBuilder {
   static fromObject(jsonObject) {
     assertType(isObject(jsonObject), 'input should be an object')
     let builder = new DOMPositionBuilder()
-    let jsonProperty;
-    jsonProperty = DOMPositionBuilder.getPropertyFromObject( jsonObject, 'x', 'x' );
-    if( jsonProperty !== undefined && !isNull( jsonProperty )){
+    let jsonProperty
+    jsonProperty = DOMPositionBuilder.getPropertyFromObject(jsonObject, 'x', 'x')
+    if (jsonProperty !== undefined && !isNull(jsonProperty)) {
       builder.x(parseInt(jsonProperty))
     }
-    jsonProperty = DOMPositionBuilder.getPropertyFromObject( jsonObject, 'y', 'y' );
-    if( jsonProperty !== undefined && !isNull( jsonProperty )){
+    jsonProperty = DOMPositionBuilder.getPropertyFromObject(jsonObject, 'y', 'y')
+    if (jsonProperty !== undefined && !isNull(jsonProperty)) {
       builder.y(parseInt(jsonProperty))
     }
-    jsonProperty = DOMPositionBuilder.getPropertyFromObject( jsonObject, 'width', 'width' );
-    if( jsonProperty !== undefined && !isNull( jsonProperty )){
+    jsonProperty = DOMPositionBuilder.getPropertyFromObject(jsonObject, 'width', 'width')
+    if (jsonProperty !== undefined && !isNull(jsonProperty)) {
       builder.width(parseInt(jsonProperty))
     }
-    jsonProperty = DOMPositionBuilder.getPropertyFromObject( jsonObject, 'height', 'height' );
-    if( jsonProperty !== undefined && !isNull( jsonProperty )){
+    jsonProperty = DOMPositionBuilder.getPropertyFromObject(jsonObject, 'height', 'height')
+    if (jsonProperty !== undefined && !isNull(jsonProperty)) {
       builder.height(parseInt(jsonProperty))
     }
     return builder
@@ -291,4 +290,4 @@ class DOMPositionBuilder {
   }
 }
 
-export { DOMPositionBuilder }
+export {DOMPositionBuilder}

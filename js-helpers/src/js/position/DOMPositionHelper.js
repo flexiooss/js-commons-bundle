@@ -1,4 +1,3 @@
-import '../../../../flex-types/index.js'
 import {isNull} from '../../../../assert/index.js'
 import {globalFlexioImport} from '../../../../global-import-registry/index.js'
 

@@ -20,26 +20,9 @@ import {TzDateTimeArray} from './src/js/arrays/TzDateTimeArray.js'
 import {BlobArray} from './src/js/arrays/BlobArray.js'
 import {IndexError} from './src/js/IndexError.js'
 import {ObjectValue, ObjectValueBuilder, ObjectValueValueArray} from './src/js/ObjectValue.js'
-import { Geoloc, GeolocBuilder } from './src/js/Geoloc.js'
-import { GeolocList } from './src/js/GeolocList.js'
-import {DOMPosition} from './src/js/DOMPosition.js'
-
-/**
- * @property {DOMPosition.} globalFlexioImport.io.flexio.flex_types.DOMPosition
- */
-deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.DOMPosition', DOMPosition)
-/**
- * @property {Geoloc.} globalFlexioImport.io.flexio.flex_types.Geoloc
- */
-deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.Geoloc', Geoloc)
-/**
- * @property {GeolocList.} globalFlexioImport.io.flexio.flex_types.GeolocList
- */
-deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocList', GeolocList)
-/**
- * @property {GeolocBuilder.} globalFlexioImport.io.flexio.flex_types.GeolocBuilder
- */
-deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocBuilder', GeolocBuilder)
+import {Geoloc, GeolocBuilder} from './src/js/Geoloc.js'
+import {GeolocList} from './src/js/GeolocList.js'
+import {DOMPosition, DOMPositionBuilder} from './src/js/DOMPosition.js'
 
 
 /**
@@ -184,3 +167,25 @@ deepKeyAssigner(globalFlexioImport, 'org.codingmatters.value.objects.values.Obje
  * @property {ObjectValueBuilder.} globalFlexioImport.org.codingmatters.value.objects.values.ObjectValueBuilder
  */
 deepKeyAssigner(globalFlexioImport, 'org.codingmatters.value.objects.values.ObjectValueBuilder', ObjectValueBuilder)
+
+
+/**
+ * @property {DOMPosition.} globalFlexioImport.io.flexio.flex_types.DOMPosition
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.DOMPosition', DOMPosition)
+/**
+ * @property {DOMPositionBuilder.} globalFlexioImport.io.flexio.flex_types.DOMPositionBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.DOMPositionBuilder', DOMPositionBuilder)
+/**
+ * @property {Geoloc.} globalFlexioImport.io.flexio.flex_types.Geoloc
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.Geoloc', Geoloc)
+/**
+ * @property {GeolocList.} globalFlexioImport.io.flexio.flex_types.GeolocList
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocList', GeolocList)
+/**
+ * @property {GeolocBuilder.} globalFlexioImport.io.flexio.flex_types.GeolocBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocBuilder', GeolocBuilder)
