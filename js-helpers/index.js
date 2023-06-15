@@ -1,10 +1,7 @@
-import './generated/io/package.js'
-
 export * from './src/js/Sequence.js'
 export * from './src/js/uid.js'
 export {HttpRequester} from './src/js/http/HttpRequester.js'
 export {ResponseDelegate} from './src/js/http/ResponseDelegate.js'
-export {DOMPositionHelper} from './src/js/position/DOMPositionHelper.js'
 export {RandomString} from './src/js/RandomString.js'
 export {Checksum} from './src/js/Checksum.js'
 export {Throttle} from './src/js/Throttle.js'
@@ -15,3 +12,6 @@ export {PaginationHelper} from './src/js/PaginationHelper.js'
 export {ContentRangeHelper} from './src/js/ContentRangeHelper.js'
 export {AcceptRangeHelper} from './src/js/AcceptRangeHelper.js'
 export {LightOrDarkColor,Color} from './src/js/LightOrDarkColor.js'
+
+
+export {DOMPositionHelper} from './src/js/position/DOMPositionHelper.js'

@@ -22,7 +22,12 @@ import {IndexError} from './src/js/IndexError.js'
 import {ObjectValue, ObjectValueBuilder, ObjectValueValueArray} from './src/js/ObjectValue.js'
 import { Geoloc, GeolocBuilder } from './src/js/Geoloc.js'
 import { GeolocList } from './src/js/GeolocList.js'
+import {DOMPosition} from './src/js/DOMPosition.js'
 
+/**
+ * @property {DOMPosition.} globalFlexioImport.io.flexio.flex_types.DOMPosition
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.DOMPosition', DOMPosition)
 /**
  * @property {Geoloc.} globalFlexioImport.io.flexio.flex_types.Geoloc
  */
