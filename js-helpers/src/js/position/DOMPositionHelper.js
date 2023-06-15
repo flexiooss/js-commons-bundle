@@ -1,3 +1,4 @@
+import '../../../../flex-types/index.js'
 import {isNull} from '../../../../assert/index.js'
 import {globalFlexioImport} from '../../../../global-import-registry/index.js'
 
@@ -8,7 +9,7 @@ export class DOMPositionHelper {
    */
   static getElementBounding(element) {
     const rect = element?.getBoundingClientRect() ?? null
-    return (isNull(rect)) ? rect : globalFlexioImport.io.flexio.flex_types.types.DOMPosition.fromObject(rect).build()
+    return (isNull(rect)) ? rect : globalFlexioImport.io.flexio.flex_types.DOMPosition.fromObject(rect).build()
   }
 
   /**
@@ -16,7 +17,7 @@ export class DOMPositionHelper {
    * @return {DOMPosition}
    */
   static getCursorPosition(event) {
-    return globalFlexioImport.io.flexio.flex_types.types.DOMPosition.builder()
+    return globalFlexioImport.io.flexio.flex_types.DOMPosition.builder()
       .x(event.clientX)
       .y(event.clientY)
       .width(0)
