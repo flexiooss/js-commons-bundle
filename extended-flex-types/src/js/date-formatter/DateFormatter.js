@@ -71,7 +71,7 @@ export class DateFormatter {
    * @return {string}
    */
   static format(date, format, locale) {
-    const dateJS = new Date(date.toISO() + 'Z')
+    const dateJS = Date.UTC(date.years(), date.months(), date.days(), 0, 0, 0, 0)
     if (!isDate(dateJS)){
       throw new TypeError(`DateFormatter: should have date given::${formatType(dateJS)} from ${formatType(date)}`)
     }
