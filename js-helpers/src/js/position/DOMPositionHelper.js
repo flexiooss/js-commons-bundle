@@ -12,7 +12,7 @@ export class DOMPositionHelper {
   }
 
   /**
-   * @param {CustomEvent|MouseEvent|PointerEvent} event
+   * @param {PointerEvent|MouseEvent|TouchEvent} event
    * @return {DOMPosition}
    */
   static getCursorPosition(event) {
