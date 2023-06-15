@@ -1,4 +1,4 @@
-import {isNull} from '../../../../assert/index.js'
+import {formatType, isDate, isNull} from '../../../../assert/index.js'
 import {DateTime} from 'luxon'
 
 export class DateTimeFormatter {
@@ -11,6 +11,9 @@ export class DateTimeFormatter {
    */
   static format(dateTime, format, locale, timeZone = 'UTC') {
     const date = new Date(dateTime.toISO() + 'Z')
+    if (!isDate(date)){
+      throw new TypeError(`DateTimeFormatter: should have date given::${formatType(date)} from ${formatType(dateTime)}`)
+    }
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
 
     switch (format) {
@@ -69,6 +72,9 @@ export class DateFormatter {
    */
   static format(date, format, locale) {
     const dateJS = new Date(date.toISO() + 'Z')
+    if (!isDate(dateJS)){
+      throw new TypeError(`DateFormatter: should have date given::${formatType(dateJS)} from ${formatType(date)}`)
+    }
     const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
 
     switch (format) {
@@ -102,6 +108,9 @@ export class TimeFormatter {
   static format(time, format, locale) {
     const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
     const dt = new Date(date)
+    if (!isDate(dt)){
+      throw new TypeError(`TimeFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
+    }
     const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
 
     switch (format) {
