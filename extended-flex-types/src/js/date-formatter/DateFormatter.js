@@ -71,11 +71,12 @@ export class DateFormatter {
    * @return {string}
    */
   static format(date, format, locale) {
-    const dateJS = Date.UTC(date.years(), date.months(), date.days(), 0, 0, 0, 0)
-    if (!isDate(dateJS)){
-      throw new TypeError(`DateFormatter: should have date given::${formatType(dateJS)} from ${formatType(date)}`)
+    const datetime = Date.UTC(date.years(), date.months()-1, date.days(), 0, 0, 0, 0)
+    const dt = new Date(datetime)
+    if (!isDate(dt)){
+      throw new TypeError(`DateFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
     }
-    const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
+    const dateFormatter = new DateFormatHelper(dt, locale, 'utc')
 
     switch (format) {
       case 'yyyy':

@@ -424,6 +424,18 @@ export class FlexDateTimeExtended {
   toTime() {
     return FlexTimeExtended.fromISO(this.#toDateTime().toISOTime({includeOffset: false}))
   }
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString()
+  }
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.#datetime.toString()
+  }
 
   /**
    * @param {string} format
