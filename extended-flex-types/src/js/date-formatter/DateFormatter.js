@@ -94,7 +94,7 @@ export class DateFormatter {
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       default:
-        return DateTime.fromISO(dateJS.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
+        return DateTime.fromISO(dt.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
     }
   }
 }
