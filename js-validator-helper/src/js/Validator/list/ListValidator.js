@@ -7,7 +7,6 @@ import {isNull} from '../../__import__assert.js'
 export class ListValidator extends Validator {
 
   /**
-   *
    * @param {Array} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class ListValidator extends Validator {
   }
 
   /**
-   *
    * @param {Array} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class ListValidator extends Validator {
   }
 
   /**
-   *
    * @param {Array} value
    * @param {string} rangeStart
    * @param {string} rangeEnd

@@ -7,7 +7,6 @@ import {TypeCheck} from '../__import__flex-types.js'
  */
 export class ObjectValidator extends Validator {
   /**
-   *
    * @param {ObjectValue} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class ObjectValidator extends Validator {
   }
 
   /**
-   *
    * @param {ObjectValue} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class ObjectValidator extends Validator {
   }
 
   /**
-   *
    * @param {ObjectValue} value
    * @return {boolean}
    */
@@ -34,7 +31,6 @@ export class ObjectValidator extends Validator {
   }
 
   /**
-   *
    * @param {ObjectValue} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -45,7 +41,6 @@ export class ObjectValidator extends Validator {
   }
 
   /**
-   *
    * @param {ObjectValue} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -55,12 +50,20 @@ export class ObjectValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
     throw new Error('ObjectValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('ObjectValidator: no max size for `validateMaxSize`')
   }
 }

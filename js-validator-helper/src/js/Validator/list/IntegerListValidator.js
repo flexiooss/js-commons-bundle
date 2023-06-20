@@ -7,7 +7,6 @@ import {ListValidator} from './ListValidator.js'
  */
 export class IntegerListValidator extends ListValidator {
   /**
-   *
    * @param {IntegerArray} value
    * @return {boolean}
    */

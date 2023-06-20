@@ -7,7 +7,6 @@ import {globalFlexioImport} from '../__import__global-import-registry.js'
  */
 export class UrlValidator extends Validator {
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class UrlValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class UrlValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -34,7 +31,6 @@ export class UrlValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -48,7 +44,6 @@ export class UrlValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -62,7 +57,6 @@ export class UrlValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
@@ -72,5 +66,17 @@ export class UrlValidator extends Validator {
       return true
     }
     return isRegex(regex) && this.validateType(value) && regex.test(value)
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    if(isNull(value)){
+      return true
+    }
+    return value.length <= size
   }
 }

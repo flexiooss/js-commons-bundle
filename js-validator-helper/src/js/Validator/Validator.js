@@ -1,63 +1,67 @@
+import {NotOverrideException} from '../../../../assert/index.js'
+
 /**
  * @interface
  */
 export class Validator {
-
   /**
-   *
    * @param {*} value
    * @return {boolean}
    */
   validateType(value) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 
   /**
-   *
    * @param {*} value
    * @return {boolean}
    */
   validateNotNull(value) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 
   /**
-   *
    * @param {*} value
    * @return {boolean}
    */
   validateNotEmpty(value) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 
   /**
-   *
    * @param {*} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 
   /**
-   *
    * @param {*} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 
   /**
-   *
    * @param {*} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('Should be override')
+    throw NotOverrideException.FROM_INTERFACE('Validator')
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw NotOverrideException.FROM_INTERFACE('Validator')
   }
 }

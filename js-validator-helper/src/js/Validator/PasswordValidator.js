@@ -7,7 +7,6 @@ import {globalFlexioImport} from '../__import__global-import-registry.js'
  */
 export class PasswordValidator extends Validator {
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class PasswordValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class PasswordValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -34,27 +31,25 @@ export class PasswordValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
     return this.validateType(rangeStart) && this.validateType(rangeEnd) && this.validateType(value) && value >= rangeStart && value <= rangeEnd
   }
 
   /**
-   *
    * @param {string} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
     return enumeratedValues instanceof globalFlexioImport.io.flexio.flex_types.arrays
@@ -62,15 +57,26 @@ export class PasswordValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    if(isNull(value)){
+    if (isNull(value)) {
       return true
     }
     return isRegex(regex) && this.validateType(value) && regex.test(value)
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    if (isNull(value)) {
+      return true
+    }
+    return value.length <= size
   }
 }
