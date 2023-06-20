@@ -239,6 +239,18 @@ export class FlexDateExtended {
   toFlexDate() {
     return this.#date
   }
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString()
+  }
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.#date.toString()
+  }
 
   /**
    * @param {string} format

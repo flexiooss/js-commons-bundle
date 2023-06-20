@@ -232,10 +232,24 @@ export class FlexTimeExtended {
   }
 
   /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString()
+  }
+
+  /**
    * @return {FlexTime}
    */
   toFlexTime() {
     return this.#time
+  }
+
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.#time.toString()
   }
 
   /**

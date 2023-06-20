@@ -7,10 +7,11 @@ import {FlexTimeExtended} from '../js/FlexTimeExtended.js'
 
 const assert = require('assert')
 
-export class TestDateExtendedTest extends TestCase {
+export class TestFormatedDateTest extends TestCase {
   setUp() {
     this.datetime = FlexDateTimeExtended.fromISO('2021-03-15T12:24:07.456')
     this.datetimeBorder = FlexDateTimeExtended.fromISO('2020-12-31T23:50:33.456')
+    this.date1 = FlexDateExtended.fromISO('2020-01-01')
     this.date = FlexDateExtended.fromISO('2020-12-31')
     this.time = FlexTimeExtended.fromISO('23:50:33.456')
   }
@@ -137,6 +138,7 @@ export class TestDateExtendedTest extends TestCase {
   }
 
   testDateYear() {
+    assert.strictEqual(DateFormatter.format(this.date1, 'yyyy', 'fr'), '2020')
     assert.strictEqual(DateFormatter.format(this.date, 'yyyy', 'fr'), '2020')
   }
 
@@ -416,4 +418,4 @@ export class TestDateExtendedTest extends TestCase {
   }
 }
 
-runTest(TestDateExtendedTest)
+runTest(TestFormatedDateTest)
