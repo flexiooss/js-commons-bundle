@@ -1,5 +1,5 @@
 import {Validator} from '../Validator.js'
-import {isNull} from '../../__import__assert.js'
+import {isNull, NotOverrideException} from '../../__import__assert.js'
 
 /**
  * @implements {Validator}
@@ -50,5 +50,14 @@ export class ListValidator extends Validator {
    */
   validateRegex(value, regex) {
     throw new Error('ListValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    return this.validateNotNull(value) && value.length <= size
   }
 }
