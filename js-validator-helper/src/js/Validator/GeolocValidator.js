@@ -66,4 +66,13 @@ export class GeolocValidator extends Validator {
   validateRegex(value, regex) {
     throw new Error('GeolocValidator: no regex for `validateRegex`')
   }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('GeolocValidator: no max size for `validateMaxSize`')
+  }
 }

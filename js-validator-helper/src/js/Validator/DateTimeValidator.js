@@ -7,7 +7,6 @@ import {TypeCheck} from '../__import__flex-types.js'
  */
 export class DateTimeValidator extends Validator {
   /**
-   *
    * @param {FlexDateTime} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class DateTimeValidator extends Validator {
   }
 
   /**
-   *
    * @param {FlexDateTime} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class DateTimeValidator extends Validator {
   }
 
   /**
-   *
    * @param {FlexDateTime} value
    * @return {boolean}
    */
@@ -34,33 +31,39 @@ export class DateTimeValidator extends Validator {
   }
 
   /**
-   *
    * @param {FlexDateTime} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('DateValidator: no range for `validateInRange`')
+    throw new Error('DateTimeValidator: no range for `validateInRange`')
   }
 
   /**
-   *
    * @param {FlexDateTime} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('DateValidator: no enumeratedValues for `validateInEnumerated`')
+    throw new Error('DateTimeValidator: no enumeratedValues for `validateInEnumerated`')
   }
 
   /**
-   *
    * @param {FlexDateTime} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('DateValidator: no regex for `validateRegex`')
+    throw new Error('DateTimeValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('DateTimeValidator: no max size `validateMaxSize`')
   }
 }

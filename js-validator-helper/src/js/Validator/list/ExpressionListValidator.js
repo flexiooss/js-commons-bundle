@@ -7,7 +7,6 @@ import {ListValidator} from './ListValidator.js'
  */
 export class ExpressionListValidator extends ListValidator {
   /**
-   *
    * @param {ExpressionList} value
    * @return {boolean}
    */
