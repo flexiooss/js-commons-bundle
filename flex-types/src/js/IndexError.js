@@ -44,13 +44,14 @@ export class IndexError extends Error {
   }
 
   /**
+   * @param {string} enumName
    * @param {string} name
    * @return {IndexError}
    */
-  static BAD_ENUM_NAME(name) {
+  static BAD_ENUM_NAME(enumName,name) {
     return new IndexError(
       IndexError.toString(
-        'Enum have not this index',
+        `${enumName}:: Enum have not this index`,
         name
       )
     )
