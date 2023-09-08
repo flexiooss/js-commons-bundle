@@ -235,3 +235,9 @@ export const isDate = a => !isNull(a) && a instanceof Date && !isNaN(a)
  * @return {boolean}
  */
 export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length)
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ */
+export const isWindow = a =>  !isNull(a) && a === a?.window

@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFunction, isEmpty, isAsyncFunction
+  isDate, isArrowFunction, isEmpty, isAsyncFunction, isWindow
 } from './is'
 
 
@@ -497,6 +497,31 @@ export class TypeCheck {
   static assertIsDateOrNull(inst) {
     if (!isNull(inst)) {
       return TypeCheck.assertIsDate(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Window} inst
+   * @throws {TypeError}
+   * @return {Window}
+   */
+  static assertIsWindow(inst) {
+    assertType(
+      isWindow(inst),
+      _ => `input should be window given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Window} inst
+   * @throws {TypeError}
+   * @return {?Window}
+   */
+  static assertIsWindowOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsWindow(inst)
     }
     return inst
   }
