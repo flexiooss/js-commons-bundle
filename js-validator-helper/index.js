@@ -18,6 +18,7 @@ export {PhoneNumberValidator} from './src/js/Validator/PhoneNumberValidator.js'
 export {BaseUrlValidator} from './src/js/Validator/BaseUrlValidator.js'
 export {PasswordValidator} from './src/js/Validator/PasswordValidator.js'
 export {ExpressionValidator} from './src/js/Validator/ExpressionValidator.js'
+export {CollectionValidator} from './src/js/Validator/CollectionValidator.js'
 
 export {StringListValidator} from './src/js/Validator/list/StringListValidator.js'
 export {UrlListValidator} from './src/js/Validator/list/UrlListValidator.js'
