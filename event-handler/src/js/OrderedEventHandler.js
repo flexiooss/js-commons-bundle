@@ -23,19 +23,23 @@ export class OrderedEventHandler extends EventHandlerBase {
 
     for (const event of orderedEventListenerConfig.events()) {
       this._ensureHaveListenersMap(event)
+      this._ensureHaveAsyncListenersMap(event)
 
       const id = this.nextID()
+      if (orderedEventListenerConfig.async()) {
+        this._asyncListeners.get(event).set(id, orderedEventListenerConfig)
+      } else {
+        this._listeners.get(event).set(id, orderedEventListenerConfig)
 
-      this._listeners.get(event).set(id, orderedEventListenerConfig)
-
-      this._listeners.set(event,
-        sortMap(
-          this._listeners.get(event),
-          (a, b) => {
-            return a.value.priority() - b.value.priority()
-          }
+        this._listeners.set(event,
+          sortMap(
+            this._listeners.get(event),
+            (a, b) => {
+              return a.value.priority() - b.value.priority()
+            }
+          )
         )
-      )
+      }
       ids.push(id)
     }
 
