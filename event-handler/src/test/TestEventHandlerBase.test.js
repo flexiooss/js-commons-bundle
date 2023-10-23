@@ -32,7 +32,6 @@ export class TestEventHandlerBase extends TestCase {
     )
 
     assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')
-
     this.handler.removeEventListener(EVENT_1, token_1)
 
     assert(!this.handler.hasEventListener(EVENT_1, token_1), 'Handler should not have \'token_1\' listener')
@@ -266,6 +265,205 @@ export class TestEventHandlerBase extends TestCase {
     )
 
   }
+
+  async asyncTestAsyncEvent() {
+    let ret = []
+    const EXPRECTED_SYNC = [1, 2, 'END_SYNC']
+    const EXPRECTED = [1, 2, 'END_SYNC', 3, 4, 5]
+
+    return new Promise((ok, ko) => {
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .callback((payload, eventName, executionId) => {
+            ret.push(1)
+          })
+          .build()
+      )
+      const token_2 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .callback((payload, eventName, executionId) => {
+            ret.push(2)
+          })
+          .build()
+      )
+
+      const token_3 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push(4)
+            }, 2000)
+          })
+          .build()
+      )
+
+      const token_4 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push(3)
+            }, 1000)
+          })
+          .build()
+      )
+
+      const token_5 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push(5)
+              this.log(ret)
+              assert.deepStrictEqual(EXPRECTED, ret, 'should be async executed')
+              ok()
+            }, 4000)
+          })
+          .build()
+      )
+      assert.ok(this.handler.hasEventListener(EVENT_1, token_4), 'should have listener before dispatch')
+
+      this.handler.dispatch(EVENT_1, 'a')
+      ret.push('END_SYNC')
+      this.log(ret)
+      assert.deepStrictEqual(EXPRECTED_SYNC, ret, 'should be sync executed')
+      this.log(this.handler.isDispatching())
+      assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
+    })
+  }
+
+  async asyncTestAsyncEventConcurence() {
+    let ret = []
+    let firstExecuted = false
+    const EXPECTED = [
+      "1_a",
+      "2_a",
+      "END_SYNC",
+      "1_b",
+      "2_b",
+      "END_SYNC",
+      "3_a",
+      "3_b",
+      "4_a",
+      "4_b",
+      "5_a",
+      "5_b"
+    ]
+
+
+
+    return new Promise((ok, ko) => {
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .callback((payload, eventName, executionId) => {
+            ret.push('1_' + executionId)
+          })
+          .build()
+      )
+      const token_2 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .callback((payload, eventName, executionId) => {
+            ret.push('2_' + executionId)
+          })
+          .build()
+      )
+
+      const token_3 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push('4_' + executionId)
+            }, 2000)
+          })
+          .build()
+      )
+
+      const token_4 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push('3_' + executionId)
+            }, 1000)
+          })
+          .build()
+      )
+
+      const token_5 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .async()
+          .callback((payload, eventName, executionId) => {
+            setTimeout(() => {
+              ret.push('5_' + executionId)
+              this.log(ret)
+              if (firstExecuted) {
+
+                assert.deepStrictEqual(EXPECTED, ret, 'should be async executed')
+                ok()
+              } else {
+                assert.deepStrictEqual([
+                  "1_a",
+                  "2_a",
+                  "END_SYNC",
+                  "1_b",
+                  "2_b",
+                  "END_SYNC",
+                  "3_a",
+                  "3_b",
+                  "4_a",
+                  "4_b",
+                  "5_a",
+                ], ret, 'should be async executed')
+                firstExecuted = true
+              }
+            }, 4000)
+          })
+          .build()
+      )
+      assert.ok(this.handler.hasEventListener(EVENT_1, token_4), 'should have listener before dispatch')
+
+      this.handler.dispatch(EVENT_1, 'a','a')
+      ret.push('END_SYNC')
+      this.log(ret)
+      assert.deepStrictEqual([
+        "1_a",
+        "2_a",
+        "END_SYNC"
+      ], ret, 'should be sync executed')
+      this.log(this.handler.isDispatching())
+      assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
+      this.handler.dispatch(EVENT_1, 'b', 'b')
+      ret.push('END_SYNC')
+      this.log(ret)
+      assert.deepStrictEqual([
+        "1_a",
+        "2_a",
+        "END_SYNC",
+        "1_b",
+        "2_b",
+        "END_SYNC"
+      ], ret, 'should be sync executed')
+      this.log(this.handler.isDispatching())
+      assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
+    })
+  }
+
 
 }
 

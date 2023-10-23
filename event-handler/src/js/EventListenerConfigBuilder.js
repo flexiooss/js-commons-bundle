@@ -28,6 +28,11 @@ export class EventListenerConfigBuilder {
      */
     this._once = false
     /**
+     * @type {boolean}
+     * @protected
+     */
+    this._async = false
+    /**
      * @type {EventHandlerBase~eventClb}
      * @protected
      */
@@ -36,7 +41,7 @@ export class EventListenerConfigBuilder {
 
   /**
    * @param {...(String|Symbol)} events
-   * @return {this}
+   * @return {EventListenerConfigBuilder}
    * @constructor
    */
   static listen(...events) {
@@ -76,6 +81,13 @@ export class EventListenerConfigBuilder {
     this._active = false
     return this
   }
+  /**
+   * @return {this}
+   */
+  async(){
+    this._async = true
+    return this
+  }
 
   /**
    * @return {EventListenerConfig}
@@ -87,6 +99,7 @@ export class EventListenerConfigBuilder {
       this._once,
       this._active,
       this._guard,
+      this._async
     )
   }
 }
