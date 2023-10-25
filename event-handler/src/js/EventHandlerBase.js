@@ -207,6 +207,7 @@ export class EventHandlerBase {
             v.onRemoveCallback().call(null)
           }
         })
+        this._listeners.delete(event)
         removed = true
       } else {
         if (this._listeners.has(event)) {
@@ -229,6 +230,7 @@ export class EventHandlerBase {
             v.onRemoveCallback().call(null)
           }
         })
+        this._asyncListeners.delete(event)
         removed = true
       } else {
         if (this._asyncListeners.has(event)) {
