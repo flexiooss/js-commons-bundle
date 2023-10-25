@@ -53,13 +53,6 @@ export class EventListenerConfig {
 
 
   /**
-   * @return {?(function())}
-   */
-  onRemoveCallback() {
-    return this.#onRemoveCallback;
-  }
-
-  /**
    * @return {SymbolStringArray}
    */
   events() {
@@ -113,7 +106,7 @@ export class EventListenerConfig {
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return EventListenerConfig.create(this.events(), this.callback(), this.once(), active, this.guard(),this.onRemoveCallback, this.async())
+    return EventListenerConfig.create(this.events(), this.callback(), this.once(), active, this.guard(),this.onRemoveCallback(), this.async())
   }
 
   /**
@@ -121,7 +114,7 @@ export class EventListenerConfig {
    * @return {EventListenerConfig}
    */
   withCallback(value) {
-    return EventListenerConfig.create(this.events(), value, this.once(), this.active(), this.guard(),this.onRemoveCallback, this.async())
+    return EventListenerConfig.create(this.events(), value, this.once(), this.active(), this.guard(),this.onRemoveCallback(), this.async())
   }
 
   /**
