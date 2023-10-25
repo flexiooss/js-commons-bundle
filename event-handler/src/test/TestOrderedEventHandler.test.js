@@ -38,6 +38,27 @@ export class TestOrderedEventHandler extends TestCase {
 
   }
 
+  testHaveListenerClbBuilder() {
+    const EVENT_1 = 'EVENT_1'
+    let result = []
+
+    const token_1 = this.handler.addEventListener(builder=>builder
+        .events(EVENT_1)
+        .callback(() => {
+          result.push(1)
+        })
+        .priority(100)
+        .build()
+    )
+
+    assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')
+
+    this.handler.removeEventListener(EVENT_1, token_1)
+
+    assert(!this.handler.hasEventListener(EVENT_1, token_1), 'Handler should not have \'token_1\' listener')
+
+  }
+
   testExecutionOrder() {
     const EVENT_1 = 'EVENT_1'
     let result = []

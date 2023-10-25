@@ -2,6 +2,7 @@
 import {EventHandlerBase} from '../js/EventHandlerBase.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder.js'
+import {builder} from "../../../js-generator-helpers/index.js";
 
 
 const assert = require('assert')
@@ -29,6 +30,25 @@ export class TestEventHandlerBase extends TestCase {
           result.push(1)
         })
         .build()
+    )
+
+    assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')
+    this.handler.removeEventListener(EVENT_1, token_1)
+
+    assert(!this.handler.hasEventListener(EVENT_1, token_1), 'Handler should not have \'token_1\' listener')
+
+  }
+
+  testHaveListenerFromClbBuilder() {
+    const EVENT_1 = 'EVENT_1'
+    let result = []
+
+    const token_1 = this.handler.addEventListener((builder) => builder
+      .events(EVENT_1)
+      .callback(() => {
+        result.push(1)
+      })
+      .build()
     )
 
     assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')
@@ -359,7 +379,6 @@ export class TestEventHandlerBase extends TestCase {
     ]
 
 
-
     return new Promise((ok, ko) => {
       const EVENT_1 = 'EVENT_1'
 
@@ -438,7 +457,7 @@ export class TestEventHandlerBase extends TestCase {
       )
       assert.ok(this.handler.hasEventListener(EVENT_1, token_4), 'should have listener before dispatch')
 
-      this.handler.dispatch(EVENT_1, 'a','a')
+      this.handler.dispatch(EVENT_1, 'a', 'a')
       ret.push('END_SYNC')
       this.log(ret)
       assert.deepStrictEqual([
@@ -461,6 +480,50 @@ export class TestEventHandlerBase extends TestCase {
       ], ret, 'should be sync executed')
       this.log(this.handler.isDispatching())
       assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
+    })
+  }
+
+  async asyncTestOnRemoveClbAll() {
+    return new Promise((ok, ko) => {
+
+
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .onRemoveCallback(() => {
+            ok()
+          })
+          .callback(() => {
+          })
+          .build()
+      )
+
+      this.handler.removeEventListener(EVENT_1)
+
+    })
+  }
+
+  async asyncTestOnRemoveClb() {
+    return new Promise((ok, ko) => {
+
+
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .onRemoveCallback(() => {
+            ok()
+          })
+          .callback(() => {
+          })
+          .build()
+      )
+
+      this.handler.removeEventListener(EVENT_1, token_1)
+
     })
   }
 

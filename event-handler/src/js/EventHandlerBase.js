@@ -1,7 +1,8 @@
-import {assert, isNull} from './__import__assert.js'
+import {assert, assertInstanceOf, isFunction, isNull} from './__import__assert.js'
 import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
+import {EventListenerConfigBuilder} from "./EventListenerConfigBuilder.js";
 
 
 /**
@@ -145,13 +146,14 @@ export class EventHandlerBase {
   }
 
   /**
-   * @param {EventListenerConfig} eventListenerConfig
+   * @param {EventListenerConfig|function(EventListenerConfigBuilder):EventListenerConfig} eventListenerConfig
    * @returns {(String|StringArray)}
    */
   addEventListener(eventListenerConfig) {
-    assert(eventListenerConfig instanceof EventListenerConfig,
-      'EventHandlerBase:addEventListener: ̀`eventListenerParam` argument assert be an instance of EventListenerConfig'
-    )
+    if (isFunction(eventListenerConfig)) {
+      eventListenerConfig = eventListenerConfig.call(null, new EventListenerConfigBuilder())
+    }
+    assertInstanceOf(eventListenerConfig , EventListenerConfig, 'EventListenerConfig')
     const ids = new StringArray()
 
     for (const event of eventListenerConfig.events()) {
@@ -199,22 +201,44 @@ export class EventHandlerBase {
     let removed = false
     if (this._listeners.has(event)) {
       if (isNull(token)) {
-        this._listeners.delete(event)
+        this._listeners.get(event).forEach((v, k) => {
+          this._listeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
         removed = true
       } else {
         if (this._listeners.has(event)) {
-          this._listeners.get(event).delete(token)
+          if (this._listeners.get(event).has(token)) {
+            const config = this._listeners.get(event).get(token)
+            this._listeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
           return true
         }
       }
     }
     if (this._asyncListeners.has(event)) {
       if (isNull(token)) {
-        this._asyncListeners.delete(event)
+        this._asyncListeners.get(event).forEach((v, k) => {
+          this._asyncListeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
         removed = true
       } else {
         if (this._asyncListeners.has(event)) {
-          this._asyncListeners.get(event).delete(token)
+          if (this._asyncListeners.get(event).has(token)) {
+            const config = this._asyncListeners.get(event).get(token)
+            this._asyncListeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
           return true
         }
       }
