@@ -1,4 +1,4 @@
-import {assert, isNull} from './__import__assert.js'
+import {assert, isFunction, isNull} from './__import__assert.js'
 import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
@@ -145,10 +145,13 @@ export class EventHandlerBase {
   }
 
   /**
-   * @param {EventListenerConfig} eventListenerConfig
+   * @param {EventListenerConfig|function(EventListenerConfigBuilder):EventListenerConfig} eventListenerConfig
    * @returns {(String|StringArray)}
    */
   addEventListener(eventListenerConfig) {
+    if (isFunction(eventListenerConfig)){
+      eventListenerConfig = eventListenerConfig.call(null,  )
+    }
     assert(eventListenerConfig instanceof EventListenerConfig,
       'EventHandlerBase:addEventListener: ̀`eventListenerParam` argument assert be an instance of EventListenerConfig'
     )

@@ -2,16 +2,12 @@ import {EventListenerConfig} from './EventListenerConfig.js'
 import {SymbolStringArray} from './__import__extended-flex-types.js'
 
 export class EventListenerConfigBuilder {
-  /**
-   *
-   * @param {SymbolStringArray} events
-   */
-  constructor(events) {
+  constructor() {
     /**
-     * @type {SymbolStringArray}
+     * @type {?SymbolStringArray}
      * @protected
      */
-    this._events = events
+    this._events = null
     /**
      * @type {boolean}
      * @protected
@@ -45,12 +41,21 @@ export class EventListenerConfigBuilder {
   }
 
   /**
+   * @param {...(string|Symbol)} value
+   * @return {EventListenerConfigBuilder}
+   */
+  events(...value){
+    this._events = new SymbolStringArray(...value)
+    return this
+  }
+
+  /**
    * @param {...(String|Symbol)} events
    * @return {EventListenerConfigBuilder}
    * @constructor
    */
   static listen(...events) {
-    return new this(new SymbolStringArray(...events))
+    return new this().events(...events)
   }
 
   /**
