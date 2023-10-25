@@ -38,10 +38,18 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
 
   /**
    * @param {boolean} active
-   * @return {EventListenerConfig}
+   * @return {OrderedEventListenerConfig}
    */
   withActive(active) {
     return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), this.once(), active, this.guard(), this.onRemoveCallback(), this.async())
+  }
+
+  /**
+   * @param {EventHandlerBase~eventClb} value
+   * @return {OrderedEventListenerConfig}
+   */
+  withCallback(value) {
+    return OrderedEventListenerConfig.create(this.events(), value, this.priority(), this.once(), this.active(), this.guard(), this.onRemoveCallback(), this.async())
   }
 
   /**

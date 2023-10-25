@@ -117,6 +117,14 @@ export class EventListenerConfig {
   }
 
   /**
+   * @param {EventHandlerBase~eventClb} value
+   * @return {EventListenerConfig}
+   */
+  withCallback(value) {
+    return EventListenerConfig.create(this.events(), value, this.once(), this.active(), this.guard(),this.onRemoveCallback, this.async())
+  }
+
+  /**
    * @param {SymbolStringArray} events
    * @param {EventHandlerBase~eventClb} callback
    * @param {boolean} once
