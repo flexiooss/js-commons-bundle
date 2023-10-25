@@ -2,6 +2,7 @@
 import {EventHandlerBase} from '../js/EventHandlerBase.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder.js'
+import {builder} from "../../../js-generator-helpers/index.js";
 
 
 const assert = require('assert')
@@ -29,6 +30,25 @@ export class TestEventHandlerBase extends TestCase {
           result.push(1)
         })
         .build()
+    )
+
+    assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')
+    this.handler.removeEventListener(EVENT_1, token_1)
+
+    assert(!this.handler.hasEventListener(EVENT_1, token_1), 'Handler should not have \'token_1\' listener')
+
+  }
+
+  testHaveListenerFromClbBuilder() {
+    const EVENT_1 = 'EVENT_1'
+    let result = []
+
+    const token_1 = this.handler.addEventListener((builder) => builder
+      .events(EVENT_1)
+      .callback(() => {
+        result.push(1)
+      })
+      .build()
     )
 
     assert(this.handler.hasEventListener(EVENT_1, token_1), 'Handler should have \'token_1\' listener')

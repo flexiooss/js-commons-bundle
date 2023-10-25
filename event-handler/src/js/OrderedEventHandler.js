@@ -1,8 +1,9 @@
-import {assertInstanceOf} from './__import__assert.js'
+import {assertInstanceOf, isFunction} from './__import__assert.js'
 import {StringArray} from './__import__flex-types.js'
 import {EventHandlerBase} from './EventHandlerBase.js'
 import {sortMap} from './__import__js-type-helpers.js'
 import {OrderedEventListenerConfig} from './OrderedEventListenerConfig.js'
+import {OrderedEventListenerConfigBuilder} from "./OrderedEventListenerConfigBuilder.js";
 
 
 /**
@@ -11,12 +12,16 @@ import {OrderedEventListenerConfig} from './OrderedEventListenerConfig.js'
 export class OrderedEventHandler extends EventHandlerBase {
   /**
    *
-   * @param {OrderedEventListenerConfig} orderedEventListenerConfig
+   * @param {OrderedEventListenerConfig|function(OrderedEventListenerConfigBuilder):OrderedEventListenerConfig} orderedEventListenerConfig
    * @return {(String|StringArray)}
    * @throws AssertionError
    * @override
    */
   addEventListener(orderedEventListenerConfig) {
+    if (isFunction(orderedEventListenerConfig)) {
+      orderedEventListenerConfig = orderedEventListenerConfig.call(null, new OrderedEventListenerConfigBuilder())
+    }
+
     assertInstanceOf(orderedEventListenerConfig, OrderedEventListenerConfig, 'OrderedEventListenerConfig')
 
     const ids = new StringArray()
