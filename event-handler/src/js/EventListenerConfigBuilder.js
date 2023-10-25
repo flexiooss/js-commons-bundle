@@ -42,7 +42,7 @@ export class EventListenerConfigBuilder {
 
   /**
    * @param {...(string|Symbol)} value
-   * @return {EventListenerConfigBuilder}
+   * @return {this}
    */
   events(...value){
     this._events = new SymbolStringArray(...value)
