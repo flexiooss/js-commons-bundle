@@ -199,22 +199,44 @@ export class EventHandlerBase {
     let removed = false
     if (this._listeners.has(event)) {
       if (isNull(token)) {
-        this._listeners.delete(event)
+        this._listeners.get(event).forEach((v, k) => {
+          this._listeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
         removed = true
       } else {
         if (this._listeners.has(event)) {
-          this._listeners.get(event).delete(token)
+          if (this._listeners.get(event).has(token)) {
+            const config = this._listeners.get(event).get(token)
+            this._listeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
           return true
         }
       }
     }
     if (this._asyncListeners.has(event)) {
       if (isNull(token)) {
-        this._asyncListeners.delete(event)
+        this._asyncListeners.get(event).forEach((v, k) => {
+          this._asyncListeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
         removed = true
       } else {
         if (this._asyncListeners.has(event)) {
-          this._asyncListeners.get(event).delete(token)
+          if (this._asyncListeners.get(event).has(token)) {
+            const config = this._asyncListeners.get(event).get(token)
+            this._asyncListeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
           return true
         }
       }

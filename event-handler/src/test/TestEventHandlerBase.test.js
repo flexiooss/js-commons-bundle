@@ -359,7 +359,6 @@ export class TestEventHandlerBase extends TestCase {
     ]
 
 
-
     return new Promise((ok, ko) => {
       const EVENT_1 = 'EVENT_1'
 
@@ -438,7 +437,7 @@ export class TestEventHandlerBase extends TestCase {
       )
       assert.ok(this.handler.hasEventListener(EVENT_1, token_4), 'should have listener before dispatch')
 
-      this.handler.dispatch(EVENT_1, 'a','a')
+      this.handler.dispatch(EVENT_1, 'a', 'a')
       ret.push('END_SYNC')
       this.log(ret)
       assert.deepStrictEqual([
@@ -461,6 +460,50 @@ export class TestEventHandlerBase extends TestCase {
       ], ret, 'should be sync executed')
       this.log(this.handler.isDispatching())
       assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
+    })
+  }
+
+  async asyncTestOnRemoveClbAll() {
+    return new Promise((ok, ko) => {
+
+
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .onRemoveCallback(() => {
+            ok()
+          })
+          .callback(() => {
+          })
+          .build()
+      )
+
+      this.handler.removeEventListener(EVENT_1)
+
+    })
+  }
+
+  async asyncTestOnRemoveClb() {
+    return new Promise((ok, ko) => {
+
+
+      const EVENT_1 = 'EVENT_1'
+
+      const token_1 = this.handler.addEventListener(
+        EventListenerConfigBuilder
+          .listen(EVENT_1)
+          .onRemoveCallback(() => {
+            ok()
+          })
+          .callback(() => {
+          })
+          .build()
+      )
+
+      this.handler.removeEventListener(EVENT_1, token_1)
+
     })
   }
 

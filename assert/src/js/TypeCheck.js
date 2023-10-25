@@ -257,10 +257,13 @@ export class TypeCheck {
    * @return {Function}
    */
   static assertIsAsyncFunction(inst) {
-    assertType(
-      isAsyncFunction(inst),
-      _ => `input should be AsyncFunction given: ${formatType(inst)}`
-    )
+    if (!isAsyncFunction(inst)) {
+      assertType(
+        isFunction(inst),
+        _ => `input should be AsyncFunction given: ${formatType(inst)}`
+      )
+      console.warn(`input should be AsyncFunction given: ${formatType(inst)}`)
+    }
     return inst
   }
 
@@ -282,10 +285,13 @@ export class TypeCheck {
    * @return {Function}
    */
   static assertIsArrowFunction(inst) {
-    assertType(
-      isArrowFunction(inst),
-      _ => `input should be Arrow Function given: ${formatType(inst)}`
-    )
+    if (!isArrowFunction(inst)) {
+      assertType(
+        isFunction(inst),
+        _ => `input should be Arrow Function given: ${formatType(inst)}`
+      )
+      console.warn(`input should be Arrow Function given: ${formatType(inst)}`)
+    }
     return inst
   }
 

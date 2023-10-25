@@ -24,6 +24,10 @@ export class EventListenerConfig {
    */
   #once
   /**
+   * @type {?function()}
+   */
+  #onRemoveCallback
+  /**
    * @type {?EventHandlerBase~guardClb}
    */
   #guard
@@ -34,17 +38,26 @@ export class EventListenerConfig {
    * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
+   * @param {?function()} [onRemoveCallback=null]
    * @param {boolean} [async=false]
    */
-  constructor(events, callback, once, active = true, guard = null, async = false) {
+  constructor(events, callback, once, active = true, guard = null, onRemoveCallback = null, async = false) {
     this.#events = assertInstanceOf(events, SymbolStringArray, 'SymbolStringArray')
-    this.#callback = TypeCheck.assertIsArrowFunction(callback)
+    this.#callback = TypeCheck.assertIsFunctionOrNull(callback)
     this.#once = TypeCheck.assertIsBoolean(once)
     this.#active = TypeCheck.assertIsBoolean(active)
-    this.#guard = TypeCheck.assertIsArrowFunctionOrNull(guard)
+    this.#guard = TypeCheck.assertIsFunctionOrNull(guard)
     this.#async = TypeCheck.assertIsBoolean(async)
+    this.#onRemoveCallback = TypeCheck.assertIsFunctionOrNull(onRemoveCallback)
   }
 
+
+  /**
+   * @return {?(function())}
+   */
+  onRemoveCallback() {
+    return this.#onRemoveCallback;
+  }
 
   /**
    * @return {SymbolStringArray}
@@ -89,11 +102,18 @@ export class EventListenerConfig {
   }
 
   /**
+   * @return {?function()}
+   */
+  onRemoveCallback() {
+    return this.#onRemoveCallback;
+  }
+
+  /**
    * @param {boolean} active
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return EventListenerConfig.create(this.events(), this.callback(), this.once(), active, this.guard(), this.async())
+    return EventListenerConfig.create(this.events(), this.callback(), this.once(), active, this.guard(),this.onRemoveCallback, this.async())
   }
 
   /**
@@ -102,12 +122,13 @@ export class EventListenerConfig {
    * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
+   * @param {?function()} onRemoveCallback
    * @param {boolean} [async=false]
    * @constructor
    * @readonly
    * @return {EventListenerConfig}
    */
-  static create(events, callback, once, active = true, guard = null, async = false) {
-    return deepFreezeSeal(new this(events, callback, once, active, guard, async))
+  static create(events, callback, once, active = true, guard = null, onRemoveCallback, async = false) {
+    return deepFreezeSeal(new this(events, callback, once, active, guard, onRemoveCallback, async))
   }
 }

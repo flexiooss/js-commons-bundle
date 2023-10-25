@@ -18,9 +18,11 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
+   * @param {?function()} onRemoveCallback
+   * @param {boolean} [async=false]
    */
-  constructor(events, callback, priority, once, active = true, guard = null) {
-    super(events, callback, once, active, guard)
+  constructor(events, callback, priority, once, active = true, guard = null,onRemoveCallback,async) {
+    super(events, callback, once, active, guard,onRemoveCallback, async)
     /**
      * @type {Number}
      */
@@ -39,7 +41,7 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @return {EventListenerConfig}
    */
   withActive(active) {
-    return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), this.once(), active, this.guard())
+    return OrderedEventListenerConfig.create(this.events(), this.callback(), this.priority(), this.once(), active, this.guard(), this.onRemoveCallback(), this.async())
   }
 
   /**
@@ -50,11 +52,13 @@ export class OrderedEventListenerConfig extends EventListenerConfig {
    * @param {boolean} once
    * @param {boolean} [active=true]
    * @param {?EventHandlerBase~guardClb} [guard=null]
+   * @param {?function()} onRemoveCallback
+   * @param {boolean} [async=false]
    * @return {OrderedEventListenerConfig}
    * @constructor
    * @readonly
    */
-  static create(events, callback, priority, once, active = true, guard = null) {
-    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority, once, active, guard))
+  static create(events, callback, priority, once, active = true, guard = null,onRemoveCallback,async=false) {
+    return deepFreezeSeal(new OrderedEventListenerConfig(events, callback, priority, once, active, guard,onRemoveCallback,async))
   }
 }

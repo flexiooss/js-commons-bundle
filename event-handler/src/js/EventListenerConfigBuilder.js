@@ -37,6 +37,11 @@ export class EventListenerConfigBuilder {
      * @protected
      */
     this._callback = () => true
+    /**
+     * @type {function()}
+     * @protected
+     */
+    this._onRemoveCallback = null
   }
 
   /**
@@ -54,6 +59,15 @@ export class EventListenerConfigBuilder {
    */
   callback(clb) {
     this._callback = clb
+    return this
+  }
+
+  /**
+   * @param {EventHandlerBase~eventClb} clb
+   * @return {this}
+   */
+  onRemoveCallback(clb) {
+    this._onRemoveCallback = clb
     return this
   }
 
@@ -99,6 +113,7 @@ export class EventListenerConfigBuilder {
       this._once,
       this._active,
       this._guard,
+      this._onRemoveCallback,
       this._async
     )
   }
