@@ -59,15 +59,15 @@ export class ConsoleTransporter extends AbstractTransporter {
                 this.#logContext(log)
                 break
               case HotLogLevel.WARN:
-                globalThis.console.warn(formatedLog)
+                globalThis.console.info(`[WARN]${formatedLog}`)
                 this.#logContext(log)
                 break
               case HotLogLevel.INFO:
-                globalThis.console.info(formatedLog)
+                globalThis.console.info(`[INFO]${formatedLog}`)
                 this.#logContext(log)
                 break
               case HotLogLevel.DEBUG:
-                globalThis.console.log(formatedLog)
+                globalThis.console.log(`[DEBUG]${formatedLog}`)
                 this.#logContext(log)
                 break
               case HotLogLevel.TRACE:
