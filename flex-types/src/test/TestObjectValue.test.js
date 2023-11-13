@@ -7,6 +7,7 @@ import {IndexError} from '../js/IndexError.js'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate.js'
 import fixture_ob1 from './fixtures/_1.json'
 import fixture_ob2 from './fixtures/_2.json'
+import {ObjectValueTypeError} from '../js/ObjectValueTypeError.js'
 
 const assert = require('assert')
 
@@ -547,7 +548,7 @@ export class TestObjectValue extends TestCase {
       'undefined': undefined
     }
 
-    assert.throws(ObjectValue.fromObject(a), IndexError, 'object with undefined value canno\'t be applyed to objectValue')
+    assert.throws(() => ObjectValue.fromObject(a), ObjectValueTypeError, 'object with undefined value canno\'t be applyed to objectValue')
   }
 }
 

@@ -9,7 +9,7 @@ import {
   isBoolean,
   isNumber,
   isArray,
-  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction
+  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction, isStrictObject
 } from './__import__assert.js'
 import {FlexArray} from './FlexArray.js'
 import {ObjectValueTypeError} from "./ObjectValueTypeError.js";
@@ -46,10 +46,7 @@ const arrayToObject = (a, ret = []) => {
 const valueFromItem = (value) => {
   if (isObjectValueValue(value)) return value
 
-  if (isObject(value)) {
-    if (value instanceof ObjectValue) {
-      return value
-    }
+  if (isStrictObject(value)) {
     return ObjectValueBuilder.fromObject(value).build()
   } else if (isArray(value)) {
     let ret = new ObjectValueValueArray()
