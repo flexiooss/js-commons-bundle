@@ -36,7 +36,7 @@ export class IndexError extends BaseException {
    * @return {IndexError}
    */
   static BAD_ENUM_NAME(enumName, name) {
-    return new IndexError(`${enumName}:: Enum have not this index: ${key}`)
+    return new IndexError(`${enumName}:: Enum have not this index: ${name}`)
   }
 
 }
