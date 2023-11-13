@@ -90,7 +90,7 @@ export class FlexEnum {
   static enumValueOf(name) {
     const ret = this.enumValues.find(x => x.__name === name)
     if (typeof ret === 'undefined') {
-      throw IndexError.BAD_ENUM_NAME(name)
+      throw IndexError.BAD_ENUM_NAME(this.name, name)
     }
     return ret
   }

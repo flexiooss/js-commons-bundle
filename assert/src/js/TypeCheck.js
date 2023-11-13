@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFunction, isEmpty, isAsyncFunction
+  isDate, isArrowFunction, isEmpty, isAsyncFunction, isWindow
 } from './is'
 
 
@@ -257,10 +257,13 @@ export class TypeCheck {
    * @return {Function}
    */
   static assertIsAsyncFunction(inst) {
-    assertType(
-      isAsyncFunction(inst),
-      _ => `input should be AsyncFunction given: ${formatType(inst)}`
-    )
+    if (!isAsyncFunction(inst)) {
+      assertType(
+        isFunction(inst),
+        _ => `input should be AsyncFunction given: ${formatType(inst)}`
+      )
+      console.warn(`input should be AsyncFunction given: ${formatType(inst)}`)
+    }
     return inst
   }
 
@@ -282,10 +285,13 @@ export class TypeCheck {
    * @return {Function}
    */
   static assertIsArrowFunction(inst) {
-    assertType(
-      isArrowFunction(inst),
-      _ => `input should be Arrow Function given: ${formatType(inst)}`
-    )
+    if (!isArrowFunction(inst)) {
+      assertType(
+        isFunction(inst),
+        _ => `input should be Arrow Function given: ${formatType(inst)}`
+      )
+      console.warn(`input should be Arrow Function given: ${formatType(inst)}`)
+    }
     return inst
   }
 
@@ -497,6 +503,31 @@ export class TypeCheck {
   static assertIsDateOrNull(inst) {
     if (!isNull(inst)) {
       return TypeCheck.assertIsDate(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Window} inst
+   * @throws {TypeError}
+   * @return {Window}
+   */
+  static assertIsWindow(inst) {
+    assertType(
+      isWindow(inst),
+      _ => `input should be window given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Window} inst
+   * @throws {TypeError}
+   * @return {?Window}
+   */
+  static assertIsWindowOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsWindow(inst)
     }
     return inst
   }

@@ -40,9 +40,12 @@ export class CacheRequestDispatcher {
         resolve.call(null, response)
         return
       }
-      const listener = this.on().requested(requestID, () => {
+      /**
+       * @type {String}
+       */
+      const listenerToken = this.on().requested(requestID, () => {
         resolve.call(null, this.#responses.has(requestID) ? this.#responses.get(requestID) : null)
-        this.#orderedEventHandler.removeEventListener(listener)
+        this.#orderedEventHandler.removeEventListener(listenerToken)
       })
       if (!this.#requests.has(requestID)) {
 
@@ -52,7 +55,7 @@ export class CacheRequestDispatcher {
             this.postResponse(requestID, response)
           })
           .catch((e) => {
-            this.#orderedEventHandler.removeEventListener(listener)
+            this.#orderedEventHandler.removeEventListener(listenerToken)
             this.#requests.delete(requestID)
             reject.call(null, e)
           })

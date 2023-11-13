@@ -240,6 +240,32 @@ export class TestLogger extends TestCase {
 
   }
 
+  testExample() {
+    /**
+     * @type {HotLog}
+     */
+    const hotLog = HotLog.getHotLog()
+      .addTransporter(ConsoleTransporterBuilder.getWithNodejsConsoleFormater().build())
+      .addTransporter(
+        ConsoleTransporterBuilder
+          .getWithNodejsConsoleFormater()
+          .filters(new FilterList(
+            new RangeFilterBuilder()
+              .matchEmitter(new RegExp('test1'))
+              .maxLevelWarn()
+              .build()
+          ))
+          .build()
+      )
+      .levelError()
+      .disableSilentMode()
+    Logger.getLogger('test1').debug('should log - 1')
+    Logger.getLogger('test2').debug('should not log - 2')
+
+    Logger.getLogger('test1').error('should log once - 3')
+    Logger.getLogger('test2').error('should log - 4')
+  }
+
 }
 
-runTest(TestLogger)
+runTest(TestLogger, 'testExample')

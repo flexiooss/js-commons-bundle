@@ -92,3 +92,25 @@ export const slugify = (str, separator = '-') => {
  */
 export const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 
+/**
+ *
+ * @param {string} str Input text
+ * @param {boolean} [replaceMode=true] Use replace instead of insert
+ * @return {string}
+ */
+export const nl2br = (str, replaceMode = true) => {
+  const breakTag = '<br />'
+  const replaceStr = (replaceMode) ? '$1' + breakTag : '$1' + breakTag + '$2';
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+}
+
+
+/**
+ * @param {string} str Input text
+ * @param {boolean} [replaceMode=true] Use replace instead of insert
+ * @return {string}
+ */
+export const br2nl = (str, replaceMode = true) => {
+  const replaceStr = (replaceMode) ? "\n" : "\n"+'$1';
+  return str.replace(/(<\s*\/?br\s*[\/]?>)/gi, replaceStr);
+}

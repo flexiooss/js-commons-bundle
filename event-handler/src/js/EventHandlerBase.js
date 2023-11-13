@@ -1,7 +1,8 @@
-import {assert, isNull} from './__import__assert.js'
+import {assert, assertInstanceOf, isFunction, isNull} from './__import__assert.js'
 import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
+import {EventListenerConfigBuilder} from "./EventListenerConfigBuilder.js";
 
 
 /**
@@ -45,6 +46,11 @@ export class EventHandlerBase {
      * @protected
      */
     this._listeners = new Map()
+    /**
+     * @params {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
+     * @protected
+     */
+    this._asyncListeners = new Map()
 
     /**
      * @type {Map<string, Map<string,DispatchExecution>>}
@@ -59,7 +65,7 @@ export class EventHandlerBase {
    * @param {?string} [token=null]
    */
   dispatch(event, payload, token = null) {
-    if (this._listeners.has(event)) {
+    if (this._listeners.has(event) || this._asyncListeners.has(event)) {
 
       /**
        * @type {DispatchExecution}
@@ -79,6 +85,28 @@ export class EventHandlerBase {
               }
             }
           )
+        if (dispatchExecution.asyncListeners().size) {
+          let asyncListeners = []
+          dispatchExecution.asyncListeners()
+            .forEach(
+              /**
+               * @param {EventListenerConfig} eventListenerConfig
+               * @param {string} listenerToken
+               */
+              (eventListenerConfig, listenerToken) => {
+                asyncListeners.push((() => {
+                  return new Promise((ok, ko) => {
+                    ok()
+                    if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
+                      this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                    }
+                  })
+                })())
+
+              }
+            )
+          Promise.all(asyncListeners)
+        }
       } finally {
         this._stopDispatch(dispatchExecution)
       }
@@ -118,21 +146,25 @@ export class EventHandlerBase {
   }
 
   /**
-   * @param {EventListenerConfig} eventListenerConfig
+   * @param {EventListenerConfig|function(EventListenerConfigBuilder):EventListenerConfig} eventListenerConfig
    * @returns {(String|StringArray)}
    */
   addEventListener(eventListenerConfig) {
-    assert(eventListenerConfig instanceof EventListenerConfig,
-      'EventHandlerBase:addEventListener: ̀`eventListenerParam` argument assert be an instance of EventListenerConfig'
-    )
+    if (isFunction(eventListenerConfig)) {
+      eventListenerConfig = eventListenerConfig.call(null, new EventListenerConfigBuilder())
+    }
+    assertInstanceOf(eventListenerConfig , EventListenerConfig, 'EventListenerConfig')
     const ids = new StringArray()
 
     for (const event of eventListenerConfig.events()) {
-      this._ensureHaveListenersMap(event)
       const id = this.nextID()
-
-      this._listeners.get(event)
-        .set(id, eventListenerConfig)
+      this._ensureHaveAsyncListenersMap(event)
+      this._ensureHaveListenersMap(event)
+      if (eventListenerConfig.async()) {
+        this._asyncListeners.get(event).set(id, eventListenerConfig)
+      } else {
+        this._listeners.get(event).set(id, eventListenerConfig)
+      }
       ids.push(id)
     }
 
@@ -150,24 +182,70 @@ export class EventHandlerBase {
   }
 
   /**
+   * @param {(string|Symbol)} event
+   * @protected
+   */
+  _ensureHaveAsyncListenersMap(event) {
+    if (!(this._asyncListeners.has(event))) {
+      this._asyncListeners.set(event, new Map())
+    }
+  }
+
+  /**
    * @param {(String|Symbol)} event of Listener
    * @param {String} [token=null]
    * @throws AssertionError
    * @return {boolean}
    */
   removeEventListener(event, token = null) {
+    let removed = false
     if (this._listeners.has(event)) {
       if (isNull(token)) {
+        this._listeners.get(event).forEach((v, k) => {
+          this._listeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
         this._listeners.delete(event)
-        return true
+        removed = true
       } else {
         if (this._listeners.has(event)) {
-          this._listeners.get(event).delete(token)
+          if (this._listeners.get(event).has(token)) {
+            const config = this._listeners.get(event).get(token)
+            this._listeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
           return true
         }
       }
     }
-    return false
+    if (this._asyncListeners.has(event)) {
+      if (isNull(token)) {
+        this._asyncListeners.get(event).forEach((v, k) => {
+          this._asyncListeners.get(event).delete(k)
+          if (!isNull(v.onRemoveCallback())) {
+            v.onRemoveCallback().call(null)
+          }
+        })
+        this._asyncListeners.delete(event)
+        removed = true
+      } else {
+        if (this._asyncListeners.has(event)) {
+          if (this._asyncListeners.get(event).has(token)) {
+            const config = this._asyncListeners.get(event).get(token)
+            this._asyncListeners.get(event).delete(token)
+            if (!isNull(config.onRemoveCallback())) {
+              config.onRemoveCallback().call(null)
+            }
+          }
+          return true
+        }
+      }
+    }
+    return removed
   }
 
   /**
@@ -184,6 +262,19 @@ export class EventHandlerBase {
          */
         const current = this._listeners.get(event).get(token)
         this._listeners.get(event).set(
+          token,
+          current.withActive(false)
+        )
+        return true
+      }
+    }
+    if (this._asyncListeners.has(event)) {
+      if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && this._asyncListeners.get(event).get(token).active()) {
+        /**
+         * @type {EventListenerConfig}
+         */
+        const current = this._asyncListeners.get(event).get(token)
+        this._asyncListeners.get(event).set(
           token,
           current.withActive(false)
         )
@@ -213,6 +304,20 @@ export class EventHandlerBase {
         return true
       }
     }
+
+    if (this._asyncListeners.has(event)) {
+      if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && !this._asyncListeners.get(event).get(token).active()) {
+        /**
+         * @type {EventListenerConfig}
+         */
+        const current = this._asyncListeners.get(event).get(token)
+        this._asyncListeners.get(event).set(
+          token,
+          current.withActive(true)
+        )
+        return true
+      }
+    }
     return false
   }
 
@@ -222,7 +327,7 @@ export class EventHandlerBase {
    * @returns {boolean}
    */
   hasEventListener(event, token) {
-    return (this._listeners.has(event)) && (this._listeners.get(event).has(token))
+    return ((this._listeners.has(event)) && (this._listeners.get(event).has(token))) || ((this._asyncListeners.has(event)) && (this._asyncListeners.get(event).has(token)))
   }
 
   /**
@@ -241,6 +346,7 @@ export class EventHandlerBase {
       this.nextID(),
       payload,
       this._listeners.get(event),
+      this._asyncListeners.get(event),
       token
     )
 
@@ -307,6 +413,7 @@ export class EventHandlerBase {
    */
   clear() {
     this._listeners.clear()
+    this._asyncListeners.clear()
     if (!isNull(this.#currentExecution)) {
       this.#currentExecution.remove()
     }
@@ -346,6 +453,10 @@ class DispatchExecution {
    */
   #listeners
   /**
+   * @type  {Map<string,EventListenerConfig>}
+   */
+  #asyncListeners
+  /**
    * @type {Set<string>}
    */
   #pending
@@ -363,14 +474,16 @@ class DispatchExecution {
    * @param {string} id
    * @param {*} payload
    * @param {Map<string,EventListenerConfig>} listeners
+   * @param {Map<string,EventListenerConfig>} asyncListeners
    * @param {?string} token
    */
-  constructor(event, id, payload, listeners, token) {
+  constructor(event, id, payload, listeners, asyncListeners, token) {
     this.#event = event
     this.#id = id
     this.#token = token
     this.#payload = payload
     this.#listeners = listeners
+    this.#asyncListeners = asyncListeners
     this.#pending = this.#initPending()
   }
 
@@ -379,6 +492,13 @@ class DispatchExecution {
    */
   listeners() {
     return this.#listeners
+  }
+
+  /**
+   * @return  {Map<string,EventListenerConfig>}
+   */
+  asyncListeners() {
+    return this.#asyncListeners
   }
 
   /**
@@ -415,6 +535,9 @@ class DispatchExecution {
   #initPending() {
     const pending = new Set()
     this.#listeners.forEach((v, k) => {
+      pending.add(k)
+    })
+    this.#asyncListeners.forEach((v, k) => {
       pending.add(k)
     })
     return pending
