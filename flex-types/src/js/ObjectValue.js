@@ -12,6 +12,7 @@ import {
   assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction
 } from './__import__assert.js'
 import {FlexArray} from './FlexArray.js'
+import {ObjectValueTypeError} from "./ObjectValueTypeError.js";
 
 /**
  * @typedef {(null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue | FlexDateTime | FlexDate | FlexTime | FlexZonedDateTime)} ObjectValueValue
@@ -40,26 +41,25 @@ const arrayToObject = (a, ret = []) => {
 /**
  * @param {*} value
  * @return {ObjectValueValue}
+ * @throws {ObjectValueTypeError}
  */
 const valueFromItem = (value) => {
+  if (isObjectValueValue(value)) return value
+
   if (isObject(value)) {
     if (value instanceof ObjectValue) {
       return value
     }
     return ObjectValueBuilder.fromObject(value).build()
   } else if (isArray(value)) {
-    if (value instanceof ObjectValueValueArray) {
-      return value
-    }
     let ret = new ObjectValueValueArray()
-
     for (const v of value) {
       ret.push(valueFromItem(v))
     }
     return ret
   }
 
-  return value
+  throw ObjectValueTypeError.NOT_RECOGNIZED(value)
 }
 
 /**

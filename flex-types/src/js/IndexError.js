@@ -1,7 +1,9 @@
-export class IndexError extends Error {
-  constructor(message = '', ...params) {
-    super(...params)
-    this.message = message
+import {BaseException} from "../../../js-type-helpers/index.js";
+
+export class IndexError extends BaseException {
+
+  realName() {
+    return 'IndexError'
   }
 
   /**
@@ -9,12 +11,7 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY(key) {
-    return new IndexError(
-      IndexError.toString(
-        'Array have not this index',
-        key
-      )
-    )
+    return new IndexError(`Array have not this index: ${key}`)
   }
 
   /**
@@ -22,12 +19,7 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_ARRAY_KEY_GT_LENGTH(key) {
-    return new IndexError(
-      IndexError.toString(
-        'Array have not this index, array length less than key',
-        key
-      )
-    )
+    return new IndexError(`Array have not this index, array length less than key: ${key}`)
   }
 
   /**
@@ -35,12 +27,7 @@ export class IndexError extends Error {
    * @return {IndexError}
    */
   static BAD_MAP_KEY(key) {
-    return new IndexError(
-      IndexError.toString(
-        'Map have not this index',
-        key
-      )
-    )
+    return new IndexError(`Map have not this index: ${key}`)
   }
 
   /**
@@ -48,18 +35,10 @@ export class IndexError extends Error {
    * @param {string} name
    * @return {IndexError}
    */
-  static BAD_ENUM_NAME(enumName,name) {
-    return new IndexError(
-      IndexError.toString(
-        `${enumName}:: Enum have not this index`,
-        name
-      )
-    )
+  static BAD_ENUM_NAME(enumName, name) {
+    return new IndexError(`${enumName}:: Enum have not this index: ${key}`)
   }
 
-  static toString(message, key) {
-    return `${message} : ${key} `
-  }
 }
 
 
