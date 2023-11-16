@@ -7,6 +7,7 @@ import {IndexError} from '../js/IndexError.js'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate.js'
 import fixture_ob1 from './fixtures/_1.json'
 import fixture_ob2 from './fixtures/_2.json'
+import {ObjectValueTypeError} from '../js/ObjectValueTypeError.js'
 
 const assert = require('assert')
 
@@ -326,6 +327,7 @@ export class TestObjectValue extends TestCase {
       .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
       .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
       .build()
+    assert.ok(ob.equals(ObjectValue.fromObject(ob.toObject()).build()), 'ObjectValue.fromObject')
 
     /**
      * @type {ObjectValue}
@@ -539,6 +541,14 @@ export class TestObjectValue extends TestCase {
 
     assert.ok(!a2.has('string'), 'a2 should not have `string`')
 
+  }
+
+  testFromObjectUndefined() {
+    const a = {
+      'undefined': undefined
+    }
+
+    assert.throws(() => ObjectValue.fromObject(a), ObjectValueTypeError, 'object with undefined value canno\'t be applyed to objectValue')
   }
 }
 
