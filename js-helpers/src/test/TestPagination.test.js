@@ -39,6 +39,20 @@ export class TestPaginationTest extends TestCase {
   testContentRange() {
     assert.deepStrictEqual(ContentRangeHelper.getTotal('0-100/521'), 521)
   }
+
+  testContentRangeMin() {
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMin('0-100/521'), 0)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMin('Toto 0-5/5'), 0)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMin('Toto lulu-tata 06-5/5'), 6)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMin('Toto lulu-tata 06--5/5'), null)
+  }
+
+  testContentRangeMax() {
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMax('0-100/521'), 100)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMax('Toto 0-5/5'), 5)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMax('Toto lulu-tata 6-05/5'), 5)
+    assert.deepStrictEqual(ContentRangeHelper.getRangeMax('Toto lulu-tata 06--5/5'), null)
+  }
 }
 
 runTest(TestPaginationTest)
