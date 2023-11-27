@@ -114,3 +114,14 @@ export const br2nl = (str, replaceMode = true) => {
   const replaceStr = (replaceMode) ? "\n" : "\n"+'$1';
   return str.replace(/(<\s*\/?br\s*[\/]?>)/gi, replaceStr);
 }
+
+/**
+ * @param {string} txt
+ * @param {RegExp} regexp
+ * @param {object} dict
+ * @param {string} [defaultValue='']
+ * @return {string}
+ */
+export const replaceFromDict = (txt, regexp, dict, defaultValue = '')=>{
+  return txt.replace(regexp, (m) => dict?.[m] ?? defaultValue)
+}
