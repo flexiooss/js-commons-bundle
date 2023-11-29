@@ -6,6 +6,7 @@ const assert = require('assert')
 
 export class TestPaginationTest extends TestCase {
   testRangeMin() {
+    assert.deepStrictEqual(PaginationHelper.rangeMin(0, 0), 0)
     assert.deepStrictEqual(PaginationHelper.rangeMin(0, 100), 0)
     assert.deepStrictEqual(PaginationHelper.rangeMin(0, 100, 5), 5)
     assert.deepStrictEqual(PaginationHelper.rangeMin(1, 55), 55)
@@ -19,6 +20,7 @@ export class TestPaginationTest extends TestCase {
   }
 
   testRangeMax() {
+    assert.deepStrictEqual(PaginationHelper.rangeMax(0, 0), 0)
     assert.deepStrictEqual(PaginationHelper.rangeMax(0, 100), 99)
     assert.deepStrictEqual(PaginationHelper.rangeMax(0, 100, 5), 104)
     assert.deepStrictEqual(PaginationHelper.rangeMax(1, 55), 109)
