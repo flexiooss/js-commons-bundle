@@ -8,7 +8,7 @@ export class PaginationHelper {
    * @return {number}
    */
   static rangeMin(pageIndex, maxByPage, offset = 0) {
-    return pageIndex * maxByPage + offset
+    return Math.max((pageIndex * maxByPage + offset),0)
   }
 
   /**
@@ -18,7 +18,7 @@ export class PaginationHelper {
    * @return {number}
    */
   static rangeMax(pageIndex, maxByPage, offset = 0) {
-    return (pageIndex * maxByPage + offset) + maxByPage - 1
+    return Math.max(((pageIndex * maxByPage + offset) + maxByPage - 1),0)
   }
   /**
    * @param {number} totalElements

@@ -1,5 +1,14 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {br2nl, camelCase, firstUppercase, matchAll2Array, nl2br, padLeft, slugify} from '../js/stringHelpers.js'
+import {
+  br2nl,
+  camelCase,
+  firstUppercase,
+  matchAll2Array,
+  nl2br,
+  padLeft,
+  replaceFromDict,
+  slugify
+} from '../js/stringHelpers.js'
 
 const assert = require('assert')
 
@@ -74,6 +83,13 @@ comment
     this.log(br2nl(a, false))
     assert.equal("coucou\ncomment\nça va\n?", br2nl(a), 'br should be replaced by ln')
     assert.equal( "coucou\n<br />comment\n<br />ça va\n<br />?", br2nl(a, false), 'nl should be inserted after br')
+  }
+
+  testReplaceFromDict(){
+    const a = '["coucou", "blabla"]'
+    replaceFromDict(a, /\[\],/g,{"[":"(","]":")"})
+    assert.equal('("coucou" "blabla")', replaceFromDict(a, /[\[\],]/g,{"[":"(","]":")"}), 'should be replaced from dict with default value empty')
+    assert.equal('("coucou"boum "blabla")', replaceFromDict(a, /[\[\],]/g,{"[":"(","]":")"}, 'boum'), 'should be replaced from dict with custom  default value')
   }
 }
 
