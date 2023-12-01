@@ -1,4 +1,5 @@
 import {isNull} from '../__import__assert.js'
+import {Base64} from "../../../../js-helpers/index.js";
 
 
 export class DocumentCookieHandler {
@@ -50,7 +51,7 @@ export class DocumentCookieHandler {
      * @type {string[]}
      */
     const contentChunks = this.__chunksFor(
-      btoa(value),
+      Base64.encode(value),
       this.__config.chunkLength()
     )
 
@@ -290,7 +291,7 @@ export class DocumentCookieHandler {
     /**
      * @type {string}
      */
-    const ret = atob(chunks.join(''))
+    const ret = Base64.decode(chunks.join(''))
 
     return (ret === '') ? null : ret
   }
