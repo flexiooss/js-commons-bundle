@@ -550,6 +550,72 @@ export class TestObjectValue extends TestCase {
 
     assert.throws(() => ObjectValue.fromObject(a), ObjectValueTypeError, 'object with undefined value canno\'t be applyed to objectValue')
   }
+
+
+  testToObject(){
+    /**
+     * @type {ObjectValue}
+     */
+    const ob = ObjectValue
+      .builder()
+      .stringValue('string', 'toto')
+      .stringValue('stringNull', null)
+      .booleanValue('bool', true)
+      .numberValue('number', 12)
+      .arrayValue('array', ['tutu', 'roro', 12])
+      .arrayValue('arrayEmpty', [])
+      .arrayValue('arrayNull', null)
+      .flexDateTimeValue('dt', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32'))
+      .flexDateValue('d', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17'))
+      .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
+      .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
+      .build()
+
+    this.log(ob.toObject(), 'to object')
+    this.log(ob.toObjectMini(), 'to object mini')
+
+    assert.equal(
+      JSON.stringify(ob.toObject()),
+      JSON.stringify({
+        "string": "toto",
+        "stringNull": null,
+        "bool": true,
+        "number": 12,
+        "array": [
+          "tutu",
+          "roro",
+          12
+        ],
+        "arrayEmpty": [],
+        "arrayNull": null,
+        "dt": "1992-12-17T04:17:32",
+        "d": "1992-10-17",
+        "t": "04:17:32.527",
+        "zdt": "1992-10-17T04:17:32+03:00"
+      }),
+      'to object should export as object'
+    )
+
+    assert.equal(
+      JSON.stringify(ob.toObjectMini()),
+      JSON.stringify({
+        "string": "toto",
+        "bool": true,
+        "number": 12,
+        "array": [
+          "tutu",
+          "roro",
+          12
+        ],
+        "arrayEmpty": [],
+        "dt": "1992-12-17T04:17:32",
+        "d": "1992-10-17",
+        "t": "04:17:32.527",
+        "zdt": "1992-10-17T04:17:32+03:00"
+      }),
+      'to object should export as object without null values'
+    )
+  }
 }
 
 
