@@ -68,7 +68,7 @@ export class EventListenerConfigBuilder {
   }
 
   /**
-   * @param {EventHandlerBase~eventClb} clb
+   * @param {function()} clb
    * @return {this}
    */
   onRemoveCallback(clb) {
