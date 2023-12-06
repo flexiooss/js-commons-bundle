@@ -17,6 +17,10 @@ export class Throttle {
    * @type {?number}
    */
   #timer = null
+  /**
+   * @type {?function()}
+   */
+  #toExecute = null
 
   /**
    * @param {number} delay ms
@@ -55,6 +59,31 @@ export class Throttle {
 
     }
   }
+
+  invokeAndEnsure(callback) {
+    TypeCheck.assertIsFunction(callback)
+    if (isNull(this.#timer)) {
+
+      this.#now = Date.now()
+      this.#toExecute = null
+      if ((this.#last && (this.#now > this.#last + this.#delay)) || isNull(this.#last)) {
+        callback()
+        this.#last = this.#now
+        this.#timer = setTimeout(
+          () => {
+            this.#timer = null
+            if (!isNull(this.#toExecute)) {
+              this.invokeAndEnsure(this.#toExecute)
+            }
+          },
+          this.#delay
+        )
+      }
+    } else {
+      this.#toExecute = callback
+    }
+  }
+
 
   /**
    * @param {Function} callback

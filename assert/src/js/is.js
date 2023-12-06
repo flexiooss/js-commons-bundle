@@ -174,7 +174,7 @@ export const isStrictArray = a => isArray(a) && a.constructor.name === 'Array'
  * @function
  * @export
  */
-export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) && !isNull(a) && a instanceof RegExp
+export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) && !isNull(a) && (a instanceof RegExp )
 /**
  *
  * @param {*} a

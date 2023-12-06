@@ -584,6 +584,21 @@ export class ObjectValue {
    * @return {Object}
    */
   toObject() {
+    return this.#toObject()
+  }
+
+  /**
+   * @return {Object}
+   */
+  toObjectMini() {
+    return this.#toObject(true)
+  }
+
+  /**
+   * @param {boolean} [mini=false]
+   * @return {Object}
+   */
+  #toObject(mini = false) {
     const ret = {}
     this.#map.forEach((v, k) => {
       let out = v
@@ -593,8 +608,9 @@ export class ObjectValue {
       } else if (isArray(v)) {
         out = arrayToObject(v)
       }
-
-      ret[k] = out
+      if (!mini || !isNull(out)) {
+        ret[k] = out
+      }
     })
     return ret
   }

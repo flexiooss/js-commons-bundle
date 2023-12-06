@@ -15,3 +15,4 @@ export {LightOrDarkColor,Color} from './src/js/LightOrDarkColor.js'
 
 
 export {DOMPositionHelper} from './src/js/position/DOMPositionHelper.js'
+export {Base64EncoderException,Base64} from './src/js/Base64.js'
