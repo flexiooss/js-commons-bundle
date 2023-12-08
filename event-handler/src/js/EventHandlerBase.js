@@ -3,6 +3,7 @@ import {UID, Sequence} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
 import {EventListenerConfigBuilder} from "./EventListenerConfigBuilder.js";
+import {BaseException} from "../../../js-type-helpers/index.js";
 
 
 /**
@@ -71,8 +72,10 @@ export class EventHandlerBase {
        * @type {DispatchExecution}
        */
       const dispatchExecution = this._prepareDispatch(event, payload, token)
-
+      let execExceptions = []
+      let asyncExecExceptions = []
       try {
+
         dispatchExecution.listeners()
           .forEach(
             /**
@@ -81,10 +84,16 @@ export class EventHandlerBase {
              */
             (eventListenerConfig, listenerToken) => {
               if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
-                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                try {
+                  this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                } catch (e) {
+                  if(e instanceof EventHandlerMaxExecutionException) throw e
+                  execExceptions.push(e)
+                }
               }
             }
           )
+
         if (dispatchExecution.asyncListeners().size) {
           let asyncListeners = []
           dispatchExecution.asyncListeners()
@@ -96,17 +105,47 @@ export class EventHandlerBase {
               (eventListenerConfig, listenerToken) => {
                 asyncListeners.push((() => {
                   return new Promise((ok, ko) => {
-                    ok()
                     if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
                       this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                      ok()
+                    } else {
+                      ok()
                     }
                   })
                 })())
 
               }
             )
-          Promise.all(asyncListeners)
+          let promiseExec;
+          if ('allSettled' in Promise) {
+            promiseExec = Promise.allSettled(asyncListeners)
+          } else {
+            promiseExec = Promise.all(asyncListeners)
+
+          }
+
+          promiseExec.then(res => {
+            res.forEach(v => {
+              if (v?.status === 'rejected') {
+                asyncExecExceptions.push(v?.reason)
+              }
+            })
+            if (asyncExecExceptions.length) {
+              console.error('EventHandlerBase async rejection', asyncExecExceptions)
+              throw EventHandlerExecutionException.async(asyncExecExceptions)
+            }
+
+          })
+            .catch(ko => {
+              console.error('EventHandlerBase async rejection', ko)
+              throw ko
+            });
         }
+
+        if (execExceptions.length) {
+          throw EventHandlerExecutionException.sync(execExceptions)
+        }
+
       } finally {
         this._stopDispatch(dispatchExecution)
       }
@@ -153,7 +192,7 @@ export class EventHandlerBase {
     if (isFunction(eventListenerConfig)) {
       eventListenerConfig = eventListenerConfig.call(null, new EventListenerConfigBuilder())
     }
-    assertInstanceOf(eventListenerConfig , EventListenerConfig, 'EventListenerConfig')
+    assertInstanceOf(eventListenerConfig, EventListenerConfig, 'EventListenerConfig')
     const ids = new StringArray()
 
     for (const event of eventListenerConfig.events()) {
@@ -378,11 +417,12 @@ export class EventHandlerBase {
   /**
    * @param {(string|Symbol)} event
    * @return {EventHandlerBase}
+   * @throws {EventHandlerMaxExecutionException}
    * @protected
    */
   _ensureMaxExecution(event) {
     if (this._executionQueue.get(event).size + 1 > this._maxExecution) {
-      throw new Error('MAX EXECUTION ' + this._maxExecution + ' FOR : ' + event)
+      throw new EventHandlerMaxExecutionException('MAX EXECUTION ' + this._maxExecution + ' FOR : ' + event)
     }
     return this
   }
@@ -606,4 +646,75 @@ class DispatchExecution {
   }
 }
 
+export class EventHandlerMaxExecutionException extends BaseException {
 
+  realName() {
+    return 'EventHandlerMaxExecutionException'
+  }
+}
+export class EventHandlerExecutionException extends BaseException {
+  /**
+   * @type {Error[]}
+   */
+  #errors
+
+  /**
+   * @param {?string|function():string} [message=null]
+   * @param {?number} [code=null]
+   * @param {Error[]} errors
+   * @param ...params
+   */
+  constructor(message = null, code = null, errors, ...params) {
+    super(message, code, ...params);
+    /**
+     * @type {Error[]}
+     */
+    this.#errors = errors
+  }
+
+  /**
+   * @return {string}
+   */
+  realName() {
+    return 'EventHandlerExecutionException';
+  }
+
+  /**
+   * @param {Error[]} list
+   * @return {EventHandlerExecutionException}
+   */
+  static sync(list) {
+    return new EventHandlerExecutionException(`Errors on sync event handler execution: ${list.length}`, null, list)
+  }
+
+  /**
+   * @param {Error[]} list
+   * @return {EventHandlerExecutionException}
+   */
+  static async(list) {
+    return new EventHandlerExecutionException(`Errors on async event handler execution: ${list.length}`, null, list)
+  }
+
+  /**
+   * @return {string}
+   */
+  toString() {
+    return super.toString() + this.#errorsAsString()
+  }
+
+  /**
+   * @return {string}
+   */
+  #errorsAsString() {
+    return this.#errors.map((v) => v.toString()).join(' | ')
+  }
+
+  /**
+   * @return {{date, realName: string, trace: string, name: string, message: string}}
+   */
+  toJSON() {
+    const res = super.toJSON()
+    res.errors = this.#errorsAsString()
+    return res
+  }
+}
