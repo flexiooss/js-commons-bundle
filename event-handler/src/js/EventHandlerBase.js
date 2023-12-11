@@ -87,7 +87,7 @@ export class EventHandlerBase {
                 try {
                   this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
                 } catch (e) {
-                  if(e instanceof EventHandlerMaxExecutionException) throw e
+                  if (e instanceof EventHandlerMaxExecutionException) throw e
                   execExceptions.push(e)
                 }
               }
@@ -652,6 +652,7 @@ export class EventHandlerMaxExecutionException extends BaseException {
     return 'EventHandlerMaxExecutionException'
   }
 }
+
 export class EventHandlerExecutionException extends BaseException {
   /**
    * @type {Error[]}
@@ -665,11 +666,19 @@ export class EventHandlerExecutionException extends BaseException {
    * @param ...params
    */
   constructor(message = null, code = null, errors, ...params) {
-    super(message, code, ...params);
+    super(message + ' | ' + errors.map((v) => v.toString()).join(' | '), code, ...params);
     /**
      * @type {Error[]}
      */
     this.#errors = errors
+  }
+
+  /**
+   * @param {Error[]} list
+   * @return {string}
+   */
+  static formatErrors(list) {
+    return list.map((v) => v.toString()).join(' | ')
   }
 
   /**
@@ -684,7 +693,7 @@ export class EventHandlerExecutionException extends BaseException {
    * @return {EventHandlerExecutionException}
    */
   static sync(list) {
-    return new EventHandlerExecutionException(`Errors on sync event handler execution: ${list.length}`, null, list)
+    return new EventHandlerExecutionException(`${list.length} Errors on sync event handler: ${EventHandlerExecutionException.formatErrors(list)}`, null, list)
   }
 
   /**
@@ -692,21 +701,7 @@ export class EventHandlerExecutionException extends BaseException {
    * @return {EventHandlerExecutionException}
    */
   static async(list) {
-    return new EventHandlerExecutionException(`Errors on async event handler execution: ${list.length}`, null, list)
-  }
-
-  /**
-   * @return {string}
-   */
-  toString() {
-    return super.toString() + this.#errorsAsString()
-  }
-
-  /**
-   * @return {string}
-   */
-  #errorsAsString() {
-    return this.#errors.map((v) => v.toString()).join(' | ')
+    return new EventHandlerExecutionException(`${list.length} Errors on async event handler: ${EventHandlerExecutionException.formatErrors(list)}`, null, list)
   }
 
   /**
@@ -714,7 +709,7 @@ export class EventHandlerExecutionException extends BaseException {
    */
   toJSON() {
     const res = super.toJSON()
-    res.errors = this.#errorsAsString()
+    res.errors = this.#errors.map((v) => JSON.stringify(v)).join(' | ')
     return res
   }
 }
