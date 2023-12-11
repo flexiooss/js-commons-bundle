@@ -84,12 +84,12 @@ export class EventHandlerBase {
              */
             (eventListenerConfig, listenerToken) => {
               if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
-                try {
+                // try {
                   this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
-                } catch (e) {
-                  if (e instanceof EventHandlerMaxExecutionException) throw e
-                  execExceptions.push(e)
-                }
+                // } catch (e) {
+                //   if (e instanceof EventHandlerMaxExecutionException) throw e
+                //   execExceptions.push(e)
+                // }
               }
             }
           )
@@ -142,9 +142,9 @@ export class EventHandlerBase {
             });
         }
 
-        if (execExceptions.length) {
-          throw EventHandlerExecutionException.sync(execExceptions)
-        }
+        // if (execExceptions.length) {
+        //   throw EventHandlerExecutionException.sync(execExceptions)
+        // }
 
       } finally {
         this._stopDispatch(dispatchExecution)
