@@ -1,5 +1,5 @@
 import {HotLogLevel} from "../../HotLogLevel.js";
-import { assertType, isArrowFunction, isFunction, isNull} from "../../../../../assert/index.js";
+import {assertType, isArrowFunction, isFunction, isNull} from "../../../../../assert/index.js";
 import {implementsHotLogFormater} from "../../formaters/HotLogFormater.js";
 import {ThresholdResolver} from "../helpers/ThresholdResolver.js";
 import {FilterList} from "../filters/FilterList.js";
@@ -55,7 +55,11 @@ export class ConsoleTransporter extends AbstractTransporter {
             switch (log.level()) {
               case HotLogLevel.FATAL:
               case HotLogLevel.ERROR:
-                globalThis.console.error(formatedLog)
+                if (new RegExp('\[API\]', 'ig').test(formatedLog)) {
+                  globalThis.console.error(`%c API :: ${formatedLog}`, 'background: #911127; color: #e0dadb');
+                } else {
+                  globalThis.console.error(formatedLog)
+                }
                 this.#logContext(log)
                 break
               case HotLogLevel.WARN:
