@@ -1,5 +1,9 @@
 /* global runTest */
-import {EventHandlerBase} from '../js/EventHandlerBase.js'
+import {
+  EventHandlerBase,
+  EventHandlerExecutionException,
+  EventHandlerMaxExecutionException
+} from '../js/EventHandlerBase.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder.js'
 import {builder} from "../../../js-generator-helpers/index.js";
@@ -13,10 +17,10 @@ export class TestEventHandlerBase extends TestCase {
   /**
    * @type {boolean}
    */
-  // debug = true
+  debug = true
 
   setUp() {
-    this.handler = new EventHandlerBase(10)
+    this.handler = new EventHandlerBase(5)
   }
 
   testHaveListener() {
@@ -276,11 +280,12 @@ export class TestEventHandlerBase extends TestCase {
         })
         .build()
     )
+    this.log(result, 'all results')
 
     assert.throws(() => {
         this.handler.dispatch(EVENT_1, 'a')
       },
-      /^Error: MAX EXECUTION/,
+      /EventHandlerMaxExecutionException/,
       'should throw max exec'
     )
 
@@ -525,6 +530,40 @@ export class TestEventHandlerBase extends TestCase {
       this.handler.removeEventListener(EVENT_1, token_1)
 
     })
+  }
+
+
+  async asyncTestHandleExceptions() {
+    const EVENT_1 = 'EVENT_1'
+    this.handler.addEventListener(
+      EventListenerConfigBuilder.listen(EVENT_1).callback(() => {
+        this.log('ok')
+      }).build()
+    )
+    this.handler.addEventListener(
+      EventListenerConfigBuilder.listen(EVENT_1).callback(() => {
+        throw 'boum'
+      }).build()
+    )
+
+
+    // this.handler.addEventListener(
+    //   EventListenerConfigBuilder.listen(EVENT_1).callback(() => {
+    //     this.log('async ok')
+    //   }).async().build()
+    // )
+    // this.handler.addEventListener(
+    //   EventListenerConfigBuilder.listen(EVENT_1).callback(() => {
+    //     throw 'async-boum'
+    //   }).async().build()
+    // )
+    try {
+
+      this.handler.dispatch(EVENT_1)
+    } catch (e) {
+      this.log(e)
+      if (!e instanceof EventHandlerExecutionException) throw e
+    }
   }
 
 
