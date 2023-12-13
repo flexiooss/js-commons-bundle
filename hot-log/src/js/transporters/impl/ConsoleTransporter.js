@@ -55,7 +55,7 @@ export class ConsoleTransporter extends AbstractTransporter {
             switch (log.level()) {
               case HotLogLevel.FATAL:
               case HotLogLevel.ERROR:
-                if (new RegExp('\[API\]', 'ig').test(formatedLog)) {
+                if (new RegExp('\\[API\\]', 'ig').test(formatedLog)) {
                   globalThis.console.error(`%c API :: ${formatedLog}`, 'background: #911127; color: #e0dadb');
                 } else {
                   globalThis.console.error(formatedLog)
