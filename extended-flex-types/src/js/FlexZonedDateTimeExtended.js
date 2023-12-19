@@ -1,94 +1,76 @@
-import {FlexDateTime, TypeCheck} from './__import__flex-types.js'
+import {FlexDateTime, FlexZonedDateTime, TypeCheck} from './__import__flex-types.js'
 import {DateTime} from 'luxon'
 import {DateTimeFormatter} from './date-formatter/DateFormatter.js'
 import {FlexDateExtended} from './FlexDateExtended.js'
 import {FlexTimeExtended} from './FlexTimeExtended.js'
-import {FlexZonedDateTimeExtended} from './FlexZonedDateTimeExtended.js'
+import {FlexDateTimeExtended} from './FlexDateTimeExtended.js'
 
-export class FlexDateTimeExtended {
+export class FlexZonedDateTimeExtended {
   /**
    * @type {FlexDateTime}
    */
   #datetime
 
   /**
-   * @param {FlexDateTime} flexDateTime
+   * @type {string}
    */
-  constructor(flexDateTime) {
+  #timezone
+
+  /**
+   * @param {FlexDateTime} flexDateTime
+   * @param {string} timezone
+   */
+  constructor(flexDateTime, timezone) {
     TypeCheck.assertIsFlexDateTime(flexDateTime)
     this.#datetime = flexDateTime
+    this.#timezone = timezone
   }
 
+
   /**
-   * @return {FlexDateTimeExtended}
+   * @param {FlexZonedDateTime} dateTime
+   * @returns {FlexZonedDateTimeExtended}
    */
-  static now() {
-    const iso = DateTime.now().toUTC().toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(iso)
+  static fromFlexZonedDateTime(dateTime) {
+    const dt = DateTime.fromISO(dateTime.toString())
+    const iso = dt.toUTC().toISO({includeOffset: false})
+    const flexDateTime = new FlexDateTime(iso)
+    return new FlexZonedDateTimeExtended(flexDateTime, dt.zoneName)
   }
 
   /**
    * @param {FlexDateTime} flexDateTime
+   * @param {string} timezone
+   * @returns {FlexZonedDateTimeExtended}
    */
-  static fromFlexDateTime(flexDateTime) {
-    return new FlexDateTimeExtended(flexDateTime)
+  static fromFlexDateTime(flexDateTime, timezone = 'utc') {
+    const dateTime = DateTime.fromISO(flexDateTime.toJSON(), {zone: timezone})
+    const iso = dateTime.toUTC().toISO({includeOffset: false})
+    const dt = new FlexDateTime(iso)
+
+    return new FlexZonedDateTimeExtended(dt, dateTime.zoneName)
   }
 
   /**
+   * ISO format need an offset ! Or it takes the executor timezone
    * @param {string} datetime
-   * @param {string} timeZone
-   * @return {FlexDateTimeExtended}
+   * @returns {FlexZonedDateTimeExtended}
    */
-  static fromISO(datetime, timeZone = 'utc') {
-    const clean = datetime.endsWith('Z') ? datetime.replace('Z', '') : datetime
-    const dt = DateTime.fromISO(clean, {zone: timeZone})
+  static fromISO(datetime) {
+    new FlexZonedDateTime(datetime) //  ISO need an offset !
+    const dt = DateTime.fromISO(datetime, {setZone: true})
     const iso = dt.toUTC().toISO({includeOffset: false})
     const flexDateTime = new FlexDateTime(iso)
-    return new FlexDateTimeExtended(flexDateTime)
-  }
+    console.log(dt.zoneName)
 
-  /**
-   * @param {string} time
-   * @return {FlexDateTimeExtended}
-   */
-  static fromTimeISO(time) {
-    const t = FlexTimeExtended.fromISO(time)
-    return FlexDateTimeExtended.now().setHour(t.hours()).setMinute(t.minutes()).setSecond(t.seconds()).setMilliseconds(t.milliseconds())
-  }
-
-  /**
-   * @param {number} millis
-   * @return {FlexDateTimeExtended}
-   */
-  static fromMillis(millis) {
-    const iso = DateTime.fromMillis(millis, {zone: 'utc'}).toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(iso)
-  }
-
-  /**
-   * @param {number} seconds
-   * @return {FlexDateTimeExtended}
-   */
-  static fromSeconds(seconds) {
-    const iso = DateTime.fromSeconds(seconds, {zone: 'utc'}).toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(iso)
-  }
-
-  /**
-   * @desc use month between 1-12
-   * @param {number} year
-   * @param {number} month
-   * @return {number}
-   */
-  static getDaysInMonth(year, month) {
-    return FlexDateExtended.getDaysInMonth(year, month)
+    return new FlexZonedDateTimeExtended(flexDateTime, dt.zoneName)
   }
 
   /**
    * @return {DateTime}
    */
   #toDateTime() {
-    return DateTime.fromISO(this.toISO(), {zone: 'utc'})
+    return DateTime.fromISO(this.#datetime.toJSON(), {zone: 'utc'}).setZone(this.#timezone)
   }
 
   /**
@@ -167,16 +149,18 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {object} object
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   #set(object) {
-    const datetime = this.#toDateTime().set(object).toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(datetime)
+    const res = this.#toDateTime().set(object)
+    const iso = res.toISO({includeOffset: false})
+    const dt = new FlexDateTime(iso)
+    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
   }
 
   /**
    * @param {string|number} year
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setYear(year) {
     return this.#set({year: year})
@@ -184,7 +168,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} month
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setMonth(month) {
     return this.#set({month: month})
@@ -192,7 +176,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} day
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setDay(day) {
     return this.#set({day: day})
@@ -200,7 +184,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} hours
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setHour(hours) {
     return this.#set({hour: hours})
@@ -208,7 +192,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} minutes
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setMinute(minutes) {
     return this.#set({minute: minutes})
@@ -216,7 +200,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} seconds
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setSecond(seconds) {
     return this.#set({second: seconds})
@@ -224,7 +208,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} milliseconds
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   setMilliseconds(milliseconds) {
     return this.#set({millisecond: milliseconds})
@@ -232,16 +216,19 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {object} object
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   #plus(object) {
-    const datetime = this.#toDateTime().plus(object).toUTC().toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(datetime)
+    const res = this.#toDateTime().plus(object)
+    const iso = res.toISO({includeOffset: false})
+    const dt = new FlexDateTime(iso)
+
+    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
   }
 
   /**
    * @param {string|number} years
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusYears(years) {
     return this.#plus({year: years})
@@ -249,7 +236,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} months
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusMonths(months) {
     return this.#plus({month: months})
@@ -257,7 +244,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} days
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusDays(days) {
     return this.#plus({day: days})
@@ -265,7 +252,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} hours
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusHours(hours) {
     return this.#plus({hour: hours})
@@ -273,7 +260,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} minutes
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusMinutes(minutes) {
     return this.#plus({minute: minutes})
@@ -281,7 +268,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} seconds
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusSeconds(seconds) {
     return this.#plus({second: seconds})
@@ -289,7 +276,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} milliseconds
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   plusMilliseconds(milliseconds) {
     return this.#plus({millisecond: milliseconds})
@@ -297,16 +284,18 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {object} object
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   #minus(object) {
-    const datetime = this.#toDateTime().minus(object).toISO({includeOffset: false})
-    return FlexDateTimeExtended.fromISO(datetime)
+    const res = this.#toDateTime().minus(object)
+    const iso = res.toISO({includeOffset: false})
+    const dt = new FlexDateTime(iso)
+    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
   }
 
   /**
    * @param {string|number} years
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusYears(years) {
     return this.#minus({year: years})
@@ -314,7 +303,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} months
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusMonths(months) {
     return this.#minus({month: months})
@@ -322,7 +311,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} days
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusDays(days) {
     return this.#minus({day: days})
@@ -330,7 +319,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} hours
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusHours(hours) {
     return this.#minus({hour: hours})
@@ -338,7 +327,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} minutes
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusMinutes(minutes) {
     return this.#minus({minute: minutes})
@@ -346,7 +335,7 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} seconds
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusSeconds(seconds) {
     return this.#minus({second: seconds})
@@ -354,56 +343,55 @@ export class FlexDateTimeExtended {
 
   /**
    * @param {string|number} millisecond
-   * @return {FlexDateTimeExtended}
+   * @return {FlexZonedDateTimeExtended}
    */
   minusMilliseconds(millisecond) {
     return this.#minus({millisecond: millisecond})
   }
 
   /**
-   * @param {FlexDateTimeExtended} datetime
+   * @param {FlexZonedDateTimeExtended} datetime
    * @return {boolean}
    */
   isBefore(datetime) {
-    return this.#toDateTime() < DateTime.fromISO(datetime.toISO(), {zone: 'utc'})
+    return this.#toDateTime() < DateTime.fromISO(datetime.toISO(), {zone: this.#timezone})
   }
 
   /**
-   * @param {FlexDateTimeExtended} datetime
+   * @param {FlexZonedDateTimeExtended} datetime
    * @return {boolean}
    */
   isAfter(datetime) {
-    return this.#toDateTime() > DateTime.fromISO(datetime.toISO(), {zone: 'utc'})
+    return this.#toDateTime() > DateTime.fromISO(datetime.toISO(), {zone: this.#timezone})
   }
 
   /**
-   * @param {FlexDateTimeExtended} datetime
+   * @param {FlexZonedDateTimeExtended} datetime
    * @return {boolean}
    */
   isEquals(datetime) {
-    return this.#toDateTime().equals(DateTime.fromISO(datetime.toISO(), {zone: 'utc'}))
-  }
-
-  /**
-   * @param {String} zone
-   * @returns {FlexZonedDateTimeExtended}
-   */
-  toZoneSameInstant(zone) {
-    return FlexZonedDateTimeExtended.fromFlexDateTime(this.#datetime, zone)
+    return this.#toDateTime().equals(DateTime.fromISO(datetime.toISO(), {zone: this.#timezone}))
   }
 
   /**
    * @return {string}
    */
   toISO() {
-    return this.#datetime.toJSON()
+    return this.#toDateTime().toISO()
   }
 
   /**
    * @return {FlexDateTime}
    */
-  toFlexDateTime() {
+  toUTCFlexDateTime() {
     return this.#datetime
+  }
+
+  /**
+   * @returns {string}
+   */
+  timezone() {
+    return this.#timezone
   }
 
   /**
@@ -420,17 +408,39 @@ export class FlexDateTimeExtended {
     return DateTime.fromISO(this.#datetime.toJSON(), {zone: 'UTC'}).toMillis()
   }
 
+
+  /**
+   * @returns {FlexDateTimeExtended}
+   */
+  toUTCDateTime() {
+    return new FlexDateTimeExtended(this.#datetime)
+  }
+
   /**
    * @return {FlexDateExtended}
    */
-  toDate() {
+  toUTCDate() {
+    return FlexDateExtended.fromISO(this.#toDateTime().toUTC().toISODate())
+  }
+
+  /**
+   * @return {FlexTimeExtended}
+   */
+  toUTCTime() {
+    return FlexTimeExtended.fromISO(this.#toDateTime().toUTC().toISOTime({includeOffset: false}))
+  }
+
+  /**
+   * @return {FlexDateExtended}
+   */
+  toLocalDate() {
     return FlexDateExtended.fromISO(this.#toDateTime().toISODate())
   }
 
   /**
    * @return {FlexTimeExtended}
    */
-  toTime() {
+  toLocalTime() {
     return FlexTimeExtended.fromISO(this.#toDateTime().toISOTime({includeOffset: false}))
   }
 
@@ -445,16 +455,25 @@ export class FlexDateTimeExtended {
    * @return {string}
    */
   toString() {
-    return this.#datetime.toString()
+    return this.#toDateTime().toISO()
   }
+
+  /**
+   * @param {String} timezone
+   * @returns {FlexZonedDateTimeExtended}
+   */
+  atZoneSameInstant(timezone) {
+    return new FlexZonedDateTimeExtended(this.#datetime, timezone)
+  }
+
 
   /**
    * @param {string} format
    * @param {string} locale
-   * @param {string} [timeZone=UTC]
    * @return {string}
    */
-  format(format, locale, timeZone) {
-    return DateTimeFormatter.format(this, format, locale, timeZone)
+  format(format, locale) {
+    const flexDateTime = this.toUTCDateTime()
+    return DateTimeFormatter.format(flexDateTime, format, locale, this.#timezone)
   }
 }
