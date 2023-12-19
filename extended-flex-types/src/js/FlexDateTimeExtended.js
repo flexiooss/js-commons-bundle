@@ -389,7 +389,7 @@ export class FlexDateTimeExtended {
    * @returns {FlexZonedDateTimeExtended}
    */
   toZoneSameInstant(zone) {
-    return FlexZonedDateTimeExtended.fromFlexDateTime(this.#datetime, zone)
+    return FlexZonedDateTimeExtended.fromFlexDateTime(this.#datetime, 'utc').atZoneSameInstant(zone)
   }
 
   /**
