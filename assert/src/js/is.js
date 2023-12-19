@@ -119,6 +119,14 @@ export const isNodeText = a => isObject(a) && (a.nodeType === 3)
  * @function
  * @export
  */
+export const isNodeDocumentFragment = a => isObject(a) && (a.nodeType === 11)
+/**
+ *
+ * @param {*} a
+ * @return {boolean}
+ * @function
+ * @export
+ */
 export const isPrimitive = a => {
   switch (typeof a) {
     case 'boolean':
