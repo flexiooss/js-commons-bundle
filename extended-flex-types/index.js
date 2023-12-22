@@ -9,6 +9,7 @@ import {DateExtended} from './src/js/DateExtended.js'
 import {FlexTimeExtended} from './src/js/FlexTimeExtended.js'
 import {FlexDateExtended} from './src/js/FlexDateExtended.js'
 import {FlexDateTimeExtended} from './src/js/FlexDateTimeExtended.js'
+import {FlexZonedDateTimeExtended} from './src/js/FlexZonedDateTimeExtended.js'
 import {ArrayMap} from './src/js/FlexMap/ArrayMap.js'
 import {StringArrayMap, StringArrayMapBuilder} from './src/js/FlexMap/StringArrayMap.js'
 import {StringMap, StringMapBuilder} from './src/js/FlexMap/StringMap.js'
@@ -114,7 +115,7 @@ export {FlexUrl}
 export {FlexUrlBuilder}
 export {URLExtended}
 export {URLExtendedBuilder}
-export {FlexTimeExtended, FlexDateExtended, FlexDateTimeExtended}
+export {FlexTimeExtended, FlexDateExtended, FlexDateTimeExtended, FlexZonedDateTimeExtended}
 export {DateExtended}
 export {SymbolStringArray}
 export {SymbolStringArrayBuilder}
