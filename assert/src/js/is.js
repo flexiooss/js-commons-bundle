@@ -237,6 +237,23 @@ export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
  */
 export const isDate = a => !isNull(a) && a instanceof Date && !isNaN(a)
 
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isMapType = a => !isNull(a) && a instanceof Map
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isSetType = a => !isNull(a) && a instanceof Set
+
 
 /**
  * @param {*} a
