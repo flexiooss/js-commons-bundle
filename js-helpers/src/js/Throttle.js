@@ -71,10 +71,15 @@ export class Throttle {
         this.#last = this.#now
         this.#timer = setTimeout(
           () => {
-            this.#timer = null
-            if (!isNull(this.#toExecute)) {
-              this.invokeAndEnsure(this.#toExecute)
-            }
+            Promise.resolve().then(() => {
+
+              this.#timer = null
+              if (!isNull(this.#toExecute)) {
+                const clb = this.#toExecute
+                this.#toExecute = null
+                this.invokeAndEnsure(clb)
+              }
+            })
           },
           this.#delay
         )
