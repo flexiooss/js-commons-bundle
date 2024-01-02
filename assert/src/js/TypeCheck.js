@@ -15,7 +15,7 @@ import {
   isFunction,
   isObject,
   isBinary,
-  isDate, isArrowFunction, isEmpty, isAsyncFunction, isWindow
+  isDate, isArrowFunction, isEmpty, isAsyncFunction, isWindow, isMapType, isSetType
 } from './is'
 
 
@@ -528,6 +528,56 @@ export class TypeCheck {
   static assertIsWindowOrNull(inst) {
     if (!isNull(inst)) {
       return TypeCheck.assertIsWindow(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Map} inst
+   * @throws {TypeError}
+   * @return {Map}
+   */
+  static assertIsMapType(inst) {
+    assertType(
+      isMapType(inst),
+      _ => `input should be Map given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Map} inst
+   * @throws {TypeError}
+   * @return {?Map}
+   */
+  static assertIsMapTypeOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsMapType(inst)
+    }
+    return inst
+  }
+
+  /**
+   * @param {Set} inst
+   * @throws {TypeError}
+   * @return {Set}
+   */
+  static assertIsSetType(inst) {
+    assertType(
+      isSetType(inst),
+      _ => `input should be Set given: ${formatType(inst)}`
+    )
+    return inst
+  }
+
+  /**
+   * @param {?Set} inst
+   * @throws {TypeError}
+   * @return {?Set}
+   */
+  static assertIsSetTypeOrNull(inst) {
+    if (!isNull(inst)) {
+      return TypeCheck.assertIsSetType(inst)
     }
     return inst
   }
