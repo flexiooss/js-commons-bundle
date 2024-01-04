@@ -32,5 +32,18 @@ class FloatArray extends FlexArray {
       TypeCheck.assertIsFloatArray(to)
     })
   }
+
+
+  /**
+   * @param {?FloatArray} a
+   * @param {?FloatArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsFloatArray(v)
+    })
+  }
 }
 export { FloatArray }

@@ -26,6 +26,18 @@ class StringArray extends FlexArray {
     })
   }
 
+  /**
+   * @param {?StringArray} a
+   * @param {?StringArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsStringArray(v)
+    })
+  }
+
 }
 
 

@@ -31,5 +31,16 @@ class DoubleArray extends FlexArray {
       TypeCheck.assertIsDoubleArray(to)
     })
   }
+  /**
+   * @param {?DoubleArray} a
+   * @param {?DoubleArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsDoubleArray(v)
+    })
+  }
 }
 export { DoubleArray }

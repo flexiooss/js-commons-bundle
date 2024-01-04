@@ -31,6 +31,18 @@ class IntegerArray extends FlexArray {
       TypeCheck.assertIsIntegerArray(to)
     })
   }
+
+  /**
+   * @param {?IntegerArray} a
+   * @param {?IntegerArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsIntegerArray(v)
+    })
+  }
 }
 
 export {IntegerArray}
