@@ -32,5 +32,17 @@ class LongArray extends FlexArray {
       TypeCheck.assertIsLongArray(to)
     })
   }
+
+  /**
+   * @param {?LongArray} a
+   * @param {?LongArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsLongArray(v)
+    })
+  }
 }
 export { LongArray }

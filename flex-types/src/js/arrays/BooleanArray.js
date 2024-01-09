@@ -24,5 +24,17 @@ class BooleanArray extends FlexArray {
       TypeCheck.assertIsBooleanArray(to)
     })
   }
+
+  /**
+   * @param {?BooleanArray} a
+   * @param {?BooleanArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return equalsPrimitive(a, b, (v) => {
+      TypeCheck.assertIsBooleanArray(v)
+    })
+  }
 }
 export { BooleanArray }
