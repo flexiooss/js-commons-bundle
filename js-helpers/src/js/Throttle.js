@@ -18,9 +18,9 @@ export class Throttle {
    */
   #timer = null
   /**
-   * @type {?function()}
+   * @type {?function()[]}
    */
-  #toExecute = null
+  #toExecute = []
 
   /**
    * @param {number} delay ms
@@ -60,32 +60,37 @@ export class Throttle {
     }
   }
 
-  invokeAndEnsure(callback) {
-    TypeCheck.assertIsFunction(callback)
-    if (isNull(this.#timer)) {
+  /**
+   * @param {?function()} [callback=null]
+   */
+  invokeAndEnsure(callback = null) {
+    TypeCheck.assertIsFunctionOrNull(callback)
 
+    if (isNull(this.#timer)) {
       this.#now = Date.now()
-      this.#toExecute = null
       if ((this.#last && (this.#now > this.#last + this.#delay)) || isNull(this.#last)) {
-        callback()
+        if (!isNull(callback)) callback()
+
         this.#last = this.#now
         this.#timer = setTimeout(
           () => {
-            Promise.resolve().then(() => {
-
-              this.#timer = null
-              if (!isNull(this.#toExecute)) {
-                const clb = this.#toExecute
-                this.#toExecute = null
-                this.invokeAndEnsure(clb)
-              }
-            })
+            this.#timer = null
+            if (this.#toExecute.length) {
+              const clb = this.#toExecute[this.#toExecute.length - 1]
+              this.#toExecute = []
+              this.#last = Date.now()
+              clb()
+              this.invokeAndEnsure()
+            }
           },
           this.#delay
         )
       }
     } else {
-      this.#toExecute = callback
+      this.#toExecute.push(callback)
+      if (this.#toExecute.length > 2) {
+        this.#toExecute.shift()
+      }
     }
   }
 
