@@ -67,30 +67,35 @@ export class Throttle {
     TypeCheck.assertIsFunctionOrNull(callback)
 
     if (isNull(this.#timer)) {
-      this.#now = Date.now()
-      if ((this.#last && (this.#now > this.#last + this.#delay)) || isNull(this.#last)) {
-        if (!isNull(callback)) callback()
+      // console.log('to exec',this)
+      // this.#now = Date.now()
+      // if ((this.#last && (this.#now > this.#last + this.#delay)) || isNull(this.#last)) {
+      // console.log('to exec 2',this)
+      if (!isNull(callback)) callback()
 
-        this.#last = this.#now
-        this.#timer = setTimeout(
-          () => {
-            this.#timer = null
-            if (this.#toExecute.length) {
-              const clb = this.#toExecute[this.#toExecute.length - 1]
-              this.#toExecute = []
-              this.#last = Date.now()
-              clb()
-              this.invokeAndEnsure()
-            }
-          },
-          this.#delay
-        )
-      }
+      // this.#last = this.#now
+      this.#timer = setTimeout(
+        () => {
+          this.#timer = null
+          // console.log('exec timeout',this.#toExecute)
+          if (this.#toExecute.length) {
+            const clb = this.#toExecute[this.#toExecute.length - 1]
+            this.#toExecute = []
+            // this.#last = Date.now()
+            clb()
+            this.invokeAndEnsure()
+          }
+          // console.log('end exec timeout')
+        },
+        this.#delay
+      )
+      // }
     } else {
       this.#toExecute.push(callback)
       if (this.#toExecute.length > 2) {
         this.#toExecute.shift()
       }
+      // console.log('push',this.#toExecute)
     }
   }
 
