@@ -263,6 +263,8 @@ export class FlexDateExtended {
    */
   atTime(time, timezone = 'utc') {
     const timeExtended = new FlexTimeExtended(time)
+    console.log(timeExtended.hours())
+
     const dateTime = this.#toDateTime()
       .set({
         hour: timeExtended.hours(),
@@ -270,8 +272,9 @@ export class FlexDateExtended {
         second: timeExtended.seconds(),
         millisecond: timeExtended.milliseconds()
       })
-      .toUTC()
       .toISO({includeOffset: false})
+    console.log(dateTime)
+
     return FlexDateTimeExtended.fromISO(dateTime, timezone)
   }
 

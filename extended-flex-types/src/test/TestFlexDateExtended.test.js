@@ -117,10 +117,10 @@ export class TestFlexDateExtendedTest extends TestCase {
   testAtTime(){
     const time = new FlexTime('17:05:36')
     const iso = FlexDateExtended.fromISO('2024-03-08').atTime(time).toISO()
-    assert.deepEqual(iso, '2024-03-08T17:05:36')
+    assert.deepEqual(iso, '2024-03-08T17:05:36.000')
 
     const paris = FlexDateExtended.fromISO('2024-03-08').atTime(time, 'Europe/Paris').toISO()
-    assert.deepEqual(paris, '2024-03-08T16:05:36')
+    assert.deepEqual(paris, '2024-03-08T16:05:36.000')
   }
 
 }
