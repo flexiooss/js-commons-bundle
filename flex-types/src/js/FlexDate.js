@@ -1,4 +1,4 @@
-import { assertType, isNull} from './__import__assert.js'
+import {assertType, isNull} from './__import__assert.js'
 import {BaseException} from '../../../js-type-helpers/index.js'
 
 const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
@@ -16,31 +16,34 @@ export class DateTimeParseException extends BaseException {
    * @return {DateTimeParseException}
    * @constructor
    */
-  static FROM_DATE(value){
+  static FROM_DATE(value) {
     return new DateTimeParseException(`Invalid date parse input: ${value}`)
   }
+
   /**
    * @param {string} value
    * @return {DateTimeParseException}
    * @constructor
    */
-  static FROM_DATETIME(value){
+  static FROM_DATETIME(value) {
     return new DateTimeParseException(`Invalid date time parse input: ${value}`)
   }
+
   /**
    * @param {string} value
    * @return {DateTimeParseException}
    * @constructor
    */
-  static FROM_ZONED_DATETIME(value){
+  static FROM_ZONED_DATETIME(value) {
     return new DateTimeParseException(`Invalid zoned date time parse input: ${value}`)
   }
+
   /**
    * @param {string} value
    * @return {DateTimeParseException}
    * @constructor
    */
-  static FROM_TIME(value){
+  static FROM_TIME(value) {
     return new DateTimeParseException(`Invalid time parse input: ${value}`)
   }
 }
@@ -57,8 +60,8 @@ export class FlexZonedDateTime {
    */
   constructor(dateStr) {
     let found = dateStr.match(zonedDatetimePattern)
-    if(isNull(found)){
-      throw  DateTimeParseException.FROM_ZONED_DATETIME(dateStr)
+    if (isNull(found)) {
+      throw DateTimeParseException.FROM_ZONED_DATETIME(dateStr)
     }
     this.#value = dateStr
   }
@@ -106,8 +109,8 @@ export class FlexDateTime {
    */
   constructor(dateStr) {
     let found = dateStr.match(datetimePattern)
-    if(isNull(found)){
-      throw  DateTimeParseException.FROM_DATETIME(dateStr)
+    if (isNull(found)) {
+      throw DateTimeParseException.FROM_DATETIME(dateStr)
     }
     this.#value = dateStr.split('Z')[0]
   }
@@ -155,8 +158,8 @@ export class FlexDate {
    */
   constructor(dateStr) {
     let found = dateStr.match(datePattern)
-    if(isNull(found)){
-      throw  DateTimeParseException.FROM_DATE(dateStr)
+    if (isNull(found)) {
+      throw DateTimeParseException.FROM_DATE(dateStr)
     }
     this.#value = dateStr
   }
@@ -203,8 +206,8 @@ export class FlexTime {
    */
   constructor(dateStr) {
     let found = dateStr.match(timePattern)
-    if(isNull(found)){
-      throw  DateTimeParseException.FROM_TIME(dateStr)
+    if (isNull(found)) {
+      throw DateTimeParseException.FROM_TIME(dateStr)
     }
     this.#value = dateStr.split('Z')[0]
   }

@@ -1,7 +1,7 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {FlexDateExtended} from '../js/FlexDateExtended.js'
-import {FlexDate} from '../js/__import__flex-types.js'
+import {FlexDate, FlexTime} from '../js/__import__flex-types.js'
 
 const assert = require('assert')
 
@@ -112,6 +112,15 @@ export class TestFlexDateExtendedTest extends TestCase {
   testFormat() {
     const format = FlexDateExtended.fromISO('2022-03-09').format('yyyy')
     assert.deepEqual(format, '2022')
+  }
+
+  testAtTime(){
+    const time = new FlexTime('17:05:36')
+    const iso = FlexDateExtended.fromISO('2024-03-08').atTime(time).toISO()
+    assert.deepEqual(iso, '2024-03-08T17:05:36')
+
+    const paris = FlexDateExtended.fromISO('2024-03-08').atTime(time, 'Europe/Paris').toISO()
+    assert.deepEqual(paris, '2024-03-08T16:05:36')
   }
 
 }
