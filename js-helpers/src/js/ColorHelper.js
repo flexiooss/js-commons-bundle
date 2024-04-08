@@ -227,31 +227,31 @@ export class ColorHelper {
   /**
    * @return {boolean}
    */
-  isDark() {
+  isDark(hspInflection = 170) {
     if (isNull(this.#color)) {
       return false
     }
-    return this.getBrightness() < 128
+    return this.getHSP() < hspInflection
   }
 
   /**
    * @return {boolean}
    */
-  isWhite() {
+  isWhite(hspInflection = 240) {
     if (isNull(this.#color)) {
       return false
     }
-    return this.getBrightness() > 240
+    return this.getHSP() > hspInflection
   }
 
   /**
    * @return {boolean}
    */
-  isLight() {
+  isLight(hspInflection = 170) {
     if (isNull(this.#color)) {
       return false
     }
-    return !this.isDark()
+    return !this.isDark(hspInflection)
   }
 
   /**
@@ -264,7 +264,26 @@ export class ColorHelper {
     }
     let rgbStr = this.#colorToRGB(this.#color)
     let rgb = ColorHelper.#extractRGB(rgbStr)
+
     return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
+  }
+
+  /**
+   * @see HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+   * @return {?number}
+   */
+  getHSP() {
+    if (isNull(this.#color)) {
+      return null
+    }
+    let rgbStr = this.#colorToRGB(this.#color)
+    let rgb = ColorHelper.#extractRGB(rgbStr)
+
+    return Math.sqrt(
+      0.299 * Math.pow(rgb[0], 2) +
+      0.587 * Math.pow(rgb[1], 2) +
+      0.114 * Math.pow(rgb[2], 2)
+    )
   }
 
   /**
