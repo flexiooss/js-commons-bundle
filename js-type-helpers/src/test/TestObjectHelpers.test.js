@@ -69,7 +69,6 @@ export class TestObjectHelpers extends TestCase {
     }
 
     deepKeyAssignerByPath(o, ['c'], 42)
-    console.log(o)
 
     assert(o['c'] === 42, 1)
 

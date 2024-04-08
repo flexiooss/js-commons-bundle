@@ -61,7 +61,6 @@ export class FlexZonedDateTimeExtended {
     const dt = DateTime.fromISO(datetime, {setZone: true})
     const iso = dt.toUTC().toISO({includeOffset: false})
     const flexDateTime = new FlexDateTime(iso)
-    console.log(dt.zoneName)
 
     return new FlexZonedDateTimeExtended(flexDateTime, dt.zoneName)
   }
