@@ -250,7 +250,7 @@ export class ColorHelper {
    * @description http://www.w3.org/TR/AERT#color-contrast
    */
   getBrightness() {
-    let rgb = this.#colorToRGB(this.#color)
+    let rgb = this.constructor.#colorToRGB(this.#color)
     return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
   }
 
@@ -259,7 +259,7 @@ export class ColorHelper {
    * @description http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    */
   getLuminance() {
-    let rgb = this.#colorToRGB(this.#color)
+    let rgb = this.constructor.#colorToRGB(this.#color)
     const RsRGB = rgb[0] / 255
     const GsRGB = rgb[1] / 255
     const BsRGB = rgb[2] / 255
@@ -480,8 +480,6 @@ export class ColorHelper {
     let green = rgb[1].toString(16).padStart(2, '0')
     let blue = rgb[2].toString(16).padStart(2, '0')
     let alpha = (Math.round((rgb[3] ?? 1) * 255)).toString(16).padStart(2, '0')
-
-    console.log(alpha)
 
     return `#${red}${green}${blue}${alpha}`
   }
