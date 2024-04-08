@@ -12,7 +12,7 @@ export {DurationHelper} from './src/js/DurationHelper.js'
 export {PaginationHelper} from './src/js/PaginationHelper.js'
 export {ContentRangeHelper} from './src/js/ContentRangeHelper.js'
 export {AcceptRangeHelper} from './src/js/AcceptRangeHelper.js'
-export {LightOrDarkColor,Color} from './src/js/LightOrDarkColor.js'
+export {LightOrDarkColor} from './src/js/LightOrDarkColor.js'
 
 
 export {DOMPositionHelper} from './src/js/position/DOMPositionHelper.js'
