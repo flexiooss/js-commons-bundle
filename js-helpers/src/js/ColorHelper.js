@@ -225,6 +225,53 @@ export class ColorHelper {
   }
 
   /**
+   * @return {boolean}
+   */
+  isDark() {
+    return this.getBrightness() < 128
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isWhite() {
+    return this.getBrightness() > 240
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isLight() {
+    return !this.isDark()
+  }
+
+  /**
+   * @return {number}
+   * @description http://www.w3.org/TR/AERT#color-contrast
+   */
+  getBrightness() {
+    let rgb = this.#colorToRGB(this.#color)
+    return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
+  }
+
+  /**
+   * @return {number}
+   * @description http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+   */
+  getLuminance() {
+    let rgb = this.#colorToRGB(this.#color)
+    const RsRGB = rgb[0] / 255
+    const GsRGB = rgb[1] / 255
+    const BsRGB = rgb[2] / 255
+
+    const R = (RsRGB <= 0.03928) ? RsRGB / 12.92 : Math.pow((RsRGB + 0.055) / 1.055, 2.4)
+    const G = (GsRGB <= 0.03928) ? GsRGB / 12.92 : Math.pow((GsRGB + 0.055) / 1.055, 2.4)
+    const B = (BsRGB <= 0.03928) ? BsRGB / 12.92 : Math.pow((BsRGB + 0.055) / 1.055, 2.4)
+
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B
+  }
+
+  /**
    * @param {number} delta
    * @return {string}
    */
@@ -261,6 +308,27 @@ export class ColorHelper {
     }
 
     this.nameToHSL(color)
+  }
+
+  /**
+   * @param {string} color
+   * @return {string}
+   */
+  static #colorToRGB(color) {
+    if (ColorPatterns.rgbPattern().test(color)) {
+      return color
+    }
+    if (ColorPatterns.hslPattern().test(color)) {
+      return ColorHelper.HSLToRGB(color)
+    }
+    if (ColorPatterns.hexPattern().test(color)) {
+      return ColorHelper.hexToRGB(color)
+    }
+    if (ColorPatterns.shortHexPattern().test(color)) {
+      return ColorHelper.hexToRGB(color)
+    }
+
+    this.nameToRGB(color)
   }
 
 
@@ -361,8 +429,8 @@ export class ColorHelper {
   }
 
   static #HSLToRGB(h, s, l) {
-    s = s /100
-    l = l /100
+    s = s / 100
+    l = l / 100
     let c = (1 - Math.abs(2 * l - 1)) * s
     let x = c * (1 - Math.abs((h / 60) % 2 - 1))
     let m = l - c / 2
