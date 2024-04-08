@@ -132,8 +132,44 @@ export class TestColorTest extends TestCase {
     assert.deepStrictEqual(new ColorHelper('hsl(180,100%,50%)').changeLightness(-60), 'hsl(180,100%,0%,1)')
   }
 
-  testChangeLightness9() {
+  testChangeLightness10() {
     assert.deepStrictEqual(new ColorHelper('hsl(180,100%,50%)').changeLightness(60), 'hsl(180,100%,100%,1)')
+  }
+
+  testBrightness1() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,100%)').isLight(), true)
+  }
+
+  testBrightness2() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,100%)').isWhite(), true)
+  }
+
+  testBrightness3() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,100%)').isDark(), false)
+  }
+
+  testBrightness4() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,0%)').isLight(), false)
+  }
+
+  testBrightness5() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,0%)').isWhite(), false)
+  }
+
+  testBrightness6() {
+    assert.deepStrictEqual(new ColorHelper('hsl(0,0%,0%)').isDark(), true)
+  }
+
+  testBrightness7() {
+    assert.deepStrictEqual(new ColorHelper('hsl(45,64%,60%)').isLight(), true)
+  }
+
+  testBrightness8() {
+    assert.deepStrictEqual(new ColorHelper('hsl(45,64%,60%)').isWhite(), false)
+  }
+
+  testBrightness9() {
+    assert.deepStrictEqual(new ColorHelper('hsl(45,64%,60%)').isDark(), false)
   }
 
 }

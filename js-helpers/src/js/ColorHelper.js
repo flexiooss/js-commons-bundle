@@ -250,7 +250,8 @@ export class ColorHelper {
    * @description http://www.w3.org/TR/AERT#color-contrast
    */
   getBrightness() {
-    let rgb = this.constructor.#colorToRGB(this.#color)
+    let rgbStr = this.#colorToRGB(this.#color)
+    let rgb = ColorHelper.#extractRGB(rgbStr)
     return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
   }
 
@@ -259,7 +260,7 @@ export class ColorHelper {
    * @description http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
    */
   getLuminance() {
-    let rgb = this.constructor.#colorToRGB(this.#color)
+    let rgb = this.#colorToRGB(this.#color)
     const RsRGB = rgb[0] / 255
     const GsRGB = rgb[1] / 255
     const BsRGB = rgb[2] / 255
@@ -276,7 +277,7 @@ export class ColorHelper {
    * @return {string}
    */
   changeLightness(delta) {
-    const hslStr = ColorHelper.#colorToHSL(this.#color)
+    const hslStr = this.#colorToHSL(this.#color)
     if (!isNull(hslStr)) {
       if (hslStr.match(ColorPatterns.hslPattern())) {
         let hsl = ColorHelper.#extractHSL(hslStr)
@@ -293,7 +294,7 @@ export class ColorHelper {
    * @param {string} color
    * @return {string}
    */
-  static #colorToHSL(color) {
+  #colorToHSL(color) {
     if (ColorPatterns.rgbPattern().test(color)) {
       return ColorHelper.RGBToHSL(color)
     }
@@ -307,14 +308,14 @@ export class ColorHelper {
       return ColorHelper.hexToHSL(color)
     }
 
-    this.nameToHSL(color)
+    ColorHelper.nameToHSL(color)
   }
 
   /**
    * @param {string} color
    * @return {string}
    */
-  static #colorToRGB(color) {
+  #colorToRGB(color) {
     if (ColorPatterns.rgbPattern().test(color)) {
       return color
     }
@@ -328,7 +329,7 @@ export class ColorHelper {
       return ColorHelper.hexToRGB(color)
     }
 
-    this.nameToRGB(color)
+    ColorHelper.nameToRGB(color)
   }
 
 
