@@ -228,7 +228,7 @@ export class ColorHelper {
    * @return {boolean}
    */
   isDark(hspInflection = 170) {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return false
     }
     return this.getHSP() < hspInflection
@@ -238,7 +238,7 @@ export class ColorHelper {
    * @return {boolean}
    */
   isWhite(hspInflection = 240) {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return false
     }
     return this.getHSP() > hspInflection
@@ -248,7 +248,7 @@ export class ColorHelper {
    * @return {boolean}
    */
   isLight(hspInflection = 170) {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return false
     }
     return !this.isDark(hspInflection)
@@ -259,12 +259,11 @@ export class ColorHelper {
    * @description http://www.w3.org/TR/AERT#color-contrast
    */
   getBrightness() {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return null
     }
     let rgbStr = this.#colorToRGB(this.#color)
     let rgb = ColorHelper.#extractRGB(rgbStr)
-
     return (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000
   }
 
@@ -273,7 +272,7 @@ export class ColorHelper {
    * @return {?number}
    */
   getHSP() {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return null
     }
     let rgbStr = this.#colorToRGB(this.#color)
@@ -304,11 +303,11 @@ export class ColorHelper {
   }
 
   /**
-   * @param {number} delta
-   * @return {?string}
+   * @param {?number} delta
+   * @return {string}
    */
   changeLightness(delta) {
-    if (isNull(this.#color)) {
+    if (isEmpty(this.#color)) {
       return null
     }
     const hslStr = this.#colorToHSL(this.#color)
