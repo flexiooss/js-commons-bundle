@@ -25,6 +25,14 @@ class FlexRegExp {
   }
 
   /**
+   * @param {string} regexp
+   * @return {string}
+   */
+  static quote(regexp){
+    return (regexp).replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");
+  }
+
+  /**
    * @returns {RegExp}
    */
   value() {

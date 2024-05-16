@@ -17,7 +17,7 @@ import {
   isClass,
   isBlob,
   isInt8Array,
-  isArrayBuffer, isArrowFunction, isMapType, isSetType
+  isArrayBuffer, isArrowFunction, isMapType, isSetType, isHTMLEmpty
 } from '../js/is.js'
 const assert = require('assert')
 class Blob{
@@ -503,7 +503,34 @@ export class TestIs extends TestCase {
     assert(isSetType(new Set()) === true)
 
   }
+
+
+  testIsHTMLEmpty() {
+    assert(isHTMLEmpty(undefined) === true)
+    assert(isHTMLEmpty(0) === true)
+    assert(isHTMLEmpty(1) === false)
+    assert(isHTMLEmpty([]) === true)
+    assert(isHTMLEmpty(null) === true)
+    assert(isHTMLEmpty('key') === false)
+    assert(isHTMLEmpty('') === true)
+    assert(isHTMLEmpty(true) === false)
+    assert(isHTMLEmpty(false) === true)
+    assert(isHTMLEmpty(NaN) === false)
+    assert(isHTMLEmpty({}) === true)
+    assert(isHTMLEmpty({'key': 1}) === false)
+    assert(isHTMLEmpty(Symbol('desc')) === false)
+    assert(isHTMLEmpty(() => {
+    }) === false)
+    assert(isHTMLEmpty(FakeClass) === false)
+    assert(isHTMLEmpty(new RegExp('abc')) === false)
+    assert(isHTMLEmpty(new RegExp(/abc/)) === false)
+    assert(isHTMLEmpty(new ArrayBuffer()) === false)
+    assert(isHTMLEmpty(new Map()) === true)
+    assert(isHTMLEmpty(new Set()) === true)
+    assert(isHTMLEmpty('<p class="toto"></p>') === true)
+
+  }
 }
 
 
-runTest(TestIs)
+runTest(TestIs, 'testIsHTMLEmpty')
