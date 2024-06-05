@@ -3,7 +3,7 @@ import {
   safeInnerHTML,
   sanitizeHTMLElement,
   sanitizeHTMLTree
-} from '../../js/nodeHelpers'
+} from '../../js/nodeHelpers.js'
 
 const div = document.createElement('div')
 

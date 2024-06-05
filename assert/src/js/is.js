@@ -259,7 +259,13 @@ export const isSetType = a => !isNull(a) && a instanceof Set
  * @param {*} a
  * @return {boolean}
  */
-export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length)
+export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length) || (isStrictObject(a) && !Object.keys(a).length) || ((a instanceof Map || a instanceof Set) && !a.size)
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ */
+export const isHTMLEmpty = a => isEmpty(a) || (isString(a) && /^<\w+.*><\/\w+\s?>$/gi.test(a))
 
 /**
  * @param {*} a
