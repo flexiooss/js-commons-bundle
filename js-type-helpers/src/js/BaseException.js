@@ -1,4 +1,4 @@
-import {isArrowFunction,  isNull, TypeCheck} from '../../../assert/index.js'
+import {isArrowFunction, isNull, TypeCheck} from '../../../assert/index.js'
 
 export class BaseException extends Error {
   /**
@@ -17,7 +17,7 @@ export class BaseException extends Error {
    */
   constructor(message = null, code = null, ...params) {
     super(...params)
-    if(isArrowFunction(message)){
+    if (isArrowFunction(message)) {
       message = message.call(null)
     }
     this.message = TypeCheck.assertIsStringOrNull(message) || ''
@@ -32,6 +32,13 @@ export class BaseException extends Error {
   }
 
   /**
+   * @return {string}
+   */
+  get name() {
+    return `[${this.constructor.name}] ${this.toString()}`
+  }
+
+  /**
    * @return {?number}
    */
   code() {
@@ -41,7 +48,7 @@ export class BaseException extends Error {
   /**
    * @return {Date}
    */
-  date(){
+  date() {
     return this.#date
   }
 
@@ -49,7 +56,7 @@ export class BaseException extends Error {
    * @return {string}
    */
   toString() {
-    return ` ${this.realName()} --- ${!isNull(this.code())?'['+this.code()+'] ':''} ${this.message} `
+    return ` ${this.realName()} --- ${!isNull(this.code()) ? '[' + this.code() + '] ' : ''} ${this.message} `
   }
 
   /**
