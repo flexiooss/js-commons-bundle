@@ -512,7 +512,7 @@ export class ObjectValue {
     const val = this.rawValue(key)
     assertType(
       val instanceof ObjectValue || isNull(val),
-      this.constructor.name + ': `val` should be objectValue or null'
+      ()=> `ObjectValue: \`val\` should be objectValue or null given:${formatType(val)}`
     )
     return val
   }
@@ -528,7 +528,8 @@ export class ObjectValue {
     if (!this.has(key) || !(val instanceof ObjectValue || isNull(val))) {
       assertType(
         defaultValue instanceof ObjectValue || isNull(defaultValue),
-        this.constructor.name + ': `defaultValue` should be objectValue or null'
+        ()=> `ObjectValue: \`defaultValue\` should be objectValue or null given:${formatType(val)}`
+
       )
       return defaultValue
     }
