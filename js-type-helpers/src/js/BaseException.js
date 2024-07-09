@@ -21,7 +21,6 @@ export class BaseException extends Error {
       message = message.call(null)
     }
     this.message = TypeCheck.assertIsStringOrNull(message) || ''
-    this.name = this.constructor.name
     this.#code = TypeCheck.assertIsNumberOrNull(code)
     this.#date = new Date()
     if (Error.captureStackTrace) {
