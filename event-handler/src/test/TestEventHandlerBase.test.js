@@ -17,7 +17,7 @@ export class TestEventHandlerBase extends TestCase {
   /**
    * @type {boolean}
    */
-  debug = true
+  // debug = true
 
   setUp() {
     this.handler = new EventHandlerBase(5)
