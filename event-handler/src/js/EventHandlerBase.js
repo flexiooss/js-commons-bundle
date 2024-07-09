@@ -421,7 +421,6 @@ export class EventHandlerBase {
    * @protected
    */
   _ensureMaxExecution(event) {
-    console.log(this._executionQueue.get(event).size + 1 , this._maxExecution)
     if (this._executionQueue.get(event).size + 1 > this._maxExecution) {
       throw new EventHandlerMaxExecutionException('MAX EXECUTION ' + this._maxExecution + ' FOR : ' + event)
     }
