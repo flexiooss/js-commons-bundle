@@ -17,7 +17,19 @@ export class TestBase64Test extends TestCase {
       'W0NvbmfDqXMgcGF5w6lzIPCfmI4gXQ==',
       'should be encoded utf8')
 
+
+    const EXPECTED_2 = JSON.stringify({
+      prop: ['janvier', 'décembre', 'août', 'éq@à', 'toto', '`coucou', '\'coucou']
+    })
+
+    assert.equal(
+      Base64.decode(Base64.encode(EXPECTED_2)),
+      EXPECTED_2,
+      'should be encoded & decoded'
+    )
+
   }
+
 
 }
 
