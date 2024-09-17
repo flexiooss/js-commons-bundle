@@ -11,7 +11,7 @@ export class IntegerListValidator extends ListValidator {
    * @return {boolean}
    */
   validateType(value) {
-    return value instanceof globalFlexioImport.io.flexio.flex_types.arrays
-      .IntegerArray
+    return value instanceof globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray
+      || value instanceof globalFlexioImport.io.flexio.flex_types.arrays.LongArray
   }
 }
