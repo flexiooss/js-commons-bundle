@@ -2,9 +2,7 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {FlexArray} from '../../src/js/FlexArray.js'
 import {assertType, isBoolean, isNull, isNumber} from '../js/__import__assert.js'
-import {equalsPrimitive} from "../js/arrays/Equals.js";
 import {IntegerArray} from "../js/arrays/IntegerArray.js";
-
 
 const assert = require('assert')
 
@@ -127,6 +125,12 @@ export class TestFlexArray extends TestCase {
     assert.deepEqual(res_b, b_expected)
     assert.ok(res_b.length === b.length)
     assert.ok(res_b instanceof TestBoolArray)
+  }
+
+  testEquals(){
+    const a = new IntegerArray(2,4,6,8)
+    assert.ok(a.equals(new IntegerArray(2,4,6,8)), 'primitive array should be equals')
+    assert.ok(!a.equals(new IntegerArray(2,4,6,8,10)), 'primitive array should not be equals')
   }
 }
 
