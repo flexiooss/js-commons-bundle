@@ -1,6 +1,6 @@
 import {globalFlexioImport} from './__import__global-import-registry.js'
 import {FlexMap} from './FlexMap.js'
-import {deepFreezeSeal} from './__import__js-generator-helpers.js'
+import {deepFreezeSeal, haveEquals} from './__import__js-generator-helpers.js'
 import {
   assertType,
   isObject,
@@ -219,7 +219,10 @@ const validateObjectValueValue = v => {
   return v
 }
 
-export class ObjectValue {
+/**
+ * @implements HaveEquals
+ */
+export class ObjectValue extends haveEquals(){
   /**
    * @type {ObjectValueFlexMap}
    */
@@ -230,6 +233,7 @@ export class ObjectValue {
    * @private
    */
   constructor(data) {
+    super()
     /**
      * @type {ObjectValueFlexMap}
      */

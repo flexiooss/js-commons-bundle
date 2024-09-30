@@ -1,5 +1,6 @@
 import {assertType, isNull} from './__import__assert.js'
 import {BaseException} from '../../../js-type-helpers/index.js'
+import {haveEquals} from "../../../js-generator-helpers/index.js";
 
 const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
 const zonedDatetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
@@ -48,7 +49,10 @@ export class DateTimeParseException extends BaseException {
   }
 }
 
-export class FlexZonedDateTime {
+/**
+ * @implement HaveEquals
+ */
+export class FlexZonedDateTime extends haveEquals(){
   /**
    * @type {string}
    */
@@ -59,6 +63,7 @@ export class FlexZonedDateTime {
    * @throws {DateTimeParseException}
    */
   constructor(dateStr) {
+    super()
     let found = dateStr.match(zonedDatetimePattern)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_ZONED_DATETIME(dateStr)
@@ -96,8 +101,10 @@ export class FlexZonedDateTime {
   }
 }
 
-
-export class FlexDateTime {
+/**
+ * @implement HaveEquals
+ */
+export class FlexDateTime extends haveEquals(){
   /**
    * @type {string}
    */
@@ -108,6 +115,7 @@ export class FlexDateTime {
    * @throws {DateTimeParseException}
    */
   constructor(dateStr) {
+    super()
     let found = dateStr.match(datetimePattern)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_DATETIME(dateStr)
@@ -145,8 +153,10 @@ export class FlexDateTime {
   }
 }
 
-
-export class FlexDate {
+/**
+ * @implement HaveEquals
+ */
+export class FlexDate extends haveEquals(){
   /**
    * @type {string}
    */
@@ -157,6 +167,7 @@ export class FlexDate {
    * @throws {DateTimeParseException}
    */
   constructor(dateStr) {
+    super()
     let found = dateStr.match(datePattern)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_DATE(dateStr)
@@ -193,8 +204,10 @@ export class FlexDate {
   }
 }
 
-
-export class FlexTime {
+/**
+ * @implement HaveEquals
+ */
+export class FlexTime extends haveEquals() {
   /**
    * @type {string}
    */
@@ -205,6 +218,7 @@ export class FlexTime {
    * @throws {DateTimeParseException}
    */
   constructor(dateStr) {
+    super()
     let found = dateStr.match(timePattern)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_TIME(dateStr)

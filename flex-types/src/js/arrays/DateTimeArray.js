@@ -1,7 +1,6 @@
 import { globalFlexioImport } from '../__import__global-import-registry.js'
 import {assertType, isNull, TypeCheck} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {equalsObject} from './Equals.js'
 
 /**
  * @extends {FlexArray<?FlexDateTime>}
@@ -32,7 +31,7 @@ class DateTimeArray extends FlexArray {
    */
   equals(to) {
 
-    return equalsObject(this, to, (to) => {
+    return FlexArray.compareArraysAsObjectWithEquals(this, to, (to) => {
       assertType(
         to instanceof DateTimeArray,
         'TypeCheck: `to` should be DateTimeArray'
