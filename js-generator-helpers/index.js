@@ -5,3 +5,4 @@ export {haveBuilder, implementsHaveBuilder} from './src/js/builder/HaveBuilder.j
 export {valueObjectInterface, valueObjectBuilderInterface,ValueObjectTypeCheck} from './src/js/ValueObjectInterface.js'
 export {haveEquals, implementsHaveEquals} from './src/js/builder/HaveEquals.js'
 export {BuilderHelper} from './src/js/builder/BuilderHelper.js'
+export {ValueObjectHelper} from './src/js/ValueObjectHelper.js'
