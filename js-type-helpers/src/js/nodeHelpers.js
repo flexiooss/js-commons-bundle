@@ -1,5 +1,4 @@
 import {assertType, assert, isNode, isNull, isBoolean, isNumber, TypeCheck, isUndefined} from './__import__assert.js'
-import {Base64} from '../../../js-helpers/index.js'
 
 /**
  *
@@ -99,8 +98,8 @@ export const sanitizeUrl = (url) => {
     } else {
       let toReplace = matches[2];
       if (matches[1] === 'base64') {
-        toReplace = Base64.decode(toReplace)
-        return url.replace(matches[2], Base64.encode(sanitizeHTMLText(toReplace)))
+        toReplace = atob(toReplace)
+        return url.replace(matches[2], btoa(sanitizeHTMLText(toReplace)))
       }
       return url.replace(matches[2], sanitizeHTMLText(toReplace));
     }
