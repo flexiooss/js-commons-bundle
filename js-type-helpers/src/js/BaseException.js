@@ -9,18 +9,28 @@ export class BaseException extends Error {
    * @type {Date}
    */
   #date
+  /**
+   * @type {?Error|*}
+   */
+  #cause
 
   /**
    * @param {?string|function():string} [message=null]
    * @param {?number} [code=null]
-   * @param params
+   * @param {?Error|*} [cause=null]
+   * @param {...*} params
    */
-  constructor(message = null, code = null, ...params) {
-    super(...params)
+  constructor(message = null, code = null, cause = null, ...params) {
+    if (!isNull(cause)) {
+      super({cause: cause}, ...params)
+    } else {
+      super(...params)
+    }
     if (isArrowFunction(message)) {
       message = message.call(null)
     }
     this.message = TypeCheck.assertIsStringOrNull(message) || ''
+    this.#cause = cause
     this.#code = TypeCheck.assertIsNumberOrNull(code)
     this.#date = new Date()
     if (Error.captureStackTrace) {
@@ -42,6 +52,13 @@ export class BaseException extends Error {
    */
   code() {
     return this.#code
+  }
+
+  /**
+   * @return {?Error|*}
+   */
+  cause() {
+    return this.#cause
   }
 
   /**
@@ -80,6 +97,7 @@ export class BaseException extends Error {
     return {
       date: this.date(),
       code: this.code(),
+      cause: this.cause(),
       realName: this.realName(),
       name: this.name,
       message: this.toString(),

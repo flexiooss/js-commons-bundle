@@ -59,21 +59,51 @@ export const getParentNode = (el, check, stop = null) => {
  */
 export const getParentWithScroll = (el) => {
 
-  return getParentNode(el,  (el)=>{
+  return getParentNode(el, (el) => {
     const s = document.defaultView.getComputedStyle(el)
-    return el.scrollHeight > el.clientHeight && !(s.getPropertyValue("overflow") === 'hidden' ||(s.getPropertyValue("display") === 'flex' && s.getPropertyValue("flex-direction") === 'column') )
+    return el.scrollHeight > el.clientHeight && !(s.getPropertyValue("overflow") === 'hidden' || (s.getPropertyValue("display") === 'flex' && s.getPropertyValue("flex-direction") === 'column'))
   })
 }
 
-const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|data|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
+const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^&:/?#]*(?:[/?#]|$))/gi;
+const DATA_URL_PREFIX_PATTERN = /^data:/gi;
+const DATA_URL_BLACKLIST_PATTERN = /^data:(?:text\/html|image\/svg\+xml);?(base64)?,(.*)/gi;
+const SCRIPT_PATTERN = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script\s*>/gi;
+const PROPERTY_EVENT_PATTERN = /on[a-z]+="[^"]*"/gi;
+const JS_URL_PATTERN = /="javascript:/gi;
 
 /**
- * @param url
+ * @param {string} html
+ * @return {string}
+ */
+export const sanitizeHTMLText = (html) => {
+  let ret = html
+    .replaceAll(SCRIPT_PATTERN, '')
+    .replaceAll(PROPERTY_EVENT_PATTERN, '')
+    .replaceAll(JS_URL_PATTERN, '="unsafe:javascript:')
+  return ret
+}
+
+/**
+ * @param {string} url
  * @return {string}
  */
 export const sanitizeUrl = (url) => {
   url = String(url);
   if (url.match(SAFE_URL_PATTERN)) return url;
+  if (url.match(DATA_URL_PREFIX_PATTERN)) {
+    const matches = DATA_URL_BLACKLIST_PATTERN.exec(url)
+    if (isNull(matches)) {
+      return url;
+    } else {
+      let toReplace = matches[2];
+      if (matches[1] === 'base64') {
+        toReplace = atob(toReplace)
+        return url.replace(matches[2], btoa(sanitizeHTMLText(toReplace)))
+      }
+      return url.replace(matches[2], sanitizeHTMLText(toReplace));
+    }
+  }
 
   if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
     console.error(`[SECURITY] WARNING: sanitizing unsafe URL value ${url}`);
@@ -213,7 +243,7 @@ export const sanitizeHTMLElement = (node) => {
 /**
  * @type {Set<string>}
  */
-const URI_ATTR = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+const URI_ATTR = new Set(['background', 'data', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
 
 /**
  * @param {string} key
