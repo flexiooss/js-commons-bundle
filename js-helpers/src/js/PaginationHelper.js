@@ -49,8 +49,8 @@ export class PaginationHelper {
    * @param {number} pageIndex
    * @param {number} maxByPage
    * @param {number} offset
-   * @param {function(rangeMin:string, rangeMax:string)} format
-   * @return {number}
+   * @param {function(rangeMin:string, rangeMax:string):string} format
+   * @return {string}
    */
   static getRange(pageIndex, maxByPage, offset= 0, format = null) {
     if (isNull(format)) {
