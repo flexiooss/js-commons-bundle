@@ -1,15 +1,21 @@
 import {globalFlexioImport} from './__import__global-import-registry.js'
 import {FlexMap} from './FlexMap.js'
-import {deepFreezeSeal} from './__import__js-generator-helpers.js'
+import {deepFreezeSeal, haveEquals} from './__import__js-generator-helpers.js'
 import {
+  assertInstanceOf,
+  assertInstanceOfOrNull,
   assertType,
-  isObject,
-  isNull,
-  isString,
-  isBoolean,
-  isNumber,
+  formatType,
   isArray,
-  assertInstanceOf, TypeCheck, isArrowFunction, assertInstanceOfOrNull, formatType, isFunction, isStrictObject
+  isArrowFunction,
+  isBoolean,
+  isFunction,
+  isNull,
+  isNumber,
+  isObject,
+  isStrictObject,
+  isString,
+  TypeCheck
 } from './__import__assert.js'
 import {FlexArray} from './FlexArray.js'
 import {ObjectValueTypeError} from "./ObjectValueTypeError.js";
@@ -219,7 +225,10 @@ const validateObjectValueValue = v => {
   return v
 }
 
-export class ObjectValue {
+/**
+ * @implements HaveEquals
+ */
+export class ObjectValue extends haveEquals(){
   /**
    * @type {ObjectValueFlexMap}
    */
@@ -230,6 +239,7 @@ export class ObjectValue {
    * @private
    */
   constructor(data) {
+    super()
     /**
      * @type {ObjectValueFlexMap}
      */
@@ -512,7 +522,7 @@ export class ObjectValue {
     const val = this.rawValue(key)
     assertType(
       val instanceof ObjectValue || isNull(val),
-      ()=> `ObjectValue: \`val\` should be objectValue or null given:${formatType(val)}`
+      () => `ObjectValue: \`val\` should be objectValue or null given:${formatType(val)}`
     )
     return val
   }
@@ -528,8 +538,7 @@ export class ObjectValue {
     if (!this.has(key) || !(val instanceof ObjectValue || isNull(val))) {
       assertType(
         defaultValue instanceof ObjectValue || isNull(defaultValue),
-        ()=> `ObjectValue: \`defaultValue\` should be objectValue or null given:${formatType(val)}`
-
+        () => `ObjectValue: \`defaultValue\` should be objectValue or null given:${formatType(val)}`
       )
       return defaultValue
     }
@@ -813,6 +822,7 @@ export class ObjectValue {
   static fromJson(json) {
     return ObjectValueBuilder.fromJson(json)
   }
+
 }
 
 export class ObjectValueBuilder {
@@ -820,14 +830,6 @@ export class ObjectValueBuilder {
    * @type {ObjectValueFlexMap}
    */
   #map = new ObjectValueFlexMap()
-
-  /**
-   * @param {string} message
-   * @return {string}
-   */
-  #message(message) {
-    return `ObjectValueBuilder|${this.constructor.name}:${message}`
-  }
 
   /**
    * @param {ObjectValueFlexMap} map
@@ -956,7 +958,10 @@ export class ObjectValueBuilder {
       value = value.call(null, new ObjectValueBuilder())
     }
     TypeCheck.assertIsString(key)
-    assertType(isNull(value) || value instanceof ObjectValue, this.#message('should be null or ObjectValue'))
+    assertType(
+      isNull(value) || value instanceof ObjectValue,
+      () => `${this.constructor.name}: \`value\` should be an ObjectValue or null. Given: ${formatType(value)}`
+    )
     this.#map.set(key, value)
     return this
   }

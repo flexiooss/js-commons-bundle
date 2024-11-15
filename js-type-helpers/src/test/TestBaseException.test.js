@@ -23,6 +23,19 @@ export class TestBaseException extends TestCase {
       this.log(e)
     }
   }
+
+  testCause() {
+    const error1 = new MyException('1', 12)
+    const error2 = new MyException('1', 12, error1)
+    this.log(error2.toString())
+    this.log(JSON.stringify(error2))
+
+    try {
+      throw error2
+    } catch (e) {
+      this.log(e)
+    }
+  }
 }
 
 runTest(TestBaseException)
