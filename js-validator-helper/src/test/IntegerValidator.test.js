@@ -1,22 +1,22 @@
 /* global runTest */
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {NumberValidator} from '../js/Validator/NumberValidator.js'
 import '../js/__import__flex-types.js'
 import {globalFlexioImport} from '../js/__import__global-import-registry.js'
+import {IntegerValidator} from '../js/Validator/IntegerValidator.js'
 
 
 const assert = require('assert')
 
 
-export class NumberValidatorTest extends TestCase {
+export class IntegerValidatorTest extends TestCase {
   setUp() {
-    this.validator = new NumberValidator()
+    this.validator = new IntegerValidator()
   }
 
   testValidateNotNull() {
 
     assert.ok(this.validator.validateNotNull(0))
-    assert.ok(this.validator.validateNotNull(0.85))
+    assert.ok(this.validator.validateNotNull(0.85) === false)
     assert.ok(this.validator.validateNotNull(-5))
     assert.ok(this.validator.validateNotNull(null) === false)
     assert.ok(this.validator.validateNotNull('') === false)
@@ -25,19 +25,20 @@ export class NumberValidatorTest extends TestCase {
 
   testValidateNotEmpty() {
 
-    assert.ok(this.validator.validateNotNull(0))
-    assert.ok(this.validator.validateNotNull(0.85))
-    assert.ok(this.validator.validateNotNull(-5))
-    assert.ok(this.validator.validateNotNull(null) === false)
-    assert.ok(this.validator.validateNotNull('') === false)
-    assert.ok(this.validator.validateNotNull('5') === false)
+    assert.ok(this.validator.validateNotEmpty(0))
+    assert.ok(this.validator.validateNotEmpty(0.85) === false)
+    assert.ok(this.validator.validateNotEmpty(-5))
+    assert.ok(this.validator.validateNotEmpty(null) === false)
+    assert.ok(this.validator.validateNotEmpty('') === false)
+    assert.ok(this.validator.validateNotEmpty('5') === false)
   }
 
   testValidateInRange() {
 
     assert.ok(this.validator.validateInRange(2, 1, 3))
-    assert.ok(this.validator.validateInRange(0.85, 0.8, 3.3))
+    assert.ok(this.validator.validateInRange(0.85, 0.8, 3.3) === false)
     assert.ok(this.validator.validateInRange(0.85, 0.9, 3.3) === false)
+    assert.ok(this.validator.validateInRange(1, 0.8, 3.3))
     assert.ok(this.validator.validateInRange(2, '1', '3'))
     assert.ok(this.validator.validateInRange(0, -1, 1))
     assert.ok(this.validator.validateInRange(0, 0, 1))
@@ -126,4 +127,4 @@ export class NumberValidatorTest extends TestCase {
 }
 
 
-runTest(NumberValidatorTest)
+runTest(IntegerValidatorTest)
