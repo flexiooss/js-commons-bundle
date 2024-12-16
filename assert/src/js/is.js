@@ -199,7 +199,7 @@ export const isClass = a => typeof a === 'function' && /^class\s/.test(Function.
  * @return {boolean}
  * @export
  */
-export const isBlob = a => typeof Blob !== 'undefined' && !isNull(a) && a instanceof Blob
+export const isBlob = a => typeof Blob !== 'undefined' && !isNull(a) && (a instanceof Blob || Object.prototype.toString.call(a) === '[object Blob]')
 
 /**
  *
