@@ -2,7 +2,7 @@ import {assertType, isNull} from './__import__assert.js'
 import {BaseException} from '../../../js-type-helpers/index.js'
 import {haveEquals} from "../../../js-generator-helpers/index.js";
 
-const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?$/
+const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?$/
 const zonedDatetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
 const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/
 const timePattern = /^(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?/
