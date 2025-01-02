@@ -1,5 +1,6 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {Base64} from '../js/Base64.js'
+import {bigText} from "./bigText.js";
 
 const assert = require('assert')
 
@@ -26,6 +27,17 @@ export class TestBase64Test extends TestCase {
       Base64.decode(Base64.encode(EXPECTED_2)),
       EXPECTED_2,
       'should be encoded & decoded'
+    )
+
+  }
+
+
+  testEncodeBigText() {
+
+    assert.equal(
+      Base64.decode(Base64.encode(bigText)),
+      bigText,
+      'big text should be encoded & decoded'
     )
 
   }

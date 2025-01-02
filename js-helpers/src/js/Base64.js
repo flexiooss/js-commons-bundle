@@ -24,8 +24,18 @@ export class Base64 {
   }
 
   static #bytesToBase64(bytes) {
-    const binString = String.fromCodePoint(...bytes);
-    return btoa(binString);
+    const CHUNK_SIZE = 100000; // arbitrary number according maximum arguments for function to avoid "maximum call stack error"
+    let index = 0;
+    const length = bytes.length;
+    let result = '';
+    let slice;
+    while (index < length) {
+      slice = bytes.slice(index, Math.min(index + CHUNK_SIZE, length));
+      result += String.fromCodePoint(...slice);
+      index += CHUNK_SIZE;
+    }
+
+    return btoa(result);
   }
 
 
