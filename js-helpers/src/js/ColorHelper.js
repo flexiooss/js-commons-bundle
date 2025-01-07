@@ -228,20 +228,28 @@ export class ColorHelper {
    * @return {boolean}
    */
   isDark(hspInflection = 170) {
-    if (isEmpty(this.#color)) {
+    try {
+      if (isEmpty(this.#color)) {
+        return false
+      }
+      return this.getHSP() < hspInflection
+    } catch (e) {
       return false
     }
-    return this.getHSP() < hspInflection
   }
 
   /**
    * @return {boolean}
    */
   isWhite(hspInflection = 240) {
-    if (isEmpty(this.#color)) {
+    try {
+      if (isEmpty(this.#color)) {
+        return false
+      }
+      return this.getHSP() > hspInflection
+    } catch (e) {
       return false
     }
-    return this.getHSP() > hspInflection
   }
 
   /**
