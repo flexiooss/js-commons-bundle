@@ -1,7 +1,7 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {
   br2nl,
-  camelCase,
+  camelCase, countRootStringHTMLElement,
   firstUppercase,
   matchAll2Array,
   nl2br,
@@ -82,14 +82,25 @@ comment
     this.log(br2nl(a))
     this.log(br2nl(a, false))
     assert.equal("coucou\ncomment\nça va\n?", br2nl(a), 'br should be replaced by ln')
-    assert.equal( "coucou\n<br />comment\n<br />ça va\n<br />?", br2nl(a, false), 'nl should be inserted after br')
+    assert.equal("coucou\n<br />comment\n<br />ça va\n<br />?", br2nl(a, false), 'nl should be inserted after br')
   }
 
-  testReplaceFromDict(){
+  testReplaceFromDict() {
     const a = '["coucou", "blabla"]'
-    replaceFromDict(a, /\[\],/g,{"[":"(","]":")"})
-    assert.equal('("coucou" "blabla")', replaceFromDict(a, /[\[\],]/g,{"[":"(","]":")"}), 'should be replaced from dict with default value empty')
-    assert.equal('("coucou"boum "blabla")', replaceFromDict(a, /[\[\],]/g,{"[":"(","]":")"}, 'boum'), 'should be replaced from dict with custom  default value')
+    replaceFromDict(a, /\[\],/g, {"[": "(", "]": ")"})
+    assert.equal('("coucou" "blabla")', replaceFromDict(a, /[\[\],]/g, {
+      "[": "(",
+      "]": ")"
+    }), 'should be replaced from dict with default value empty')
+    assert.equal('("coucou"boum "blabla")', replaceFromDict(a, /[\[\],]/g, {
+      "[": "(",
+      "]": ")"
+    }, 'boum'), 'should be replaced from dict with custom  default value')
+  }
+
+  testCountRootStringHTMLElement() {
+    const txt = '<p class="tutu">coucou<p>truc</p></p><p>tutu</p>';
+    assert.ok(countRootStringHTMLElement(txt) === 2, 'p html tags should be count');
   }
 }
 
