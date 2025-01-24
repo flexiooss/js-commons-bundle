@@ -21,6 +21,21 @@ export class HttpRequester {
     assertType(HttpRequester.isHttpRequester(inst), '`inst` should be `HttpRequester`')
     return inst
   }
+  /**
+   * @param {function(XmlHttpRequestDelegate, executionId:string) } clb
+   * @return {HttpRequester}
+   */
+  onResponse(clb) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   * @param {function(ProgressEvent, executionId:string) }  clb
+   * @return {HttpRequester}
+   */
+  onUploadProgress(clb) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
 
   abort() {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')

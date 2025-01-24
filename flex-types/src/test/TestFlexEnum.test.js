@@ -20,6 +20,12 @@ class TestEnum2 extends FlexEnum {
 class TestEnum3 extends FlexEnum {
 
 }
+class TestEnum4 extends FlexEnum {
+
+}
+class TestEnum5 extends FlexEnum {
+
+}
 
 
 class TestFlexEnum extends TestCase {
@@ -55,6 +61,17 @@ class TestFlexEnum extends TestCase {
         TestEnum3.enumValueOf('fuckingAbsentValue')
       },
       IndexError)
+  }
+  testEquals() {
+    TestEnum4.initEnum(['pat', 'ate'])
+    TestEnum5.initEnum(['pat', 'ate'])
+    let pat = TestEnum4.enumValueOf('pat')
+    let pat2 = TestEnum5.enumValueOf('pat')
+    let ate = TestEnum4.enumValueOf('ate')
+    let ate2 = TestEnum5.enumValueOf('ate')
+    assert.ok(pat.equals(pat), 'same enum value should be equals')
+    assert.ok(!pat.equals(ate), 'other enum value should not be equals')
+    assert.ok(!pat.equals(pat2), 'other enum  should not be equals')
   }
 }
 
