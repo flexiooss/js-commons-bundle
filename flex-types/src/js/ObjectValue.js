@@ -111,12 +111,16 @@ export const objectValueValueEquals = (to, compare, strict = false) => {
     const compareKeys = new Set();
     for (const key of compare.propertyNames()) {
       compareKeys.add(key)
-      if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) return false;
+      if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) {
+        return false;
+      };
     }
 
     for (const key of to.propertyNames()) {
       if (!compareKeys.has(key)) {
-        if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) return false;
+        if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) {
+          return false;
+        };
       }
     }
   }
