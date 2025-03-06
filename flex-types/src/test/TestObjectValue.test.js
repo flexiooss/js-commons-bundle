@@ -7,6 +7,8 @@ import {IndexError} from '../js/IndexError.js'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate.js'
 import fixture_ob1 from './fixtures/_1.json'
 import fixture_ob2 from './fixtures/_2.json'
+import fixture_ob3 from './fixtures/__1.json'
+import fixture_ob4 from './fixtures/__2.json'
 import {ObjectValueTypeError} from '../js/ObjectValueTypeError.js'
 
 const assert = require('assert')
@@ -313,6 +315,17 @@ export class TestObjectValue extends TestCase {
     assert.ok(!obj1.equals(to),1)
     assert.ok(!obj1.strictEquals(to),2)
     assert.ok(!to.equals(obj1), 3)
+    assert.ok(!to.strictEquals(obj1), 4)
+  }
+
+  testBigEqualsNull() {
+    const obj1 = ObjectValue.fromObject(fixture_ob3).build()
+    const to = ObjectValue.fromObject(fixture_ob4).build();
+    this.log(obj1)
+    this.log(to)
+    assert.ok(obj1.equals(to),1)
+    assert.ok(!obj1.strictEquals(to),2)
+    assert.ok(to.equals(obj1), 3)
     assert.ok(!to.strictEquals(obj1), 4)
   }
 
