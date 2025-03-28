@@ -91,6 +91,14 @@ export class FlexDateExtended {
   }
 
   /**
+   * 27 - 31
+   * @return {number}
+   */
+  daysInMonth() {
+    return this.#toDateTime().daysInMonth
+  }
+
+  /**
    * 1-7 1 is Monday and 7 is Sunday
    * @return {number}
    */
