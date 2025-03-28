@@ -89,48 +89,43 @@ export const isObjectValueValue = a =>
  */
 export const objectValueValueEquals = (to, compare, strict = false) => {
 
-  assertType((to instanceof ObjectValue || isNull(to)) && (compare instanceof ObjectValue || isNull(compare)), '`to` & `compare` should be an instance of ObjectValue or null')
+  assertType((to instanceof ObjectValue || isNull(to)) && (compare instanceof ObjectValue || isNull(compare)), '`to` & `compare` should be an instance of ObjectValue or null');
 
-  if ((isNull(to) && !isNull(compare)) || (!isNull(to) && isNull(compare))) {
-    return false
-  }
+  if ((isNull(to) && !isNull(compare)) || (!isNull(to) && isNull(compare))) return false;
+  if (compare == to) return true;
 
-  if (compare == to) {
-    return true
-  }
   if (strict) {
-    if (compare.size() !== to.size()) return false
+    if (compare.size() !== to.size()) return false;
+
     for (const key of compare.propertyNames()) {
       if (to.has(key) && compare.has(key)) {
-        if (!objectValueValuePropertyEquals(to.rawValue(key), compare.rawValue(key), strict)) {
-          return false
-        }
+        if (!objectValueValuePropertyEquals(to.rawValue(key), compare.rawValue(key), strict)) return false;
       } else {
-        return false
+        return false;
       }
     }
   } else {
     /**
      * @type {Set<string>}
      */
-    const compareKeys = new Set()
+    const compareKeys = new Set();
     for (const key of compare.propertyNames()) {
       compareKeys.add(key)
       if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) {
-        return false
-      }
+        return false;
+      };
     }
 
     for (const key of to.propertyNames()) {
       if (!compareKeys.has(key)) {
         if (!objectValueValuePropertyEquals(to.rawValueOr(key), compare.rawValueOr(key), strict)) {
-          return false
-        }
+          return false;
+        };
       }
     }
   }
 
-  return true
+  return true;
 }
 
 
@@ -141,22 +136,20 @@ export const objectValueValueEquals = (to, compare, strict = false) => {
  * @return {boolean}
  */
 export const objectValueValuePropertyEquals = (to, compare, strict = false) => {
-  if (compare === to) {
-    return true
-  }
+  if (compare === to) return true;
 
   /**
    * @type {ObjectValue|FlexDateTime|FlexTime|FlexDate|FlexZonedDateTime|null}
    */
-  const type = getInstanceWithEquals(to)
+  const type = getInstanceWithEquals(to);
 
   if (!isNull(type)) {
-    return instanceWithEqualsImplEquals(to, compare, type, strict)
+    return instanceWithEqualsImplEquals(to, compare, type, strict);
   } else if (isArray(to)) {
-    return isArray(compare) && objectValueValueArrayEquals(to, compare, strict)
+    return isArray(compare) && objectValueValueArrayEquals(to, compare, strict);
   }
 
-  return false
+  return false;
 }
 
 
@@ -166,9 +159,10 @@ export const objectValueValuePropertyEquals = (to, compare, strict = false) => {
  */
 const getInstanceWithEquals = (inst) => {
   for (const i of instanceWithEqualsList()) {
-    if (inst instanceof i) return i
+    if (inst instanceof i) return i;
   }
-  return null
+
+  return null;
 }
 
 /**
@@ -178,13 +172,13 @@ const getInstanceWithEquals = (inst) => {
  * @return {boolean}
  */
 const instanceWithEqualsImplEquals = (to, compare, type, strict = false) => {
-  if (!(compare instanceof type)) {
-    return false
-  }
+  if (!(compare instanceof type)) return false;
+
   if (strict && isFunction(to?.strictEquals)) {
-    return to.strictEquals(compare)
+    return to.strictEquals(compare);
   }
-  return to.equals(compare)
+
+  return to.equals(compare);
 }
 
 /**
@@ -195,21 +189,15 @@ const instanceWithEqualsImplEquals = (to, compare, type, strict = false) => {
  */
 export const objectValueValueArrayEquals = (to, compare, strict = false) => {
 
-  assertType(isArray(to) && isArray(compare), '`to` & `compare` should be an Array')
-  if (compare == to) {
-    return true
-  }
-  if (to.length !== compare.length) {
-    return false
-  }
+  assertType(isArray(to) && isArray(compare), '`to` & `compare` should be an Array');
+  if (compare == to) return true;
+  if (to.length !== compare.length) return false;
 
   for (let i = to.length - 1; i >= 0; --i) {
-    if (!objectValueValuePropertyEquals(to[i], compare[i], strict)) {
-      return false
-    }
+    if (!objectValueValuePropertyEquals(to[i], compare[i], strict)) return false;
   }
 
-  return true
+  return true;
 }
 
 /**
@@ -222,13 +210,13 @@ const validateObjectValueValue = v => {
     isObjectValueValue(v),
     () => 'should be (null | string | number | boolean | ObjectValueValue[]| ObjectValueValueArray | ObjectValue | FlexDateTime | FlexDate | FlexTime | FlexZonedDateTime) given : ' + formatType(v),
   )
-  return v
+  return v;
 }
 
 /**
  * @implements HaveEquals
  */
-export class ObjectValue extends haveEquals(){
+export class ObjectValue extends haveEquals() {
   /**
    * @type {ObjectValueFlexMap}
    */
@@ -497,20 +485,15 @@ export class ObjectValue extends haveEquals(){
   arrayValueOr(key, defaultValue = null) {
     const val = this.#map.get(key)
     if (!this.has(key) || !(isArray(val) || isNull(val))) {
-      if (isNull(defaultValue)) {
-        return null
-      }
-
+      if (isNull(defaultValue)) return null;
       TypeCheck.assertIsArray(defaultValue)
+      if (!(defaultValue instanceof ObjectValueValueArray)) return new ObjectValueValueArray(...defaultValue);
 
-      if (!(defaultValue instanceof ObjectValueValueArray)) {
-        return new ObjectValueValueArray(...defaultValue)
-      }
 
-      return defaultValue
+      return defaultValue;
     }
 
-    return val
+    return val;
   }
 
   /**
@@ -519,12 +502,12 @@ export class ObjectValue extends haveEquals(){
    * @throws {IndexError, TypeError}
    */
   objectValueValue(key) {
-    const val = this.rawValue(key)
+    const val = this.rawValue(key);
     assertType(
       val instanceof ObjectValue || isNull(val),
       () => `ObjectValue: \`val\` should be objectValue or null given:${formatType(val)}`
     )
-    return val
+    return val;
   }
 
   /**
@@ -557,14 +540,14 @@ export class ObjectValue extends haveEquals(){
    * @return {ObjectValueValueArray}
    */
   properties() {
-    return new ObjectValueValueArray(...this.#map.values())
+    return new ObjectValueValueArray(...this.#map.values());
   }
 
   /**
    * @return {StringArray}
    */
   propertyNames() {
-    return new globalFlexioImport.io.flexio.flex_types.arrays.StringArray(...this.#map.keys())
+    return new globalFlexioImport.io.flexio.flex_types.arrays.StringArray(...this.#map.keys());
   }
 
   /**
@@ -572,7 +555,7 @@ export class ObjectValue extends haveEquals(){
    * @return {boolean}
    */
   equals(to) {
-    return objectValueValueEquals(this, to)
+    return objectValueValueEquals(this, to);
   }
 
   /**
@@ -580,7 +563,7 @@ export class ObjectValue extends haveEquals(){
    * @return {boolean}
    */
   strictEquals(to) {
-    return objectValueValueEquals(this, to, true)
+    return objectValueValueEquals(this, to, true);
   }
 
   /**
@@ -609,20 +592,21 @@ export class ObjectValue extends haveEquals(){
    * @return {Object}
    */
   #toObject(mini = false) {
-    const ret = {}
+    const ret = {};
     this.#map.forEach((v, k) => {
-      let out = v
+      let out = v;
 
       if (v instanceof ObjectValue || v instanceof globalFlexioImport.io.flexio.flex_types.FlexArray) {
-        out = v.toObject()
+        out = v.toObject();
       } else if (isArray(v)) {
-        out = arrayToObject(v)
+        out = arrayToObject(v);
       }
       if (!mini || !isNull(out)) {
-        ret[k] = out
+        ret[k] = out;
       }
     })
-    return ret
+
+    return ret;
   }
 
   /**
