@@ -74,28 +74,28 @@ export class TestFlexTimeExtendedTest extends TestCase {
 
   testPlus() {
     const time = FlexTimeExtended.fromISO('15:53:19')
-    // assert.deepEqual(time.plusHours(2).toISO(), '17:53:19.000')
-    // assert.deepEqual(time.plusHours(-4).toISO(), '11:53:19.000')
-    // assert.deepEqual(time.plusHours(12).toISO(), '03:53:19.000')
-    // assert.deepEqual(time.plusHours(24).toISO(), '15:53:19.000')
-    // assert.deepEqual(time.plusHours(48).toISO(), '15:53:19.000')
-    // assert.deepEqual(time.plusHours(72).toISO(), '15:53:19.000')
-    //
-    // assert.deepEqual(time.plusMinutes(2).toISO(), '15:55:19.000')
-    // assert.deepEqual(time.plusMinutes(-2).toISO(), '15:51:19.000')
-    // assert.deepEqual(time.plusMinutes(100).toISO(), '17:33:19.000')
-    // assert.deepEqual(time.plusMinutes(1000).toISO(), '08:33:19.000')
-    //
-    // assert.deepEqual(time.plusSeconds(20).toISO(), '15:53:39.000')
-    // assert.deepEqual(time.plusSeconds(100).toISO(), '15:54:59.000')
-    // assert.deepEqual(time.plusSeconds(-100).toISO(), '15:51:39.000')
-    // assert.deepEqual(time.plusSeconds(10_000).toISO(), '18:39:59.000')
-    //
-    // assert.deepEqual(time.plusMilliseconds(5).toISO(), '15:53:19.005')
-    // assert.deepEqual(time.plusMilliseconds(100).toISO(), '15:53:19.100')
-    // assert.deepEqual(time.plusMilliseconds(-100).toISO(), '15:53:18.900')
-    // assert.deepEqual(time.plusMilliseconds(10_000).toISO(), '15:53:29.000')
-    // assert.deepEqual(time.plusMilliseconds(10_000_000).toISO(), '18:39:59.000')
+    assert.deepEqual(time.plusHours(2).toISO(), '17:53:19.000')
+    assert.deepEqual(time.plusHours(-4).toISO(), '11:53:19.000')
+    assert.deepEqual(time.plusHours(12).toISO(), '03:53:19.000')
+    assert.deepEqual(time.plusHours(24).toISO(), '15:53:19.000')
+    assert.deepEqual(time.plusHours(48).toISO(), '15:53:19.000')
+    assert.deepEqual(time.plusHours(72).toISO(), '15:53:19.000')
+
+    assert.deepEqual(time.plusMinutes(2).toISO(), '15:55:19.000')
+    assert.deepEqual(time.plusMinutes(-2).toISO(), '15:51:19.000')
+    assert.deepEqual(time.plusMinutes(100).toISO(), '17:33:19.000')
+    assert.deepEqual(time.plusMinutes(1000).toISO(), '08:33:19.000')
+
+    assert.deepEqual(time.plusSeconds(20).toISO(), '15:53:39.000')
+    assert.deepEqual(time.plusSeconds(100).toISO(), '15:54:59.000')
+    assert.deepEqual(time.plusSeconds(-100).toISO(), '15:51:39.000')
+    assert.deepEqual(time.plusSeconds(10_000).toISO(), '18:39:59.000')
+
+    assert.deepEqual(time.plusMilliseconds(5).toISO(), '15:53:19.005')
+    assert.deepEqual(time.plusMilliseconds(100).toISO(), '15:53:19.100')
+    assert.deepEqual(time.plusMilliseconds(-100).toISO(), '15:53:18.900')
+    assert.deepEqual(time.plusMilliseconds(10_000).toISO(), '15:53:29.000')
+    assert.deepEqual(time.plusMilliseconds(10_000_000).toISO(), '18:39:59.000')
 
     const iso = time.plusHours(1).plusMinutes(2).plusSeconds(30).plusMilliseconds(45).toISO()
     assert.deepEqual(iso, '16:55:49.045')
