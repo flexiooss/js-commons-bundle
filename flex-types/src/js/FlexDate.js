@@ -2,11 +2,6 @@ import {assertType, isNull} from './__import__assert.js'
 import {BaseException} from '../../../js-type-helpers/index.js'
 import {haveEquals} from "../../../js-generator-helpers/index.js";
 
-const datetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?$/
-const zonedDatetimePattern = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/
-const datePattern = /^(\d{4})-(\d{2})-(\d{2})$/
-const timePattern = /^(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?/
-
 export class DateTimeParseException extends BaseException {
   realName() {
     return 'DateTimeParseException'
@@ -52,7 +47,11 @@ export class DateTimeParseException extends BaseException {
 /**
  * @implement HaveEquals
  */
-export class FlexZonedDateTime extends haveEquals(){
+export class FlexZonedDateTime extends haveEquals() {
+  /**
+   * @type {RegExp}
+   */
+  static PATTERN = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z|([+-](\d{2}):(\d{2})))$/;
   /**
    * @type {string}
    */
@@ -64,7 +63,7 @@ export class FlexZonedDateTime extends haveEquals(){
    */
   constructor(dateStr) {
     super()
-    let found = dateStr.match(zonedDatetimePattern)
+    let found = dateStr.match(FlexZonedDateTime.PATTERN)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_ZONED_DATETIME(dateStr)
     }
@@ -104,7 +103,11 @@ export class FlexZonedDateTime extends haveEquals(){
 /**
  * @implement HaveEquals
  */
-export class FlexDateTime extends haveEquals(){
+export class FlexDateTime extends haveEquals() {
+  /**
+   * @type {RegExp}
+   */
+  static PATTERN = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?$/;
   /**
    * @type {string}
    */
@@ -116,7 +119,7 @@ export class FlexDateTime extends haveEquals(){
    */
   constructor(dateStr) {
     super()
-    let found = dateStr.match(datetimePattern)
+    let found = dateStr.match(FlexDateTime.PATTERN)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_DATETIME(dateStr)
     }
@@ -156,7 +159,11 @@ export class FlexDateTime extends haveEquals(){
 /**
  * @implement HaveEquals
  */
-export class FlexDate extends haveEquals(){
+export class FlexDate extends haveEquals() {
+  /**
+   * @type {RegExp}
+   */
+  static PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
   /**
    * @type {string}
    */
@@ -168,7 +175,7 @@ export class FlexDate extends haveEquals(){
    */
   constructor(dateStr) {
     super()
-    let found = dateStr.match(datePattern)
+    let found = dateStr.match(FlexDate.PATTERN)
     if (isNull(found)) {
       throw DateTimeParseException.FROM_DATE(dateStr)
     }
@@ -209,6 +216,10 @@ export class FlexDate extends haveEquals(){
  */
 export class FlexTime extends haveEquals() {
   /**
+   * @type {RegExp}
+   */
+  static PATTERN = /^(\d{2}):(\d{2}):(\d{2})(\.(\d*))?(Z)?/;
+  /**
    * @type {string}
    */
   #value
@@ -219,7 +230,7 @@ export class FlexTime extends haveEquals() {
    */
   constructor(dateStr) {
     super()
-    let found = dateStr.match(timePattern)
+    let found = dateStr.match(FlexTime.PATTERN);
     if (isNull(found)) {
       throw DateTimeParseException.FROM_TIME(dateStr)
     }

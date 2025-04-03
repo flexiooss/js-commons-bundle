@@ -11,7 +11,7 @@ export class DateTimeFormatter {
    */
   static format(dateTime, format, locale, timeZone = 'UTC') {
     const date = new Date(dateTime.toISO() + 'Z')
-    if (!isDate(date)){
+    if (!isDate(date)) {
       throw new TypeError(`DateTimeFormatter: should have date given::${formatType(date)} from ${formatType(dateTime)}`)
     }
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
@@ -71,9 +71,12 @@ export class DateFormatter {
    * @return {string}
    */
   static format(date, format, locale) {
-    const datetime = Date.UTC(date.years(), date.months()-1, date.days(), 0, 0, 0, 0)
-    const dt = new Date(datetime)
-    if (!isDate(dt)){
+    const dtl = DateTime.utc(date.years(), date.months(), date.days());
+    if (!dtl.isValid) {
+      throw new TypeError(`DateFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
+    }
+    const dt = new Date(dtl.toMillis())
+    if (!isDate(dt)) {
       throw new TypeError(`DateFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
     }
     const dateFormatter = new DateFormatHelper(dt, locale, 'utc')
@@ -109,7 +112,7 @@ export class TimeFormatter {
   static format(time, format, locale) {
     const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
     const dt = new Date(date)
-    if (!isDate(dt)){
+    if (!isDate(dt)) {
       throw new TypeError(`TimeFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
     }
     const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
@@ -163,7 +166,7 @@ class DateFormatHelper {
    * @return {string}
    */
   year(timeZone = null) {
-    return this.#format({year: 'numeric'}, timeZone || this.#timeZone)
+    return this.#format({year: 'numeric'}, timeZone || this.#timeZone).padStart(4, '0');
   }
 
   /**

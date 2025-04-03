@@ -30,6 +30,7 @@ const padLeft = (input, expectedLength, replaceWith = '0') => {
 export class DateExtended extends Date {
 
   /**
+   * @Deprecated
    * @param {FlexTime} flexTime
    * @return {DateExtended}
    */
@@ -50,7 +51,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {FlexTime} flexTime
    * @return {DateExtended}
    */
@@ -62,6 +63,7 @@ export class DateExtended extends Date {
   }
 
   /**
+   * @Deprecated
    * @param {FlexZonedDateTime} flexZonedDateTime
    * @return {DateExtended}
    */
@@ -75,6 +77,7 @@ export class DateExtended extends Date {
   }
 
   /**
+   * @Deprecated
    * @param {FlexDate} flexDate
    * @return {DateExtended}
    */
@@ -89,7 +92,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {FlexDate} flexDate
    * @return {DateExtended}
    */
@@ -101,6 +104,7 @@ export class DateExtended extends Date {
   }
 
   /**
+   * @Deprecated
    * @param {FlexDateTime} flexDateTime
    * @return {DateExtended}
    */
@@ -114,7 +118,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {FlexDateTime} flexDateTime
    * @return {DateExtended}
    */
@@ -126,7 +130,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {string}
    */
   toUTCFullDate() {
@@ -135,7 +139,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {string}
    */
   toUTCTime() {
@@ -144,7 +148,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {string}
    */
   toLocaleFullDate() {
@@ -155,7 +159,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {string}
    */
   toLocaleTime() {
@@ -167,7 +171,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {number}
    */
   getNextMonth() {
@@ -176,6 +180,7 @@ export class DateExtended extends Date {
   }
 
   /**
+   * @Deprecated
    * @return {number}
    */
   getPreviousMonth() {
@@ -184,7 +189,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @return {number}
    */
   getDaysInMonth() {
@@ -192,6 +197,10 @@ export class DateExtended extends Date {
     return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate()
   }
 
+  /**
+   * @Deprecated
+   * @return {number}
+   */
   getWeekNumber() {
     console.error("[DEPRECATED] DO NOT USE")
     let date = new Date(Date.UTC(this.getFullYear(), this.getMonth(), this.getDate()));
@@ -202,7 +211,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexZonedDateTime}
    */
   toUTCFlexZonedDateTime() {
@@ -212,7 +221,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexDateTime}
    */
   toLocaleFlexDateTime() {
@@ -222,7 +231,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexDateTime}
    */
   toUTCFlexDateTime() {
@@ -232,7 +241,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexDate}
    */
   toLocaleFlexDate() {
@@ -242,7 +251,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexDate}
    */
   toUTCFlexDate() {
@@ -252,7 +261,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexTime}
    */
   toLocaleFlexTime() {
@@ -262,7 +271,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @returns {FlexTime}
    */
   toUTCFlexTime() {
@@ -272,7 +281,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {string} value
    * @returns {null|FlexDate}
    */
@@ -290,7 +299,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {string} value
    * @returns {null|FlexDateTime}
    */
@@ -308,7 +317,7 @@ export class DateExtended extends Date {
   }
 
   /**
-   *
+   * @Deprecated
    * @param {string} value
    * @returns {null|FlexTime}
    */
