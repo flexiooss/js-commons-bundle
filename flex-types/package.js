@@ -2,7 +2,7 @@ import {globalFlexioImport} from './src/js/__import__global-import-registry.js'
 import {deepKeyAssigner} from './src/js/__import__js-generator-helpers.js'
 
 import {FlexEnum} from './src/js/FlexEnum.js'
-import {FlexDateTime, FlexZonedDateTime, FlexDate, FlexTime} from './src/js/FlexDate.js'
+import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from './src/js/FlexDate.js'
 import {FlexMap, FlexMapBuilder} from './src/js/FlexMap.js'
 import {FlexArray} from './src/js/FlexArray.js'
 
@@ -23,6 +23,7 @@ import {ObjectValue, ObjectValueBuilder, ObjectValueValueArray} from './src/js/O
 import {Geoloc, GeolocBuilder} from './src/js/Geoloc.js'
 import {GeolocList} from './src/js/GeolocList.js'
 import {DOMPosition, DOMPositionBuilder} from './src/js/DOMPosition.js'
+import {ModifierKeys, ModifierKeysBuilder} from './src/js/ModifierKeys.js'
 
 
 /**
@@ -189,3 +190,12 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocList', GeolocLis
  * @property {GeolocBuilder.} globalFlexioImport.io.flexio.flex_types.GeolocBuilder
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.GeolocBuilder', GeolocBuilder)
+
+/**
+ * @property {ModifierKeys.} globalFlexioImport.io.flexio.flex_types.ModifierKeys
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ModifierKeys', ModifierKeys)
+/**
+ * @property {ModifierKeysBuilder.} globalFlexioImport.io.flexio.flex_types.ModifierKeysBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ModifierKeysBuilder', ModifierKeysBuilder)
