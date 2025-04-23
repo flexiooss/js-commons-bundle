@@ -1,9 +1,9 @@
-import {assert, assertInstanceOf, isFunction, isNull} from './__import__assert.js'
-import {UID, Sequence} from './__import__js-helpers.js'
+import {assertInstanceOf, isFunction, isNull} from './__import__assert.js'
+import {Sequence, UID} from './__import__js-helpers.js'
 import {EventListenerConfig} from './EventListenerConfig.js'
 import {StringArray} from './__import__flex-types.js'
-import {EventListenerConfigBuilder} from "./EventListenerConfigBuilder.js";
-import {BaseException} from "../../../js-type-helpers/index.js";
+import {EventListenerConfigBuilder} from './EventListenerConfigBuilder.js'
+import {BaseException} from '../../../js-type-helpers/index.js'
 
 
 /**
@@ -43,12 +43,12 @@ export class EventHandlerBase {
      */
     this._maxExecution = maxExecution
     /**
-     * @params {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
+     * @type {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
      * @protected
      */
     this._listeners = new Map()
     /**
-     * @params {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
+     * @type {Map<(String|Symbol), Map<(String|Symbol), EventListenerConfig>>}
      * @protected
      */
     this._asyncListeners = new Map()
@@ -85,7 +85,7 @@ export class EventHandlerBase {
             (eventListenerConfig, listenerToken) => {
               if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
                 // try {
-                  this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
                 // } catch (e) {
                 //   if (e instanceof EventHandlerMaxExecutionException) throw e
                 //   execExceptions.push(e)
@@ -116,7 +116,7 @@ export class EventHandlerBase {
 
               }
             )
-          let promiseExec;
+          let promiseExec
           if ('allSettled' in Promise) {
             promiseExec = Promise.allSettled(asyncListeners)
           } else {
@@ -139,7 +139,7 @@ export class EventHandlerBase {
             .catch(ko => {
               console.error('EventHandlerBase async rejection', ko)
               throw ko
-            });
+            })
         }
 
         // if (execExceptions.length) {
@@ -242,45 +242,38 @@ export class EventHandlerBase {
       if (isNull(token)) {
         this._listeners.get(event).forEach((v, k) => {
           this._listeners.get(event).delete(k)
+          removed = true
           if (!isNull(v.onRemoveCallback())) {
             v.onRemoveCallback().call(null)
           }
         })
         this._listeners.delete(event)
+      } else if (this._listeners.get(event).has(token)) {
+        const config = this._listeners.get(event).get(token)
+        this._listeners.get(event).delete(token)
         removed = true
-      } else {
-        if (this._listeners.has(event)) {
-          if (this._listeners.get(event).has(token)) {
-            const config = this._listeners.get(event).get(token)
-            this._listeners.get(event).delete(token)
-            if (!isNull(config.onRemoveCallback())) {
-              config.onRemoveCallback().call(null)
-            }
-          }
-          return true
+        if (!isNull(config.onRemoveCallback())) {
+          config.onRemoveCallback().call(null)
         }
       }
     }
+
     if (this._asyncListeners.has(event)) {
       if (isNull(token)) {
         this._asyncListeners.get(event).forEach((v, k) => {
           this._asyncListeners.get(event).delete(k)
+          removed = true
           if (!isNull(v.onRemoveCallback())) {
             v.onRemoveCallback().call(null)
           }
         })
         this._asyncListeners.delete(event)
+      } else if (this._asyncListeners.get(event).has(token)) {
+        const config = this._asyncListeners.get(event).get(token)
+        this._asyncListeners.get(event).delete(token)
         removed = true
-      } else {
-        if (this._asyncListeners.has(event)) {
-          if (this._asyncListeners.get(event).has(token)) {
-            const config = this._asyncListeners.get(event).get(token)
-            this._asyncListeners.get(event).delete(token)
-            if (!isNull(config.onRemoveCallback())) {
-              config.onRemoveCallback().call(null)
-            }
-          }
-          return true
+        if (!isNull(config.onRemoveCallback())) {
+          config.onRemoveCallback().call(null)
         }
       }
     }
@@ -294,31 +287,27 @@ export class EventHandlerBase {
    * @return {boolean}
    */
   disableEventListener(event, token = null) {
-    if (this._listeners.has(event)) {
-      if (this._listeners.has(event) && this._listeners.get(event).has(token) && this._listeners.get(event).get(token).active()) {
-        /**
-         * @type {EventListenerConfig}
-         */
-        const current = this._listeners.get(event).get(token)
-        this._listeners.get(event).set(
-          token,
-          current.withActive(false)
-        )
-        return true
-      }
+    if (this._listeners.has(event) && this._listeners.get(event).has(token) && this._listeners.get(event).get(token).active()) {
+      /**
+       * @type {EventListenerConfig}
+       */
+      const current = this._listeners.get(event).get(token)
+      this._listeners.get(event).set(
+        token,
+        current.withActive(false)
+      )
+      return true
     }
-    if (this._asyncListeners.has(event)) {
-      if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && this._asyncListeners.get(event).get(token).active()) {
-        /**
-         * @type {EventListenerConfig}
-         */
-        const current = this._asyncListeners.get(event).get(token)
-        this._asyncListeners.get(event).set(
-          token,
-          current.withActive(false)
-        )
-        return true
-      }
+    if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && this._asyncListeners.get(event).get(token).active()) {
+      /**
+       * @type {EventListenerConfig}
+       */
+      const current = this._asyncListeners.get(event).get(token)
+      this._asyncListeners.get(event).set(
+        token,
+        current.withActive(false)
+      )
+      return true
     }
     return false
   }
@@ -330,32 +319,28 @@ export class EventHandlerBase {
    * @return {boolean}
    */
   enableEventListener(event, token) {
-    if (this._listeners.has(event)) {
-      if (this._listeners.has(event) && this._listeners.get(event).has(token) && !this._listeners.get(event).get(token).active()) {
-        /**
-         * @type {EventListenerConfig}
-         */
-        const current = this._listeners.get(event).get(token)
-        this._listeners.get(event).set(
-          token,
-          current.withActive(true)
-        )
-        return true
-      }
+    if (this._listeners.has(event) && this._listeners.get(event).has(token) && !this._listeners.get(event).get(token).active()) {
+      /**
+       * @type {EventListenerConfig}
+       */
+      const current = this._listeners.get(event).get(token)
+      this._listeners.get(event).set(
+        token,
+        current.withActive(true)
+      )
+      return true
     }
 
-    if (this._asyncListeners.has(event)) {
-      if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && !this._asyncListeners.get(event).get(token).active()) {
-        /**
-         * @type {EventListenerConfig}
-         */
-        const current = this._asyncListeners.get(event).get(token)
-        this._asyncListeners.get(event).set(
-          token,
-          current.withActive(true)
-        )
-        return true
-      }
+    if (this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token) && !this._asyncListeners.get(event).get(token).active()) {
+      /**
+       * @type {EventListenerConfig}
+       */
+      const current = this._asyncListeners.get(event).get(token)
+      this._asyncListeners.get(event).set(
+        token,
+        current.withActive(true)
+      )
+      return true
     }
     return false
   }
@@ -366,7 +351,8 @@ export class EventHandlerBase {
    * @returns {boolean}
    */
   hasEventListener(event, token) {
-    return ((this._listeners.has(event)) && (this._listeners.get(event).has(token))) || ((this._asyncListeners.has(event)) && (this._asyncListeners.get(event).has(token)))
+    return this._listeners.has(event) && this._listeners.get(event).has(token)
+      || this._asyncListeners.has(event) && this._asyncListeners.get(event).has(token)
   }
 
   /**
@@ -666,7 +652,7 @@ export class EventHandlerExecutionException extends BaseException {
    * @param ...params
    */
   constructor(message = null, code = null, errors, ...params) {
-    super(message + ' | ' + errors.map((v) => v.toString()).join(' | '), code, ...params);
+    super(message + ' | ' + errors.map((v) => v.toString()).join(' | '), code, ...params)
     /**
      * @type {Error[]}
      */
@@ -679,13 +665,6 @@ export class EventHandlerExecutionException extends BaseException {
    */
   static formatErrors(list) {
     return list.map((v) => v.toString()).join(' | ')
-  }
-
-  /**
-   * @return {string}
-   */
-  realName() {
-    return 'EventHandlerExecutionException';
   }
 
   /**
@@ -702,6 +681,13 @@ export class EventHandlerExecutionException extends BaseException {
    */
   static async(list) {
     return new EventHandlerExecutionException(`${list.length} Errors on async event handler: ${EventHandlerExecutionException.formatErrors(list)}`, null, list)
+  }
+
+  /**
+   * @return {string}
+   */
+  realName() {
+    return 'EventHandlerExecutionException'
   }
 
   /**
