@@ -1,4 +1,5 @@
 import {isNull, TypeCheck} from '../../../assert/index.js'
+import {encode, decode} from 'html-entities';
 
 /**
  * @param {String} input
@@ -170,33 +171,17 @@ export const countRootStringHTMLElement = (text, tag = 'p') => {
 }
 
 /**
- * @type {?Element}
- */
-let textAreaNode = null;
-/**
- * @return {Element}
- */
-const TEXT_AREA = () => {
-  if (isNull(textAreaNode)) {
-    textAreaNode = globalThis.document.createElement('textarea');
-  }
-  return textAreaNode;
-}
-
-/**
  * @param {string} text
  * @return {string}
  */
 export const decodeHTMLEntities = (text) => {
-  TEXT_AREA().innerHTML = text;
-  return TEXT_AREA().value;
+  return decode(text);
 }
 /**
  * @param {string} text
  * @return {string}
  */
 export const encodeHTMLEntities = (text) => {
-  TEXT_AREA().innerText = text;
-  return TEXT_AREA().innerHTML;
+  return encode(text);
 }
 
