@@ -1,7 +1,7 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {
   br2nl,
-  camelCase, countRootStringHTMLElement,
+  camelCase, countRootStringHTMLElement, decodeHTMLEntities, encodeHTMLEntities,
   firstUppercase,
   matchAll2Array,
   nl2br,
@@ -101,6 +101,14 @@ comment
   testCountRootStringHTMLElement() {
     const txt = '<p class="tutu">coucou<p>truc</p></p><p>tutu</p>';
     assert.ok(countRootStringHTMLElement(txt) === 2, 'p html tags should be count');
+  }
+
+  testDecodeHtmlEntities() {
+    assert.ok(decodeHTMLEntities('&quot; coucou &agrave;') === '" coucou à', 'should decode html');
+  }
+
+  testEncodeHtmlEntities() {
+    assert.ok(encodeHTMLEntities('" coucou à') === '&quot; coucou à', 'should encode html');
   }
 }
 
