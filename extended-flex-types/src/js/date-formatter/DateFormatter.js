@@ -21,6 +21,8 @@ export class DateTimeFormatter {
         return dateFormatter.year()
       case 'MM':
         return dateFormatter.month()
+      case 'MMMM':
+        return date.toLocaleString(locale, { month: 'long' });
       case 'dd':
         return dateFormatter.day()
       case 'w':
@@ -86,6 +88,8 @@ export class DateFormatter {
         return dateFormatter.year()
       case 'MM':
         return dateFormatter.month()
+      case 'MMMM':
+        return dt.toLocaleString(locale, { month: 'long' });
       case 'dd':
         return dateFormatter.day()
       case 'w':
