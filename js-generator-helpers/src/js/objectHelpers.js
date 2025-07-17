@@ -1,6 +1,5 @@
 import {isObject, isArray} from './__import__assert.js'
 
-
 /**
  *
  * @param {*} from
