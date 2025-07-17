@@ -125,6 +125,14 @@ export class StringValidatorTest extends TestCase {
     )
 
   }
+
+  testValidateMaxSize() {
+    assert.ok(this.validator.validateMaxSize(null, 0))
+    assert.ok(this.validator.validateMaxSize('', 0))
+    assert.ok(!this.validator.validateMaxSize('toto', 3))
+    assert.ok(this.validator.validateMaxSize('toto', 4))
+    assert.ok(this.validator.validateMaxSize('toto', 5))
+  }
 }
 
 

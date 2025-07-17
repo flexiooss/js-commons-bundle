@@ -11,6 +11,6 @@ export class ConsoleFormater extends hotLogFormater(class {
    * @return {string}
    */
   format(log) {
-    return `[${log.emitter()}] :: ${isFunction(log.message())?log.message().call(null):log.message()}`
+    return `[${log.emitter()}]\n::> ${isFunction(log.message())?log.message().call(null):log.message()}`
   }
 }

@@ -1,4 +1,4 @@
-import {  TypeCheck} from './__import__assert.js'
+import {TypeCheck} from './__import__assert.js'
 import {IndexError} from './IndexError.js'
 
 
@@ -90,7 +90,7 @@ export class FlexEnum {
   static enumValueOf(name) {
     const ret = this.enumValues.find(x => x.__name === name)
     if (typeof ret === 'undefined') {
-      throw IndexError.BAD_ENUM_NAME(name)
+      throw IndexError.BAD_ENUM_NAME(this.name, name)
     }
     return ret
   }
@@ -127,12 +127,23 @@ export class FlexEnum {
   }
 
   /**
+   * @param {this} inst
+   * @return {boolean}
+   */
+  equals(inst) {
+    if (!inst instanceof this.constructor) return false;
+    if (inst.constructor.name !== this.constructor.name) return false;
+    return this.name() === inst.name()
+  }
+
+  /**
    *
    * @returns {string}
    */
   toJSON() {
     return this.toString()
   }
+
   /**
    * @returns {string}
    */

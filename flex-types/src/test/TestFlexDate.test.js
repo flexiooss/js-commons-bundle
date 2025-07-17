@@ -49,18 +49,18 @@ export class TestFlexDate extends TestCase {
     let time = new FlexDateTime('1992-12-17T04:17:32')
     assert.strictEqual(time.toJSON(), '1992-12-17T04:17:32', 'test datetime creation')
 
+     time = new FlexDateTime('1992-12-17T04:17:32Z')
+    assert.strictEqual(time.toJSON(), '1992-12-17T04:17:32', 'test datetime creation with Z')
+
     assert.throws(() => {
-      new FlexDateTime('1992-10-17T04:17:32Z')
-    })
+      new FlexDateTime('1992-10-17T04:17:32+01:02')
+    }, /DateTimeParseException/)
 
     time = new FlexDateTime('1992-10-17T04:17:32.174')
     assert.strictEqual(time.toJSON(), '1992-10-17T04:17:32.174', 'test datetime creation')
 
     time = new FlexDateTime('1992-10-17T04:17:32.123456789')
     assert.strictEqual(time.toJSON(), '1992-10-17T04:17:32.123456789', 'test datetime creation with nanos')
-    assert.throws(() => {
-      new FlexDateTime('1992-10-17T04:17:32.174Z')
-    })
 
   }
 

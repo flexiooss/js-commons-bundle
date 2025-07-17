@@ -6,7 +6,6 @@ import {isNull, isBoolean} from '../__import__assert.js'
  */
 export class BooleanValidator extends Validator {
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -15,7 +14,6 @@ export class BooleanValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @return {boolean}
    */
@@ -24,7 +22,6 @@ export class BooleanValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @return {boolean}
    */
@@ -33,7 +30,6 @@ export class BooleanValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -44,7 +40,6 @@ export class BooleanValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -54,12 +49,21 @@ export class BooleanValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
     throw new Error('BooleanValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   *
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('BooleanValidator: no max size for `validateMaxSize`')
   }
 }

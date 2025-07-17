@@ -8,7 +8,6 @@ import {TypeCheck} from '../__import__flex-types.js'
  */
 export class IntegerValidator extends Validator {
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -17,7 +16,6 @@ export class IntegerValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -26,7 +24,6 @@ export class IntegerValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -35,7 +32,6 @@ export class IntegerValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @param {string|null} rangeStart
    * @param {string|null} rangeEnd
@@ -45,21 +41,17 @@ export class IntegerValidator extends Validator {
     if (isNull(value)) {
       return true
     }
-
-    if (isNull(rangeStart) && isNull(rangeEnd)) {
-      return isNull(value)
+    let validate = this.validateType(value)
+    if (validate && !isNull(rangeStart)) {
+      validate = value >= parseFloat(rangeStart)
     }
-    if (isNull(rangeStart)) {
-      return this.validateType(value) && value <= parseInt(rangeEnd, 10)
+    if (validate && !isNull(rangeEnd)) {
+      validate = value <= parseFloat(rangeEnd)
     }
-    if (isNull(rangeEnd)) {
-      return this.validateType(value) && value >= parseInt(rangeStart, 10)
-    }
-    return this.validateType(value) && value >= parseInt(rangeStart, 10) && value <= parseInt(rangeEnd, 10)
+    return validate
   }
 
   /**
-   *
    * @param {Number} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -72,12 +64,23 @@ export class IntegerValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
     throw new Error('IntegerValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {Number} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    if(isNull(value)){
+      return true
+    }
+    return value.toString().length <= size
   }
 }

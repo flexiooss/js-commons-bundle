@@ -3,6 +3,7 @@ import {DateTime} from 'luxon'
 import {DateTimeFormatter} from './date-formatter/DateFormatter.js'
 import {FlexDateExtended} from './FlexDateExtended.js'
 import {FlexTimeExtended} from './FlexTimeExtended.js'
+import {FlexZonedDateTimeExtended} from './FlexZonedDateTimeExtended.js'
 
 export class FlexDateTimeExtended {
   /**
@@ -384,6 +385,14 @@ export class FlexDateTimeExtended {
   }
 
   /**
+   * @param {String} zone
+   * @returns {FlexZonedDateTimeExtended}
+   */
+  toZoneSameInstant(zone) {
+    return FlexZonedDateTimeExtended.fromFlexDateTime(this.#datetime, 'utc').atZoneSameInstant(zone)
+  }
+
+  /**
    * @return {string}
    */
   toISO() {
@@ -423,6 +432,20 @@ export class FlexDateTimeExtended {
    */
   toTime() {
     return FlexTimeExtended.fromISO(this.#toDateTime().toISOTime({includeOffset: false}))
+  }
+
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString()
+  }
+
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.#datetime.toString()
   }
 
   /**

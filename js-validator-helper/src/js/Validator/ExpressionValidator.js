@@ -57,4 +57,13 @@ export class ExpressionValidator extends Validator {
   validateRegex(value, regex) {
     throw new Error('ExpressionValidator: no regex for `validateRegex`')
   }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('ExpressionValidator: no max size for `validateMaxSize`')
+  }
 }

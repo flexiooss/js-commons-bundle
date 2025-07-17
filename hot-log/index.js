@@ -2,6 +2,7 @@ export {HotLog} from './src/js/HotLog.js'
 export {Logger,LoggerBuilder} from './src/js/Logger.js'
 export {HotLogLevel} from './src/js/HotLogLevel.js'
 export {HotLogHelper} from './src/js/HotLogHelper.js'
+export {Log} from './src/js/Log.js'
 
 export {filter, implementsFilter} from './src/js/transporters/filters/Filter.js'
 export {FilterList} from './src/js/transporters/filters/FilterList.js'

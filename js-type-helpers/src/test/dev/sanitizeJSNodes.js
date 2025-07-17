@@ -1,9 +1,9 @@
 import {
   escapeForBrowser,
   safeInnerHTML,
-  sanitizeHTMLElement,
+  sanitizeHTMLElement, sanitizeHTMLText,
   sanitizeHTMLTree
-} from '../../js/nodeHelpers'
+} from '../../js/nodeHelpers.js'
 
 const div = document.createElement('div')
 
@@ -24,15 +24,18 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
    </cc:Work>
   </rdf:RDF>
  </metadata>
- <script xlink:href="external.js" />
- <script type="text/javascript">alert('coucou')  </script>
- <script xlink:href="external.js" />
+ <script href="external.js" />
+ <script type="text/javascript"><![CDATA[
+ alert('aa');
+ console.log('aa');
+ ]]></script>
+ <a href="javascript:alert();">coucou</a>
  <g display="none">
   <path onclick="alert();" d="m0.67307 0.48679-0.185 0.1881 1.3095 1.3095-1.3095 1.3095 0.185 0.1881 1.311-1.311 1.311 1.311 0.18553-0.1881-1.31-1.3095 1.31-1.3095-0.18553-0.1881-1.311 1.311z" display="inline" stroke-width=".26458"/>
   <path d="m2.8796 1.9844-1.7904 1.5209v-3.0419z" display="inline"/>
  </g>
  <g>
-  <path d="m1.2875 0.45656h0.15286a0.15286 0.15933 0 0 1 0.15285 0.15933v0.15933h0.7643v-0.15933a0.15286 0.15933 0 0 1 0.15285-0.15933h0.15286a0.15286 0.15933 0 0 1 0.15286 0.15933v0.15933a0.45858 0.47799 0 0 1 0.45858 0.47799v1.7526a0.45858 0.47799 0 0 1-0.45858 0.47799h-1.6815a0.45858 0.47799 0 0 1-0.45857-0.47799v-1.7526a0.45858 0.47799 0 0 1 0.45857-0.47799v-0.15933a0.15286 0.15933 0 0 1 0.15286-0.15933m1.2229 0.31866h0.15286v-0.15933h-0.15286v0.15933m-1.07 0v-0.15933h-0.15286v0.15933h0.15286m-0.30572 0.15933a0.30572 0.31866 0 0 0-0.30572 0.31866v0.15933h2.2929v-0.15933a0.30572 0.31866 0 0 0-0.30572-0.31866h-1.6815m-0.30572 2.0713a0.30572 0.31866 0 0 0 0.30572 0.31866h1.6815a0.30572 0.31866 0 0 0 0.30572-0.31866v-1.434h-2.2929v1.434m1.2229-0.79664h0.7643v0.79664h-0.7643v-0.79664m0.15286 0.15933v0.47799h0.45858v-0.47799z" stroke-width=".24608"/>
+  <path onclick="alert();" d="m1.2875 0.45656h0.15286a0.15286 0.15933 0 0 1 0.15285 0.15933v0.15933h0.7643v-0.15933a0.15286 0.15933 0 0 1 0.15285-0.15933h0.15286a0.15286 0.15933 0 0 1 0.15286 0.15933v0.15933a0.45858 0.47799 0 0 1 0.45858 0.47799v1.7526a0.45858 0.47799 0 0 1-0.45858 0.47799h-1.6815a0.45858 0.47799 0 0 1-0.45857-0.47799v-1.7526a0.45858 0.47799 0 0 1 0.45857-0.47799v-0.15933a0.15286 0.15933 0 0 1 0.15286-0.15933m1.2229 0.31866h0.15286v-0.15933h-0.15286v0.15933m-1.07 0v-0.15933h-0.15286v0.15933h0.15286m-0.30572 0.15933a0.30572 0.31866 0 0 0-0.30572 0.31866v0.15933h2.2929v-0.15933a0.30572 0.31866 0 0 0-0.30572-0.31866h-1.6815m-0.30572 2.0713a0.30572 0.31866 0 0 0 0.30572 0.31866h1.6815a0.30572 0.31866 0 0 0 0.30572-0.31866v-1.434h-2.2929v1.434m1.2229-0.79664h0.7643v0.79664h-0.7643v-0.79664m0.15286 0.15933v0.47799h0.45858v-0.47799z" stroke-width=".24608"/>
  </g>
  <g display="none">
   <path d="m3.5014 1.0215-3.0262 0.00154zm0.00675 0.96155-3.0267 9.645e-4zm0.00675 0.96105-3.0262 0.00154z" display="inline" fill="none" stroke="#000" stroke-width=".25757"/>
@@ -49,3 +52,14 @@ const div2 = document.createElement('div')
 div2.insertAdjacentHTML('beforeend',svg )
 sanitizeHTMLTree(div2)
 document.body.appendChild(div2)
+
+const div3 = document.createElement('object')
+div3.setAttribute('data', `data:image/svg+xml,${btoa(svg)}`)
+sanitizeHTMLTree(div3)
+document.body.appendChild(div3)
+
+
+const div4 = document.createElement('object')
+div4.setAttribute('data', `data:image/svg+xml;base64,${btoa(sanitizeHTMLText(svg))}`)
+sanitizeHTMLTree(div4)
+document.body.appendChild(div4)

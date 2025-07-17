@@ -7,7 +7,6 @@ import {TypeCheck} from '../__import__flex-types.js'
  */
 export class DateValidator extends Validator {
   /**
-   *
    * @param {FlexDate} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class DateValidator extends Validator {
   }
 
   /**
-   *
    * @param {FlexDate} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class DateValidator extends Validator {
   }
 
   /**
-   *
    * @param {FlexDate} value
    * @return {boolean}
    */
@@ -34,7 +31,6 @@ export class DateValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -45,7 +41,6 @@ export class DateValidator extends Validator {
   }
 
   /**
-   *
    * @param {boolean} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -55,12 +50,20 @@ export class DateValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
     throw new Error('DateValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    throw new Error('TimeValidator: no max size `validateMaxSize`')
   }
 }

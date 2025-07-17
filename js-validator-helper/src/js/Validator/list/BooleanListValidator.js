@@ -7,7 +7,6 @@ import {ListValidator} from './ListValidator.js'
  */
 export class BooleanListValidator extends ListValidator {
   /**
-   *
    * @param {BooleanArray} value
    * @return {boolean}
    */

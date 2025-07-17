@@ -1,4 +1,4 @@
-import {isArrowFunction,  isNull, TypeCheck} from '../../../assert/index.js'
+import {isArrowFunction, isNull, TypeCheck} from '../../../assert/index.js'
 
 export class BaseException extends Error {
   /**
@@ -9,19 +9,28 @@ export class BaseException extends Error {
    * @type {Date}
    */
   #date
+  /**
+   * @type {?Error|*}
+   */
+  #cause
 
   /**
    * @param {?string|function():string} [message=null]
    * @param {?number} [code=null]
-   * @param params
+   * @param {?Error|*} [cause=null]
+   * @param {...*} params
    */
-  constructor(message = null, code = null, ...params) {
-    super(...params)
-    if(isArrowFunction(message)){
+  constructor(message = null, code = null, cause = null, ...params) {
+    if (!isNull(cause)) {
+      super({cause: cause}, ...params)
+    } else {
+      super(...params)
+    }
+    if (isArrowFunction(message)) {
       message = message.call(null)
     }
     this.message = TypeCheck.assertIsStringOrNull(message) || ''
-    this.name = this.constructor.name
+    this.#cause = cause
     this.#code = TypeCheck.assertIsNumberOrNull(code)
     this.#date = new Date()
     if (Error.captureStackTrace) {
@@ -32,6 +41,13 @@ export class BaseException extends Error {
   }
 
   /**
+   * @return {string}
+   */
+  get name() {
+    return `[${this.constructor.name}] ${this.toString()}`
+  }
+
+  /**
    * @return {?number}
    */
   code() {
@@ -39,9 +55,16 @@ export class BaseException extends Error {
   }
 
   /**
+   * @return {?Error|*}
+   */
+  cause() {
+    return this.#cause
+  }
+
+  /**
    * @return {Date}
    */
-  date(){
+  date() {
     return this.#date
   }
 
@@ -49,7 +72,7 @@ export class BaseException extends Error {
    * @return {string}
    */
   toString() {
-    return ` ${this.realName()} --- ${!isNull(this.code())?'['+this.code()+'] ':''} ${this.message} `
+    return ` ${this.realName()} --- ${!isNull(this.code()) ? '[' + this.code() + '] ' : ''} ${this.message} `
   }
 
   /**
@@ -74,6 +97,7 @@ export class BaseException extends Error {
     return {
       date: this.date(),
       code: this.code(),
+      cause: this.cause(),
       realName: this.realName(),
       name: this.name,
       message: this.toString(),

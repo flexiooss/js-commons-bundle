@@ -7,7 +7,6 @@ const PHONE_NUMBER_REGEX = /^\+\d{1,3}\d{1,14}$/
  */
 export class PhoneNumberValidator extends Validator {
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -19,7 +18,6 @@ export class PhoneNumberValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -28,7 +26,6 @@ export class PhoneNumberValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @return {boolean}
    */
@@ -37,7 +34,6 @@ export class PhoneNumberValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -51,7 +47,6 @@ export class PhoneNumberValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -61,7 +56,6 @@ export class PhoneNumberValidator extends Validator {
   }
 
   /**
-   *
    * @param {string} value
    * @param {RegExp} regex
    * @return {boolean}
@@ -71,5 +65,17 @@ export class PhoneNumberValidator extends Validator {
       return true
     }
     return isRegex(regex) && this.validateType(value) && regex.test(value)
+  }
+
+  /**
+   * @param {string} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    if(isNull(value)){
+      return true
+    }
+    return value.length <= size
   }
 }

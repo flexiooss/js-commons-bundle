@@ -1,7 +1,6 @@
 import {assertType, isNull, isString} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
 import {TypeCheck} from '../TypeCheck.js'
-import {equalsPrimitive} from './Equals.js'
 
 
 /**
@@ -21,8 +20,18 @@ class StringArray extends FlexArray {
    * @return  {boolean}
    */
   equals(to) {
-    return equalsPrimitive(this, to, (to) => {
-      TypeCheck.assertIsStringArray(to)
+    return this.constructor.arraysEquals(this, to)
+  }
+
+  /**
+   * @param {?StringArray} a
+   * @param {?StringArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
+      TypeCheck.assertIsStringArray(v)
     })
   }
 

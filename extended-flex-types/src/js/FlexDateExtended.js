@@ -1,6 +1,8 @@
 import {FlexDate, TypeCheck} from './__import__flex-types.js'
 import {DateTime} from 'luxon'
 import {DateFormatter} from './date-formatter/DateFormatter.js'
+import {FlexTimeExtended} from './FlexTimeExtended.js'
+import {FlexDateTimeExtended} from './FlexDateTimeExtended.js'
 
 export class FlexDateExtended {
   /**
@@ -54,7 +56,7 @@ export class FlexDateExtended {
    * @return {number}
    */
   static getDaysInMonth(year, month) {
-    return new Date(year, month+1, 0).getDate()
+    return new Date(year, month + 1, 0).getDate()
   }
 
   /**
@@ -86,6 +88,14 @@ export class FlexDateExtended {
    */
   weekNumber() {
     return this.#toDateTime().weekNumber
+  }
+
+  /**
+   * 27 - 31
+   * @return {number}
+   */
+  daysInMonth() {
+    return this.#toDateTime().daysInMonth
   }
 
   /**
@@ -238,6 +248,40 @@ export class FlexDateExtended {
    */
   toFlexDate() {
     return this.#date
+  }
+
+  /**
+   * @return {string}
+   */
+  toJSON() {
+    return this.toString()
+  }
+
+  /**
+   * @return {string}
+   */
+  toString() {
+    return this.#date.toString()
+  }
+
+  /**
+   * @param {FlexTime} time
+   * @param {string} timezone
+   * @return {FlexDateTimeExtended}
+   */
+  atTime(time, timezone = 'utc') {
+    const timeExtended = new FlexTimeExtended(time)
+
+    const dateTime = this.#toDateTime()
+      .set({
+        hour: timeExtended.hours(),
+        minute: timeExtended.minutes(),
+        second: timeExtended.seconds(),
+        millisecond: timeExtended.milliseconds()
+      })
+      .toISO({includeOffset: false})
+
+    return FlexDateTimeExtended.fromISO(dateTime, timezone)
   }
 
   /**

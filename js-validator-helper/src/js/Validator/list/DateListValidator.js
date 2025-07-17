@@ -6,7 +6,6 @@ import {ListValidator} from './ListValidator.js'
  */
 export class DateListValidator extends ListValidator {
   /**
-   *
    * @param {StringArray} value
    * @return {boolean}
    */

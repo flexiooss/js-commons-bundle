@@ -1,14 +1,14 @@
-import {isUndefined, TypeCheck, isNull} from './__import__assert.js'
-import {globalFlexioImport} from './__import__global-import-registry.js'
+import {isUndefined, TypeCheck, isNull, isNumber, assertInstanceOf} from './__import__assert.js'
 import {IndexError} from './IndexError.js'
-import {deepFreezeSeal} from './__import__js-generator-helpers.js'
+import {deepFreezeSeal, haveEquals} from './__import__js-generator-helpers.js'
 
 
 /**
  * @template TYPE
  * @extends Array<TYPE>
+ * @implements HaveEquals
  */
-export class FlexArray extends Array {
+export class FlexArray extends haveEquals(Array) {
 
   /**
    * @param {?*} item
@@ -27,14 +27,15 @@ export class FlexArray extends Array {
    * @param {TYPE[]} args
    */
   constructor(...args) {
-    super()
-    for (const v of args) {
-      this.push(v)
+    if (args.length === 1 && isNumber(args[0])) {
+      super(args[0])
+    } else {
+      super()
+      this.push(...args)
     }
   }
 
   /**
-   *
    * @param {*} v
    * @protected
    * @throws Error
@@ -46,7 +47,7 @@ export class FlexArray extends Array {
   /**
    * @return {boolean}
    */
-  isEmpty(){
+  isEmpty() {
     return this.length === 0
   }
 
@@ -76,7 +77,9 @@ export class FlexArray extends Array {
    * @returns {number}
    */
   push(...v) {
-    v.forEach(a => this._validate(a))
+    for (const a of v) {
+      this._validate(a)
+    }
     return super.push(...v)
   }
 
@@ -86,7 +89,9 @@ export class FlexArray extends Array {
    * @returns {number}
    */
   unshift(...v) {
-    v.forEach(a => this._validate(a))
+    for (const a of v) {
+      this._validate(a)
+    }
     return super.unshift(...v)
   }
 
@@ -315,9 +320,9 @@ export class FlexArray extends Array {
    * @return {TYPE_OUT}
    */
   mapTo(init, clb) {
-    this.forEach((v, k, a) => {
-      init.push(clb(v, k, a))
-    })
+    for (let i = 0; i < this.length; i++) {
+      init.push(clb(this[i], i, this))
+    }
     return init
   }
 
@@ -417,13 +422,13 @@ export class FlexArray extends Array {
   /**
    * @param {TYPE} to
    * @return  {boolean}
+   * @abstract
    */
   equals(to) {
-    throw new Error('should be override')
+    throw new Error('FlexArray: should be override')
   }
 
   /**
-   *
    * @return {FlexArrayBuilder<TYPE, FlexArray.<TYPE>>}
    */
   static builder() {
@@ -452,6 +457,46 @@ export class FlexArray extends Array {
    */
   static fromJson(json) {
     return FlexArrayBuilder.fromJson(this, json, item => this.itemFromObject(item))
+  }
+
+  /**
+   * @param {?FlexArray} from
+   * @param {?FlexArray} to
+   * @return {boolean}
+   */
+  static compareArraysAsPrimitives(from, to) {
+    if (isNull(from)) return isNull(to);
+    if (isNull(to)) return false;
+    assertInstanceOf(to, this, this.name)
+
+    if (to.length !== from.length) return false;
+
+    if (to == from) return true;
+
+    for (let i = 0; i < from.length; ++i) {
+      if (from.get(i) !== to.get(i)) return false;
+    }
+    return true
+  }
+
+  /**
+   * @param {?FlexArray} from
+   * @param {?FlexArray} to
+   * @return {boolean}
+   */
+  static compareArraysAsObjectWithEquals(from, to) {
+    if (isNull(from)) return isNull(to);
+    if (isNull(to)) return false;
+    assertInstanceOf(to, this, this.name)
+
+    if (to.length !== from.length) return false;
+
+    if (to == from) return true;
+
+    for (let i = 0; i < from.length; ++i) {
+      if (!from.get(i).equals(to.get(i))) return false;
+    }
+    return true
   }
 }
 
@@ -538,3 +583,6 @@ class FlexArrayBuilder {
   }
 
 }
+
+
+

@@ -8,7 +8,6 @@ import {TypeCheck} from '../__import__flex-types.js'
  */
 export class DurationValidator extends Validator {
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class DurationValidator extends Validator {
     return isInteger(value)
   }
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -25,7 +23,6 @@ export class DurationValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @return {boolean}
    */
@@ -34,7 +31,6 @@ export class DurationValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
@@ -48,7 +44,6 @@ export class DurationValidator extends Validator {
   }
 
   /**
-   *
    * @param {Number} value
    * @param {StringArray} enumeratedValues
    * @return {boolean}
@@ -61,12 +56,23 @@ export class DurationValidator extends Validator {
   }
 
   /**
-   *
-   * @param {string} value
+   * @param {Number} value
    * @param {RegExp} regex
    * @return {boolean}
    */
   validateRegex(value, regex) {
     throw new Error('IntegerValidator: no regex for `validateRegex`')
+  }
+
+  /**
+   * @param {Number} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    if (isNull(value)) {
+      return true
+    }
+    return value.toString().length <= size
   }
 }

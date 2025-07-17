@@ -1,4 +1,4 @@
-import {escapeForBrowser, safeInnerHTML} from '../../js/nodeHelpers'
+import {escapeForBrowser, safeInnerHTML} from '../../js/nodeHelpers.js'
 
 document.body.innerHTML = `<svg><div>coucou</div><script>alert('toto')</script></svg>`
 

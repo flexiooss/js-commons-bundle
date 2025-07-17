@@ -2,16 +2,12 @@ import {EventListenerConfig} from './EventListenerConfig.js'
 import {SymbolStringArray} from './__import__extended-flex-types.js'
 
 export class EventListenerConfigBuilder {
-  /**
-   *
-   * @param {SymbolStringArray} events
-   */
-  constructor(events) {
+  constructor() {
     /**
-     * @type {SymbolStringArray}
+     * @type {?SymbolStringArray}
      * @protected
      */
-    this._events = events
+    this._events = null
     /**
      * @type {boolean}
      * @protected
@@ -28,10 +24,29 @@ export class EventListenerConfigBuilder {
      */
     this._once = false
     /**
+     * @type {boolean}
+     * @protected
+     */
+    this._async = false
+    /**
      * @type {EventHandlerBase~eventClb}
      * @protected
      */
     this._callback = () => true
+    /**
+     * @type {function()}
+     * @protected
+     */
+    this._onRemoveCallback = null
+  }
+
+  /**
+   * @param {...(string|Symbol)} value
+   * @return {this}
+   */
+  events(...value){
+    this._events = new SymbolStringArray(...value)
+    return this
   }
 
   /**
@@ -40,7 +55,7 @@ export class EventListenerConfigBuilder {
    * @constructor
    */
   static listen(...events) {
-    return new this(new SymbolStringArray(...events))
+    return new this().events(...events)
   }
 
   /**
@@ -49,6 +64,15 @@ export class EventListenerConfigBuilder {
    */
   callback(clb) {
     this._callback = clb
+    return this
+  }
+
+  /**
+   * @param {function()} clb
+   * @return {this}
+   */
+  onRemoveCallback(clb) {
+    this._onRemoveCallback = clb
     return this
   }
 
@@ -76,6 +100,13 @@ export class EventListenerConfigBuilder {
     this._active = false
     return this
   }
+  /**
+   * @return {this}
+   */
+  async(){
+    this._async = true
+    return this
+  }
 
   /**
    * @return {EventListenerConfig}
@@ -87,6 +118,8 @@ export class EventListenerConfigBuilder {
       this._once,
       this._active,
       this._guard,
+      this._onRemoveCallback,
+      this._async
     )
   }
 }

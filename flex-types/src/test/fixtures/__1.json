@@ -1,0 +1,54 @@
+{
+  "not-in__2": null,
+  "can-children": false,
+  "auto-submit": false,
+  "icon": "flexio-icon://font-awesome/solid/font",
+  "type": "TEXT",
+  "entity-url": "flexio-api://resource-form-row/ui/dev/66fbb572837cf716de94b0ab/resources/66ffe292e65713154f84a2e6/forms/default",
+  "row-type": "FIELD",
+  "id": "358c9a74e7c343a78c0f19eaa929099d",
+  "placeholder": "",
+  "style-border-size": {
+    "ingredient": {
+      "type": {
+        "cardinality": "SINGLE",
+        "data-type": "INTEGER"
+      },
+      "locator": {
+        "context": "VALUE"
+      },
+      "value": "2"
+    }
+  },
+  "read-only": false,
+  "viewable-when": {
+    "ingredient": {
+      "type": {
+        "cardinality": "SINGLE",
+        "data-type": "BOOLEAN"
+      },
+      "locator": {
+        "context": "VALUE"
+      },
+      "value": "true"
+    }
+  },
+  "multiple": false,
+  "data-type": "STRING",
+  "hide-label": false,
+  "name": "Texteq",
+  "is-leaf": true,
+  "not-empty": false,
+  "editable-when": {
+    "ingredient": {
+      "type": {
+        "cardinality": "SINGLE",
+        "data-type": "BOOLEAN"
+      },
+      "locator": {
+        "context": "VALUE"
+      },
+      "value": "true"
+    }
+  }
+}

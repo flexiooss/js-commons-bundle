@@ -1,5 +1,14 @@
 import {TestCase} from '@flexio-oss/code-altimeter-js'
-import {camelCase, firstUppercase, matchAll2Array, padLeft, slugify} from '../js/stringHelpers.js'
+import {
+  br2nl,
+  camelCase, countRootStringHTMLElement, decodeHTMLEntities, encodeHTMLEntities,
+  firstUppercase,
+  matchAll2Array,
+  nl2br,
+  padLeft,
+  replaceFromDict,
+  slugify
+} from '../js/stringHelpers.js'
 
 const assert = require('assert')
 
@@ -52,6 +61,54 @@ export class TestStringHelpers extends TestCase {
     const bb = slugify(b, '_')
     this.log(bb, 'bb')
     assert.equal(bb, '__cest_un_truc_de_ouf_45', 'b should be slugified')
+  }
+
+  testNl2Br() {
+    const a =
+      `coucou
+comment
+ça va
+?`
+
+    this.log(nl2br(a))
+    this.log(nl2br(a, false))
+    assert.equal("coucou<br />comment<br />ça va<br />?", nl2br(a), 'br should replace ln')
+    assert.equal("coucou<br />\ncomment<br />\nça va<br />\n?", nl2br(a, false), 'br should be inserted before ln')
+  }
+
+  testBr2Nl() {
+
+    const a = "coucou<br />comment<br />ça va<br />?"
+    this.log(br2nl(a))
+    this.log(br2nl(a, false))
+    assert.equal("coucou\ncomment\nça va\n?", br2nl(a), 'br should be replaced by ln')
+    assert.equal("coucou\n<br />comment\n<br />ça va\n<br />?", br2nl(a, false), 'nl should be inserted after br')
+  }
+
+  testReplaceFromDict() {
+    const a = '["coucou", "blabla"]'
+    replaceFromDict(a, /\[\],/g, {"[": "(", "]": ")"})
+    assert.equal('("coucou" "blabla")', replaceFromDict(a, /[\[\],]/g, {
+      "[": "(",
+      "]": ")"
+    }), 'should be replaced from dict with default value empty')
+    assert.equal('("coucou"boum "blabla")', replaceFromDict(a, /[\[\],]/g, {
+      "[": "(",
+      "]": ")"
+    }, 'boum'), 'should be replaced from dict with custom  default value')
+  }
+
+  testCountRootStringHTMLElement() {
+    const txt = '<p class="tutu">coucou<p>truc</p></p><p>tutu</p>';
+    assert.ok(countRootStringHTMLElement(txt) === 2, 'p html tags should be count');
+  }
+
+  testDecodeHtmlEntities() {
+    assert.ok(decodeHTMLEntities('&quot; coucou &agrave;') === '" coucou à', 'should decode html');
+  }
+
+  testEncodeHtmlEntities() {
+    assert.ok(encodeHTMLEntities('" coucou à') === '&quot; coucou à', 'should encode html');
   }
 }
 

@@ -1,5 +1,5 @@
 import {Validator} from '../Validator.js'
-import {isNull} from '../../__import__assert.js'
+import {isNull, NotOverrideException} from '../../__import__assert.js'
 
 /**
  * @implements {Validator}
@@ -7,7 +7,6 @@ import {isNull} from '../../__import__assert.js'
 export class ListValidator extends Validator {
 
   /**
-   *
    * @param {Array} value
    * @return {boolean}
    */
@@ -16,7 +15,6 @@ export class ListValidator extends Validator {
   }
 
   /**
-   *
    * @param {Array} value
    * @return {boolean}
    */
@@ -25,14 +23,13 @@ export class ListValidator extends Validator {
   }
 
   /**
-   *
    * @param {Array} value
    * @param {string} rangeStart
    * @param {string} rangeEnd
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('ListValidator: no range for `validateInRange`')
+    throw new Error('ListValidator: no range for `validateInRange`  maybe should be to item-constraints')
   }
 
   /**
@@ -42,7 +39,7 @@ export class ListValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('ListValidator: no enumeratedValues for `validateInEnumerated`')
+    throw new Error('ListValidator: no enumeratedValues for `validateInEnumerated` maybe should be to item-constraints')
   }
 
   /**
@@ -52,6 +49,15 @@ export class ListValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('ListValidator: no regex for `validateRegex`')
+    throw new Error('ListValidator: no regex for `validateRegex`  maybe should be to item-constraints')
+  }
+
+  /**
+   * @param {*} value
+   * @param {number} size
+   * @return {boolean}
+   */
+  validateMaxSize(value, size) {
+    return this.validateNotNull(value) && value.length <= size
   }
 }

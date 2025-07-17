@@ -1,7 +1,7 @@
 import {globalFlexioImport} from './__import__global-import-registry.js'
 import {assertType, isObject, isRegex, isNull, isString} from './__import__assert.js'
 import {deepFreezeSeal} from './__import__js-generator-helpers.js'
-
+import {escapeRegExp} from '../../../js-type-helpers/index.js'
 
 class FlexRegExp {
   /**
@@ -22,6 +22,14 @@ class FlexRegExp {
     this._namedGroups = namedGroups
 
     deepFreezeSeal(this)
+  }
+
+  /**
+   * @param {string} regexp
+   * @return {string}
+   */
+  static quote(regexp){
+    return escapeRegExp(regexp);
   }
 
   /**

@@ -7,12 +7,11 @@ import {ListValidator} from './ListValidator.js'
  */
 export class IntegerListValidator extends ListValidator {
   /**
-   *
    * @param {IntegerArray} value
    * @return {boolean}
    */
   validateType(value) {
-    return value instanceof globalFlexioImport.io.flexio.flex_types.arrays
-      .IntegerArray
+    return value instanceof globalFlexioImport.io.flexio.flex_types.arrays.IntegerArray
+      || value instanceof globalFlexioImport.io.flexio.flex_types.arrays.LongArray
   }
 }

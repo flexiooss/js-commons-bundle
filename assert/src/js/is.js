@@ -119,6 +119,14 @@ export const isNodeText = a => isObject(a) && (a.nodeType === 3)
  * @function
  * @export
  */
+export const isNodeDocumentFragment = a => isObject(a) && (a.nodeType === 11)
+/**
+ *
+ * @param {*} a
+ * @return {boolean}
+ * @function
+ * @export
+ */
 export const isPrimitive = a => {
   switch (typeof a) {
     case 'boolean':
@@ -174,7 +182,7 @@ export const isStrictArray = a => isArray(a) && a.constructor.name === 'Array'
  * @function
  * @export
  */
-export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) && !isNull(a) && a instanceof RegExp
+export const isRegex = a => a !== null && typeof a === 'object' && !isArray(a) && !isNull(a) && (a instanceof RegExp )
 /**
  *
  * @param {*} a
@@ -191,7 +199,7 @@ export const isClass = a => typeof a === 'function' && /^class\s/.test(Function.
  * @return {boolean}
  * @export
  */
-export const isBlob = a => typeof Blob !== 'undefined' && !isNull(a) && a instanceof Blob
+export const isBlob = a => typeof Blob !== 'undefined' && !isNull(a) && (a instanceof Blob || Object.prototype.toString.call(a) === '[object Blob]')
 
 /**
  *
@@ -227,10 +235,40 @@ export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
  * @return {boolean}
  * @export
  */
-export const isDate = a => !isNull(a) && a instanceof Date
+export const isDate = a => !isNull(a) && a instanceof Date && !isNaN(a)
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isMapType = a => !isNull(a) && a instanceof Map
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
+export const isSetType = a => !isNull(a) && a instanceof Set
+
 
 /**
  * @param {*} a
  * @return {boolean}
  */
-export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length)
+export const isEmpty = a => isUndefined(a) || isNull(a) || ((isString(a) || isBoolean(a) || isNumber(a)) && !a) || (isArray(a) && !a.length) || (isStrictObject(a) && !Object.keys(a).length) || ((a instanceof Map || a instanceof Set) && !a.size)
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ */
+export const isHTMLEmpty = a => isEmpty(a) || (isString(a) && /^<\w+.*><\/\w+\s?>$/gi.test(a))
+
+/**
+ * @param {*} a
+ * @return {boolean}
+ */
+export const isWindow = a =>  !isNull(a) && a === a?.window

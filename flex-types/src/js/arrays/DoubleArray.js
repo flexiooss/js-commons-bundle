@@ -1,12 +1,19 @@
 import { assertType, isNumber, isNull } from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {equalsPrimitive} from './Equals.js'
 import {TypeCheck} from '../TypeCheck.js'
 
 /**
  * @extends {FlexArray<?number>}
  */
 class DoubleArray extends FlexArray {
+  /**
+   * @description should override Array js behaviour which sets the length of array
+   * @param {TYPE[]} args
+   */
+  constructor(...args) {
+    super()
+    this.push(...args)
+  }
 
   _validate(element) {
     if (!isNull(element)) {
@@ -19,8 +26,19 @@ class DoubleArray extends FlexArray {
    * @return  {boolean}
    */
   equals(to) {
-    return equalsPrimitive(this, to, (to) => {
+    return FlexArray.compareArraysAsPrimitives(this, to, (to) => {
       TypeCheck.assertIsDoubleArray(to)
+    })
+  }
+  /**
+   * @param {?DoubleArray} a
+   * @param {?DoubleArray} b
+   * @return  {boolean}
+   */
+  static arraysEquals(a, b) {
+    if (isNull(a)) return isNull(b)
+    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
+      TypeCheck.assertIsDoubleArray(v)
     })
   }
 }

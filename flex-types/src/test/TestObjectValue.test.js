@@ -7,6 +7,9 @@ import {IndexError} from '../js/IndexError.js'
 import {FlexDate, FlexDateTime, FlexTime, FlexZonedDateTime} from '../js/FlexDate.js'
 import fixture_ob1 from './fixtures/_1.json'
 import fixture_ob2 from './fixtures/_2.json'
+import fixture_ob3 from './fixtures/__1.json'
+import fixture_ob4 from './fixtures/__2.json'
+import {ObjectValueTypeError} from '../js/ObjectValueTypeError.js'
 
 const assert = require('assert')
 
@@ -315,6 +318,17 @@ export class TestObjectValue extends TestCase {
     assert.ok(!to.strictEquals(obj1), 4)
   }
 
+  testBigEqualsNull() {
+    const obj1 = ObjectValue.fromObject(fixture_ob3).build()
+    const to = ObjectValue.fromObject(fixture_ob4).build();
+    this.log(obj1)
+    this.log(to)
+    assert.ok(obj1.equals(to),1)
+    assert.ok(!obj1.strictEquals(to),2)
+    assert.ok(to.equals(obj1), 3)
+    assert.ok(!to.strictEquals(obj1), 4)
+  }
+
   testEqualsDate() {
     /**
      * @type {ObjectValue}
@@ -326,6 +340,7 @@ export class TestObjectValue extends TestCase {
       .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
       .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
       .build()
+    assert.ok(ob.equals(ObjectValue.fromObject(ob.toObject()).build()), 'ObjectValue.fromObject')
 
     /**
      * @type {ObjectValue}
@@ -539,6 +554,80 @@ export class TestObjectValue extends TestCase {
 
     assert.ok(!a2.has('string'), 'a2 should not have `string`')
 
+  }
+
+  testFromObjectUndefined() {
+    const a = {
+      'undefined': undefined
+    }
+
+    assert.throws(() => ObjectValue.fromObject(a), ObjectValueTypeError, 'object with undefined value canno\'t be applyed to objectValue')
+  }
+
+
+  testToObject(){
+    /**
+     * @type {ObjectValue}
+     */
+    const ob = ObjectValue
+      .builder()
+      .stringValue('string', 'toto')
+      .stringValue('stringNull', null)
+      .booleanValue('bool', true)
+      .numberValue('number', 12)
+      .arrayValue('array', ['tutu', 'roro', 12])
+      .arrayValue('arrayEmpty', [])
+      .arrayValue('arrayNull', null)
+      .flexDateTimeValue('dt', new globalFlexioImport.io.flexio.flex_types.FlexDateTime('1992-12-17T04:17:32'))
+      .flexDateValue('d', new globalFlexioImport.io.flexio.flex_types.FlexDate('1992-10-17'))
+      .flexTimeValue('t', new globalFlexioImport.io.flexio.flex_types.FlexTime('04:17:32.527'))
+      .flexZonedDateTimeValue('zdt', new globalFlexioImport.io.flexio.flex_types.FlexZonedDateTime('1992-10-17T04:17:32+03:00'))
+      .build()
+
+    this.log(ob.toObject(), 'to object')
+    this.log(ob.toObjectMini(), 'to object mini')
+
+    assert.equal(
+      JSON.stringify(ob.toObject()),
+      JSON.stringify({
+        "string": "toto",
+        "stringNull": null,
+        "bool": true,
+        "number": 12,
+        "array": [
+          "tutu",
+          "roro",
+          12
+        ],
+        "arrayEmpty": [],
+        "arrayNull": null,
+        "dt": "1992-12-17T04:17:32",
+        "d": "1992-10-17",
+        "t": "04:17:32.527",
+        "zdt": "1992-10-17T04:17:32+03:00"
+      }),
+      'to object should export as object'
+    )
+
+    assert.equal(
+      JSON.stringify(ob.toObjectMini()),
+      JSON.stringify({
+        "string": "toto",
+        "bool": true,
+        "number": 12,
+        "array": [
+          "tutu",
+          "roro",
+          12
+        ],
+        "arrayEmpty": [],
+        "dt": "1992-12-17T04:17:32",
+        "d": "1992-10-17",
+        "t": "04:17:32.527",
+        "zdt": "1992-10-17T04:17:32+03:00"
+      }),
+      'to object should export as object without null values'
+    )
   }
 }
 

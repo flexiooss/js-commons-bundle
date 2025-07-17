@@ -1,4 +1,4 @@
-import {isNull} from '../../../../assert/index.js'
+import {formatType, isDate, isNull} from '../../../../assert/index.js'
 import {DateTime} from 'luxon'
 
 export class DateTimeFormatter {
@@ -11,6 +11,9 @@ export class DateTimeFormatter {
    */
   static format(dateTime, format, locale, timeZone = 'UTC') {
     const date = new Date(dateTime.toISO() + 'Z')
+    if (!isDate(date)) {
+      throw new TypeError(`DateTimeFormatter: should have date given::${formatType(date)} from ${formatType(dateTime)}`)
+    }
     const dateFormatter = new DateFormatHelper(date, locale, timeZone)
 
     switch (format) {
@@ -18,6 +21,8 @@ export class DateTimeFormatter {
         return dateFormatter.year()
       case 'MM':
         return dateFormatter.month()
+      case 'MMMM':
+        return date.toLocaleString(locale, { month: 'long' });
       case 'dd':
         return dateFormatter.day()
       case 'w':
@@ -68,14 +73,23 @@ export class DateFormatter {
    * @return {string}
    */
   static format(date, format, locale) {
-    const dateJS = new Date(date.toISO() + 'Z')
-    const dateFormatter = new DateFormatHelper(dateJS, locale, 'utc')
+    const dtl = DateTime.utc(date.years(), date.months(), date.days());
+    if (!dtl.isValid) {
+      throw new TypeError(`DateFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
+    }
+    const dt = new Date(dtl.toMillis())
+    if (!isDate(dt)) {
+      throw new TypeError(`DateFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
+    }
+    const dateFormatter = new DateFormatHelper(dt, locale, 'utc')
 
     switch (format) {
       case 'yyyy':
         return dateFormatter.year()
       case 'MM':
         return dateFormatter.month()
+      case 'MMMM':
+        return dt.toLocaleString(locale, { month: 'long' });
       case 'dd':
         return dateFormatter.day()
       case 'w':
@@ -87,7 +101,7 @@ export class DateFormatter {
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
       default:
-        return DateTime.fromISO(dateJS.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
+        return DateTime.fromISO(dt.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
     }
   }
 }
@@ -102,6 +116,9 @@ export class TimeFormatter {
   static format(time, format, locale) {
     const date = Date.UTC(2000, 0, 1, time.hours(), time.minutes(), time.seconds(), time.milliseconds())
     const dt = new Date(date)
+    if (!isDate(dt)) {
+      throw new TypeError(`TimeFormatter: should have date given::${formatType(dt)} from ${formatType(date)}`)
+    }
     const dateFormatter = new DateFormatHelper(dt, locale, 'UTC')
 
     switch (format) {
@@ -153,7 +170,7 @@ class DateFormatHelper {
    * @return {string}
    */
   year(timeZone = null) {
-    return this.#format({year: 'numeric'}, timeZone || this.#timeZone)
+    return this.#format({year: 'numeric'}, timeZone || this.#timeZone).padStart(4, '0');
   }
 
   /**
