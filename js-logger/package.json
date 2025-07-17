@@ -1,0 +1,33 @@
+{
+  "name": "js-logger",
+  "main": "index.js",
+  "module": "index.js",
+  "author": "Thomas Chatelain (https://github.com/TomAchT)",
+  "license": "Apache-2.0",
+  "hotballoon-shed": {
+    "module": {
+      "parent": {
+        "name": "@flexio-oss/js-commons-bundle"
+      },
+      "dependencies": [
+        "assert",
+        "flex-types"
+      ],
+      "devDependencies": [
+        "@flexio-oss/code-altimeter-js"
+      ]
+    },
+    "build": {
+      "builder": "webpack5"
+    },
+    "test": {
+      "tester": "code-altimeter-js",
+      "path": "src/test"
+    }
+  },
+  "peerDependencies": {
+    "@flexio-oss/code-altimeter-js": "1.11.0",
+    "@flexio-oss/js-commons-bundle": "1.28.1",
+    "luxon": "3.2.1"
+  }
+}
