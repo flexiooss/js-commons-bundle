@@ -1,6 +1,5 @@
-import { assertType, isBoolean, isNull } from '../__import__assert.js'
+import {assertType, isBoolean, isNull} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {TypeCheck} from '../TypeCheck.js'
 
 /**
  * @extends {FlexArray<?boolean>}
@@ -19,9 +18,7 @@ class BooleanArray extends FlexArray {
    * @return  {boolean}
    */
   equals(to) {
-    return FlexArray.compareArraysAsPrimitives(this, to, (to) => {
-      TypeCheck.assertIsBooleanArray(to)
-    })
+    return FlexArray.compareArraysAsPrimitives(this, to)
   }
 
   /**
@@ -31,9 +28,7 @@ class BooleanArray extends FlexArray {
    */
   static arraysEquals(a, b) {
     if (isNull(a)) return isNull(b)
-    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
-      TypeCheck.assertIsBooleanArray(v)
-    })
+    return FlexArray.compareArraysAsPrimitives(a, b)
   }
 }
 export { BooleanArray }

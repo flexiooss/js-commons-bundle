@@ -9,7 +9,7 @@ import {TypeCheck} from '../TypeCheck.js'
 class FloatArray extends FlexArray {
   /**
    * @description should override Array js behaviour which sets the length of array
-   * @param {TYPE[]} args
+   * @param {...number} args
    */
   constructor(...args) {
     super()
@@ -24,25 +24,20 @@ class FloatArray extends FlexArray {
   /**
    *
    * @param {?FloatArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-    return FlexArray.compareArraysAsPrimitives(this, to, (to) => {
-      TypeCheck.assertIsFloatArray(to)
-    })
+    return FlexArray.compareArraysAsPrimitives(this, to)
   }
-
 
   /**
    * @param {?FloatArray} a
    * @param {?FloatArray} b
-   * @return  {boolean}
+   * @returns {boolean}
    */
   static arraysEquals(a, b) {
     if (isNull(a)) return isNull(b)
-    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
-      TypeCheck.assertIsFloatArray(v)
-    })
+    return FlexArray.compareArraysAsPrimitives(a, b)
   }
 }
 export { FloatArray }

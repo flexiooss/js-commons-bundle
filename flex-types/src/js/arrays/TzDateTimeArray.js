@@ -17,16 +17,10 @@ class TzDateTimeArray extends FlexArray {
   /**
    *
    * @param {?TzDateTimeArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-
-    return FlexArray.compareArraysAsObjectWithEquals(this, to, (to) => {
-      assertType(
-        to instanceof TzDateTimeArray,
-        'TypeCheck: `to` should be TzDateTimeArray'
-      )
-    })
+    return FlexArray.compareArraysAsObjectWithEquals(this, to)
   }
 }
 

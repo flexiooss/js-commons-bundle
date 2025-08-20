@@ -2,8 +2,10 @@ import {isNull, NotOverrideException, TypeCheck} from '../../../assert/index.js'
 import {deepFreezeSeal} from './__import__js-generator-helpers.js'
 
 /**
- * @template KEY, TYPE
- * @extends Map<KEY,TYPE>
+ *
+ * @template KEY
+ * @template TYPE
+ * @extends {Map<KEY,TYPE>}
  */
 export class FlexMap extends Map {
   /**
@@ -56,6 +58,7 @@ export class FlexMap extends Map {
    * @protected
    * @throws {NotOverrideException}
    * @abstract
+   * @returns {void}
    */
   _validate(v) {
     throw NotOverrideException.FROM_ABSTRACT('FlexMap')
@@ -170,7 +173,8 @@ export class FlexMap extends Map {
 }
 
 /**
- * @template KEY, TYPE
+ * @template KEY
+ * @template TYPE
  */
 export class FlexMapBuilder {
   /**

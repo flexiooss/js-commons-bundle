@@ -51,7 +51,7 @@ export class EventListenerConfigBuilder {
 
   /**
    * @param {...(String|Symbol)} events
-   * @return {this}
+   * @returns {EventListenerConfigBuilder}
    * @constructor
    */
   static listen(...events) {

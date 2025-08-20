@@ -1,6 +1,7 @@
-import { globalFlexioImport } from './__import__global-import-registry.js'
-import { assertType, isNull } from './__import__assert.js'
-import { FlexArray } from './FlexArray.js'
+import {globalFlexioImport} from './__import__global-import-registry.js'
+import {assertType, isNull} from './__import__assert.js'
+import {FlexArray} from './FlexArray.js'
+
 /**
  * @extends {FlexArray<?Geoloc>}
  */
@@ -11,7 +12,7 @@ class GeolocList extends FlexArray {
 
   /**
    * @param {number} index
-  * @returns {Geoloc}
+   * @returns {Geoloc}
    */
   get(index) {
     return this[index]
@@ -23,5 +24,9 @@ class GeolocList extends FlexArray {
     }
   }
 
+  equals(to) {
+    return FlexArray.compareArraysAsObjectWithEquals(this, to)
+  }
 }
-export { GeolocList }
+
+export {GeolocList}
