@@ -10,7 +10,7 @@ import {AbstractTransporter} from "./AbstarctTransporter.js";
 
 /**
  * @implements {HotLogTransporter}
- * @extends AbstractTransporter
+ * @extends {AbstractTransporter}
  */
 export class ConsoleTransporter extends AbstractTransporter {
   /**

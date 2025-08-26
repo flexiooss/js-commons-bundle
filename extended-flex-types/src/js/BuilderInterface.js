@@ -12,21 +12,21 @@ export class BuilderInterface {
 
   /**
    * @param {object} jsonObject
-   * @returns {this}
+   * @returns {BuilderInterface}
    */
   static fromObject(jsonObject) {
   }
 
   /**
    * @param {string} json
-   * @returns {this}
+   * @returns {BuilderInterface}
    */
   static fromJson(json) {
   }
 
   /**
    * @param {TYPE} instance
-   * @returns {this}
+   * @returns {BuilderInterface}
    */
   static from(instance) {
   }

@@ -1,11 +1,12 @@
-import {isUndefined, TypeCheck, isNull, isNumber, assertInstanceOf} from './__import__assert.js'
+import {assertInstanceOf, isNull, isNumber, isUndefined, NotOverrideException, TypeCheck} from './__import__assert.js'
 import {IndexError} from './IndexError.js'
 import {deepFreezeSeal, haveEquals} from './__import__js-generator-helpers.js'
 
 
 /**
+ * An array with runtime type safety
  * @template TYPE
- * @extends Array<TYPE>
+ * @extends {Array<TYPE>}
  * @implements HaveEquals
  */
 export class FlexArray extends haveEquals(Array) {
@@ -24,7 +25,7 @@ export class FlexArray extends haveEquals(Array) {
   #frozen = false
 
   /**
-   * @param {TYPE[]} args
+   * @param {...TYPE} args
    */
   constructor(...args) {
     if (args.length === 1 && isNumber(args[0])) {
@@ -36,12 +37,14 @@ export class FlexArray extends haveEquals(Array) {
   }
 
   /**
+   * @abstract
    * @param {*} v
    * @protected
-   * @throws Error
+   * @throws {Error} The value is invalid (e.g. wrong type).
+   * @returns {void}
    */
   _validate(v) {
-    throw new TypeError('Should be implemented')
+    throw new NotOverrideException.FROM_ABSTRACT('FlexArray')
   }
 
   /**
@@ -314,10 +317,11 @@ export class FlexArray extends haveEquals(Array) {
   }
 
   /**
-   * @template TYPE, TYPE_OUT
-   * @param {TYPE_OUT} init
-   * @param {function(value: TYPE, index: number, all: this):*} clb
-   * @return {TYPE_OUT}
+   * @template TYPE
+   * @template TYPE_OUT
+   * @param {Array<TYPE_OUT>} init
+   * @param {function(value: TYPE, index: number, all: this):TYPE_OUT} clb
+   * @return {Array<TYPE_OUT>}
    */
   mapTo(init, clb) {
     for (let i = 0; i < this.length; i++) {
@@ -420,12 +424,12 @@ export class FlexArray extends haveEquals(Array) {
   }
 
   /**
-   * @param {TYPE} to
-   * @return  {boolean}
+   * @param {?this} to
+   * @returns {boolean}
    * @abstract
    */
   equals(to) {
-    throw new Error('FlexArray: should be override')
+    throw new NotOverrideException.FROM_ABSTRACT('FlexArray')
   }
 
   /**
@@ -502,7 +506,8 @@ export class FlexArray extends haveEquals(Array) {
 
 
 /**
- * @template TYPE, ARRAY_TYPE
+ * @template TYPE
+ * @template ARRAY_TYPE
  */
 class FlexArrayBuilder {
   /**

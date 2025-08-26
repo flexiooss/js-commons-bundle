@@ -1,5 +1,5 @@
 import {globalFlexioImport} from '../__import__global-import-registry.js'
-import {assertType, isNull,  TypeCheck} from '../__import__assert.js'
+import {assertType, isNull, TypeCheck} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
 
 
@@ -27,17 +27,10 @@ class ObjectArray extends FlexArray {
   /**
    *
    * @param {?ObjectArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-
-    return FlexArray.compareArraysAsObjectWithEquals(this, to, (to) => {
-      assertType(
-        to instanceof ObjectArray,
-        'TypeCheck: `to` should be ObjectArray'
-      )
-    })
-
+    return FlexArray.compareArraysAsObjectWithEquals(this, to)
   }
 }
 

@@ -1,6 +1,5 @@
 import {assertType, isInteger, isNull} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {TypeCheck} from '../TypeCheck.js'
 
 /**
  * @extends {FlexArray<?number>}
@@ -8,7 +7,7 @@ import {TypeCheck} from '../TypeCheck.js'
 class IntegerArray extends FlexArray {
   /**
    * @description should override Array js behaviour which sets the length of array
-   * @param {TYPE[]} args
+   * @param {...number} args
    */
   constructor(...args) {
       super()
@@ -23,24 +22,20 @@ class IntegerArray extends FlexArray {
   /**
    *
    * @param {?IntegerArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-    return FlexArray.compareArraysAsPrimitives(this, to, (to) => {
-      TypeCheck.assertIsIntegerArray(to)
-    })
+    return FlexArray.compareArraysAsPrimitives(this, to)
   }
 
   /**
    * @param {?IntegerArray} a
    * @param {?IntegerArray} b
-   * @return  {boolean}
+   * @returns {boolean}
    */
   static arraysEquals(a, b) {
     if (isNull(a)) return isNull(b)
-    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
-      TypeCheck.assertIsIntegerArray(v)
-    })
+    return FlexArray.compareArraysAsPrimitives(a, b)
   }
 }
 

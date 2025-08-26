@@ -26,18 +26,10 @@ class TimeArray extends FlexArray {
   /**
    *
    * @param {?TimeArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-
-    return FlexArray.compareArraysAsObjectWithEquals(this, to, (to) => {
-      assertType(
-        to instanceof TimeArray,
-        'TypeCheck: `to` should be TimeArray'
-      )
-    })
+    return FlexArray.compareArraysAsObjectWithEquals(this, to)
   }
-
-
 }
 export { TimeArray }

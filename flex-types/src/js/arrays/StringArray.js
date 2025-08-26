@@ -1,6 +1,5 @@
 import {assertType, isNull, isString} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {TypeCheck} from '../TypeCheck.js'
 
 
 /**
@@ -17,7 +16,7 @@ class StringArray extends FlexArray {
   /**
    *
    * @param {?StringArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
     return this.constructor.arraysEquals(this, to)
@@ -26,13 +25,11 @@ class StringArray extends FlexArray {
   /**
    * @param {?StringArray} a
    * @param {?StringArray} b
-   * @return  {boolean}
+   * @returns {boolean}
    */
   static arraysEquals(a, b) {
     if (isNull(a)) return isNull(b)
-    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
-      TypeCheck.assertIsStringArray(v)
-    })
+    return FlexArray.compareArraysAsPrimitives(a, b)
   }
 
 }

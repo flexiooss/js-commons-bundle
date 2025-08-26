@@ -1,6 +1,5 @@
-import { assertType, isNumber, isNull } from '../__import__assert.js'
+import {assertType, isNull, isNumber} from '../__import__assert.js'
 import {FlexArray} from '../FlexArray.js'
-import {TypeCheck} from '../TypeCheck.js'
 
 /**
  * @extends {FlexArray<?number>}
@@ -9,7 +8,7 @@ class LongArray extends FlexArray {
 
   /**
    * @description should override Array js behaviour which sets the length of array
-   * @param {TYPE[]} args
+   * @param {...number} args
    */
   constructor(...args) {
     super()
@@ -24,24 +23,20 @@ class LongArray extends FlexArray {
   /**
    *
    * @param {?LongArray} to
-   * @return  {boolean}
+   * @returns {boolean}
    */
   equals(to) {
-    return FlexArray.compareArraysAsPrimitives(this, to, (to) => {
-      TypeCheck.assertIsLongArray(to)
-    })
+    return FlexArray.compareArraysAsPrimitives(this, to)
   }
 
   /**
    * @param {?LongArray} a
    * @param {?LongArray} b
-   * @return  {boolean}
+   * @returns {boolean}
    */
   static arraysEquals(a, b) {
     if (isNull(a)) return isNull(b)
-    return FlexArray.compareArraysAsPrimitives(a, b, (v) => {
-      TypeCheck.assertIsLongArray(v)
-    })
+    return FlexArray.compareArraysAsPrimitives(a, b)
   }
 }
 export { LongArray }
