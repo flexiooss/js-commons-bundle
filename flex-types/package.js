@@ -18,7 +18,7 @@ import {DateTimeArray} from './src/js/arrays/DateTimeArray.js'
 import {TimeArray} from './src/js/arrays/TimeArray.js'
 import {TzDateTimeArray} from './src/js/arrays/TzDateTimeArray.js'
 import {BlobArray} from './src/js/arrays/BlobArray.js'
-import {FileArray} from './src/js/arrays/FileArray.js'
+import {FileArray, FileArrayBuilder} from './src/js/arrays/FileArray.js'
 import {IndexError} from './src/js/IndexError.js'
 import {ObjectValue, ObjectValueBuilder, ObjectValueValueArray} from './src/js/ObjectValue.js'
 import {Geoloc, GeolocBuilder} from './src/js/Geoloc.js'
@@ -145,6 +145,11 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.arrays.BlobArray', Blo
  * @property {FileArray.} globalFlexioImport.io.flexio.flex_types.arrays.FileArray
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.arrays.FileArray', FileArray)
+
+/**
+ * @property {FileArrayBuilder.} globalFlexioImport.io.flexio.flex_types.arrays.FileArrayBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.arrays.FileArrayBuilder', FileArrayBuilder)
 
 /**
  * @property {IndexError.} globalFlexioImport.io.flexio.flex_types.IndexError
