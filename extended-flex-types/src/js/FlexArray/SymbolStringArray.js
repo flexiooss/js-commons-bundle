@@ -54,7 +54,7 @@ export class SymbolStringArrayBuilder {
    * @returns {SymbolStringArrayBuilder}
    */
   pushValue(value) {
-    assertType(isString(value) || isNull(value) || isSymbol(value), 'StringArray: input should be a string or null or symbol')
+    assertType(isString(value) || isNull(value) || isSymbol(value), 'SymbolStringArray: input should be a string or null or symbol')
     this._values.push(value)
     return this
   }

@@ -235,6 +235,15 @@ export const isBinary = a => isBlob(a) || isInt8Array(a) || isArrayBuffer(a)
  * @return {boolean}
  * @export
  */
+export const isFile = a => typeof File !== 'undefined' && !isNull(a) && (a instanceof File || Object.prototype.toString.call(a) === '[object File]')
+
+/**
+ *
+ * @param {*} a
+ * @function
+ * @return {boolean}
+ * @export
+ */
 export const isDate = a => !isNull(a) && a instanceof Date && !isNaN(a)
 
 /**

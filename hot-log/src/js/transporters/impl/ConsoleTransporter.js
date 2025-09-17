@@ -21,6 +21,8 @@ export class ConsoleTransporter extends AbstractTransporter {
    * @type {FilterListHandler}
    */
   #filters = new FilterListHandler()
+  static INTERPRETER_RE = new RegExp('interpreter\\.', 'ig');
+  static API_RE = new RegExp('\\[API\\]', 'ig')
 
   /**
    * @param {HotLogFormater} formater
@@ -51,12 +53,13 @@ export class ConsoleTransporter extends AbstractTransporter {
            */
           const formatedLog = this.#formater.format(log)
           try {
-
             switch (log.level()) {
               case HotLogLevel.FATAL:
               case HotLogLevel.ERROR:
-                if (new RegExp('\\[API\\]', 'ig').test(formatedLog)) {
+                if (this.constructor.API_RE.test(formatedLog)) {
                   globalThis.console.error(`%c API :: ${formatedLog}`, 'background: #911127; color: #e0dadb');
+                } else if (this.constructor.INTERPRETER_RE.test(formatedLog)) {
+                  globalThis.console.error(`%c INTERPRETER :: ${formatedLog}`, 'background: #751D75; color: #ffffff');
                 } else {
                   globalThis.console.error(formatedLog)
                 }
