@@ -132,6 +132,17 @@ export class TestFlexArray extends TestCase {
     assert.ok(a.equals(new IntegerArray(2,4,6,8)), 'primitive array should be equals')
     assert.ok(!a.equals(new IntegerArray(2,4,6,8,10)), 'primitive array should not be equals')
   }
+
+
+  testPush(){
+    const a = new IntegerArray(2,4,6,8)
+    const b = a.withPush(10)
+    assert.ok(b.equals(new IntegerArray(2,4,6,8,10)), 'primitive array should be equals')
+    const c = a.withPush(...[10,12,14])
+    assert.ok(c.equals(new IntegerArray(2,4,6,8,10,12,14)), 'primitive array with multiple push should be equals')
+    const d = a.withPush(...new IntegerArray(10,12,14))
+    assert.ok(d.equals(new IntegerArray(2,4,6,8,10,12,14)), 'flexarray with multiple push should be equals')
+  }
 }
 
 
