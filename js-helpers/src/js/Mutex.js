@@ -24,7 +24,7 @@ export class Mutex {
   }
 
 
-  #unlock() {
+  unlock() {
     if (this.#queue.length > 0) {
       const resolve = this.#queue.shift();
       resolve();
@@ -37,13 +37,23 @@ export class Mutex {
    * @param {function():Promise<*>} callback
    * @return {Promise<*>}
    */
-  async runExclusive(callback) {
+  async runExclusiveAndUnlock(callback) {
     TypeCheck.assertIsFunction(callback);
     await this.#lock();
     try {
       return await callback();
     } finally {
-      this.#unlock();
+      this.unlock();
     }
+  }
+
+  /**
+   * @param {function():Promise<*>} callback
+   * @return {Promise<*>}
+   */
+  async runExclusive(callback) {
+    TypeCheck.assertIsFunction(callback);
+    await this.#lock();
+    return await callback();
   }
 }
