@@ -21,6 +21,7 @@ export class HttpRequester {
     assertType(HttpRequester.isHttpRequester(inst), '`inst` should be `HttpRequester`')
     return inst
   }
+
   /**
    * @param {function(XmlHttpRequestDelegate, executionId:string) } clb
    * @return {HttpRequester}
@@ -45,7 +46,7 @@ export class HttpRequester {
    * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @return {Promise<ResponseDelegate>}
    */
-  async get(callback=null) {
+  async get(callback = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -55,7 +56,7 @@ export class HttpRequester {
    * @param {?string} [body=null]
    * @return {Promise<ResponseDelegate>}
    */
-  async post(callback=null, contentType = null, body = null) {
+  async post(callback = null, contentType = null, body = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -65,7 +66,7 @@ export class HttpRequester {
    * @param {?string} body
    * @return {Promise<ResponseDelegate>}
    */
-  async put(callback=null, contentType = null, body = null) {
+  async put(callback = null, contentType = null, body = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -75,7 +76,7 @@ export class HttpRequester {
    * @param {?string} body
    * @return {Promise<ResponseDelegate>}
    */
-  async patch(callback=null, contentType = null, body = null) {
+  async patch(callback = null, contentType = null, body = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -83,7 +84,7 @@ export class HttpRequester {
    * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @return {Promise<ResponseDelegate>}
    */
-  async delete(callback=null) {
+  async delete(callback = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -91,7 +92,7 @@ export class HttpRequester {
    * @param {?ExecutorRequesterInterface~executionClb} [callback=null]
    * @return {ResponseDelegate}
    */
-  async head(callback=null) {
+  async head(callback = null) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
 
@@ -146,4 +147,67 @@ export class HttpRequester {
   path(path) {
     throw NotOverrideException.FROM_INTERFACE('HttpRequester')
   }
+
+  /**
+   * @return {HttpRequester}
+   */
+  noCache() {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   * @return {HttpRequester}
+   */
+  json() {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   *
+   * @param {?string} account
+   * @return {HttpRequester}
+   */
+  XAccount(account) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   *
+   * @param {?string} value
+   * @return {HttpRequester}
+   */
+  correlationId(value) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   *
+   * @param {?string} token
+   * @return {HttpRequester}
+   */
+  AuthorizationBearer(token) {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   * @return {Promise<XmlHttpRequestDelegate>}
+   */
+  async preparedRequest() {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   * @returns {object}
+   */
+  toObject() {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
+  /**
+   * @returns {object}
+   */
+  toJSON() {
+    throw NotOverrideException.FROM_INTERFACE('HttpRequester')
+  }
+
 }
