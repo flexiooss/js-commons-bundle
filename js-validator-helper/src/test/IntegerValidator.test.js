@@ -118,9 +118,8 @@ export class IntegerValidatorTest extends TestCase {
   }
 
   testValidateRegex() {
-    assert.throws(() => {
-        this.validator.validateRegex('toto', '')
-      }
+    assert.ok(this.validator.validateRegex('toto', '')
+
     )
 
   }

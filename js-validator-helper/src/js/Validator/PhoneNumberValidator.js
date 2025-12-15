@@ -52,7 +52,8 @@ export class PhoneNumberValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('PhoneNumberValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('PhoneNumberValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**

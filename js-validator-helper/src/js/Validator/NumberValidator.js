@@ -69,7 +69,8 @@ export class NumberValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('NumberValidator: no regex for `validateRegex`')
+    console.error('NumberValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**

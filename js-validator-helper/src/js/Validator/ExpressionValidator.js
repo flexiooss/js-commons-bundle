@@ -37,7 +37,8 @@ export class ExpressionValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('ExpressionValidator: no range for `validateInRange`')
+    console.error('ExpressionValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -46,7 +47,8 @@ export class ExpressionValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('ExpressionValidator: no enumeratedValues for `validateRegex`')
+    console.error('ExpressionValidator: no enumeratedValues for `validateRegex`')
+    return true;
   }
 
   /**
@@ -55,7 +57,8 @@ export class ExpressionValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('ExpressionValidator: no regex for `validateRegex`')
+    console.error('ExpressionValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -64,6 +67,7 @@ export class ExpressionValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('ExpressionValidator: no max size for `validateMaxSize`')
+    console.error('ExpressionValidator: no max size for `validateMaxSize`')
+    return true;
   }
 }

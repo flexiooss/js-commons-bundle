@@ -37,7 +37,8 @@ export class ObjectValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('ObjectValidator: no range for `validateInRange`')
+    console.error('ObjectValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -46,7 +47,8 @@ export class ObjectValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('ObjectValidator: no enumeratedValues for `validateRegex`')
+    console.error('ObjectValidator: no enumeratedValues for `validateRegex`')
+    return true;
   }
 
   /**
@@ -55,7 +57,8 @@ export class ObjectValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('ObjectValidator: no regex for `validateRegex`')
+    console.error('ObjectValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -64,6 +67,7 @@ export class ObjectValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('ObjectValidator: no max size for `validateMaxSize`')
+    console.error('ObjectValidator: no max size for `validateMaxSize`')
+    return true;
   }
 }

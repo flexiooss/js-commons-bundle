@@ -46,7 +46,8 @@ export class GeolocValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('GeolocValidator: no range for `validateInRange`')
+    console.error('GeolocValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -55,7 +56,8 @@ export class GeolocValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('GeolocValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('GeolocValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
@@ -64,7 +66,8 @@ export class GeolocValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('GeolocValidator: no regex for `validateRegex`')
+    console.error('GeolocValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -73,6 +76,7 @@ export class GeolocValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('GeolocValidator: no max size for `validateMaxSize`')
+    console.error('GeolocValidator: no max size for `validateMaxSize`')
+    return true;
   }
 }
