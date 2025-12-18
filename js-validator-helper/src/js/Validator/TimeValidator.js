@@ -37,7 +37,8 @@ export class TimeValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('TimeValidator: no range for `validateInRange`')
+    console.error('TimeValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -46,7 +47,8 @@ export class TimeValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('TimeValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('TimeValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
@@ -55,7 +57,8 @@ export class TimeValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('TimeValidator: no regex for `validateRegex`')
+    console.error('TimeValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -64,6 +67,7 @@ export class TimeValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('TimeValidator: no max size `validateMaxSize`')
+    console.error('TimeValidator: no max size `validateMaxSize`')
+    return true;
   }
 }

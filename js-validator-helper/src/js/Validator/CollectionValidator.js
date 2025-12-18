@@ -10,9 +10,10 @@ export class CollectionValidator extends Validator {
    * @param {ObjectValue} value
    * @return {boolean}
    */
-  __isGeoloc(value){
+  __isGeoloc(value) {
     return value.has(ENTITY_URL) && value.has(ELEMENT_URL)
   }
+
   /**
    * @param {ObjectValue} value
    * @return {boolean}
@@ -46,7 +47,8 @@ export class CollectionValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('CollectionValidator: no range for `validateInRange`')
+    console.error('CollectionValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -55,7 +57,8 @@ export class CollectionValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('CollectionValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('CollectionValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
@@ -64,7 +67,8 @@ export class CollectionValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('CollectionValidator: no regex for `validateRegex`')
+    console.error('CollectionValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -73,6 +77,7 @@ export class CollectionValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('CollectionValidator: no max size for `validateMaxSize`')
+    console.error('CollectionValidator: no max size for `validateMaxSize`')
+    return true;
   }
 }

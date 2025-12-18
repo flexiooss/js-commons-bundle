@@ -29,7 +29,8 @@ export class ListValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('ListValidator: no range for `validateInRange`  maybe should be to item-constraints')
+    console.error('ListValidator: no range for `validateInRange`  maybe should be to item-constraints')
+    return true;
   }
 
   /**
@@ -39,7 +40,8 @@ export class ListValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('ListValidator: no enumeratedValues for `validateInEnumerated` maybe should be to item-constraints')
+    console.error('ListValidator: no enumeratedValues for `validateInEnumerated` maybe should be to item-constraints')
+    return true;
   }
 
   /**
@@ -49,7 +51,8 @@ export class ListValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('ListValidator: no regex for `validateRegex`  maybe should be to item-constraints')
+    console.error('ListValidator: no regex for `validateRegex`  maybe should be to item-constraints')
+    return true;
   }
 
   /**

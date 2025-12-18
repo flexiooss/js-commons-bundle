@@ -36,7 +36,8 @@ export class BooleanValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('BooleanValidator: no range for `validateInRange`')
+    console.error('[API] BooleanValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -45,7 +46,8 @@ export class BooleanValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('BooleanValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('[API] BooleanValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
@@ -54,7 +56,8 @@ export class BooleanValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('BooleanValidator: no regex for `validateRegex`')
+    console.error('[API] BooleanValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -64,6 +67,7 @@ export class BooleanValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('BooleanValidator: no max size for `validateMaxSize`')
+    console.error('[API] BooleanValidator: no max size for `validateMaxSize`')
+    return true;
   }
 }

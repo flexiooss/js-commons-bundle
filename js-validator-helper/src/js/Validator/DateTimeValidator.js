@@ -37,7 +37,8 @@ export class DateTimeValidator extends Validator {
    * @return {boolean}
    */
   validateInRange(value, rangeStart, rangeEnd) {
-    throw new Error('DateTimeValidator: no range for `validateInRange`')
+    console.error('DateTimeValidator: no range for `validateInRange`')
+    return true;
   }
 
   /**
@@ -46,7 +47,8 @@ export class DateTimeValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('DateTimeValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('DateTimeValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
@@ -55,7 +57,8 @@ export class DateTimeValidator extends Validator {
    * @return {boolean}
    */
   validateRegex(value, regex) {
-    throw new Error('DateTimeValidator: no regex for `validateRegex`')
+    console.error('DateTimeValidator: no regex for `validateRegex`')
+    return true;
   }
 
   /**
@@ -64,6 +67,7 @@ export class DateTimeValidator extends Validator {
    * @return {boolean}
    */
   validateMaxSize(value, size) {
-    throw new Error('DateTimeValidator: no max size `validateMaxSize`')
+    console.error('DateTimeValidator: no max size `validateMaxSize`')
+    return true;
   }
 }

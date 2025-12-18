@@ -52,7 +52,8 @@ export class EmailValidator extends Validator {
    * @return {boolean}
    */
   validateInEnumerated(value, enumeratedValues) {
-    throw new Error('EmailValidator: no enumeratedValues for `validateInEnumerated`')
+    console.error('EmailValidator: no enumeratedValues for `validateInEnumerated`')
+    return true;
   }
 
   /**
