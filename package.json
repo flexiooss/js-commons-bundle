@@ -1,7 +1,7 @@
 {
   "name": "@flexio-oss/js-commons-bundle",
   "type": "module",
-  "version": "1.225.0-dev",
+  "version": "1.226.0-dev",
   "repository": "git@github.com:flexiooss/js-commons-bundle.git",
   "author": "Thomas Chatelain (https://github.com/TomAchT)",
   "license": "Apache-2.0",
