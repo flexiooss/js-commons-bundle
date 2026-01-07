@@ -1,4 +1,4 @@
-import {isEmpty, isNull, isUndefined} from '../../../assert/index.js'
+import {isEmpty, isNull, isUndefined, TypeCheck} from '../../../assert/index.js'
 
 const CACHE = new Map()
 
@@ -222,6 +222,30 @@ export class ColorHelper {
    */
   constructor(color) {
     this.#color = color
+  }
+
+  /**
+   * @param {string} value
+   * @param {string} defaultColor
+   * @return {string}
+   */
+  static stringToColor(value, defaultColor) {
+    TypeCheck.assertIsString(value);
+    TypeCheck.assertIsString(defaultColor);
+    let hash = 0
+    if (value.length === 0) return defaultColor;
+    for (let i = 0; i < value.length; i++) {
+      hash = value.charCodeAt(i) + ((hash << 5) - hash)
+      hash = hash & hash
+    }
+    let color = '#'
+    for (let i = 0; i < 3; i++) {
+      const v = (hash >> (i * 8)) & 255
+      const tmp = ('00' + v.toString(16))
+      color += tmp.substring(tmp.length - 2, tmp.length)
+    }
+
+    return color
   }
 
   /**
