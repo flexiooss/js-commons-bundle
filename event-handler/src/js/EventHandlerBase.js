@@ -66,89 +66,88 @@ export class EventHandlerBase {
    * @param {?string} [token=null]
    */
   dispatch(event, payload, token = null) {
-    if (this._listeners.has(event) || this._asyncListeners.has(event)) {
+    if (!this._listeners.has(event) && !this._asyncListeners.has(event)) return
 
-      /**
-       * @type {DispatchExecution}
-       */
-      const dispatchExecution = this._prepareDispatch(event, payload, token)
-      let execExceptions = []
-      let asyncExecExceptions = []
-      try {
+    /**
+     * @type {DispatchExecution}
+     */
+    const dispatchExecution = this._prepareDispatch(event, payload, token)
+    let execExceptions = []
+    let asyncExecExceptions = []
 
-        dispatchExecution.listeners()
+    try {
+      dispatchExecution.listeners()
+        .forEach(
+          /**
+           * @param {EventListenerConfig} eventListenerConfig
+           * @param {string} listenerToken
+           */
+          (eventListenerConfig, listenerToken) => {
+            if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
+              // try {
+              this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+              // } catch (e) {
+              //   if (e instanceof EventHandlerMaxExecutionException) throw e
+              //   execExceptions.push(e)
+              // }
+            }
+          }
+        )
+
+      if (dispatchExecution.asyncListeners().size) {
+        let asyncListeners = []
+        dispatchExecution.asyncListeners()
           .forEach(
             /**
              * @param {EventListenerConfig} eventListenerConfig
              * @param {string} listenerToken
              */
             (eventListenerConfig, listenerToken) => {
-              if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
-                // try {
-                this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
-                // } catch (e) {
-                //   if (e instanceof EventHandlerMaxExecutionException) throw e
-                //   execExceptions.push(e)
-                // }
-              }
+              asyncListeners.push((() => {
+                return new Promise((ok, ko) => {
+                  if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
+                    this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
+                    ok()
+                  } else {
+                    ok()
+                  }
+                })
+              })())
+
             }
           )
+        let promiseExec
+        if ('allSettled' in Promise) {
+          promiseExec = Promise.allSettled(asyncListeners)
+        } else {
+          promiseExec = Promise.all(asyncListeners)
 
-        if (dispatchExecution.asyncListeners().size) {
-          let asyncListeners = []
-          dispatchExecution.asyncListeners()
-            .forEach(
-              /**
-               * @param {EventListenerConfig} eventListenerConfig
-               * @param {string} listenerToken
-               */
-              (eventListenerConfig, listenerToken) => {
-                asyncListeners.push((() => {
-                  return new Promise((ok, ko) => {
-                    if (eventListenerConfig.active() && (isNull(eventListenerConfig.guard()) || eventListenerConfig.guard().call(null, payload))) {
-                      this._invokeCallback(dispatchExecution, listenerToken, eventListenerConfig.callback(), eventListenerConfig.once())
-                      ok()
-                    } else {
-                      ok()
-                    }
-                  })
-                })())
-
-              }
-            )
-          let promiseExec
-          if ('allSettled' in Promise) {
-            promiseExec = Promise.allSettled(asyncListeners)
-          } else {
-            promiseExec = Promise.all(asyncListeners)
-
-          }
-
-          promiseExec.then(res => {
-            res.forEach(v => {
-              if (v?.status === 'rejected') {
-                asyncExecExceptions.push(v?.reason)
-              }
-            })
-            if (asyncExecExceptions.length) {
-              console.error('EventHandlerBase async rejection', asyncExecExceptions)
-              throw EventHandlerExecutionException.async(asyncExecExceptions)
-            }
-
-          })
-            .catch(ko => {
-              console.error('EventHandlerBase async rejection', ko)
-              throw ko
-            })
         }
 
-        // if (execExceptions.length) {
-        //   throw EventHandlerExecutionException.sync(execExceptions)
-        // }
+        promiseExec.then(res => {
+          res.forEach(v => {
+            if (v?.status === 'rejected') {
+              asyncExecExceptions.push(v?.reason)
+            }
+          })
+          if (asyncExecExceptions.length) {
+            console.error('EventHandlerBase async rejection', asyncExecExceptions)
+            throw EventHandlerExecutionException.async(asyncExecExceptions)
+          }
 
-      } finally {
-        this._stopDispatch(dispatchExecution)
+        })
+          .catch(ko => {
+            console.error('EventHandlerBase async rejection', ko)
+            throw ko
+          })
       }
+
+      // if (execExceptions.length) {
+      //   throw EventHandlerExecutionException.sync(execExceptions)
+      // }
+
+    } finally {
+      this._stopDispatch(dispatchExecution)
     }
   }
 

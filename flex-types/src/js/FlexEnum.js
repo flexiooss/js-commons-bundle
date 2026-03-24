@@ -131,7 +131,7 @@ export class FlexEnum {
    * @return {boolean}
    */
   equals(inst) {
-    if (!inst instanceof this.constructor) return false;
+    if (!(inst instanceof this.constructor)) return false;
     if (inst.constructor.name !== this.constructor.name) return false;
     return this.name() === inst.name()
   }
