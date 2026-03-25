@@ -9,3 +9,7 @@ ModifierKeys:
   ctrl: bool
   meta: bool
   shift: bool
+
+TapEventMetadata:
+  domPosition: $DOMPosition
+  modifiers: $ModifierKeys
