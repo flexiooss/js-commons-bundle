@@ -1,12 +1,7 @@
 /* global runTest */
-import {
-  EventHandlerBase,
-  EventHandlerExecutionException,
-  EventHandlerMaxExecutionException
-} from '../js/EventHandlerBase.js'
+import {EventHandlerBase} from '../js/EventHandlerBase.js'
 import {TestCase} from '@flexio-oss/code-altimeter-js'
 import {EventListenerConfigBuilder} from '../js/EventListenerConfigBuilder.js'
-import {builder} from "../../../js-generator-helpers/index.js";
 
 
 const assert = require('assert')
@@ -369,18 +364,18 @@ export class TestEventHandlerBase extends TestCase {
     let ret = []
     let firstExecuted = false
     const EXPECTED = [
-      "1_a",
-      "2_a",
-      "END_SYNC",
-      "1_b",
-      "2_b",
-      "END_SYNC",
-      "3_a",
-      "3_b",
-      "4_a",
-      "4_b",
-      "5_a",
-      "5_b"
+      '1_a',
+      '2_a',
+      'END_SYNC',
+      '1_b',
+      '2_b',
+      'END_SYNC',
+      '3_a',
+      '3_b',
+      '4_a',
+      '4_b',
+      '5_a',
+      '5_b'
     ]
 
 
@@ -442,17 +437,17 @@ export class TestEventHandlerBase extends TestCase {
                 ok()
               } else {
                 assert.deepStrictEqual([
-                  "1_a",
-                  "2_a",
-                  "END_SYNC",
-                  "1_b",
-                  "2_b",
-                  "END_SYNC",
-                  "3_a",
-                  "3_b",
-                  "4_a",
-                  "4_b",
-                  "5_a",
+                  '1_a',
+                  '2_a',
+                  'END_SYNC',
+                  '1_b',
+                  '2_b',
+                  'END_SYNC',
+                  '3_a',
+                  '3_b',
+                  '4_a',
+                  '4_b',
+                  '5_a',
                 ], ret, 'should be async executed')
                 firstExecuted = true
               }
@@ -466,9 +461,9 @@ export class TestEventHandlerBase extends TestCase {
       ret.push('END_SYNC')
       this.log(ret)
       assert.deepStrictEqual([
-        "1_a",
-        "2_a",
-        "END_SYNC"
+        '1_a',
+        '2_a',
+        'END_SYNC'
       ], ret, 'should be sync executed')
       this.log(this.handler.isDispatching())
       assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
@@ -476,12 +471,12 @@ export class TestEventHandlerBase extends TestCase {
       ret.push('END_SYNC')
       this.log(ret)
       assert.deepStrictEqual([
-        "1_a",
-        "2_a",
-        "END_SYNC",
-        "1_b",
-        "2_b",
-        "END_SYNC"
+        '1_a',
+        '2_a',
+        'END_SYNC',
+        '1_b',
+        '2_b',
+        'END_SYNC'
       ], ret, 'should be sync executed')
       this.log(this.handler.isDispatching())
       assert.ok(!this.handler.isDispatching(), 'should not be dispatching')
@@ -558,11 +553,10 @@ export class TestEventHandlerBase extends TestCase {
     //   }).async().build()
     // )
     try {
-
       this.handler.dispatch(EVENT_1)
     } catch (e) {
       this.log(e)
-      if (!e instanceof EventHandlerExecutionException) throw e
+      if (e !== 'boum') throw e
     }
   }
 
