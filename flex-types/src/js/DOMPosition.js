@@ -1,7 +1,10 @@
-import {assertType, isInteger, isObject, isNull, isString} from '../../../assert/index.js'
-import {deepFreezeSeal} from '../../../js-generator-helpers/index.js'
+import {assertType, isInteger, isNull, isObject, isString} from '../../../assert/index.js'
+import {deepFreezeSeal, valueObjectBuilderInterface, valueObjectInterface} from '../../../js-generator-helpers/index.js'
 
-class DOMPosition {
+/**
+ * @implements ValueObjectInterface
+ */
+class DOMPosition extends valueObjectInterface() {
   /**
    * @param {number} x
    * @param {number} y
@@ -10,6 +13,7 @@ class DOMPosition {
    * @private
    */
   constructor(x, y, width, height) {
+    super()
     /**
      * @private
      */
@@ -34,28 +38,59 @@ class DOMPosition {
   }
 
   /**
-   * @returns {number}
+   * @returns {DOMPositionBuilder}
+   */
+  static builder() {
+    return new DOMPositionBuilder()
+  }
+
+  /**
+   * @param {DOMPosition} instance
+   * @returns {DOMPositionBuilder}
+   */
+  static from(instance) {
+    return DOMPositionBuilder.from(instance)
+  }
+
+  /**
+   * @param {Object} jsonObject
+   * @returns {DOMPositionBuilder}
+   */
+  static fromObject(jsonObject) {
+    return DOMPositionBuilder.fromObject(jsonObject)
+  }
+
+  /**
+   * @param {string} json
+   * @returns {DOMPositionBuilder}
+   */
+  static fromJson(json) {
+    return DOMPositionBuilder.fromJson(json)
+  }
+
+  /**
+   * @returns {?number}
    */
   x() {
     return this._x
   }
 
   /**
-   * @returns {number}
+   * @returns {?number}
    */
   y() {
     return this._y
   }
 
   /**
-   * @returns {number}
+   * @returns {?number}
    */
   width() {
     return this._width
   }
 
   /**
-   * @returns {number}
+   * @returns {?number}
    */
   height() {
     return this._height
@@ -102,37 +137,6 @@ class DOMPosition {
   }
 
   /**
-   * @returns {DOMPositionBuilder}
-   */
-  static builder() {
-    return new DOMPositionBuilder()
-  }
-
-  /**
-   * @param {DOMPosition} instance
-   * @returns {DOMPositionBuilder}
-   */
-  static from(instance) {
-    return DOMPositionBuilder.from(instance)
-  }
-
-  /**
-   * @param {Object} jsonObject
-   * @returns {DOMPositionBuilder}
-   */
-  static fromObject(jsonObject) {
-    return DOMPositionBuilder.fromObject(jsonObject)
-  }
-
-  /**
-   * @param {string} json
-   * @returns {DOMPositionBuilder}
-   */
-  static fromJson(json) {
-    return DOMPositionBuilder.fromJson(json)
-  }
-
-  /**
    * @returns {Object}
    */
   toObject() {
@@ -158,74 +162,30 @@ class DOMPosition {
   toJSON() {
     return this.toObject()
   }
+
+  /**
+   * @return {DOMPositionBuilder}
+   */
+  toBuilder() {
+    return DOMPositionBuilder.from(this)
+  }
 }
 
 export {DOMPosition}
 
-class DOMPositionBuilder {
+/**
+ * @implements ValueObjectBuilderInterface
+ */
+class DOMPositionBuilder extends valueObjectBuilderInterface() {
   /**
    * @constructor
    */
   constructor() {
+    super()
     this._x = null
     this._y = null
     this._width = null
     this._height = null
-  }
-
-  /**
-   * @param {?number} x
-   * @returns {DOMPositionBuilder}
-   */
-  x(x) {
-    if (!isNull(x)) {
-      assertType(isInteger(x), 'x should be a number')
-    }
-    this._x = x
-    return this
-  }
-
-  /**
-   * @param {?number} y
-   * @returns {DOMPositionBuilder}
-   */
-  y(y) {
-    if (!isNull(y)) {
-      assertType(isInteger(y), 'y should be a number')
-    }
-    this._y = y
-    return this
-  }
-
-  /**
-   * @param {?number} width
-   * @returns {DOMPositionBuilder}
-   */
-  width(width) {
-    if (!isNull(width)) {
-      assertType(isInteger(width), 'width should be a number')
-    }
-    this._width = width
-    return this
-  }
-
-  /**
-   * @param {?number} height
-   * @returns {DOMPositionBuilder}
-   */
-  height(height) {
-    if (!isNull(height)) {
-      assertType(isInteger(height), 'height should be a number')
-    }
-    this._height = height
-    return this
-  }
-
-  /**
-   * @returns {DOMPosition}
-   */
-  build() {
-    return new DOMPosition(this._x, this._y, this._width, this._height)
   }
 
   static getPropertyFromObject(jsonObject, propertyName, normalizedPropertyName) {
@@ -287,6 +247,61 @@ class DOMPositionBuilder {
     builder.width(instance.width())
     builder.height(instance.height())
     return builder
+  }
+
+  /**
+   * @param {?number} x
+   * @returns {DOMPositionBuilder}
+   */
+  x(x) {
+    if (!isNull(x)) {
+      assertType(isInteger(x), 'x should be a number')
+    }
+    this._x = x
+    return this
+  }
+
+  /**
+   * @param {?number} y
+   * @returns {DOMPositionBuilder}
+   */
+  y(y) {
+    if (!isNull(y)) {
+      assertType(isInteger(y), 'y should be a number')
+    }
+    this._y = y
+    return this
+  }
+
+  /**
+   * @param {?number} width
+   * @returns {DOMPositionBuilder}
+   */
+  width(width) {
+    if (!isNull(width)) {
+      assertType(isInteger(width), 'width should be a number')
+    }
+    this._width = width
+    return this
+  }
+
+  /**
+   * @param {?number} height
+   * @returns {DOMPositionBuilder}
+   */
+  height(height) {
+    if (!isNull(height)) {
+      assertType(isInteger(height), 'height should be a number')
+    }
+    this._height = height
+    return this
+  }
+
+  /**
+   * @returns {DOMPosition}
+   */
+  build() {
+    return new DOMPosition(this._x, this._y, this._width, this._height)
   }
 }
 

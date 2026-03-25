@@ -25,6 +25,7 @@ import {Geoloc, GeolocBuilder} from './src/js/Geoloc.js'
 import {GeolocList} from './src/js/GeolocList.js'
 import {DOMPosition, DOMPositionBuilder} from './src/js/DOMPosition.js'
 import {ModifierKeys, ModifierKeysBuilder} from './src/js/ModifierKeys.js'
+import {TapEventMetadata, TapEventMetadataBuilder} from './src/js/TapEventMetadata.js'
 
 
 /**
@@ -210,3 +211,11 @@ deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ModifierKeys', Modifie
  * @property {ModifierKeysBuilder.} globalFlexioImport.io.flexio.flex_types.ModifierKeysBuilder
  */
 deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.ModifierKeysBuilder', ModifierKeysBuilder)
+/**
+ * @property {TapEventMetadata.} globalFlexioImport.io.flexio.flex_types.TapEventMetadata
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.TapEventMetadata', TapEventMetadata)
+/**
+ * @property {TapEventMetadataBuilder.} globalFlexioImport.io.flexio.flex_types.TapEventMetadataBuilder
+ */
+deepKeyAssigner(globalFlexioImport, 'io.flexio.flex_types.TapEventMetadataBuilder', TapEventMetadataBuilder)
