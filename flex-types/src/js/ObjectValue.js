@@ -17,7 +17,7 @@ import {
   isString,
   TypeCheck
 } from './__import__assert.js'
-import {FlexArray} from './FlexArray.js'
+import {FlexArray, FlexArrayWithCustomConstructor} from './FlexArray.js'
 import {ObjectValueTypeError} from "./ObjectValueTypeError.js";
 
 /**
@@ -1058,9 +1058,11 @@ class ObjectValueFlexMap extends FlexMap {
 }
 
 /**
+ * @extends {FlexArrayWithCustomConstructor<ObjectValueValue>}
  * @extends {FlexArray<ObjectValueValue>}
+ * @extends {Array<ObjectValueValue>}
  */
-export class ObjectValueValueArray extends FlexArray {
+export class ObjectValueValueArray extends FlexArrayWithCustomConstructor {
 
   constructor(...args) {
     super()

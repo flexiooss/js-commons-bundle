@@ -1,12 +1,11 @@
-import { assertType, isNumber, isNull } from '../__import__assert.js'
-import {FlexArray} from '../FlexArray.js'
-import {TypeCheck} from '../TypeCheck.js'
+import {assertType, isNumber, isNull} from '../__import__assert.js'
+import {FlexArray, FlexArrayWithCustomConstructor} from '../FlexArray.js'
 
 
 /**
- * @extends {FlexArray<?number>}
+ * @extends {FlexArrayWithCustomConstructor<?number>}
  */
-class FloatArray extends FlexArray {
+class FloatArray extends FlexArrayWithCustomConstructor {
   /**
    * @description should override Array js behaviour which sets the length of array
    * @param {...number} args
@@ -21,6 +20,7 @@ class FloatArray extends FlexArray {
       assertType(isNumber(element), 'element should be a number')
     }
   }
+
   /**
    *
    * @param {?FloatArray} to
@@ -39,5 +39,7 @@ class FloatArray extends FlexArray {
     if (isNull(a)) return isNull(b)
     return FlexArray.compareArraysAsPrimitives(a, b)
   }
+
 }
-export { FloatArray }
+
+export {FloatArray}

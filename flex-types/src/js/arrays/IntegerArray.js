@@ -1,10 +1,10 @@
 import {assertType, isInteger, isNull} from '../__import__assert.js'
-import {FlexArray} from '../FlexArray.js'
+import {FlexArray, FlexArrayWithCustomConstructor} from '../FlexArray.js'
 
 /**
- * @extends {FlexArray<?number>}
+ * @extends {FlexArrayWithCustomConstructor<?number>}
  */
-class IntegerArray extends FlexArray {
+class IntegerArray extends FlexArrayWithCustomConstructor {
   /**
    * @description should override Array js behaviour which sets the length of array
    * @param {...number} args

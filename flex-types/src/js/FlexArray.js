@@ -261,7 +261,7 @@ export class FlexArray extends haveEquals(Array) {
   /**
    *
    * @param {function(current: TYPE, index: number, all: this):boolean} callback
-   * @param thisArg
+   * @param [thisArg]
    * @return {this}
    */
   filter(callback, thisArg) {
@@ -469,16 +469,16 @@ export class FlexArray extends haveEquals(Array) {
    * @return {boolean}
    */
   static compareArraysAsPrimitives(from, to) {
-    if (isNull(from)) return isNull(to);
-    if (isNull(to)) return false;
+    if (isNull(from)) return isNull(to)
+    if (isNull(to)) return false
     assertInstanceOf(to, this, this.name)
 
-    if (to.length !== from.length) return false;
+    if (to.length !== from.length) return false
 
-    if (to == from) return true;
+    if (to == from) return true
 
     for (let i = 0; i < from.length; ++i) {
-      if (from.get(i) !== to.get(i)) return false;
+      if (from.get(i) !== to.get(i)) return false
     }
     return true
   }
@@ -489,16 +489,16 @@ export class FlexArray extends haveEquals(Array) {
    * @return {boolean}
    */
   static compareArraysAsObjectWithEquals(from, to) {
-    if (isNull(from)) return isNull(to);
-    if (isNull(to)) return false;
+    if (isNull(from)) return isNull(to)
+    if (isNull(to)) return false
     assertInstanceOf(to, this, this.name)
 
-    if (to.length !== from.length) return false;
+    if (to.length !== from.length) return false
 
-    if (to == from) return true;
+    if (to == from) return true
 
     for (let i = 0; i < from.length; ++i) {
-      if (!from.get(i).equals(to.get(i))) return false;
+      if (!from.get(i).equals(to.get(i))) return false
     }
     return true
   }
@@ -589,5 +589,29 @@ class FlexArrayBuilder {
 
 }
 
+/**
+ * FlexArray variant for arrays that handle numbers or can't accept a size for different reasons
+ * This is needed because a single number passed to the constructor can be interpreted as data or the array's size. Thus
+ * this class overrides methods that instantiate the array with a size.
+ * @class
+ * @template T
+ * @extends FlexArray<T>
+ * @abstract
+ */
+export class FlexArrayWithCustomConstructor extends FlexArray {
+  /* slice() already handled by FlexArray */
 
+  map(callbackfn, thisArg) {
+    const newArray = new this.constructor()
+    for (const key in this) {
+      newArray.push(callbackfn.call(thisArg, this.get(key), key, thisArg))
+    }
+    return newArray
+  }
 
+  concat(...values) {
+    const newArray = new this.constructor(...this)
+    newArray.push(...values)
+    return newArray
+  }
+}
