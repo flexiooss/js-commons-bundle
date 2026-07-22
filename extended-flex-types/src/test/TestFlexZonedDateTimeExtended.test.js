@@ -226,6 +226,22 @@ export class TestFlexZonedDateTimeExtended extends TestCase {
     assert.deepEqual(iso, '1987-11-03T14:50:48.955+01:00')
   }
 
+  testPlusAcrossDSTFallBack() {
+    // 2026-10-25 : passage à l'heure d'hiver en Europe/Paris (03:00 CEST -> 02:00 CET à 01:00 UTC)
+    // 00:30 UTC = 02:30 CEST ; +45 min réelles = 01:15 UTC (02:15 CET)
+    const dt = FlexZonedDateTimeExtended.fromFlexDateTime(new FlexDateTime('2026-10-25T00:30:00.000'), 'utc')
+      .atZoneSameInstant('Europe/Paris')
+    assert.deepEqual(dt.plusMinutes(45).toUTCFlexDateTime(), new FlexDateTime('2026-10-25T01:15:00.000'))
+    assert.deepEqual(dt.plusHours(1).toUTCFlexDateTime(), new FlexDateTime('2026-10-25T01:30:00.000'))
+  }
+
+  testMinusAcrossDSTFallBack() {
+    // 02:00 UTC = 03:00 CET (après le retour à l'heure d'hiver) ; -45 min réelles = 01:15 UTC
+    const dt = FlexZonedDateTimeExtended.fromFlexDateTime(new FlexDateTime('2026-10-25T02:00:00.000'), 'utc')
+      .atZoneSameInstant('Europe/Paris')
+    assert.deepEqual(dt.minusMinutes(45).toUTCFlexDateTime(), new FlexDateTime('2026-10-25T01:15:00.000'))
+  }
+
   testComparaison() {
     assert.deepEqual(FlexZonedDateTimeExtended.fromISO('2022-03-09T15:53:19.000Z').isBefore(FlexZonedDateTimeExtended.fromISO('2022-03-09T15:53:19.001Z')), true)
     assert.deepEqual(FlexZonedDateTimeExtended.fromISO('2022-03-09T15:54:19.000Z').isBefore(FlexZonedDateTimeExtended.fromISO('2022-03-09T15:53:19.000Z')), false)

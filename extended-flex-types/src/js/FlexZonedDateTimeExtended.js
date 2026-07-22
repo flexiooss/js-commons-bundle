@@ -152,9 +152,9 @@ export class FlexZonedDateTimeExtended {
    */
   #set(object) {
     const res = this.#toDateTime().set(object)
-    const iso = res.toISO({includeOffset: false})
+    const iso = res.toUTC().toISO({includeOffset: false})
     const dt = new FlexDateTime(iso)
-    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
+    return new FlexZonedDateTimeExtended(dt, this.#timezone)
   }
 
   /**
@@ -219,10 +219,10 @@ export class FlexZonedDateTimeExtended {
    */
   #plus(object) {
     const res = this.#toDateTime().plus(object)
-    const iso = res.toISO({includeOffset: false})
+    const iso = res.toUTC().toISO({includeOffset: false})
     const dt = new FlexDateTime(iso)
 
-    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
+    return new FlexZonedDateTimeExtended(dt, this.#timezone)
   }
 
   /**
@@ -287,9 +287,9 @@ export class FlexZonedDateTimeExtended {
    */
   #minus(object) {
     const res = this.#toDateTime().minus(object)
-    const iso = res.toISO({includeOffset: false})
+    const iso = res.toUTC().toISO({includeOffset: false})
     const dt = new FlexDateTime(iso)
-    return FlexZonedDateTimeExtended.fromFlexDateTime(dt, this.#timezone)
+    return new FlexZonedDateTimeExtended(dt, this.#timezone)
   }
 
   /**
