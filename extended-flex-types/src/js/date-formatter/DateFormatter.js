@@ -23,6 +23,8 @@ export class DateTimeFormatter {
         return dateFormatter.month()
       case 'MMMM':
         return date.toLocaleString(locale, { month: 'long' });
+      case 'EEEE':
+        return date.toLocaleString(locale, {weekday: 'long'});
       case 'dd':
         return dateFormatter.day()
       case 'w':
@@ -100,6 +102,8 @@ export class DateFormatter {
         return `${dateFormatter.day()}/${dateFormatter.month()}/${dateFormatter.year()}`
       case 'MM/dd/yyyy':
         return `${dateFormatter.month()}/${dateFormatter.day()}/${dateFormatter.year()}`
+      case 'EEEE':
+        return dt.toLocaleString(locale, {weekday: 'long'})
       default:
         return DateTime.fromISO(dt.toISOString()).setZone('UTC').setLocale(locale).toFormat(format)
     }
