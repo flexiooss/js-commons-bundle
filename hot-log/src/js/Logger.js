@@ -1,8 +1,8 @@
 import {assertInstanceOf, isNull, TypeCheck} from '../../../assert/index.js'
-import {Log} from "./Log.js";
-import {HotLogLevel, HotLogLevelHelper} from "./HotLogLevel.js";
-import {HotLog} from "./HotLog.js";
-import {TransporterHandler} from "./transporters/TransporterHandler.js";
+import {Log} from './Log.js'
+import {HotLogLevel, HotLogLevelHelper} from './HotLogLevel.js'
+import {HotLog} from './HotLog.js'
+import {TransporterHandler} from './transporters/TransporterHandler.js'
 
 export class LoggerBuilder {
   /**
@@ -102,6 +102,21 @@ export class Logger {
   }
 
   /**
+   * @param {string} name
+   * @param {?string} [partialName=null]
+   * @param {?string} [id=null]
+   * @return {Logger}
+   */
+  static getLogger(name, partialName = null, id = null) {
+    TypeCheck.assertIsString(name)
+    TypeCheck.assertIsStringOrNull(partialName)
+    TypeCheck.assertIsStringOrNull(id)
+    name = `${name}${!isNull(partialName) ? ':' + partialName : ''}${!isNull(id) ? ':' + id : ''}`
+
+    return LoggerBuilder.getInstance().withHotLogLevel().build(new Logger(name))
+  }
+
+  /**
    * @return {Logger}
    */
   levelTrace() {
@@ -147,21 +162,6 @@ export class Logger {
   levelFatal() {
     this.#threshold = HotLogLevel.FATAL
     return this
-  }
-
-  /**
-   * @param {string} name
-   * @param {?string} [partialName=null]
-   * @param {?string} [id=null]
-   * @return {Logger}
-   */
-  static getLogger(name, partialName = null, id = null) {
-    TypeCheck.assertIsString(name)
-    TypeCheck.assertIsStringOrNull(partialName)
-    TypeCheck.assertIsStringOrNull(id)
-    name = `${name}${!isNull(partialName) ? ':' + partialName : ''}${!isNull(id) ? ':' + id : ''}`
-
-    return LoggerBuilder.getInstance().build(new Logger(name))
   }
 
   /**
