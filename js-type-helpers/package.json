@@ -19,7 +19,8 @@
         "global-import-registry"
       ],
       "devDependencies": [
-        "@flexio-oss/code-altimeter-js"
+        "@flexio-oss/code-altimeter-js",
+        "jsdom"
       ]
     },
     "build": {

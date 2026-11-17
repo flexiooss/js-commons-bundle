@@ -221,8 +221,8 @@ export const sanitizeHTMLElement = (node) => {
    */
   const elAttrs = node?.attributes;
   if (!isUndefined(elAttrs)) {
-    for (let i = 0; i < elAttrs.length; i++) {
-      const elAttr = elAttrs.item(i);
+    // NamedNodeMap is live: iterate over a snapshot so removing an attribute does not skip the next one
+    for (const elAttr of Array.from(elAttrs)) {
       const attrName = elAttr?.name;
       const lower = attrName.toLowerCase();
       if (lower.startsWith('on')) {
