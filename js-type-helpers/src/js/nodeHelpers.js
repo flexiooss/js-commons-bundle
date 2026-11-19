@@ -201,7 +201,7 @@ export const sanitizeHTMLTree = (node, start, end) => {
 /**
  * @type {Set<string>}
  */
-const INVALID_TAGS = new Set(['script', 'style', 'template', 'iframe'])
+const INVALID_TAGS = new Set(['script', 'style', 'template'])
 /**
  * @param {HTMLElement} node
  */
