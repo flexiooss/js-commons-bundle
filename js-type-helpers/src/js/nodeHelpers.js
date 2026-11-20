@@ -179,11 +179,12 @@ export const escapeForBrowser = (text) => {
  * @param {HTMLElement} node
  * @param {number} [start=0]
  * @param {number} [end=node.childNodes.length]
+ * @param {Set<string>} [invalidTags=INVALID_TAGS]
  * @throws AssertionError
  */
-export const sanitizeHTMLTree = (node, start, end) => {
+export const sanitizeHTMLTree = (node, start, end, invalidTags = INVALID_TAGS) => {
   TypeCheck.assertIsNode(node)
-  sanitizeHTMLElement(node)
+  sanitizeHTMLElement(node, invalidTags)
   if (!node.hasChildNodes()) {
     return
   }
@@ -193,7 +194,7 @@ export const sanitizeHTMLTree = (node, start, end) => {
   assert(!!(start <= end), '`start` should be less than `end`')
 
   while (start < end) {
-    sanitizeHTMLTree(node.childNodes[end - 1])
+    sanitizeHTMLTree(node.childNodes[end - 1], undefined, undefined, invalidTags)
     end--
   }
 }
@@ -201,16 +202,18 @@ export const sanitizeHTMLTree = (node, start, end) => {
 /**
  * @type {Set<string>}
  */
-const INVALID_TAGS = new Set(['script', 'style', 'template', 'iframe'])
+export const INVALID_TAGS = new Set(['script', 'style', 'template', 'iframe'])
+
 /**
  * @param {HTMLElement} node
+ * @param {Set<string>} [invalidTags=INVALID_TAGS]
  */
-export const sanitizeHTMLElement = (node) => {
+export const sanitizeHTMLElement = (node, invalidTags = INVALID_TAGS) => {
   /**
    * @type {string}
    */
   const tagName = (node?.nodeName ?? 'none').toLowerCase();
-  if (INVALID_TAGS.has(tagName)) {
+  if (invalidTags.has(tagName)) {
     node.outerText = node.outerHTML
     if ((typeof __ASSERT__ !== 'undefined') && __ASSERT__ === true) {
       console.error(`[SECURITY] WARNING: encode unsafe <${tagName}>`);
